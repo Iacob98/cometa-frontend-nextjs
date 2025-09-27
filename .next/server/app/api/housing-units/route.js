@@ -1,0 +1,12 @@
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/housing-units/route.js")
+R.c("server/chunks/[root-of-the-server]__5662f159._.js")
+R.c("server/chunks/node_modules_next_dist_bc5c1ff1._.js")
+R.c("server/chunks/node_modules_next_dist_b1b1c4a4._.js")
+R.c("server/chunks/node_modules_next_29210f95._.js")
+R.c("server/chunks/node_modules_next_dist_58725b8c._.js")
+R.c("server/chunks/node_modules_@supabase_c4e93f2b._.js")
+R.c("server/chunks/[root-of-the-server]__935b7073._.js")
+R.c("server/chunks/node_modules_zod_v4_classic_external_fa90cebf.js")
+R.m(62996)
+R.m(89544)
+module.exports=R.m(89544).exports

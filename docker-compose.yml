@@ -1,0 +1,170 @@
+
+services:
+  # FastAPI Microservices
+  auth-service:
+    build:
+      context: .
+      dockerfile: fastapi_services/auth_service/Dockerfile
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - PYTHONPATH=/app/shared:/app
+    volumes:
+      - ./shared:/app/shared
+      - ./fastapi_services/auth_service:/app
+    networks:
+      - cometa-network
+    restart: unless-stopped
+
+  project-service:
+    build:
+      context: .
+      dockerfile: fastapi_services/project_service/Dockerfile
+    ports:
+      - "8002:8002"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - PYTHONPATH=/app/shared:/app
+    volumes:
+      - ./shared:/app/shared
+      - ./fastapi_services/project_service:/app
+    networks:
+      - cometa-network
+    restart: unless-stopped
+
+  work-service:
+    build:
+      context: .
+      dockerfile: fastapi_services/work_service/Dockerfile
+    ports:
+      - "8003:8003"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - PYTHONPATH=/app/shared:/app
+    volumes:
+      - ./shared:/app/shared
+      - ./fastapi_services/work_service:/app
+    networks:
+      - cometa-network
+    restart: unless-stopped
+
+  team-service:
+    build:
+      context: .
+      dockerfile: fastapi_services/team_service/Dockerfile
+    ports:
+      - "8004:8004"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - PYTHONPATH=/app/shared:/app
+    volumes:
+      - ./shared:/app/shared
+      - ./fastapi_services/team_service:/app
+    networks:
+      - cometa-network
+    restart: unless-stopped
+
+  material-service:
+    build:
+      context: .
+      dockerfile: fastapi_services/material_service/Dockerfile
+    ports:
+      - "8005:8005"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - PYTHONPATH=/app/shared:/app
+    volumes:
+      - ./shared:/app/shared
+      - ./fastapi_services/material_service:/app
+    networks:
+      - cometa-network
+    restart: unless-stopped
+
+  equipment-service:
+    build:
+      context: .
+      dockerfile: fastapi_services/equipment_service/Dockerfile
+    ports:
+      - "8006:8006"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - PYTHONPATH=/app/shared:/app
+    volumes:
+      - ./shared:/app/shared
+      - ./fastapi_services/equipment_service:/app
+    networks:
+      - cometa-network
+    restart: unless-stopped
+
+  activity-service:
+    build:
+      context: .
+      dockerfile: fastapi_services/activity_service/Dockerfile
+    ports:
+      - "8011:8011"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - PYTHONPATH=/app/shared:/app
+    volumes:
+      - ./shared:/app/shared
+      - ./fastapi_services/activity_service:/app
+    networks:
+      - cometa-network
+    restart: unless-stopped
+
+  gateway-service:
+    build:
+      context: .
+      dockerfile: fastapi_services/gateway/Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - PYTHONPATH=/app/shared:/app
+      - DOCKER_MODE=true
+    volumes:
+      - ./shared:/app/shared
+      - ./fastapi_services/gateway:/app
+    depends_on:
+      - auth-service
+      - project-service
+      - work-service
+      - team-service
+      - material-service
+      - equipment-service
+      - activity-service
+    networks:
+      - cometa-network
+    restart: unless-stopped
+
+# Networks
+networks:
+  cometa-network:
+    driver: bridge
+    name: cometa-network
+
+# Optional: Add volumes for persistent data
+volumes:
+  cometa-uploads:
+    driver: local
+    name: cometa-uploads
+  cometa-logs:
+    driver: local
+    name: cometa-logs

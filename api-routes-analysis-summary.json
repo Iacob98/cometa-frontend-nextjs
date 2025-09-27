@@ -1,0 +1,137 @@
+{
+  "total_routes": 95,
+  "analysis_date": "2025-09-26T07:33:45.432Z",
+  "statistics": {
+    "fastapi_dependency": {
+      "FULL_FASTAPI": 6,
+      "HYBRID": 2,
+      "SUPABASE_ONLY": 87
+    },
+    "migration_priority": {
+      "P1": 6,
+      "P2": 2,
+      "P3": 0,
+      "P4": 87
+    },
+    "complexity": {
+      "average": 4.7,
+      "min": 1,
+      "max": 10,
+      "distribution": {
+        "low": 22,
+        "medium": 65,
+        "high": 8
+      }
+    }
+  },
+  "critical_routes": {
+    "p1_routes": [
+      {
+        "route": "/api/teams/crews/:id",
+        "methods": "GET,PUT,DELETE",
+        "complexity": 5
+      },
+      {
+        "route": "/api/auth/login",
+        "methods": "POST",
+        "complexity": 4
+      },
+      {
+        "route": "/api/activities",
+        "methods": "GET,POST",
+        "complexity": 4
+      },
+      {
+        "route": "/api/work-entries",
+        "methods": "GET,POST",
+        "complexity": 4
+      },
+      {
+        "route": "/api/users",
+        "methods": "GET,POST",
+        "complexity": 4
+      },
+      {
+        "route": "/api/teams/crews",
+        "methods": "GET,POST",
+        "complexity": 4
+      }
+    ],
+    "p2_routes": [
+      {
+        "route": "/api/projects",
+        "methods": "GET,POST",
+        "complexity": 8,
+        "tables": "projects"
+      },
+      {
+        "route": "/api/equipment",
+        "methods": "GET,POST",
+        "complexity": 7,
+        "tables": "equipment"
+      }
+    ],
+    "most_complex": [
+      {
+        "route": "/api/users/:id/documents",
+        "methods": "GET,POST",
+        "complexity": 10,
+        "dependency": "SUPABASE_ONLY"
+      },
+      {
+        "route": "/api/upload",
+        "methods": "GET,POST,DELETE",
+        "complexity": 10,
+        "dependency": "SUPABASE_ONLY"
+      },
+      {
+        "route": "/api/projects",
+        "methods": "GET,POST",
+        "complexity": 8,
+        "dependency": "HYBRID"
+      },
+      {
+        "route": "/api/materials/orders",
+        "methods": "GET,POST,PUT",
+        "complexity": 8,
+        "dependency": "SUPABASE_ONLY"
+      },
+      {
+        "route": "/api/documents",
+        "methods": "GET,POST",
+        "complexity": 8,
+        "dependency": "SUPABASE_ONLY"
+      },
+      {
+        "route": "/api/vehicles/assignments",
+        "methods": "GET,POST,PUT,DELETE",
+        "complexity": 8,
+        "dependency": "SUPABASE_ONLY"
+      },
+      {
+        "route": "/api/upload/project-photos",
+        "methods": "GET,POST",
+        "complexity": 8,
+        "dependency": "SUPABASE_ONLY"
+      },
+      {
+        "route": "/api/upload/work-photos",
+        "methods": "GET,POST",
+        "complexity": 8,
+        "dependency": "SUPABASE_ONLY"
+      },
+      {
+        "route": "/api/equipment",
+        "methods": "GET,POST",
+        "complexity": 7,
+        "dependency": "HYBRID"
+      },
+      {
+        "route": "/api/material-allocations",
+        "methods": "GET,POST",
+        "complexity": 7,
+        "dependency": "SUPABASE_ONLY"
+      }
+    ]
+  }
+}

@@ -1,0 +1,121 @@
+# COMETA System Migration Analysis & API Endpoint Validation
+
+## Project Overview
+COMETA (Fiber Optic Construction Management System) has undergone a major migration from legacy PostgreSQL to Supabase database. We need to perform a comprehensive analysis and validation of all API endpoints to ensure system functionality after the migration.
+
+## Current System State
+- **Database Migration**: Migrated from Docker PostgreSQL to Supabase
+- **Architecture**: Hybrid Next.js frontend + FastAPI microservices
+- **Issues**: Many API routes returning 500 errors after migration
+- **Environment**: Development environment with Docker microservices
+
+## Migration Analysis Requirements
+
+### 1. Database Connection Analysis
+- Verify Supabase connection configuration
+- Check environment variables alignment
+- Validate database schema compatibility
+- Identify any missing tables or fields
+
+### 2. API Endpoints Comprehensive Testing
+- **Projects API**: Complete CRUD operations testing
+- **Users/Authentication API**: Login, registration, role management
+- **Materials API**: Inventory, allocations, orders
+- **Equipment API**: Assignments, availability, tracking
+- **Work Entries API**: Creation, updates, approvals
+- **Team Management API**: Crew assignments, roles
+- **Documents API**: Upload, download, management
+- **Financial API**: Costs, budgets, transactions
+- **Reports API**: Analytics, exports
+- **Dashboard API**: Statistics, overview data
+
+### 3. Data Consistency Validation
+- **Primary Keys**: Ensure UUID consistency
+- **Foreign Keys**: Validate relationships work
+- **Data Types**: Check numeric, date, text field compatibility
+- **Constraints**: Verify NOT NULL, unique constraints
+- **Indexes**: Performance optimization validation
+
+### 4. Microservices Integration
+- **Gateway Service**: Routing functionality
+- **Auth Service**: Token validation, user management
+- **Project Service**: Project CRUD operations
+- **Work Service**: Work entries, approvals
+- **Team Service**: Crew management
+- **Material Service**: Inventory management
+- **Equipment Service**: Asset tracking
+- **Activity Service**: Logging, audit trails
+
+### 5. Docker Environment Issues
+- Check Docker container logs for database connection errors
+- Validate environment variable propagation
+- Verify service health checks
+- Test inter-service communication
+
+### 6. Frontend Integration
+- **Dashboard Pages**: Load correctly with real data
+- **Forms**: Submit data successfully
+- **Lists**: Display and pagination work
+- **Filters**: Search and filtering functionality
+- **File Uploads**: Document and photo uploads
+- **Real-time Updates**: WebSocket connections
+
+### 7. Critical Business Flows
+- **Project Creation**: End-to-end project setup
+- **Work Entry Workflow**: Create → Review → Approve
+- **Material Allocation**: Request → Approve → Track
+- **Team Assignment**: Add members → Set roles → Activate
+- **Financial Tracking**: Record costs → Generate reports
+- **Document Management**: Upload → Categorize → Access control
+
+### 8. Performance & Error Handling
+- **Response Times**: API endpoint performance
+- **Error Messages**: Meaningful error responses
+- **Logging**: Proper error logging in place
+- **Fallbacks**: Graceful degradation when services fail
+- **Connection Pooling**: Database connection optimization
+
+### 9. Security Validation
+- **Authentication**: JWT token validation
+- **Authorization**: Role-based access control
+- **Data Access**: Row-level security in Supabase
+- **Input Validation**: SQL injection prevention
+- **File Upload Security**: Malicious file detection
+
+### 10. Migration Cleanup
+- **Legacy Code**: Remove old database connection code
+- **Environment Files**: Clean up unused variables
+- **Docker Configuration**: Remove legacy PostgreSQL references
+- **Documentation**: Update system documentation
+
+## Success Criteria
+1. **All API endpoints return correct HTTP status codes**
+2. **CRUD operations work for all entities**
+3. **Data integrity maintained after migration**
+4. **No 500 errors in critical user flows**
+5. **Performance meets or exceeds pre-migration benchmarks**
+6. **All Docker services healthy and communicating**
+7. **Frontend displays real data from Supabase**
+8. **File uploads work with Supabase storage**
+9. **Authentication and authorization function correctly**
+10. **System ready for production deployment**
+
+## Priority Areas
+1. **Critical**: Authentication, Projects, Work Entries
+2. **High**: Materials, Equipment, Teams, Documents
+3. **Medium**: Reports, Analytics, Financial tracking
+4. **Low**: Legacy features, administrative tools
+
+## Testing Strategy
+- **Automated**: API endpoint testing with curl/Postman
+- **Manual**: Frontend user flow testing
+- **Load Testing**: Performance under realistic conditions
+- **Integration**: End-to-end workflow validation
+- **Regression**: Compare with pre-migration functionality
+
+## Deliverables
+1. **API Endpoint Status Report**: Complete validation results
+2. **Data Migration Verification**: Integrity and completeness check
+3. **Performance Benchmark**: Before/after comparison
+4. **System Architecture Documentation**: Updated diagrams and specs
+5. **Deployment Readiness Report**: Production go/no-go assessment

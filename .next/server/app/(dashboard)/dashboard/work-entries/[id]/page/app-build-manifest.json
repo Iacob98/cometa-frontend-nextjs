@@ -1,0 +1,29 @@
+{
+  "pages": {
+    "/(dashboard)/dashboard/work-entries/[id]/page": [
+      "static/chunks/ff1a16fafef87110.js",
+      "static/chunks/6a7993b07cb97bb3.js",
+      "static/chunks/9b832039cc1baa10.css",
+      "static/chunks/705ff729b5df1b92.js",
+      "static/chunks/5685e21ac36d293a.js",
+      "static/chunks/429e3ea5029ec88e.js",
+      "static/chunks/b84f9ac16802f439.js",
+      "static/chunks/9392f6a4d9c065f4.js",
+      "static/chunks/6fb9dff60e62c8c5.js",
+      "static/chunks/ca66af7612e525b1.js",
+      "static/chunks/c636ef5040b56163.js",
+      "static/chunks/ed5d1491107b97b5.js",
+      "static/chunks/99c5694db59e9869.js",
+      "static/chunks/13693bc263941d79.js",
+      "static/chunks/620379f9a41d914a.js",
+      "static/chunks/7f79de918bee4fd1.js",
+      "static/chunks/8957a7755d4fd630.js",
+      "static/chunks/d11f6a434d45d738.js",
+      "static/chunks/e6b0468bc5e7fb2f.js",
+      "static/chunks/75a3f12660976f11.js",
+      "static/chunks/d04efc723d1783d5.js",
+      "static/chunks/ad485e1ef0aa584e.js",
+      "static/chunks/turbopack-d71a702f5b27b022.js"
+    ]
+  }
+}

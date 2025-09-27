@@ -1,0 +1,3 @@
+{
+  "/api/notifications/document-expiration/route": "app/api/notifications/document-expiration/route.js"
+}

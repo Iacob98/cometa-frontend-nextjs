@@ -1,0 +1,125 @@
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const equipment_id = searchParams.get("equipment_id");
+    const crew_id = searchParams.get("crew_id");
+    const project_id = searchParams.get("project_id");
+    const active_only = searchParams.get("active_only") === "true";
+
+    let query = supabase
+      .from("equipment_assignments")
+      .select(`
+        id,
+        equipment_id,
+        crew_id,
+        project_id,
+        from_ts,
+        to_ts,
+        is_permanent,
+        rental_cost_per_day,
+        is_active,
+        equipment:equipment(
+          id,
+          name,
+          type,
+          inventory_no
+        )
+      `);
+
+    if (equipment_id) {
+      query = query.eq("equipment_id", equipment_id);
+    }
+
+    if (crew_id) {
+      query = query.eq("crew_id", crew_id);
+    }
+
+    if (project_id) {
+      query = query.eq("project_id", project_id);
+    }
+
+    if (active_only) {
+      query = query.eq("is_active", true);
+    }
+
+    const { data: assignments, error } = await query.order("from_ts", { ascending: false });
+
+    if (error) {
+      console.error("Supabase equipment assignments query error:", error);
+      return NextResponse.json(
+        { error: "Failed to fetch equipment assignments" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(assignments || []);
+  } catch (error) {
+    console.error("Equipment assignments API error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+
+    // Validate required fields
+    if (!body.equipment_id || !body.crew_id) {
+      return NextResponse.json(
+        { error: "Equipment ID and Crew ID are required" },
+        { status: 400 }
+      );
+    }
+
+    const assignmentData = {
+      equipment_id: body.equipment_id,
+      crew_id: body.crew_id,
+      project_id: body.project_id || null,
+      from_ts: body.from_ts,
+      to_ts: body.to_ts || null,
+      is_permanent: body.is_permanent || false,
+      rental_cost_per_day: body.rental_cost_per_day || 0,
+      is_active: true,
+    };
+
+    const { data: assignment, error } = await supabase
+      .from("equipment_assignments")
+      .insert([assignmentData])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Supabase equipment assignment creation error:", error);
+      return NextResponse.json(
+        { error: "Failed to create equipment assignment" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        success: true,
+        assignment_id: assignment.id,
+        message: "Equipment assignment created successfully",
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Equipment assignment creation API error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "pages": {
+    "/api/project-preparation/facilities/route": [
+      "static/chunks/d11f6a434d45d738.js",
+      "static/chunks/e6b0468bc5e7fb2f.js",
+      "static/chunks/75a3f12660976f11.js",
+      "static/chunks/d04efc723d1783d5.js",
+      "static/chunks/ad485e1ef0aa584e.js",
+      "static/chunks/turbopack-d71a702f5b27b022.js"
+    ]
+  }
+}
