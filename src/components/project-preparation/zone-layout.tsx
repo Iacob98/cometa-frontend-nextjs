@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,7 +20,10 @@ import {
   AlertTriangle,
   FileText,
   Router,
-  Construction
+  Construction,
+  Upload,
+  Download,
+  Eye
 } from 'lucide-react';
 import {
   useCabinets,
@@ -83,6 +86,72 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
     description: string;
     createdAt: string;
   }>>([]);
+
+  // Installation tab state
+  const [selectedCabinetId, setSelectedCabinetId] = useState<string | null>(null);
+  const [uploadingFile, setUploadingFile] = useState(false);
+  const [cabinetFiles, setCabinetFiles] = useState<any[]>([]);
+
+  // Auto-select first cabinet when cabinets load
+  React.useEffect(() => {
+    if (cabinets && cabinets.length > 0 && !selectedCabinetId) {
+      setSelectedCabinetId(cabinets[0].id);
+    }
+  }, [cabinets, selectedCabinetId]);
+
+  // Load files when cabinet is selected
+  React.useEffect(() => {
+    if (selectedCabinetId) {
+      fetchCabinetFiles(selectedCabinetId);
+    }
+  }, [selectedCabinetId]);
+
+  const fetchCabinetFiles = async (cabinetId: string) => {
+    try {
+      const response = await fetch(`/api/zone-layout/cabinets/${cabinetId}/upload`);
+      if (response.ok) {
+        const files = await response.json();
+        setCabinetFiles(files);
+      }
+    } catch (error) {
+      console.error('Failed to fetch cabinet files:', error);
+    }
+  };
+
+  const handleFileUpload = async (files: FileList) => {
+    if (!selectedCabinetId || files.length === 0) return;
+
+    setUploadingFile(true);
+
+    try {
+      for (const file of Array.from(files)) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('installation_type', 'connection_plan');
+
+        const response = await fetch(`/api/zone-layout/cabinets/${selectedCabinetId}/upload`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+          toast.success(`File "${file.name}" uploaded successfully`);
+        } else {
+          const error = await response.json();
+          toast.error(`Failed to upload "${file.name}": ${error.error}`);
+        }
+      }
+
+      // Refresh file list
+      await fetchCabinetFiles(selectedCabinetId);
+    } catch (error) {
+      toast.error('Upload failed');
+      console.error('Upload error:', error);
+    } finally {
+      setUploadingFile(false);
+    }
+  };
 
   const handleSubmitCabinet = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -665,14 +734,83 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
 
         {/* Installation Plans Tab */}
         <TabsContent value="installation" className="space-y-4">
+          {/* Cabinet Selection */}
           <Card>
             <CardHeader>
-              <CardTitle>Cabinet Installation Plans</CardTitle>
+              <CardTitle>Select NVT Point for Installation Plans</CardTitle>
               <CardDescription>
-                Installation procedures for new cabinet enclosures
+                Choose a specific NVT point to view and manage installation plans
               </CardDescription>
             </CardHeader>
             <CardContent>
+              {!cabinets || cabinets.length === 0 ? (
+                <div className="text-center py-8">
+                  <Router className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                  <h3 className="text-lg font-medium mb-2">No NVT Points Available</h3>
+                  <p className="text-gray-600 mb-4">
+                    Create NVT points first to manage installation plans.
+                  </p>
+                  <Button onClick={() => setShowCabinetForm(true)}>
+                    Add NVT Point
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="cabinet-select">Select NVT Point</Label>
+                    <Select
+                      value={selectedCabinetId || ""}
+                      onValueChange={setSelectedCabinetId}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Choose an NVT Point..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {cabinets.map((cabinet) => (
+                          <SelectItem key={cabinet.id} value={cabinet.id}>
+                            <div className="flex items-center gap-2">
+                              <Package className="w-4 h-4" />
+                              <span className="font-medium">{cabinet.code}</span>
+                              <span className="text-gray-500">- {cabinet.name}</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {selectedCabinetId && (
+                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Package className="w-5 h-5 text-blue-600" />
+                        <span className="font-medium">Selected Cabinet:</span>
+                        <span className="text-blue-700">
+                          {cabinets.find(c => c.id === selectedCabinetId)?.code} - {cabinets.find(c => c.id === selectedCabinetId)?.name}
+                        </span>
+                      </div>
+                      {cabinets.find(c => c.id === selectedCabinetId)?.address && (
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <MapPin className="w-4 h-4" />
+                          {cabinets.find(c => c.id === selectedCabinetId)?.address}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Installation Plans Content - only shown when cabinet is selected */}
+          {selectedCabinetId && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Cabinet Installation Plans</CardTitle>
+                <CardDescription>
+                  Installation procedures for {cabinets?.find(c => c.id === selectedCabinetId)?.name}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Lower Part */}
                 <div>
@@ -793,24 +931,90 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
               <div className="mt-8 border-t pt-6">
                 <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
                   <FileText className="w-5 h-5" />
-                  Cabinet Plans Upload
+                  Installation Plans for {cabinets?.find(c => c.id === selectedCabinetId)?.code}
                 </h4>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                  <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                  <h3 className="text-lg font-medium mb-2">Upload Cabinet Plans</h3>
+                  <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+                  <h3 className="text-lg font-medium mb-2">Upload Installation Plans</h3>
                   <p className="text-gray-600 mb-4">
-                    Drag and drop files here or click to browse
+                    Upload connection diagrams and installation plans for {cabinets?.find(c => c.id === selectedCabinetId)?.name}
                   </p>
-                  <Button variant="outline">
-                    Select Files
+                  <input
+                    type="file"
+                    multiple
+                    accept=".pdf,.dwg,.dxf,.png,.jpg,.jpeg,.bmp,.tiff,.doc,.docx,.xls,.xlsx"
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        handleFileUpload(e.target.files);
+                      }
+                    }}
+                    className="hidden"
+                    id="file-upload"
+                    disabled={uploadingFile}
+                  />
+                  <Button
+                    variant="outline"
+                    onClick={() => document.getElementById('file-upload')?.click()}
+                    disabled={uploadingFile}
+                  >
+                    {uploadingFile ? 'Uploading...' : 'Select Files'}
                   </Button>
                   <p className="text-sm text-gray-500 mt-2">
-                    Supported formats: PDF, DWG, PNG, JPG, JPEG
+                    Supported formats: PDF, DWG, PNG, JPG, JPEG, Word, Excel (Max 50MB)
                   </p>
                 </div>
+
+                {/* Uploaded Plans List */}
+                <div className="mt-6">
+                  <h5 className="font-medium mb-3">Uploaded Plans</h5>
+                  <div className="space-y-2">
+                    {cabinetFiles.length === 0 ? (
+                      <div className="text-sm text-gray-500 text-center py-4">
+                        No installation plans uploaded yet for this cabinet.
+                      </div>
+                    ) : (
+                      cabinetFiles.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 border rounded-lg">
+                          <div className="flex items-center gap-3">
+                            <FileText className="w-5 h-5 text-blue-500" />
+                            <div>
+                              <p className="font-medium">{file.file_name}</p>
+                              <p className="text-sm text-gray-500">
+                                {(file.file_size / 1024 / 1024).toFixed(2)} MB •
+                                {file.uploaded_at ? new Date(file.uploaded_at).toLocaleDateString() : 'Unknown date'}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => window.open(file.file_url, '_blank')}
+                            >
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                const a = document.createElement('a');
+                                a.href = file.file_url;
+                                a.download = file.file_name;
+                                a.click();
+                              }}
+                            >
+                              <Download className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
               </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
       </Tabs>
     </div>
