@@ -31,6 +31,11 @@ import {
   useUpdateCabinet,
   useDeleteCabinet,
 } from '@/hooks/use-zone-layout';
+import {
+  useProjectConstraints,
+  useCreateConstraint,
+  useDeleteConstraint,
+} from '@/hooks/use-constraints';
 import { toast } from 'sonner';
 
 interface ZoneLayoutProps {
@@ -61,6 +66,11 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
   const updateCabinetMutation = useUpdateCabinet();
   const deleteCabinetMutation = useDeleteCabinet();
 
+  // Constraints hooks
+  const { data: constraints, isLoading: constraintsLoading } = useProjectConstraints(projectId);
+  const createConstraintMutation = useCreateConstraint();
+  const deleteConstraintMutation = useDeleteConstraint();
+
   const [showCabinetForm, setShowCabinetForm] = useState(false);
   const [showConstraintForm, setShowConstraintForm] = useState(false);
   const [editingCabinetId, setEditingCabinetId] = useState<string | null>(null);
@@ -78,14 +88,6 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
     description: '',
   });
 
-  const [savedConstraints, setSavedConstraints] = useState<Array<{
-    id: string;
-    type: string;
-    severity: string;
-    location: string;
-    description: string;
-    createdAt: string;
-  }>>([]);
 
   // Installation tab state
   const [selectedCabinetId, setSelectedCabinetId] = useState<string | null>(null);
@@ -231,21 +233,13 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
     }
 
     try {
-      // Create new constraint object
-      const newConstraint = {
-        id: Date.now().toString(),
+      await createConstraintMutation.mutateAsync({
+        projectId,
         type: constraintFormData.type,
         severity: constraintFormData.severity,
         location: constraintFormData.location,
         description: constraintFormData.description,
-        createdAt: new Date().toLocaleDateString()
-      };
-
-      // Add to saved constraints
-      setSavedConstraints(prev => [...prev, newConstraint]);
-
-      // TODO: API call to save constraint
-      console.log('Saving constraint:', constraintFormData);
+      });
 
       // Reset form
       setConstraintFormData({
@@ -255,10 +249,8 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
         description: '',
       });
       setShowConstraintForm(false);
-
-      toast.success('Project constraint added successfully!');
     } catch (error) {
-      toast.error('Failed to add constraint');
+      // Error is handled by the mutation
     }
   };
 
@@ -272,9 +264,15 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
     setShowConstraintForm(false);
   };
 
-  const handleDeleteConstraint = (id: string) => {
-    setSavedConstraints(prev => prev.filter(constraint => constraint.id !== id));
-    toast.success('Constraint removed successfully!');
+  const handleDeleteConstraint = async (constraintId: string) => {
+    try {
+      await deleteConstraintMutation.mutateAsync({
+        projectId,
+        constraintId,
+      });
+    } catch (error) {
+      // Error is handled by the mutation
+    }
   };
 
   const getSeverityColor = (severity: string) => {
@@ -644,8 +642,8 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
                   </div>
 
                   <div className="flex gap-2">
-                    <Button type="submit">
-                      Add Constraint
+                    <Button type="submit" disabled={createConstraintMutation.isPending}>
+                      {createConstraintMutation.isPending ? 'Adding...' : 'Add Constraint'}
                     </Button>
                     <Button
                       type="button"
@@ -661,72 +659,79 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
           )}
 
           {/* Saved Constraints Table */}
-          {savedConstraints.length > 0 && (
+          {constraints && constraints.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle>Saved Project Constraints</CardTitle>
                 <CardDescription>
-                  {savedConstraints.length} constraint{savedConstraints.length !== 1 ? 's' : ''} documented for this project
+                  {constraints.length} constraint{constraints.length !== 1 ? 's' : ''} documented for this project
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="rounded-md border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Severity</TableHead>
-                        <TableHead>Location</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead>Added</TableHead>
-                        <TableHead className="w-[50px]">Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {savedConstraints.map((constraint) => {
-                        const constraintType = CONSTRAINT_TYPES.find(type => type.value === constraint.type);
-                        const Icon = constraintType?.icon || Package;
+                {constraintsLoading ? (
+                  <div>Loading constraints...</div>
+                ) : (
+                  <div className="rounded-md border">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Type</TableHead>
+                          <TableHead>Severity</TableHead>
+                          <TableHead>Location</TableHead>
+                          <TableHead>Description</TableHead>
+                          <TableHead>Added</TableHead>
+                          <TableHead className="w-[50px]">Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {constraints.map((constraint) => {
+                          // Try to find matching frontend type or use constraint_type
+                          const typeToMatch = constraint.frontend_type || constraint.constraint_type;
+                          const constraintType = CONSTRAINT_TYPES.find(type => type.value === typeToMatch);
+                          const Icon = constraintType?.icon || Package;
 
-                        return (
-                          <TableRow key={constraint.id}>
-                            <TableCell>
-                              <div className="flex items-center gap-2">
-                                <Icon className="w-4 h-4 text-blue-500" />
-                                {constraintType?.label || constraint.type}
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <Badge variant="secondary" className={getSeverityColor(constraint.severity)}>
-                                {constraint.severity.charAt(0).toUpperCase() + constraint.severity.slice(1)}
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              {constraint.location || <span className="text-gray-400">-</span>}
-                            </TableCell>
-                            <TableCell className="max-w-xs">
-                              <div className="truncate" title={constraint.description}>
-                                {constraint.description}
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-sm text-gray-500">
-                              {constraint.createdAt}
-                            </TableCell>
-                            <TableCell>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => handleDeleteConstraint(constraint.id)}
-                                className="text-red-500 hover:text-red-700"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </div>
+                          return (
+                            <TableRow key={constraint.id}>
+                              <TableCell>
+                                <div className="flex items-center gap-2">
+                                  <Icon className="w-4 h-4 text-blue-500" />
+                                  {constraintType?.label || constraint.constraint_type}
+                                </div>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant="secondary" className={getSeverityColor(constraint.severity)}>
+                                  {constraint.severity.charAt(0).toUpperCase() + constraint.severity.slice(1)}
+                                </Badge>
+                              </TableCell>
+                              <TableCell>
+                                {constraint.location || <span className="text-gray-400">-</span>}
+                              </TableCell>
+                              <TableCell className="max-w-xs">
+                                <div className="truncate" title={constraint.description}>
+                                  {constraint.description}
+                                </div>
+                              </TableCell>
+                              <TableCell className="text-sm text-gray-500">
+                                {new Date(constraint.created_at).toLocaleDateString()}
+                              </TableCell>
+                              <TableCell>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleDeleteConstraint(constraint.id)}
+                                  className="text-red-500 hover:text-red-700"
+                                  disabled={deleteConstraintMutation.isPending}
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
               </CardContent>
             </Card>
           )}
