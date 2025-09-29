@@ -1,4 +1,5 @@
-import { supabase, generateSecureFileName, validateFile } from './supabase'
+import { generateSecureFileName, validateFile } from './supabase'
+import type { SupabaseClient } from '@supabase/supabase-js'
 import type {
   FileUploadOptions,
   FileUploadResult,
@@ -14,8 +15,12 @@ import type {
  */
 export async function uploadFile(
   file: File,
-  options: FileUploadOptions
+  options: FileUploadOptions,
+  supabaseClient?: SupabaseClient
 ): Promise<FileUploadResult> {
+  // Use provided client or fallback to default
+  const { supabase } = await import('./supabase')
+  const client = supabaseClient || supabase
   try {
     // Validate file
     const validation = validateFile(file)
@@ -31,7 +36,7 @@ export async function uploadFile(
     const filePath = options.folder ? `${options.folder}/${fileName}` : fileName
 
     // Upload to Supabase Storage
-    const { data, error } = await supabase.storage
+    const { data, error } = await client.storage
       .from(options.bucketName)
       .upload(filePath, file, {
         cacheControl: options.cacheControl || '3600',
@@ -48,7 +53,7 @@ export async function uploadFile(
     }
 
     // Get public URL
-    const { data: urlData } = supabase.storage
+    const { data: urlData } = client.storage
       .from(options.bucketName)
       .getPublicUrl(data.path)
 
@@ -134,6 +139,7 @@ export async function deleteFile(
   filePath: string
 ): Promise<{ success: boolean; error?: string }> {
   try {
+    const { supabase } = await import('./supabase')
     const { error } = await supabase.storage
       .from(bucketName)
       .remove([filePath])
@@ -163,6 +169,7 @@ export async function getSignedUrl(
   expiresIn: number = 3600
 ): Promise<{ url?: string; error?: string }> {
   try {
+    const { supabase } = await import('./supabase')
     const { data, error } = await supabase.storage
       .from(bucketName)
       .createSignedUrl(filePath, expiresIn)
@@ -189,6 +196,7 @@ export async function listFiles(
   offset: number = 0
 ) {
   try {
+    const { supabase } = await import('./supabase')
     const { data, error } = await supabase.storage
       .from(bucketName)
       .list(folder, {
@@ -217,6 +225,7 @@ export async function getFileInfo(
   filePath: string
 ) {
   try {
+    const { supabase } = await import('./supabase')
     const { data, error } = await supabase.storage
       .from(bucketName)
       .list(filePath.split('/').slice(0, -1).join('/') || undefined, {
@@ -248,6 +257,7 @@ export async function createPresignedUploadUrl(
   filePath: string
 ): Promise<{ token?: string; error?: string }> {
   try {
+    const { supabase } = await import('./supabase')
     const { data, error } = await supabase.storage
       .from(bucketName)
       .createSignedUploadUrl(filePath)
@@ -274,6 +284,7 @@ export async function uploadToSignedUrl(
   file: File
 ): Promise<FileUploadResult> {
   try {
+    const { supabase } = await import('./supabase')
     const { data, error } = await supabase.storage
       .from(bucketName)
       .uploadToSignedUrl(filePath, token, file)

@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 export async function POST(request: NextRequest) {
@@ -58,11 +58,13 @@ export async function POST(request: NextRequest) {
         type,
         status: 'in_use',
         owned: false,
+        rental_cost_per_day: daily_rate,
         rental_price_per_day_eur: daily_rate,
         fuel_consumption_l_per_100km: fuel_consumption,
         current_location: `Project ${project_id}`,
         supplier_name: rental_company,
         purchase_date: rental_start,
+        fuel_type: 'diesel', // Default value
         description: contract_notes || `Rental vehicle for ${purpose || 'project'}`
       }])
       .select()
@@ -88,7 +90,7 @@ export async function POST(request: NextRequest) {
         is_permanent: !rental_end,
         rental_cost_per_day: daily_rate,
         is_active: true,
-        notes: `Driver: ${driver_name || 'Not specified'}. Purpose: ${purpose || 'Not specified'}`
+        notes: `Driver: ${driver_name || 'Not specified'}. Purpose: ${purpose || 'Not specified'}. Hourly rate: ${hourly_rate || 'N/A'} EUR/hour`
       }])
       .select()
       .single();

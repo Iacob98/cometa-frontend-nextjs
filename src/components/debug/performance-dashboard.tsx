@@ -219,7 +219,7 @@ const PerformanceDashboard: React.FC = () => {
 
                   <div className="text-xs text-muted-foreground">
                     Good: ≤{formatValue(vital.threshold.good, vital.unit)} •
-                    Poor: >{formatValue(vital.threshold.poor, vital.unit)}
+                    Poor: &gt;{formatValue(vital.threshold.poor, vital.unit)}
                   </div>
                 </div>
               ))}

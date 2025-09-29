@@ -116,5 +116,63 @@
         "created_at": "2025-09-26T18:38:49.121Z"
       }
     }
+  ],
+  "test-user": [
+    {
+      "id": "doc-1759067606403",
+      "user_id": "test-user",
+      "category_id": "passport",
+      "document_number": "",
+      "file_name": "test-document.txt",
+      "file_size": 22,
+      "file_type": "text/plain",
+      "file_url": "/api/users/test-user/documents/doc-1759067606403/download",
+      "status": "active",
+      "notes": "",
+      "issuing_authority": "",
+      "issue_date": null,
+      "expiry_date": null,
+      "is_verified": false,
+      "created_at": "2025-09-28T13:53:26.407Z",
+      "updated_at": "2025-09-28T13:53:26.407Z",
+      "category": {
+        "id": "passport",
+        "code": "PASSPORT",
+        "name_en": "Passport",
+        "name_ru": "Паспорт",
+        "name_de": "Reisepass",
+        "required_for_work": true,
+        "color": "#3b82f6",
+        "created_at": "2025-09-28T13:53:26.407Z"
+      }
+    },
+    {
+      "id": "doc-1759067627522",
+      "user_id": "test-user",
+      "category_id": "work_permit",
+      "document_number": "",
+      "file_name": "test-image.jpg",
+      "file_size": 0,
+      "file_type": "image/jpeg",
+      "file_url": "/api/users/test-user/documents/doc-1759067627522/download",
+      "status": "active",
+      "notes": "",
+      "issuing_authority": "",
+      "issue_date": null,
+      "expiry_date": null,
+      "is_verified": false,
+      "created_at": "2025-09-28T13:53:47.526Z",
+      "updated_at": "2025-09-28T13:53:47.526Z",
+      "category": {
+        "id": "work_permit",
+        "code": "WORK_PERMIT",
+        "name_en": "Work Permit",
+        "name_ru": "Разрешение на работу",
+        "name_de": "Arbeitserlaubnis",
+        "required_for_work": true,
+        "color": "#22c55e",
+        "created_at": "2025-09-28T13:53:47.526Z"
+      }
+    }
   ]
 }

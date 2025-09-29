@@ -34,6 +34,13 @@ export const BUCKET_CONFIGS = {
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'application/dwg',
       'application/dxf',
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/gif',
+      'image/bmp',
+      'image/tiff',
+      'image/webp',
     ],
     fileSizeLimit: 50 * 1024 * 1024, // 50MB for documents
     description: 'Project documents, plans, and technical files',

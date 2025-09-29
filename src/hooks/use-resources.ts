@@ -29,7 +29,8 @@ export interface Vehicle {
   rental_price_per_hour_eur?: number;
   owned: boolean;
   current_location?: string;
-  fuel_consumption_l_100km?: number;
+  fuel_consumption_l_per_100km?: number;
+  supplier_name?: string;
   period: string;
   days?: number;
   daily_rate?: number;
@@ -46,6 +47,7 @@ export interface Equipment {
   rental_price_per_hour_eur?: number;
   owned: boolean;
   current_location?: string;
+  supplier_name?: string;
   purchase_price_eur?: number;
   period: string;
   days?: number;
@@ -88,6 +90,7 @@ export interface EquipmentAssignmentData {
 
 export interface RentalVehicleData {
   project_id: string;
+  crew_id?: string;
   brand: string;
   model: string;
   plate_number: string;
@@ -105,6 +108,7 @@ export interface RentalVehicleData {
 
 export interface RentalEquipmentData {
   project_id: string;
+  crew_id?: string;
   name: string;
   type: string;
   inventory_no: string;
@@ -131,17 +135,11 @@ export function useProjectResources(projectId: string) {
   return useQuery({
     queryKey: resourceKeys.projectResources(projectId),
     queryFn: async (): Promise<ProjectResourcesResponse> => {
-      // TODO: Implement proper project resources API
-      return {
-        vehicles: [],
-        equipment: [],
-        summary: {
-          total_resources: 0,
-          total_vehicles: 0,
-          total_equipment: 0,
-          total_cost: 0,
-        }
-      };
+      const response = await fetch(`/api/projects/${projectId}/resources`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch project resources');
+      }
+      return response.json();
     },
     enabled: !!projectId,
     staleTime: 5 * 60 * 1000, // 5 minutes

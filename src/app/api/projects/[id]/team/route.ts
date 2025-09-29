@@ -20,57 +20,97 @@ export async function GET(
       );
     }
 
-    // Get crews that have worked on this project through work_entries
-    const { data: workEntries, error: workError } = await supabase
-      .from('work_entries')
+    // Get crews directly assigned to this project
+    const { data: crews, error: crewsError } = await supabase
+      .from('crews')
       .select(`
-        crew_id,
-        crews:crews(
+        id,
+        name,
+        description,
+        status,
+        leader_user_id,
+        created_at,
+        updated_at,
+        crew_members:crew_members(
           id,
-          name,
-          description,
-          status,
-          leader_user_id,
-          created_at,
-          updated_at
+          user_id,
+          role,
+          is_active,
+          joined_at,
+          users:users(
+            id,
+            first_name,
+            last_name,
+            email,
+            role
+          )
         )
       `)
-      .eq('project_id', projectId)
-      .not('crew_id', 'is', null);
+      .eq('project_id', projectId);
 
-    if (workError) {
-      console.error('Supabase work entries query error:', workError);
+    if (crewsError) {
+      console.error('Supabase crews query error:', crewsError);
       return NextResponse.json(
         { error: 'Failed to fetch team data' },
         { status: 500 }
       );
     }
 
-    // Extract unique crews from work entries
-    const crewsMap = new Map();
-    (workEntries || []).forEach((entry: any) => {
-      if (entry.crews) {
-        crewsMap.set(entry.crews.id, entry.crews);
-      }
-    });
-    const crews = Array.from(crewsMap.values());
+    // Calculate total members across all crews
+    let totalMembers = 0;
+    const formattedCrews = (crews || []).map((crew: any) => {
+      const activeMembers = (crew.crew_members || []).filter((member: any) => member.is_active);
+      totalMembers += activeMembers.length;
 
-    // For now, return simplified structure until we can fix the nested queries
-    const formattedTeam = {
-      project_id: projectId,
-      crews: (crews || []).map((crew: any) => ({
+      const leaderMember = activeMembers.find((member: any) => member.role === 'leader');
+
+      return {
         id: crew.id,
         name: crew.name,
         description: crew.description,
         status: crew.status,
         leader_user_id: crew.leader_user_id,
-        leader: null, // Will need separate query
-        members: [], // Will need separate query
+        leader: leaderMember?.users || null,
+        foreman: leaderMember ? {
+          ...leaderMember.users,
+          full_name: `${leaderMember.users.first_name} ${leaderMember.users.last_name}`.trim()
+        } : null,
+        members: activeMembers.map((member: any) => ({
+          id: member.id,
+          user_id: member.user_id,
+          role: member.role,
+          role_in_crew: member.role,
+          is_active: member.is_active,
+          joined_at: member.joined_at,
+          user: {
+            ...member.users,
+            full_name: `${member.users.first_name} ${member.users.last_name}`.trim()
+          }
+        })),
+        member_count: activeMembers.length,
         created_at: crew.created_at,
         updated_at: crew.updated_at
-      })),
-      total_members: 0, // Will be calculated after member queries
-      active_crews: (crews || []).filter((crew: any) => crew.status === 'active').length
+      };
+    });
+
+    // Calculate summary statistics
+    const summary = {
+      total_crews: formattedCrews.length,
+      total_members: totalMembers,
+      foreman_count: formattedCrews.reduce((count, crew) => {
+        return count + (crew.members.filter((m: any) => m.role === 'leader' || m.role === 'foreman').length);
+      }, 0),
+      worker_count: formattedCrews.reduce((count, crew) => {
+        return count + (crew.members.filter((m: any) => m.role === 'member' || m.role === 'worker' || m.role === 'trainee').length);
+      }, 0)
+    };
+
+    const formattedTeam = {
+      project_id: projectId,
+      crews: formattedCrews,
+      total_members: totalMembers,
+      active_crews: (crews || []).filter((crew: any) => crew.status === 'active').length,
+      summary: summary
     };
 
     return NextResponse.json(formattedTeam);

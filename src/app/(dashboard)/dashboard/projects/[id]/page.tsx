@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Edit, MapPin, Calendar, Users, TrendingUp, AlertTriangle, Building2, Phone, Globe, Settings, FileText, CheckCircle, Download, Eye, User, Mail, Shield } from "lucide-react";
+import { ArrowLeft, Edit, MapPin, Calendar, Users, TrendingUp, AlertTriangle, Building2, Phone, Globe, Settings, FileText, CheckCircle, Download, Eye, User, Mail, Shield, Wrench, Truck, HardHat, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -43,6 +43,17 @@ export default function ProjectDetailsPage() {
     queryFn: async () => {
       const response = await fetch(`/api/projects/${projectId}/documents`);
       if (!response.ok) throw new Error('Failed to fetch documents data');
+      return response.json();
+    },
+    enabled: !!projectId,
+  });
+
+  // Fetch project resources (equipment and vehicles assigned to project crews)
+  const { data: resourcesData, isLoading: resourcesLoading } = useQuery({
+    queryKey: ['project-resources', projectId],
+    queryFn: async () => {
+      const response = await fetch(`/api/projects/${projectId}/resources`);
+      if (!response.ok) throw new Error('Failed to fetch project resources');
       return response.json();
     },
     enabled: !!projectId,
@@ -292,7 +303,7 @@ export default function ProjectDetailsPage() {
             )}
           </TabsTrigger>
           <TabsTrigger value="progress">Progress</TabsTrigger>
-          <TabsTrigger value="team">Team</TabsTrigger>
+          <TabsTrigger value="team">Resources</TabsTrigger>
           <TabsTrigger value="documents">Documents</TabsTrigger>
           <TabsTrigger value="financial">Financial</TabsTrigger>
         </TabsList>
@@ -473,9 +484,9 @@ export default function ProjectDetailsPage() {
         <TabsContent value="team" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Team Assignment</CardTitle>
+              <CardTitle>Resources Overview</CardTitle>
               <CardDescription>
-                Team members working on this project
+                Team members, equipment and transport assigned to this project
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -612,6 +623,215 @@ export default function ProjectDetailsPage() {
               )}
             </CardContent>
           </Card>
+
+          {/* Resource Summary */}
+          {resourcesData && (resourcesData.equipment?.length > 0 || resourcesData.vehicles?.length > 0) && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="h-5 w-5" />
+                  Resource Summary
+                </CardTitle>
+                <CardDescription>
+                  Overview of all resources assigned to this project
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold">{resourcesData.summary.total_resources}</div>
+                    <div className="text-sm text-muted-foreground">Total Resources</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-orange-600">{resourcesData.summary.total_equipment}</div>
+                    <div className="text-sm text-muted-foreground">Equipment</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-blue-600">{resourcesData.summary.total_vehicles}</div>
+                    <div className="text-sm text-muted-foreground">Vehicles</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-600">
+                      €{resourcesData.summary.total_cost?.toFixed(0) || '0'}
+                    </div>
+                    <div className="text-sm text-muted-foreground">Total Cost</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Equipment & Transport Overview */}
+          <div className="grid gap-6 md:grid-cols-2">
+            {/* Equipment Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Wrench className="h-5 w-5" />
+                  Equipment Overview
+                </CardTitle>
+                <CardDescription>
+                  Tools and equipment assigned to this project
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {resourcesLoading ? (
+                  <div className="space-y-3">
+                    <div className="skeleton h-4 w-full" />
+                    <div className="skeleton h-4 w-3/4" />
+                    <div className="skeleton h-4 w-1/2" />
+                  </div>
+                ) : resourcesData?.equipment?.length > 0 ? (
+                  <div className="space-y-4">
+                    {/* Equipment Summary */}
+                    <div className="grid grid-cols-3 gap-4 p-3 bg-muted/50 rounded-lg">
+                      <div className="text-center">
+                        <div className="text-lg font-bold">{resourcesData.summary.total_equipment}</div>
+                        <div className="text-xs text-muted-foreground">Assigned</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-green-600">
+                          {resourcesData.equipment.filter((eq: any) => eq.owned).length}
+                        </div>
+                        <div className="text-xs text-muted-foreground">Owned</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-blue-600">
+                          {resourcesData.equipment.filter((eq: any) => !eq.owned).length}
+                        </div>
+                        <div className="text-xs text-muted-foreground">Rented</div>
+                      </div>
+                    </div>
+
+                    {/* Equipment List */}
+                    <div className="space-y-2">
+                      {resourcesData.equipment.slice(0, 3).map((equipment: any) => (
+                        <div key={equipment.id} className="flex items-center justify-between p-2 border rounded">
+                          <div className="flex items-center gap-2">
+                            <HardHat className="h-4 w-4 text-muted-foreground" />
+                            <div>
+                              <div className="font-medium text-sm">{equipment.name}</div>
+                              <div className="text-xs text-muted-foreground">
+                                {equipment.type} • {equipment.crew_name} • {equipment.period}
+                              </div>
+                              {equipment.daily_rate > 0 && (
+                                <div className="text-xs text-blue-600">
+                                  €{equipment.daily_rate}/day (€{equipment.total_cost?.toFixed(2)} total)
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <Badge
+                            variant={equipment.owned ? 'default' : 'secondary'}
+                            className="text-xs"
+                          >
+                            {equipment.owned ? 'Owned' : 'Rented'}
+                          </Badge>
+                        </div>
+                      ))}
+                      {resourcesData.equipment.length > 3 && (
+                        <div className="text-center text-sm text-muted-foreground">
+                          +{resourcesData.equipment.length - 3} more items
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-6 text-muted-foreground">
+                    <Wrench className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                    <p className="text-sm">No equipment assigned yet</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Transport Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Truck className="h-5 w-5" />
+                  Transport Overview
+                </CardTitle>
+                <CardDescription>
+                  Vehicles and transport assigned to teams
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {resourcesLoading ? (
+                  <div className="space-y-3">
+                    <div className="skeleton h-4 w-full" />
+                    <div className="skeleton h-4 w-3/4" />
+                    <div className="skeleton h-4 w-1/2" />
+                  </div>
+                ) : resourcesData?.vehicles?.length > 0 ? (
+                  <div className="space-y-4">
+                    {/* Transport Summary */}
+                    <div className="grid grid-cols-3 gap-4 p-3 bg-muted/50 rounded-lg">
+                      <div className="text-center">
+                        <div className="text-lg font-bold">{resourcesData.summary.total_vehicles}</div>
+                        <div className="text-xs text-muted-foreground">Assigned</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-green-600">
+                          {resourcesData.vehicles.filter((v: any) => v.owned).length}
+                        </div>
+                        <div className="text-xs text-muted-foreground">Owned</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-blue-600">
+                          {resourcesData.vehicles.filter((v: any) => !v.owned).length}
+                        </div>
+                        <div className="text-xs text-muted-foreground">Rented</div>
+                      </div>
+                    </div>
+
+                    {/* Vehicle List */}
+                    <div className="space-y-2">
+                      {resourcesData.vehicles.slice(0, 3).map((vehicle: any) => (
+                        <div key={vehicle.id} className="flex items-center justify-between p-2 border rounded">
+                          <div className="flex items-center gap-2">
+                            <Truck className="h-4 w-4 text-muted-foreground" />
+                            <div>
+                              <div className="font-medium text-sm">
+                                {vehicle.brand} {vehicle.model}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {vehicle.plate_number} • {vehicle.type} • {vehicle.crew_name}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {vehicle.period}
+                              </div>
+                              {vehicle.daily_rate > 0 && (
+                                <div className="text-xs text-blue-600">
+                                  €{vehicle.daily_rate}/day (€{vehicle.total_cost?.toFixed(2)} total)
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <Badge
+                            variant={vehicle.owned ? 'default' : 'secondary'}
+                            className="text-xs"
+                          >
+                            {vehicle.owned ? 'Owned' : 'Rented'}
+                          </Badge>
+                        </div>
+                      ))}
+                      {resourcesData.vehicles.length > 3 && (
+                        <div className="text-center text-sm text-muted-foreground">
+                          +{resourcesData.vehicles.length - 3} more vehicles
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-6 text-muted-foreground">
+                    <Truck className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                    <p className="text-sm">No vehicles assigned yet</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="documents" className="space-y-6">
@@ -700,10 +920,38 @@ export default function ProjectDetailsPage() {
                             </div>
                           </div>
                           <div className="flex items-center space-x-2 ml-4">
-                            <Button variant="outline" size="sm">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                // For PDF files, try to open in new tab for preview
+                                if (doc.file_name?.toLowerCase().includes('.pdf')) {
+                                  window.open(doc.file_path, '_blank');
+                                } else {
+                                  // For other files, download directly
+                                  const link = document.createElement('a');
+                                  link.href = doc.file_path;
+                                  link.download = doc.file_name;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                }
+                              }}
+                            >
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button variant="outline" size="sm">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                const link = document.createElement('a');
+                                link.href = doc.file_path + '?download=true';
+                                link.download = doc.file_name;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                              }}
+                            >
                               <Download className="h-4 w-4" />
                             </Button>
                           </div>

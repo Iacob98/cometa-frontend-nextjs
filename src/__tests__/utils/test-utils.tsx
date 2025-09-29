@@ -100,7 +100,7 @@ export const createUserWithRole = (role: User['role']): User => ({
 });
 
 // Mock API responses helper
-export const createMockApiResponse = <T>(data: T, pagination = false) => {
+export const createMockApiResponse = <T,>(data: T, pagination = false) => {
   if (pagination) {
     return {
       data,

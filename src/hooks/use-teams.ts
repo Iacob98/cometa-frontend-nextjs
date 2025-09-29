@@ -136,6 +136,7 @@ export interface GlobalTeam {
   is_active: boolean;
   project_count?: number;
   specialization?: string;
+  member_count: number;
 }
 
 // Additional hooks for project preparation
@@ -164,7 +165,8 @@ export function useGlobalTeams() {
         foreman_name: crew.foreman?.full_name || crew.foreman_name,
         is_active: crew.status === 'active',
         project_count: projectCounts[crew.name] || 0,
-        specialization: 'mixed'
+        specialization: 'mixed',
+        member_count: crew.member_count || 0
       }));
     },
   });

@@ -174,48 +174,13 @@ export default function UtilityContacts({ projectId }: UtilityContactsProps) {
     }
 
     try {
-      // Create FormData for file upload
-      const formData = new FormData();
-
-      // Add metadata
-      const metadata = {
-        bucketName: 'project-documents',
-        projectId,
-        category: 'plan',
-        title: planFormData.title,
-        description: planFormData.description,
-        plan_type: planFormData.plan_type,
-      };
-
-      formData.append('metadata', JSON.stringify(metadata));
-      formData.append('file0', planFormData.file);
-
-      // Call our upload API
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error(`Upload failed with status: ${response.status}`);
-      }
-
-      const result = await response.json();
-
-      if (result.error) {
-        throw new Error(result.error);
-      }
-
-      // Create plan entry using the mutation
+      // Use the hook to create plan entry with file upload
       await createPlanMutation.mutateAsync({
         project_id: projectId,
         title: planFormData.title,
         description: planFormData.description,
         plan_type: planFormData.plan_type,
-        filename: planFormData.file.name,
-        file_size: planFormData.file.size,
-        file_url: result.files[0]?.url || '',
-        file_path: result.files[0]?.fileName || '',
+        file: planFormData.file,
       });
 
       // Reset form
@@ -226,7 +191,6 @@ export default function UtilityContacts({ projectId }: UtilityContactsProps) {
         file: null,
       });
       setShowPlanUpload(false);
-      toast.success(`Plan uploaded successfully! ${result.successCount} file(s) uploaded.`);
 
     } catch (error) {
       console.error('Plan upload error:', error);
@@ -437,10 +401,27 @@ export default function UtilityContacts({ projectId }: UtilityContactsProps) {
                           </div>
                         </div>
                         <div className="flex flex-col gap-1 ml-2">
-                          <Button variant="ghost" size="sm" title="View">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            title="View"
+                            onClick={() => window.open(`/api/project-preparation/plans/${plan.id}/download`, '_blank')}
+                          >
                             <Eye className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="sm" title="Download">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            title="Download"
+                            onClick={() => {
+                              const link = document.createElement('a');
+                              link.href = `/api/project-preparation/plans/${plan.id}/download?download=true`;
+                              link.download = plan.filename;
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                            }}
+                          >
                             <Download className="w-4 h-4" />
                           </Button>
                           <Button

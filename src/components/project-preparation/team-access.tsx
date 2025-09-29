@@ -29,28 +29,39 @@ export default function TeamAccess({ projectId }: TeamAccessProps) {
   const handleUnassignTeam = async (teamId: string, teamName: string) => {
     if (confirm(`Are you sure you want to unassign team "${teamName}" from this project?`)) {
       try {
-        await updateTeamMutation.mutateAsync({
-          id: teamId,
-          data: {
-            project_id: null,
+        updateTeamMutation.mutate(
+          { id: teamId, data: { project_id: null } },
+          {
+            onSuccess: () => {
+              toast.success(`Team "${teamName}" unassigned from project successfully`);
+            },
+            onError: (error) => {
+              toast.error(`Failed to unassign team: ${error.message}`);
+            }
           }
-        });
+        );
       } catch (error) {
-        // Error is handled by the mutation
+        toast.error('Failed to unassign team from project');
       }
     }
   };
 
   const handleAssignTeam = async (teamId: string) => {
     try {
-      await updateTeamMutation.mutateAsync({
-        id: teamId,
-        data: {
-          project_id: projectId,
+      updateTeamMutation.mutate(
+        { id: teamId, data: { project_id: projectId } },
+        {
+          onSuccess: () => {
+            setShowAssignDialog(false);
+            toast.success('Team assigned to project successfully');
+          },
+          onError: (error) => {
+            toast.error(`Failed to assign team: ${error.message}`);
+          }
         }
-      });
+      );
     } catch (error) {
-      // Error is handled by the mutation
+      toast.error('Failed to assign team to project');
     }
   };
 

@@ -92,17 +92,18 @@ export function DocumentItem({
   const [previewOpen, setPreviewOpen] = useState(false);
   const { download } = useDocumentActions();
 
-  const DocumentIcon = getDocumentIcon(document.mime_type);
+  const DocumentIcon = getDocumentIcon(document.mime_type || document.file_type || 'application/octet-stream');
 
   const handleDownload = () => {
     download({
       id: document.id,
-      filename: document.original_filename,
+      filename: document.file_name || document.original_filename || document.filename,
     });
   };
 
   const handlePreview = () => {
-    if (document.mime_type.startsWith("image/") || document.mime_type.includes("pdf")) {
+    const mimeType = document.mime_type || document.file_type || '';
+    if (mimeType.startsWith("image/") || mimeType.includes("pdf")) {
       setPreviewOpen(true);
     } else {
       handleDownload();
@@ -116,9 +117,9 @@ export function DocumentItem({
           <DocumentIcon className="w-6 h-6 text-muted-foreground" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium truncate">{document.original_filename}</p>
+          <p className="text-sm font-medium truncate">{document.file_name || document.original_filename || document.filename}</p>
           <p className="text-xs text-muted-foreground">
-            {formatFileSize(document.size)} • {formatDistanceToNow(new Date(document.uploaded_at), { addSuffix: true })}
+            {formatFileSize(document.file_size || document.size || 0)} • {formatDistanceToNow(new Date(document.uploaded_at), { addSuffix: true })}
           </p>
         </div>
         {showActions && (
@@ -140,12 +141,12 @@ export function DocumentItem({
                 <DocumentIcon className="w-6 h-6 text-muted-foreground" />
               </div>
               <div className="min-w-0 flex-1">
-                <CardTitle className="text-base truncate" title={document.original_filename}>
-                  {document.original_filename}
+                <CardTitle className="text-base truncate" title={document.file_name || document.original_filename || document.filename}>
+                  {document.file_name || document.original_filename || document.filename}
                 </CardTitle>
                 <CardDescription className="flex items-center gap-2">
-                  <span>{formatFileSize(document.size)}</span>
-                  {document.version > 1 && (
+                  <span>{formatFileSize(document.file_size || document.size || 0)}</span>
+                  {document.version && document.version > 1 && (
                     <Badge variant="outline" className="text-xs">
                       v{document.version}
                     </Badge>
@@ -204,12 +205,14 @@ export function DocumentItem({
           {/* Category and Access Level */}
           <div className="flex items-center gap-2">
             <Badge variant="secondary">
-              {document.category?.name?.en || document.category?.code || "Uncategorized"}
+              {document.document_type || document.category?.name?.en || document.category?.code || "Uncategorized"}
             </Badge>
-            <Badge className={cn("text-xs", getAccessLevelColor(document.access_level))}>
-              <Lock className="w-3 h-3 mr-1" />
-              {document.access_level}
-            </Badge>
+            {document.access_level && (
+              <Badge className={cn("text-xs", getAccessLevelColor(document.access_level))}>
+                <Lock className="w-3 h-3 mr-1" />
+                {document.access_level}
+              </Badge>
+            )}
           </div>
 
           {/* Tags */}
@@ -242,7 +245,7 @@ export function DocumentItem({
             <div className="flex items-center gap-2">
               <User className="w-4 h-4" />
               <span>
-                {document.uploader?.first_name} {document.uploader?.last_name}
+                {document.uploaded_by_name || `${document.uploader?.first_name || ''} ${document.uploader?.last_name || ''}`.trim() || 'Unknown'}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -307,23 +310,23 @@ export function DocumentItem({
       <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
         <DialogContent className="max-w-4xl max-h-[80vh]">
           <DialogHeader>
-            <DialogTitle>{document.original_filename}</DialogTitle>
+            <DialogTitle>{document.file_name || document.original_filename || document.filename}</DialogTitle>
             <DialogDescription>
-              {formatFileSize(document.size)} • {document.mime_type}
+              {formatFileSize(document.file_size || document.size || 0)} • {document.mime_type || document.file_type || 'Unknown type'}
             </DialogDescription>
           </DialogHeader>
           <div className="flex-1 overflow-auto">
-            {document.mime_type.startsWith("image/") ? (
+            {(document.mime_type || document.file_type || '').startsWith("image/") ? (
               <img
-                src={document.url}
-                alt={document.original_filename}
+                src={document.file_path}
+                alt={document.file_name || document.original_filename || document.filename}
                 className="max-w-full h-auto mx-auto"
               />
-            ) : document.mime_type.includes("pdf") ? (
+            ) : (document.mime_type || document.file_type || '').includes("pdf") ? (
               <iframe
-                src={document.url}
+                src={document.file_path}
                 className="w-full h-96"
-                title={document.original_filename}
+                title={document.file_name || document.original_filename || document.filename}
               />
             ) : (
               <div className="text-center py-8">

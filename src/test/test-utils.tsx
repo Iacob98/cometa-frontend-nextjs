@@ -71,7 +71,7 @@ export const createMockWorkEntry = (overrides = {}) => ({
 });
 
 // API mock helpers
-export const mockApiResponse = <T>(data: T) => ({
+export const mockApiResponse = <T,>(data: T) => ({
   ok: true,
   status: 200,
   json: () => Promise.resolve(data),

@@ -68,7 +68,7 @@ const createMockTeam = (overrides = {}): Team => ({
   ...overrides,
 });
 
-const createPaginatedResponse = <T>(data: T[], total?: number): PaginatedResponse<T> => ({
+const createPaginatedResponse = <T,>(data: T[], total?: number): PaginatedResponse<T> => ({
   data,
   total: total ?? data.length,
   page: 1,

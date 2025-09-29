@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
         description,
         status,
         leader_user_id,
+        project_id,
         created_at,
         updated_at,
         leader:users!crews_leader_user_id_fkey(
@@ -63,7 +64,9 @@ export async function GET(request: NextRequest) {
       query = query.eq('status', status);
     }
 
-    // Note: project_id filter removed as crews don't have direct project relationship
+    if (project_id) {
+      query = query.eq('project_id', project_id);
+    }
 
     const { data: crews, error, count } = await query;
 
@@ -81,6 +84,7 @@ export async function GET(request: NextRequest) {
       name: crew.name,
       description: crew.description || '',
       status: crew.status || 'active',
+      project_id: crew.project_id,
       foreman: crew.leader ? {
         id: crew.leader.id,
         full_name: `${crew.leader.first_name} ${crew.leader.last_name}`,

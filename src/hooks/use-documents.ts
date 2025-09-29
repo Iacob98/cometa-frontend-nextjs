@@ -62,6 +62,24 @@ export function useDocuments(filters: DocumentFilters = {}) {
   return useQuery({
     queryKey: documentKeys.list(filters),
     queryFn: async (): Promise<DocumentsResponse> => {
+      // Check if this is for a specific project
+      if (filters.project_id) {
+        const response = await fetch(`/api/projects/${filters.project_id}/documents?${searchParams.toString()}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch project documents');
+        }
+        const data = await response.json();
+        // Transform the response to match expected format
+        return {
+          items: data.documents || [],
+          total: data.pagination?.total || 0,
+          page: data.pagination?.page || 1,
+          per_page: data.pagination?.per_page || 20,
+          pages: data.pagination?.total_pages || 1,
+        };
+      }
+
+      // Default to regular documents endpoint
       const response = await fetch(`/api/documents?${searchParams.toString()}`);
       if (!response.ok) {
         throw new Error('Failed to fetch documents');
@@ -396,7 +414,14 @@ export function useDocumentActions() {
 
   const downloadDocument = useMutation({
     mutationFn: async (documentId: string) => {
-      const response = await fetch(`/api/documents/${documentId}/download`);
+      // First try project plans download endpoint
+      let response = await fetch(`/api/project-preparation/plans/${documentId}/download?download=true`);
+
+      // If that fails, try regular documents endpoint
+      if (!response.ok) {
+        response = await fetch(`/api/documents/${documentId}/download`);
+      }
+
       if (!response.ok) throw new Error('Failed to download document');
       const blob = await response.blob();
       return { blob, response };
@@ -419,10 +444,30 @@ export function useDocumentActions() {
     onError: (error: Error) => toast.error(error.message),
   });
 
+  const download = async ({ id, filename }: { id: string; filename: string }) => {
+    try {
+      const result = await downloadDocument.mutateAsync(id);
+      const { blob, response } = result;
+
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
+
   return {
     shareDocument,
     downloadDocument,
     duplicateDocument,
+    download,
   };
 }
 

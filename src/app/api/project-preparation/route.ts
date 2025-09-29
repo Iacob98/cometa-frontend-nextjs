@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+// Service role client for bypassing RLS
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 export async function GET(request: NextRequest) {
@@ -164,6 +165,15 @@ export async function GET(request: NextRequest) {
         housing: housingResult.data || [],
         plans: plansResult.data || [],
         utility_contacts: utilityContactsResult.data || []
+      },
+      steps_summary: {
+        utility_contacts: utilityContactsResult.data?.length || 0,
+        facilities: facilitiesResult.data?.length || 0,
+        housing_units: housingResult.data?.length || 0,
+        plans: plansResult.data?.length || 0,
+        crews: 0, // TODO: Add crews count when available
+        materials: 0, // TODO: Add materials count when available
+        equipment: 0 // TODO: Add equipment count when available
       }
     };
 
@@ -290,6 +300,75 @@ export async function POST(request: NextRequest) {
     console.error('Project preparation POST error:', error);
     return NextResponse.json(
       { error: 'Failed to create preparation item' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { project_id, status, reason } = body;
+
+    if (!project_id || !status) {
+      return NextResponse.json(
+        { error: 'Project ID and status are required' },
+        { status: 400 }
+      );
+    }
+
+    // Validate status values
+    const validStatuses = ['draft', 'planning', 'active', 'paused', 'completed', 'cancelled'];
+    if (!validStatuses.includes(status)) {
+      return NextResponse.json(
+        { error: `Invalid status. Must be one of: ${validStatuses.join(', ')}` },
+        { status: 400 }
+      );
+    }
+
+    // Update project status
+    const { data: updatedProject, error } = await supabase
+      .from('projects')
+      .update({
+        status,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', project_id)
+      .select(`
+        id,
+        name,
+        status,
+        updated_at
+      `)
+      .single();
+
+    if (error) {
+      console.error('Supabase project status update error:', error);
+      if (error.code === 'PGRST116') {
+        return NextResponse.json(
+          { error: 'Project not found' },
+          { status: 404 }
+        );
+      }
+      return NextResponse.json(
+        { error: 'Failed to update project status' },
+        { status: 500 }
+      );
+    }
+
+    // Log status change (optional - could add to activity log table)
+    console.log(`Project ${project_id} status changed to ${status}`, reason ? `Reason: ${reason}` : '');
+
+    return NextResponse.json({
+      message: 'Project status updated successfully',
+      project: updatedProject,
+      previous_status: status, // You could track this if needed
+      reason
+    });
+  } catch (error) {
+    console.error('Project preparation PUT error:', error);
+    return NextResponse.json(
+      { error: 'Failed to update project status' },
       { status: 500 }
     );
   }

@@ -39,16 +39,20 @@ export const FILE_UPLOAD_CONFIG = {
     IMAGES: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
     DOCUMENTS: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
     SPREADSHEETS: ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'],
-    PLANS: ['application/pdf', 'application/dwg', 'application/dxf'],
+    PLANS: ['application/pdf', 'application/dwg', 'application/dxf', 'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp', 'image/tiff'],
   },
 
   // Get all allowed MIME types
-  getAllowedTypes: () => [
-    ...FILE_UPLOAD_CONFIG.ALLOWED_FILE_TYPES.IMAGES,
-    ...FILE_UPLOAD_CONFIG.ALLOWED_FILE_TYPES.DOCUMENTS,
-    ...FILE_UPLOAD_CONFIG.ALLOWED_FILE_TYPES.SPREADSHEETS,
-    ...FILE_UPLOAD_CONFIG.ALLOWED_FILE_TYPES.PLANS,
-  ],
+  getAllowedTypes: () => {
+    const allTypes = [
+      ...FILE_UPLOAD_CONFIG.ALLOWED_FILE_TYPES.IMAGES,
+      ...FILE_UPLOAD_CONFIG.ALLOWED_FILE_TYPES.DOCUMENTS,
+      ...FILE_UPLOAD_CONFIG.ALLOWED_FILE_TYPES.SPREADSHEETS,
+      ...FILE_UPLOAD_CONFIG.ALLOWED_FILE_TYPES.PLANS,
+    ];
+    // Remove duplicates using Set
+    return [...new Set(allTypes)];
+  },
 } as const
 
 // File validation utilities
@@ -62,6 +66,13 @@ export const validateFile = (file: File) => {
 
   // Check file type
   const allowedTypes = FILE_UPLOAD_CONFIG.getAllowedTypes()
+  console.log('🔍 File validation:', {
+    fileName: file.name,
+    fileType: file.type,
+    allowedTypes,
+    isTypeAllowed: allowedTypes.includes(file.type)
+  });
+
   if (!allowedTypes.includes(file.type)) {
     errors.push(`File type ${file.type} is not allowed`)
   }

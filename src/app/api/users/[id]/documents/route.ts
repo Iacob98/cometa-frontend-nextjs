@@ -107,6 +107,10 @@ export async function GET(
   }
 }
 
+// Configure this API route to handle larger file uploads
+export const runtime = 'nodejs';
+export const maxDuration = 60; // 60 seconds timeout
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -175,44 +179,15 @@ export async function POST(
     // Convert file to buffer and store it
     let fileBuffer: Buffer;
     try {
-      // First try arrayBuffer method
-      if (file.arrayBuffer && typeof file.arrayBuffer === 'function') {
-        const arrayBuffer = await file.arrayBuffer();
-        fileBuffer = Buffer.from(arrayBuffer);
-      } else if (file.stream && typeof file.stream === 'function') {
-        // Fallback to stream method
-        const chunks: Uint8Array[] = [];
-        const reader = file.stream().getReader();
+      // Use the modern async arrayBuffer method which is standard for File objects
+      const arrayBuffer = await file.arrayBuffer();
+      fileBuffer = Buffer.from(arrayBuffer);
 
-        try {
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            chunks.push(value);
-          }
-        } finally {
-          reader.releaseLock();
-        }
-
-        // Combine all chunks into a single buffer
-        const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
-        const combined = new Uint8Array(totalLength);
-        let offset = 0;
-        for (const chunk of chunks) {
-          combined.set(chunk, offset);
-          offset += chunk.length;
-        }
-        fileBuffer = Buffer.from(combined);
-      } else {
-        // If neither method is available, try direct buffer conversion
-        if (file instanceof Buffer) {
-          fileBuffer = file;
-        } else if (file instanceof Uint8Array) {
-          fileBuffer = Buffer.from(file);
-        } else {
-          throw new Error('File object does not have supported read methods');
-        }
-      }
+      console.log('📁 File successfully converted to buffer:', {
+        originalSize: file.size,
+        bufferSize: fileBuffer.length,
+        fileName: file.name
+      });
     } catch (error) {
       console.error('Error reading file content:', error);
       return NextResponse.json(

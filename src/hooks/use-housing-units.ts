@@ -33,6 +33,9 @@ export interface CreateHousingUnitData {
   beds_total: number;
   rent_daily_eur: number;
   status: string;
+  advance_payment?: number;
+  check_in_date?: string;
+  check_out_date?: string;
 }
 
 export interface UpdateHousingUnitData {
@@ -42,22 +45,25 @@ export interface UpdateHousingUnitData {
   beds_total?: number;
   rent_daily_eur?: number;
   status?: string;
+  advance_payment?: number;
+  check_in_date?: string;
+  check_out_date?: string;
 }
 
 const api = {
-  getHousingUnits: async (projectId: string): Promise<HousingUnit[]> => {
-    const response = await fetch(`/api/housing-units?project_id=${projectId}`);
+  getHousingUnits: async (projectId: string): Promise<any[]> => {
+    const response = await fetch(`/api/project-preparation/housing?project_id=${projectId}`);
 
     if (!response.ok) {
       throw new Error('Failed to fetch housing units');
     }
 
     const data = await response.json();
-    return data.items || [];
+    return Array.isArray(data) ? data : [];
   },
 
   createHousingUnit: async (data: CreateHousingUnitData): Promise<{ success: boolean; housing_unit_id: string; message: string }> => {
-    const response = await fetch('/api/housing-units', {
+    const response = await fetch('/api/project-preparation/housing', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -74,7 +80,7 @@ const api = {
   },
 
   updateHousingUnit: async (data: UpdateHousingUnitData): Promise<{ success: boolean; message: string }> => {
-    const response = await fetch(`/api/housing-units/${data.id}`, {
+    const response = await fetch(`/api/project-preparation/housing/${data.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -91,7 +97,7 @@ const api = {
   },
 
   deleteHousingUnit: async (id: string): Promise<{ success: boolean; message: string }> => {
-    const response = await fetch(`/api/housing-units/${id}`, {
+    const response = await fetch(`/api/project-preparation/housing/${id}`, {
       method: 'DELETE',
     });
 
@@ -120,6 +126,7 @@ export function useCreateHousingUnit() {
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['housing-units', variables.project_id] });
       queryClient.invalidateQueries({ queryKey: ['project-preparation', variables.project_id] });
+      queryClient.invalidateQueries({ queryKey: ['project-costs', variables.project_id] });
       toast.success(data.message || 'Housing unit created successfully');
     },
     onError: (error: Error) => {
@@ -136,6 +143,7 @@ export function useUpdateHousingUnit() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['housing-units'] });
       queryClient.invalidateQueries({ queryKey: ['project-preparation'] });
+      queryClient.invalidateQueries({ queryKey: ['project-costs'] });
       toast.success(data.message || 'Housing unit updated successfully');
     },
     onError: (error: Error) => {
@@ -152,6 +160,7 @@ export function useDeleteHousingUnit() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['housing-units'] });
       queryClient.invalidateQueries({ queryKey: ['project-preparation'] });
+      queryClient.invalidateQueries({ queryKey: ['project-costs'] });
       toast.success(data.message || 'Housing unit deleted successfully');
     },
     onError: (error: Error) => {

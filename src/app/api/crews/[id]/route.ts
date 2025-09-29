@@ -26,13 +26,13 @@ export async function GET(
       .select(`
         id,
         name,
+        description,
         status,
+        leader_user_id,
         project_id,
-        foreman_user_id,
         created_at,
         updated_at,
-        project:projects(id, name, city),
-        foreman:users!crews_foreman_user_id_fkey(id, first_name, last_name, email, phone)
+        leader:users!crews_leader_user_id_fkey(id, first_name, last_name, email, phone)
       `)
       .eq('id', id)
       .single();
@@ -55,9 +55,9 @@ export async function GET(
     // Format response for frontend compatibility
     const formattedCrew = {
       ...crew,
-      foreman: crew.foreman ? {
-        ...crew.foreman,
-        full_name: `${crew.foreman.first_name || ''} ${crew.foreman.last_name || ''}`.trim(),
+      leader: crew.leader ? {
+        ...crew.leader,
+        full_name: `${crew.leader.first_name || ''} ${crew.leader.last_name || ''}`.trim(),
       } : null,
     };
 
@@ -86,7 +86,7 @@ export async function PUT(
       );
     }
 
-    const { name, status, foreman_user_id, project_id } = body;
+    const { name, status, leader_user_id, project_id } = body;
 
     // Prepare update data
     const updateData: any = {
@@ -95,7 +95,7 @@ export async function PUT(
 
     if (name !== undefined) updateData.name = name;
     if (status !== undefined) updateData.status = status;
-    if (foreman_user_id !== undefined) updateData.foreman_user_id = foreman_user_id;
+    if (leader_user_id !== undefined) updateData.leader_user_id = leader_user_id;
     if (project_id !== undefined) updateData.project_id = project_id;
 
     const { data: updatedCrew, error } = await supabaseService
@@ -106,12 +106,11 @@ export async function PUT(
         id,
         name,
         status,
+        leader_user_id,
         project_id,
-        foreman_user_id,
         created_at,
         updated_at,
-        project:projects(id, name, city),
-        foreman:users!crews_foreman_user_id_fkey(id, first_name, last_name, email, phone)
+        leader:users!crews_leader_user_id_fkey(id, first_name, last_name, email, phone)
       `)
       .single();
 
@@ -126,9 +125,9 @@ export async function PUT(
     // Format response for frontend compatibility
     const formattedCrew = {
       ...updatedCrew,
-      foreman: updatedCrew.foreman ? {
-        ...updatedCrew.foreman,
-        full_name: `${updatedCrew.foreman.first_name || ''} ${updatedCrew.foreman.last_name || ''}`.trim(),
+      leader: updatedCrew.leader ? {
+        ...updatedCrew.leader,
+        full_name: `${updatedCrew.leader.first_name || ''} ${updatedCrew.leader.last_name || ''}`.trim(),
       } : null,
     };
 

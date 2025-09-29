@@ -41,6 +41,7 @@ interface EquipmentAssignmentForm {
 }
 
 interface RentalVehicleForm {
+  crew_id?: string;
   brand: string;
   model: string;
   plate_number: string;

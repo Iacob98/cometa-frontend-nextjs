@@ -459,6 +459,7 @@ export function useCreateFacility() {
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['facilities', variables.project_id] });
       queryClient.invalidateQueries({ queryKey: ['project-preparation', variables.project_id] });
+      queryClient.invalidateQueries({ queryKey: ['project-costs', variables.project_id] });
       toast.success(data.message || 'Facility created successfully');
     },
     onError: (error: Error) => {
@@ -565,6 +566,7 @@ export function useDeleteFacility() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['facilities'] });
       queryClient.invalidateQueries({ queryKey: ['project-preparation'] });
+      queryClient.invalidateQueries({ queryKey: ['project-costs'] });
       toast.success(data.message || 'Facility deleted successfully');
     },
     onError: (error: Error) => {
@@ -581,6 +583,7 @@ export function useDeleteHousingUnit() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['housing-units'] });
       queryClient.invalidateQueries({ queryKey: ['project-preparation'] });
+      queryClient.invalidateQueries({ queryKey: ['project-costs'] });
       toast.success(data.message || 'Housing unit deleted successfully');
     },
     onError: (error: Error) => {

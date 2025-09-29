@@ -123,3 +123,55 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { assignment_id, is_active } = body;
+
+    if (!assignment_id) {
+      return NextResponse.json(
+        { error: "Assignment ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // Update the assignment to set is_active to false (end assignment)
+    const { data: updatedAssignment, error } = await supabase
+      .from("equipment_assignments")
+      .update({
+        is_active: is_active !== undefined ? is_active : false,
+        to_ts: is_active === false ? new Date().toISOString() : null
+      })
+      .eq("id", assignment_id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Supabase equipment assignment update error:", error);
+      if (error.code === 'PGRST116') {
+        return NextResponse.json(
+          { error: "Equipment assignment not found" },
+          { status: 404 }
+        );
+      }
+      return NextResponse.json(
+        { error: "Failed to update equipment assignment" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Equipment assignment updated successfully",
+      assignment: updatedAssignment
+    });
+
+  } catch (error) {
+    console.error("Equipment assignment PUT error:", error);
+    return NextResponse.json(
+      { error: "Failed to update equipment assignment" },
+      { status: 500 }
+    );
+  }
+}
