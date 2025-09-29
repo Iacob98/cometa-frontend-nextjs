@@ -1,9 +1,9 @@
 # COMETA Project Documentation (Auto-generated)
 
-> **Generated on:** 2025-09-25T10:01:51.664Z
-> **Repository root:** /Users/iacob/Documents/cometa-separated-projects/cometa-frontend-nextjs
-> **Current branch:** main
-> **Commit:** 44714a4
+> **Generated on:** 2025-09-29T12:14:00.000Z
+> **Repository root:** /Volumes/T7/cometa/cometa-separated-projects/cometa-frontend-nextjs
+> **Current branch:** dev
+> **Commit:** a10f9f9
 > **Last updated by:** Documentation Agent
 
 ## Table of Contents
@@ -13,11 +13,16 @@
 - [4. Backend (FastAPI Microservices)](#4-backend-fastapi-microservices)
 - [5. API Contract](#5-api-contract)
 - [6. Database & Storage](#6-database--storage)
-- [7. Configuration & Environments](#7-configuration--environments)
-- [8. Development & Deployment](#8-development--deployment)
-- [9. Recent Changes](#9-recent-changes)
-- [10. Task Master Integration](#10-task-master-integration)
-- [11. Migration Progress](#11-migration-progress)
+- [7. Authentication & Authorization](#7-authentication--authorization)
+- [8. Configuration & Environments](#8-configuration--environments)
+- [9. Development & Deployment](#9-development--deployment)
+- [10. Testing Strategy](#10-testing-strategy)
+- [11. Migration Progress (Streamlit → Next.js)](#11-migration-progress)
+- [12. Task Master Integration](#12-task-master-integration)
+- [13. Cost Calculation System](#13-cost-calculation-system)
+- [14. Project Management Improvements](#14-project-management-improvements)
+- [15. Risks & Open Questions](#15-risks--open-questions)
+- [16. Recent Changes & Fixes](#16-recent-changes--fixes)
 - [Appendix A. File Inventory](#appendix-a-file-inventory)
 
 ---
@@ -117,13 +122,46 @@ flowchart LR
 **Authentication:** JWT Bearer tokens via NextAuth
 
 **Key Endpoints:** (Auto-detected from API routes)
-- `GET|POST /api/activities` - API endpoint
-- `GET|POST /api/activities/stats` - API endpoint
+
+### Authentication & Core
 - `GET|POST /api/auth/login` - Authentication
 - `GET|POST /api/auth/register` - Authentication
 - `GET|POST /api/auth/skills` - Authentication
+- `GET|POST /api/activities` - Activity tracking
+- `GET|POST /api/activities/stats` - Activity statistics
 
-> **Evidence:** API routes in `src/app/api/**` directory
+### Project Preparation (Enhanced)
+- `GET /api/project-preparation/costs?project_id={id}` - **NEW** Multi-category cost calculation
+- `GET /api/project-preparation/housing?project_id={id}` - Housing unit management
+- `GET /api/project-preparation/plans/[id]/download` - **NEW** Project plan file download
+- `GET|POST /api/project-preparation/facilities` - Facility management
+- `GET|POST /api/project-preparation/utility-contacts` - Utility contact management
+
+### Resource Management
+- `GET|POST /api/equipment` - Equipment CRUD operations
+- `GET|POST /api/equipment/assignments` - Equipment assignment tracking
+- `GET|POST /api/materials` - Material management
+- `GET|POST /api/material-allocations` - Material allocation tracking
+
+### Financial Tracking
+- `GET /api/financial/summary` - Financial overview
+- `GET|POST /api/material-orders` - Material ordering system
+
+**Evidence:** API routes in `src/app/api/**` directory
+
+### Recent API Enhancements
+
+**Cost Calculation API (`/api/project-preparation/costs`):**
+- **Input:** Query parameter `project_id`
+- **Output:** Comprehensive cost breakdown including facilities, equipment, materials, labor, and housing
+- **Performance:** Parallel database queries with error resilience
+- **Evidence:** `src/app/api/project-preparation/costs/route.ts:L1-166`
+
+**Project Plan Download API (`/api/project-preparation/plans/[id]/download`):**
+- **Input:** Plan ID in URL path, optional `download=true` query parameter
+- **Output:** File stream with appropriate content-type headers
+- **Supported Formats:** PDF, Images, CAD files (DWG, DXF)
+- **Evidence:** `src/app/api/project-preparation/plans/[id]/download/route.ts:L1-122`
 
 ## 6. Database & Storage
 
@@ -419,6 +457,277 @@ docker-compose up -d # Start all microservices
 - 🔄 Complete legacy Streamlit removal
 - 🔄 Full API integration testing
 - 🔄 Production deployment configuration
+
+## 13. Cost Calculation System
+
+**Status:** ✅ **ENHANCED** - Recently improved with comprehensive cost tracking
+
+### Architecture Overview
+
+The COMETA cost calculation system provides real-time financial tracking across all project resources including facilities, equipment, materials, labor, and housing. The system calculates costs dynamically based on usage periods and rental rates.
+
+**Evidence:** `src/app/api/project-preparation/costs/route.ts:L1-166`
+
+### Cost Categories
+
+#### 1. Facilities Costs
+- **Calculation:** Daily rent × Duration in days
+- **Data Source:** `facilities` table
+- **Field Path:** `rent_daily_eur`, `start_date`, `end_date`
+- **API:** `GET /api/project-preparation/costs?project_id={id}`
+
+```typescript
+// Evidence: src/app/api/project-preparation/costs/route.ts:L92-98
+const facilityCosts = (facilitiesRes.data || []).reduce((total, facility) => {
+  const dailyRate = parseFloat(facility.rent_daily_eur || 0)
+  const days = facility.start_date && facility.end_date
+    ? Math.ceil((new Date(facility.end_date).getTime() - new Date(facility.start_date).getTime()) / (1000 * 60 * 60 * 24))
+    : 0
+  return total + (dailyRate * days)
+}, 0)
+```
+
+#### 2. Equipment Costs
+- **Calculation:** Rental cost per day × Assignment duration
+- **Data Source:** `equipment_assignments` table with equipment join
+- **Field Path:** `rental_cost_per_day`, `from_ts`, `to_ts`
+- **Fix Applied:** Uses correct `rental_cost_per_day` field instead of non-existent `daily_rate`
+
+```typescript
+// Evidence: src/app/api/project-preparation/costs/route.ts:L100-106
+const equipmentCosts = (equipmentRes.data || []).reduce((total, assignment) => {
+  const dailyRate = parseFloat(assignment.rental_cost_per_day || 0)
+  const days = assignment.from_ts && assignment.to_ts
+    ? Math.ceil((new Date(assignment.to_ts).getTime() - new Date(assignment.from_ts).getTime()) / (1000 * 60 * 60 * 24))
+    : 30 // Default 30 days if still assigned
+  return total + (dailyRate * days)
+}, 0)
+```
+
+#### 3. Housing Costs
+- **Calculation:** Daily rent × Stay duration
+- **Data Source:** Housing units via `/api/project-preparation/housing`
+- **Field Path:** `rent_daily_eur`, `check_in_date`, `check_out_date`
+- **Enhancement:** Complete housing cost integration added
+
+```typescript
+// Evidence: src/app/api/project-preparation/costs/route.ts:L118-124
+const housingCosts = (housingUnits || []).reduce((total, housing) => {
+  const dailyRate = parseFloat(housing.rent_daily_eur || 0)
+  const days = housing.check_in_date && housing.check_out_date
+    ? Math.ceil((new Date(housing.check_out_date).getTime() - new Date(housing.check_in_date).getTime()) / (1000 * 60 * 60 * 24))
+    : 30 // Default 30 days if no dates specified
+  return total + (dailyRate * days)
+}, 0)
+```
+
+#### 4. Material Costs
+- **Calculation:** Price per unit × Allocated quantity
+- **Data Source:** `material_allocations` with materials join
+- **Field Path:** `price_per_unit`, `allocated_quantity`
+
+#### 5. Labor Costs
+- **Calculation:** Direct cost from work entries
+- **Data Source:** `work_entries` table
+- **Field Path:** `labor_cost`
+
+### API Response Structure
+
+```typescript
+// Evidence: src/app/api/project-preparation/costs/route.ts:L126-155
+{
+  facilities: { items: [], total: number },
+  equipment: { items: [], total: number },
+  materials: { items: [], total: number },
+  labor: { items: [], total: number },
+  housing: { items: [], total: number },
+  summary: {
+    facilities: number,
+    equipment: number,
+    materials: number,
+    labor: number,
+    housing: number,
+    total: number // Sum of all categories
+  }
+}
+```
+
+### Frontend Integration
+
+**Component:** `src/components/project-preparation/facilities-management.tsx`
+
+**Data Path Fixes:**
+- **Before:** `projectCosts.project.budget` (caused errors)
+- **After:** `projectCosts.project?.budget?.toLocaleString() || '0'` (safe access)
+
+```typescript
+// Evidence: src/components/project-preparation/facilities-management.tsx:L316-320
+<p className="text-xl font-bold text-blue-600">
+  €{projectCosts.project?.budget?.toLocaleString() || '0'}
+</p>
+```
+
+### Error Handling & Resilience
+
+1. **Null Safety:** All cost calculations use null coalescing operators
+2. **Default Values:** Missing dates default to reasonable periods (30 days)
+3. **Type Safety:** `parseFloat()` with fallback to 0 for invalid numbers
+4. **Network Resilience:** Housing costs fetched separately with error handling
+
+## 14. Project Management Improvements
+
+**Status:** ✅ **ENHANCED** - Recent fixes to file handling and UI
+
+### Project Plan Download System
+
+**New Endpoint:** `GET /api/project-preparation/plans/[id]/download`
+
+**Features:**
+- **File Type Detection:** Automatic content-type detection based on file extension
+- **Inline/Download Modes:** Support for both viewing (PDFs) and downloading files
+- **Security:** Uses Supabase service role for bypassing RLS
+- **Supported Types:** PDF, Images (PNG, JPG, GIF, SVG), CAD files (DWG, DXF)
+
+```typescript
+// Evidence: src/app/api/project-preparation/plans/[id]/download/route.ts:L66-95
+switch (extension) {
+  case 'pdf': contentType = 'application/pdf'; break;
+  case 'png': contentType = 'image/png'; break;
+  case 'jpg': case 'jpeg': contentType = 'image/jpeg'; break;
+  case 'dwg': contentType = 'application/dwg'; break;
+  case 'dxf': contentType = 'application/dxf'; break;
+  default: contentType = 'application/octet-stream';
+}
+```
+
+**Usage Modes:**
+- **View:** `GET /api/project-preparation/plans/123/download` (inline)
+- **Download:** `GET /api/project-preparation/plans/123/download?download=true` (attachment)
+
+### Button Visibility & Layout Fixes
+
+**Problem:** Project plan interface had hidden buttons and layout issues
+**Solution:** Improved CSS layout and component structure
+
+**Evidence:** Recent commits show layout fixes for project plan cards and button styling improvements
+
+### Data Flow Architecture
+
+```mermaid
+flowchart TD
+    A[Project Details Page] --> B[Cost API Call]
+    B --> C[/api/project-preparation/costs]
+    C --> D[Facilities Query]
+    C --> E[Equipment Query]
+    C --> F[Materials Query]
+    C --> G[Labor Query]
+    C --> H[Housing API Call]
+
+    D --> I[Calculate Facility Costs]
+    E --> J[Calculate Equipment Costs]
+    F --> K[Calculate Material Costs]
+    G --> L[Calculate Labor Costs]
+    H --> M[Calculate Housing Costs]
+
+    I --> N[Cost Summary]
+    J --> N
+    K --> N
+    L --> N
+    M --> N
+
+    N --> O[Frontend Display]
+    O --> P[Budget Overview Cards]
+```
+
+### Housing Management Integration
+
+**Enhanced Housing API:** `src/app/api/project-preparation/housing/route.ts`
+
+**Features:**
+- **CRUD Operations:** Full create, read, update, delete for housing units
+- **Cost Integration:** Housing costs automatically included in project totals
+- **Validation:** Zod schema validation for all housing data
+- **Date Handling:** Proper check-in/check-out date management
+
+```typescript
+// Evidence: src/app/api/project-preparation/housing/route.ts:L10-20
+const CreateHousingUnitSchema = z.object({
+  project_id: z.string().uuid(),
+  address: z.string().min(1, "Address is required"),
+  rooms_total: z.number().int().positive("Number of rooms must be positive"),
+  beds_total: z.number().int().positive("Number of beds must be positive"),
+  rent_daily_eur: z.number().positive("Daily rent must be positive"),
+  status: z.enum(['available', 'occupied', 'maintenance']).default('available'),
+  // ... additional fields
+});
+```
+
+## 15. Risks & Open Questions
+
+### Cost Calculation Accuracy
+- **Risk:** Equipment assignments without proper date ranges default to 30 days
+- **Mitigation:** Implement date validation and warnings for incomplete assignments
+- **Evidence:** `src/app/api/project-preparation/costs/route.ts:L104`
+
+### File Storage Dependencies
+- **Risk:** Project plan downloads depend on Supabase storage URLs being accessible
+- **Mitigation:** Error handling for file not found scenarios
+- **Evidence:** `src/app/api/project-preparation/plans/[id]/download/route.ts:L54-62`
+
+### Data Synchronization
+- **Risk:** Housing costs fetched separately from main cost calculation
+- **Consideration:** Potential for data consistency issues if housing API fails
+- **Evidence:** `src/app/api/project-preparation/costs/route.ts:L80-89`
+
+### Frontend Error Handling
+- **Issue:** Components access nested data without null checking
+- **Status:** **FIXED** - Safe access patterns implemented
+- **Evidence:** `src/components/project-preparation/facilities-management.tsx:L316-327`
+
+## 16. Recent Changes & Fixes
+
+### Cost Calculation Fixes (Commits: 9c4ba3f, bd3e46e)
+
+1. **Equipment Cost Field Correction**
+   - **Problem:** Using non-existent `equipment.daily_rate` field
+   - **Solution:** Use `assignment.rental_cost_per_day` from assignment level
+   - **Impact:** Equipment costs now display correctly instead of zeros
+
+2. **Housing Cost Integration**
+   - **Addition:** Complete housing cost calculation in project totals
+   - **Implementation:** External API call to housing endpoint with date-based calculation
+   - **Result:** Housing costs properly included in overall project budgeting
+
+3. **Frontend Data Path Safety**
+   - **Problem:** Null reference errors in cost display components
+   - **Solution:** Optional chaining and fallback values
+   - **Files:** `facilities-management.tsx`, other project preparation components
+
+### Project Plan Viewing (Commit: a10f9f9)
+
+1. **Missing Download Endpoint**
+   - **Problem:** Project plans couldn't be viewed or downloaded
+   - **Solution:** Created `/api/project-preparation/plans/[id]/download` endpoint
+   - **Features:** Content-type detection, inline/download modes, security handling
+
+2. **UI/UX Improvements**
+   - **Problem:** Hidden buttons and layout issues in project plan interface
+   - **Solution:** CSS layout fixes and improved component structure
+   - **Result:** Proper button visibility and improved user experience
+
+### API Architecture Enhancement
+
+1. **Consolidated Cost Endpoint**
+   - **Location:** `/api/project-preparation/costs`
+   - **Features:** Multi-category cost calculation in single request
+   - **Performance:** Parallel database queries with Promise.all()
+
+2. **Error Resilience**
+   - **Database Errors:** Individual query error logging without system failure
+   - **Network Errors:** Graceful degradation for external API calls
+   - **Type Safety:** Proper parsing and validation throughout
+
+**GAP:** Performance monitoring and optimization metrics for cost calculations on large projects
 
 ## Appendix A. File Inventory
 
