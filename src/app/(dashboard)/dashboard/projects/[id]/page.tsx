@@ -639,20 +639,25 @@ export default function ProjectDetailsPage() {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg">
                   <div className="text-center">
-                    <div className="text-2xl font-bold">{resourcesData.summary.total_resources}</div>
+                    <div className="text-2xl font-bold">
+                      {(resourcesData?.equipment?.length || 0) + (resourcesData?.vehicles?.length || 0) + (resourcesData?.materials?.length || 0)}
+                    </div>
                     <div className="text-sm text-muted-foreground">Total Resources</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-orange-600">{resourcesData.summary.total_equipment}</div>
+                    <div className="text-2xl font-bold text-orange-600">{resourcesData?.equipment?.length || 0}</div>
                     <div className="text-sm text-muted-foreground">Equipment</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">{resourcesData.summary.total_vehicles}</div>
+                    <div className="text-2xl font-bold text-blue-600">{resourcesData?.vehicles?.length || 0}</div>
                     <div className="text-sm text-muted-foreground">Vehicles</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-green-600">
-                      €{resourcesData.summary.total_cost?.toFixed(0) || '0'}
+                      €{(
+                        (resourcesData?.equipment?.reduce((sum: number, eq: any) => sum + (eq.equipment?.daily_rate || 0), 0) || 0) +
+                        (resourcesData?.vehicles?.reduce((sum: number, vh: any) => sum + (vh.rental_cost_per_day || 0), 0) || 0)
+                      ).toFixed(0)}
                     </div>
                     <div className="text-sm text-muted-foreground">Total Cost</div>
                   </div>
@@ -686,7 +691,7 @@ export default function ProjectDetailsPage() {
                     {/* Equipment Summary */}
                     <div className="grid grid-cols-3 gap-4 p-3 bg-muted/50 rounded-lg">
                       <div className="text-center">
-                        <div className="text-lg font-bold">{resourcesData.summary.total_equipment}</div>
+                        <div className="text-lg font-bold">{resourcesData?.equipment?.length || 0}</div>
                         <div className="text-xs text-muted-foreground">Assigned</div>
                       </div>
                       <div className="text-center">
@@ -768,7 +773,7 @@ export default function ProjectDetailsPage() {
                     {/* Transport Summary */}
                     <div className="grid grid-cols-3 gap-4 p-3 bg-muted/50 rounded-lg">
                       <div className="text-center">
-                        <div className="text-lg font-bold">{resourcesData.summary.total_vehicles}</div>
+                        <div className="text-lg font-bold">{resourcesData?.vehicles?.length || 0}</div>
                         <div className="text-xs text-muted-foreground">Assigned</div>
                       </div>
                       <div className="text-center">

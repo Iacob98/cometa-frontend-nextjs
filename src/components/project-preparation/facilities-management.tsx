@@ -313,28 +313,28 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
               <div>
                 <p className="font-medium text-blue-900">Project Budget</p>
                 <p className="text-xl font-bold text-blue-600">
-                  €{projectCosts.project.budget.toLocaleString()}
+                  €{projectCosts.project?.budget?.toLocaleString() || '0'}
                 </p>
               </div>
               <div>
                 <p className="font-medium text-orange-900">Facilities Cost</p>
                 <p className="text-lg font-semibold text-orange-600">
-                  €{projectCosts.costs.facilities.total.toLocaleString()}
+                  €{projectCosts.costs?.facilities?.total?.toLocaleString() || '0'}
                 </p>
               </div>
               <div>
                 <p className="font-medium text-green-900">Housing Cost</p>
                 <p className="text-lg font-semibold text-green-600">
-                  €{projectCosts.costs.housing.total.toLocaleString()}
+                  €{projectCosts.costs?.housing?.total?.toLocaleString() || '0'}
                 </p>
               </div>
               <div>
                 <p className="font-medium text-red-900">Remaining Budget</p>
                 <p className="text-lg font-semibold text-red-600">
-                  €{projectCosts.project.remaining_budget.toLocaleString()}
+                  €{projectCosts.project?.remaining_budget?.toLocaleString() || '0'}
                 </p>
                 <p className="text-xs text-gray-600">
-                  {projectCosts.project.budget_utilized_percentage.toFixed(1)}% used
+                  {projectCosts.project?.budget_utilized_percentage?.toFixed(1) || '0'}% used
                 </p>
               </div>
             </div>
