@@ -17,12 +17,25 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * per_page;
 
     if (view === 'warehouse') {
-      // Get materials from warehouse/inventory with stock information using RPC function
+      // Get materials from warehouse/inventory with stock information using direct SQL query
       const { data: materials, error, count } = await supabase
-        .rpc('get_materials_with_inventory', {
-          p_offset: offset,
-          p_limit: per_page
-        });
+        .from('materials')
+        .select(`
+          id,
+          name,
+          category,
+          unit,
+          unit_price_eur,
+          supplier_name,
+          description,
+          is_active,
+          created_at,
+          updated_at,
+          current_stock
+        `, { count: 'exact' })
+        .eq('is_active', true)
+        .order('name')
+        .range(offset, offset + per_page - 1);
 
       if (error) {
         console.error('Supabase error:', error);
@@ -32,12 +45,27 @@ export async function GET(request: NextRequest) {
         );
       }
 
-      // Materials data already includes inventory information from the RPC function
+      // Calculate reserved stock for each material
+      const materialIds = (materials || []).map(m => m.id);
+      const { data: allocations } = materialIds.length > 0 ? await supabase
+        .from('material_allocations')
+        .select('material_id, quantity_remaining')
+        .in('material_id', materialIds)
+        .eq('status', 'allocated') : { data: [] };
+
+      // Create a map of reserved stock by material_id
+      const reservedStockMap = (allocations || []).reduce((map, allocation) => {
+        const materialId = allocation.material_id;
+        const reserved = Number(allocation.quantity_remaining) || 0;
+        map[materialId] = (map[materialId] || 0) + reserved;
+        return map;
+      }, {} as Record<string, number>);
+
+      // Process materials with stock information
       const materialsWithStock = (materials || []).map(material => {
         const currentStock = Number(material.current_stock) || 0;
-        const reservedStock = Number(material.reserved_stock) || 0;
+        const reservedStock = reservedStockMap[material.id] || 0;
         const availableStock = Math.max(0, currentStock - reservedStock);
-        const minLevel = Number(material.minimum_level) || 0;
 
         return {
           id: material.id,
@@ -54,23 +82,22 @@ export async function GET(request: NextRequest) {
           available_qty: availableStock,
           total_qty: currentStock,
           reserved_qty: reservedStock,
-          min_stock: minLevel,
-          max_stock: material.maximum_level || null,
+          min_stock: 10, // Default minimum level
+          max_stock: null,
           price: material.unit_price_eur || 0,
           // Calculate stock status
-          is_low_stock: currentStock <= minLevel,
+          is_low_stock: currentStock <= 10,
           is_over_allocated: reservedStock > currentStock,
           over_allocated_qty: Math.max(0, reservedStock - currentStock)
         };
       });
 
-      const totalCount = materials?.[0]?.total_count || 0;
       return NextResponse.json({
         materials: materialsWithStock,
-        total: Number(totalCount),
+        total: count || 0,
         page,
         per_page,
-        total_pages: Math.ceil(Number(totalCount) / per_page),
+        total_pages: Math.ceil((count || 0) / per_page),
         view: 'warehouse'
       });
 

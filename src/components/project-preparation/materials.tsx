@@ -450,7 +450,7 @@ export default function Materials({ projectId }: MaterialsProps) {
                                   </div>
                                   <p className="text-orange-600 mt-1">
                                     Requesting {requestedQty} but only {selectedMaterial.available_qty} {selectedMaterial.unit} available.
-                                    This will create an over-allocation of {overAmount.toFixed(1)} {selectedMaterial.unit}.
+                                    This will create an over-allocation of {(Number(overAmount) || 0).toFixed(1)} {selectedMaterial.unit}.
                                   </p>
                                 </div>
                               );
@@ -474,8 +474,8 @@ export default function Materials({ projectId }: MaterialsProps) {
                               <p className="text-sm font-medium">Estimated Cost</p>
                               <p className="text-lg font-bold text-blue-600">
                                 €{(
-                                  (assignForm.watch('quantity') || 0) *
-                                  (warehouseMaterials.find(m => m.id === assignForm.watch('material_id'))?.price || 0)
+                                  (Number(assignForm.watch('quantity')) || 0) *
+                                  (Number(warehouseMaterials.find(m => m.id === assignForm.watch('material_id'))?.unit_price_eur || warehouseMaterials.find(m => m.id === assignForm.watch('material_id'))?.price) || 0)
                                 ).toFixed(2)}
                               </p>
                             </div>
@@ -700,7 +700,7 @@ export default function Materials({ projectId }: MaterialsProps) {
 
 // OrderSummaryStats component
 function OrderSummaryStats({ orders }: { orders: any[] }) {
-  const totalValue = orders.reduce((sum, order) => sum + order.total_cost_eur, 0);
+  const totalValue = orders.reduce((sum, order) => sum + (order.total_price || order.total_cost_eur || 0), 0);
   const pendingOrdered = orders.filter(order => order.status === 'pending' || order.status === 'ordered').length;
 
   return (
@@ -851,10 +851,10 @@ function OrderCard({ order }: { order: any }) {
 
         <div className="flex items-center space-x-3">
           <div className="text-right">
-            <p className="font-semibold">€{order.total_cost_eur.toFixed(2)}</p>
+            <p className="font-semibold">€{(order.total_price || order.total_cost_eur || 0).toFixed(2)}</p>
             <p className="text-sm text-gray-600">{order.quantity} units</p>
-            {order.unit_price_eur && (
-              <p className="text-xs text-gray-500">€{order.unit_price_eur}/unit</p>
+            {(order.unit_price || order.unit_price_eur) && (
+              <p className="text-xs text-gray-500">€{order.unit_price || order.unit_price_eur}/unit</p>
             )}
           </div>
 
