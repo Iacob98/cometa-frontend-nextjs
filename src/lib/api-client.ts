@@ -405,7 +405,7 @@ export class SuppliersApiClient extends BaseApiClient {
 
 export class MaterialAllocationsApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/material-allocations`);
+    super(`${API_BASE_URL}/api/materials/allocations`);
   }
 
   async getAllocations(filters?: AllocationFilters): Promise<PaginatedResponse<MaterialAllocation>> {

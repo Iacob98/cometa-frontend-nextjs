@@ -83,7 +83,8 @@ export default function MaterialsPage() {
   const { data: materialsResponse, isLoading: materialsLoading, error: materialsError } = useMaterials(filters);
   const { data: lowStockMaterials } = useLowStockMaterials();
   const { data: suppliers } = useSuppliers();
-  const { data: allocations } = useAllocations();
+  const { data: allocationsData } = useAllocations();
+  const allocations = allocationsData?.allocations;
   const { data: ordersResponse } = useMaterialOrders({ page: 1, per_page: 10 });
 
   const materials = materialsResponse?.items || [];
@@ -104,15 +105,21 @@ export default function MaterialsPage() {
   };
 
   const getStockBadgeVariant = (material: Material) => {
-    if (material.current_stock <= material.min_stock_threshold) return "destructive";
-    if (material.current_stock <= material.min_stock_threshold * 1.2) return "outline";
+    const availableStock = material.available_stock_qty || 0;
+    const minThreshold = material.min_stock_level || material.min_stock_threshold || 10;
+    if (availableStock <= 0) return "destructive";
+    if (availableStock <= minThreshold) return "destructive";
+    if (availableStock <= minThreshold * 1.2) return "outline";
     return "secondary";
   };
 
   const getStockStatus = (material: Material) => {
-    if (material.current_stock <= material.min_stock_threshold) return "Low Stock";
-    if (material.current_stock <= material.min_stock_threshold * 1.2) return "Warning";
-    return "Normal";
+    const availableStock = material.available_stock_qty || 0;
+    const minThreshold = material.min_stock_level || material.min_stock_threshold || 10;
+    if (availableStock <= 0) return "Out of Stock";
+    if (availableStock <= minThreshold) return "Low Stock";
+    if (availableStock <= minThreshold * 1.2) return "Warning";
+    return "Available";
   };
 
   const formatCurrency = (amount: number) => {
@@ -234,7 +241,7 @@ export default function MaterialsPage() {
             <div className="text-2xl font-bold">
               {formatCurrency(
                 materials.reduce((sum, material) =>
-                  sum + (material.current_stock * material.unit_cost), 0
+                  sum + ((material.current_stock_qty || 0) * (material.unit_cost || 0)), 0
                 )
               )}
             </div>
@@ -373,10 +380,10 @@ export default function MaterialsPage() {
                         <TableCell>
                           <div>
                             <div className="font-medium">
-                              {material.current_stock} {formatUnit(material.unit)}
+                              {material.available_stock_qty || 0} {formatUnit(material.unit)}
                             </div>
                             <div className="text-sm text-muted-foreground">
-                              Min: {material.min_stock_threshold} {formatUnit(material.unit)}
+                              Reserved: {material.reserved_stock_qty || 0} (Total: {material.current_stock_qty || 0})
                             </div>
                           </div>
                         </TableCell>
@@ -387,7 +394,7 @@ export default function MaterialsPage() {
                         </TableCell>
                         <TableCell>
                           <div className="font-mono font-medium">
-                            {formatCurrency(material.current_stock * material.unit_cost)}
+                            {formatCurrency((material.current_stock_qty || 0) * (material.unit_cost || 0))}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -482,8 +489,8 @@ export default function MaterialsPage() {
                       <div className="space-y-1">
                         <div className="font-medium">{material.name}</div>
                         <div className="text-sm text-muted-foreground">
-                          Current: {material.current_stock} {formatUnit(material.unit)} /
-                          Min: {material.min_stock_threshold} {formatUnit(material.unit)}
+                          Available: {material.available_stock_qty || 0} {formatUnit(material.unit)} /
+                          Min: {material.min_stock_level || material.min_stock_threshold || 10} {formatUnit(material.unit)}
                         </div>
                       </div>
                       <div className="flex space-x-2">
@@ -1029,7 +1036,8 @@ export default function MaterialsPage() {
 
 // Chart Components for Materials Analytics
 const AllocationChart = () => {
-  const { data: allocations } = useAllocations();
+  const { data: allocationsData } = useAllocations();
+  const allocations = allocationsData?.allocations;
 
   const chartData = allocations?.reduce((acc, allocation) => {
     const category = allocation.material?.category || 'Other';
@@ -1061,7 +1069,8 @@ const AllocationChart = () => {
 };
 
 const ProjectAllocationChart = () => {
-  const { data: allocations } = useAllocations();
+  const { data: allocationsData } = useAllocations();
+  const allocations = allocationsData?.allocations;
 
   const chartData = allocations?.reduce((acc, allocation) => {
     const project = allocation.project_name || 'Unassigned';
