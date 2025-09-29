@@ -831,9 +831,11 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/trash-2.js [app-client] (ecmascript) <export default as Trash2>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Shield$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/shield.js [app-client] (ecmascript) <export default as Shield>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$teams$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/use-teams.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/sonner/dist/index.mjs [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
 'use client';
+;
 ;
 ;
 ;
@@ -853,27 +855,42 @@ function TeamAccess(param) {
     const handleUnassignTeam = async (teamId, teamName)=>{
         if (confirm('Are you sure you want to unassign team "'.concat(teamName, '" from this project?'))) {
             try {
-                await updateTeamMutation.mutateAsync({
+                updateTeamMutation.mutate({
                     id: teamId,
                     data: {
                         project_id: null
                     }
+                }, {
+                    onSuccess: ()=>{
+                        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].success('Team "'.concat(teamName, '" unassigned from project successfully'));
+                    },
+                    onError: (error)=>{
+                        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].error("Failed to unassign team: ".concat(error.message));
+                    }
                 });
             } catch (error) {
-            // Error is handled by the mutation
+                __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].error('Failed to unassign team from project');
             }
         }
     };
     const handleAssignTeam = async (teamId)=>{
         try {
-            await updateTeamMutation.mutateAsync({
+            updateTeamMutation.mutate({
                 id: teamId,
                 data: {
                     project_id: projectId
                 }
+            }, {
+                onSuccess: ()=>{
+                    setShowAssignDialog(false);
+                    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].success('Team assigned to project successfully');
+                },
+                onError: (error)=>{
+                    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].error("Failed to assign team: ".concat(error.message));
+                }
             });
         } catch (error) {
-        // Error is handled by the mutation
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].error('Failed to assign team to project');
         }
     };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -888,7 +905,7 @@ function TeamAccess(param) {
                             children: "Project Teams"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 62,
+                            lineNumber: 73,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -896,18 +913,18 @@ function TeamAccess(param) {
                             children: "Manage project teams. Foremen automatically get Work Entry access rights."
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 63,
+                            lineNumber: 74,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                    lineNumber: 61,
+                    lineNumber: 72,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                lineNumber: 60,
+                lineNumber: 71,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -918,7 +935,7 @@ function TeamAccess(param) {
                         children: "Teams Assigned to Project"
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                        lineNumber: 69,
+                        lineNumber: 80,
                         columnNumber: 13
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -937,19 +954,19 @@ function TeamAccess(param) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                lineNumber: 74,
+                                                lineNumber: 85,
                                                 columnNumber: 21
                                             }, this),
                                             "Assign Team"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                        lineNumber: 73,
+                                        lineNumber: 84,
                                         columnNumber: 19
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 72,
+                                    lineNumber: 83,
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogContent"], {
@@ -961,20 +978,20 @@ function TeamAccess(param) {
                                                     children: "Assign Team to Project"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 80,
+                                                    lineNumber: 91,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogDescription"], {
                                                     children: "Select a team to assign to this project. Only unassigned teams are shown."
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 81,
+                                                    lineNumber: 92,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                            lineNumber: 79,
+                                            lineNumber: 90,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -986,14 +1003,14 @@ function TeamAccess(param) {
                                                         className: "mx-auto h-8 w-8 mb-2 text-gray-400"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                        lineNumber: 88,
+                                                        lineNumber: 99,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         children: "No available teams to assign"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                        lineNumber: 89,
+                                                        lineNumber: 100,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1001,13 +1018,13 @@ function TeamAccess(param) {
                                                         children: "All teams are already assigned to projects"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                        lineNumber: 90,
+                                                        lineNumber: 101,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                lineNumber: 87,
+                                                lineNumber: 98,
                                                 columnNumber: 23
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "grid gap-2",
@@ -1029,7 +1046,7 @@ function TeamAccess(param) {
                                                                             children: team.name
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                                            lineNumber: 106,
+                                                                            lineNumber: 117,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         team.foreman_name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1039,20 +1056,20 @@ function TeamAccess(param) {
                                                                                     className: "w-3 h-3"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                                                    lineNumber: 109,
+                                                                                    lineNumber: 120,
                                                                                     columnNumber: 37
                                                                                 }, this),
                                                                                 team.foreman_name
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                                            lineNumber: 108,
+                                                                            lineNumber: 119,
                                                                             columnNumber: 35
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                                    lineNumber: 105,
+                                                                    lineNumber: 116,
                                                                     columnNumber: 31
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1065,7 +1082,7 @@ function TeamAccess(param) {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                                            lineNumber: 115,
+                                                                            lineNumber: 126,
                                                                             columnNumber: 33
                                                                         }, this),
                                                                         team.is_active && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1073,57 +1090,57 @@ function TeamAccess(param) {
                                                                             children: "Active"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                                            lineNumber: 117,
+                                                                            lineNumber: 128,
                                                                             columnNumber: 35
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                                    lineNumber: 114,
+                                                                    lineNumber: 125,
                                                                     columnNumber: 31
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                            lineNumber: 104,
+                                                            lineNumber: 115,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, team.id, false, {
                                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                        lineNumber: 95,
+                                                        lineNumber: 106,
                                                         columnNumber: 27
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                lineNumber: 93,
+                                                lineNumber: 104,
                                                 columnNumber: 23
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                            lineNumber: 85,
+                                            lineNumber: 96,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 78,
+                                    lineNumber: 89,
                                     columnNumber: 17
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 71,
+                            lineNumber: 82,
                             columnNumber: 15
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                        lineNumber: 70,
+                        lineNumber: 81,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                lineNumber: 68,
+                lineNumber: 79,
                 columnNumber: 11
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1134,7 +1151,7 @@ function TeamAccess(param) {
                                 children: "Project Teams"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                lineNumber: 134,
+                                lineNumber: 145,
                                 columnNumber: 15
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -1144,13 +1161,13 @@ function TeamAccess(param) {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                lineNumber: 135,
+                                lineNumber: 146,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                        lineNumber: 133,
+                        lineNumber: 144,
                         columnNumber: 13
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1158,7 +1175,7 @@ function TeamAccess(param) {
                             children: "Loading teams..."
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 141,
+                            lineNumber: 152,
                             columnNumber: 17
                         }, this) : !projectTeams || projectTeams.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "text-center py-8",
@@ -1167,7 +1184,7 @@ function TeamAccess(param) {
                                     className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 144,
+                                    lineNumber: 155,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1175,7 +1192,7 @@ function TeamAccess(param) {
                                     children: "No Teams Assigned"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 145,
+                                    lineNumber: 156,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1183,13 +1200,13 @@ function TeamAccess(param) {
                                     children: "Assign teams from the global teams list to get started."
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 146,
+                                    lineNumber: 157,
                                     columnNumber: 19
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 143,
+                            lineNumber: 154,
                             columnNumber: 17
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "overflow-x-auto",
@@ -1202,46 +1219,46 @@ function TeamAccess(param) {
                                                     children: "Team Name"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 155,
+                                                    lineNumber: 166,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                     children: "Foreman"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 156,
+                                                    lineNumber: 167,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                     children: "Status"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 157,
+                                                    lineNumber: 168,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                     children: "Members"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 158,
+                                                    lineNumber: 169,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                     children: "Actions"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 159,
+                                                    lineNumber: 170,
                                                     columnNumber: 25
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                            lineNumber: 154,
+                                            lineNumber: 165,
                                             columnNumber: 23
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                        lineNumber: 153,
+                                        lineNumber: 164,
                                         columnNumber: 21
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableBody"], {
@@ -1252,7 +1269,7 @@ function TeamAccess(param) {
                                                         children: team.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                        lineNumber: 165,
+                                                        lineNumber: 176,
                                                         columnNumber: 27
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1263,26 +1280,26 @@ function TeamAccess(param) {
                                                                     className: "w-4 h-4 text-blue-600"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                                    lineNumber: 171,
+                                                                    lineNumber: 182,
                                                                     columnNumber: 33
                                                                 }, this),
                                                                 team.foreman_name
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                            lineNumber: 170,
+                                                            lineNumber: 181,
                                                             columnNumber: 31
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "text-gray-400",
                                                             children: "Not assigned"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                            lineNumber: 175,
+                                                            lineNumber: 186,
                                                             columnNumber: 31
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                        lineNumber: 168,
+                                                        lineNumber: 179,
                                                         columnNumber: 27
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1291,12 +1308,12 @@ function TeamAccess(param) {
                                                             children: team.is_active ? "Active" : "Inactive"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                            lineNumber: 179,
+                                                            lineNumber: 190,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                        lineNumber: 178,
+                                                        lineNumber: 189,
                                                         columnNumber: 27
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1308,12 +1325,12 @@ function TeamAccess(param) {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                            lineNumber: 186,
+                                                            lineNumber: 197,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                        lineNumber: 185,
+                                                        lineNumber: 196,
                                                         columnNumber: 27
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1327,52 +1344,52 @@ function TeamAccess(param) {
                                                                     className: "w-4 h-4 text-red-500"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                                    lineNumber: 197,
+                                                                    lineNumber: 208,
                                                                     columnNumber: 31
                                                                 }, this),
                                                                 "Unassign"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                            lineNumber: 191,
+                                                            lineNumber: 202,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                        lineNumber: 190,
+                                                        lineNumber: 201,
                                                         columnNumber: 27
                                                     }, this)
                                                 ]
                                             }, team.id, true, {
                                                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                lineNumber: 164,
+                                                lineNumber: 175,
                                                 columnNumber: 25
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                        lineNumber: 162,
+                                        lineNumber: 173,
                                         columnNumber: 21
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                lineNumber: 152,
+                                lineNumber: 163,
                                 columnNumber: 19
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 151,
+                            lineNumber: 162,
                             columnNumber: 17
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                        lineNumber: 139,
+                        lineNumber: 150,
                         columnNumber: 13
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                lineNumber: 132,
+                lineNumber: 143,
                 columnNumber: 11
             }, this),
             projectTeams && projectTeams.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1387,7 +1404,7 @@ function TeamAccess(param) {
                                     children: projectTeams.length
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 215,
+                                    lineNumber: 226,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1395,18 +1412,18 @@ function TeamAccess(param) {
                                     children: "Total Teams"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 216,
+                                    lineNumber: 227,
                                     columnNumber: 19
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 214,
+                            lineNumber: 225,
                             columnNumber: 17
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                        lineNumber: 213,
+                        lineNumber: 224,
                         columnNumber: 15
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1418,7 +1435,7 @@ function TeamAccess(param) {
                                     children: projectTeams.filter((t)=>t.foreman_name).length
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 221,
+                                    lineNumber: 232,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1426,18 +1443,18 @@ function TeamAccess(param) {
                                     children: "With Foremen"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 224,
+                                    lineNumber: 235,
                                     columnNumber: 19
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 220,
+                            lineNumber: 231,
                             columnNumber: 17
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                        lineNumber: 219,
+                        lineNumber: 230,
                         columnNumber: 15
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1449,7 +1466,7 @@ function TeamAccess(param) {
                                     children: projectTeams.filter((t)=>t.is_active).length
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 229,
+                                    lineNumber: 240,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1457,18 +1474,18 @@ function TeamAccess(param) {
                                     children: "Active Teams"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 232,
+                                    lineNumber: 243,
                                     columnNumber: 19
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 228,
+                            lineNumber: 239,
                             columnNumber: 17
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                        lineNumber: 227,
+                        lineNumber: 238,
                         columnNumber: 15
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1480,7 +1497,7 @@ function TeamAccess(param) {
                                     children: projectTeams.reduce((sum, t)=>sum + (t.member_count || 0), 0)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 237,
+                                    lineNumber: 248,
                                     columnNumber: 19
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1488,24 +1505,24 @@ function TeamAccess(param) {
                                     children: "Total Members"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 240,
+                                    lineNumber: 251,
                                     columnNumber: 19
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 236,
+                            lineNumber: 247,
                             columnNumber: 17
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                        lineNumber: 235,
+                        lineNumber: 246,
                         columnNumber: 15
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                lineNumber: 212,
+                lineNumber: 223,
                 columnNumber: 13
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1516,20 +1533,20 @@ function TeamAccess(param) {
                                 children: "Team Access Rights"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                lineNumber: 250,
+                                lineNumber: 261,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                 children: "Foremen automatically get Work Entry permissions when their team is assigned to this project"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                lineNumber: 251,
+                                lineNumber: 262,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                        lineNumber: 249,
+                        lineNumber: 260,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1543,7 +1560,7 @@ function TeamAccess(param) {
                                             className: "w-5 h-5 text-blue-600 mt-0.5"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                            lineNumber: 258,
+                                            lineNumber: 269,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1553,7 +1570,7 @@ function TeamAccess(param) {
                                                     children: "Foreman Access"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 260,
+                                                    lineNumber: 271,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1561,19 +1578,19 @@ function TeamAccess(param) {
                                                     children: "Can create Work Entries and upload progress photos for their team's work"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 261,
+                                                    lineNumber: 272,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                            lineNumber: 259,
+                                            lineNumber: 270,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 257,
+                                    lineNumber: 268,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1583,7 +1600,7 @@ function TeamAccess(param) {
                                             className: "w-5 h-5 text-green-600 mt-0.5"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                            lineNumber: 267,
+                                            lineNumber: 278,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1593,7 +1610,7 @@ function TeamAccess(param) {
                                                     children: "Crew Members"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 269,
+                                                    lineNumber: 280,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1601,42 +1618,42 @@ function TeamAccess(param) {
                                                     children: "Work under foreman supervision, can view work assignments"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                                    lineNumber: 270,
+                                                    lineNumber: 281,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                            lineNumber: 268,
+                                            lineNumber: 279,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                                    lineNumber: 266,
+                                    lineNumber: 277,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                            lineNumber: 256,
+                            lineNumber: 267,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                        lineNumber: 255,
+                        lineNumber: 266,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/team-access.tsx",
-                lineNumber: 248,
+                lineNumber: 259,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/project-preparation/team-access.tsx",
-        lineNumber: 59,
+        lineNumber: 70,
         columnNumber: 5
     }, this);
 }

@@ -27,6 +27,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/file-text.js [app-client] (ecmascript) <export default as FileText>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$router$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Router$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/router.js [app-client] (ecmascript) <export default as Router>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$construction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Construction$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/construction.js [app-client] (ecmascript) <export default as Construction>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$upload$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Upload$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/upload.js [app-client] (ecmascript) <export default as Upload>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/download.js [app-client] (ecmascript) <export default as Download>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/eye.js [app-client] (ecmascript) <export default as Eye>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$zone$2d$layout$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/use-zone-layout.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/sonner/dist/index.mjs [app-client] (ecmascript)");
 ;
@@ -119,6 +122,7 @@ const CONSTRAINT_TYPES = [
 ];
 function ZoneLayout(param) {
     let { projectId } = param;
+    var _cabinets_find, _cabinets_find1, _cabinets_find2, _cabinets_find3, _cabinets_find4, _cabinets_find5, _cabinets_find6;
     _s();
     const { data: cabinets, isLoading: cabinetsLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$zone$2d$layout$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCabinets"])(projectId);
     const createCabinetMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$zone$2d$layout$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCreateCabinet"])();
@@ -140,6 +144,71 @@ function ZoneLayout(param) {
         description: ''
     });
     const [savedConstraints, setSavedConstraints] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    // Installation tab state
+    const [selectedCabinetId, setSelectedCabinetId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
+    const [uploadingFile, setUploadingFile] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [cabinetFiles, setCabinetFiles] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
+    // Auto-select first cabinet when cabinets load
+    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useEffect({
+        "ZoneLayout.useEffect": ()=>{
+            if (cabinets && cabinets.length > 0 && !selectedCabinetId) {
+                setSelectedCabinetId(cabinets[0].id);
+            }
+        }
+    }["ZoneLayout.useEffect"], [
+        cabinets,
+        selectedCabinetId
+    ]);
+    // Load files when cabinet is selected
+    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].useEffect({
+        "ZoneLayout.useEffect": ()=>{
+            if (selectedCabinetId) {
+                fetchCabinetFiles(selectedCabinetId);
+            }
+        }
+    }["ZoneLayout.useEffect"], [
+        selectedCabinetId
+    ]);
+    const fetchCabinetFiles = async (cabinetId)=>{
+        try {
+            const response = await fetch("/api/zone-layout/cabinets/".concat(cabinetId, "/upload"));
+            if (response.ok) {
+                const files = await response.json();
+                setCabinetFiles(files);
+            }
+        } catch (error) {
+            console.error('Failed to fetch cabinet files:', error);
+        }
+    };
+    const handleFileUpload = async (files)=>{
+        if (!selectedCabinetId || files.length === 0) return;
+        setUploadingFile(true);
+        try {
+            for (const file of Array.from(files)){
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('installation_type', 'connection_plan');
+                const response = await fetch("/api/zone-layout/cabinets/".concat(selectedCabinetId, "/upload"), {
+                    method: 'POST',
+                    body: formData
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].success('File "'.concat(file.name, '" uploaded successfully'));
+                } else {
+                    const error = await response.json();
+                    __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].error('Failed to upload "'.concat(file.name, '": ').concat(error.error));
+                }
+            }
+            // Refresh file list
+            await fetchCabinetFiles(selectedCabinetId);
+        } catch (error) {
+            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["toast"].error('Upload failed');
+            console.error('Upload error:', error);
+        } finally{
+            setUploadingFile(false);
+        }
+    };
     const handleSubmitCabinet = async (e)=>{
         e.preventDefault();
         if (!cabinetFormData.code || !cabinetFormData.name) {
@@ -283,7 +352,7 @@ function ZoneLayout(param) {
                             children: "Zone Layout Management"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                            lineNumber: 232,
+                            lineNumber: 301,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -291,18 +360,18 @@ function ZoneLayout(param) {
                             children: "Manage cabinets and project constraints"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                            lineNumber: 233,
+                            lineNumber: 302,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                    lineNumber: 231,
+                    lineNumber: 300,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                lineNumber: 230,
+                lineNumber: 299,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tabs"], {
@@ -320,14 +389,14 @@ function ZoneLayout(param) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 242,
+                                        lineNumber: 311,
                                         columnNumber: 13
                                     }, this),
                                     "NVT Points"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                lineNumber: 241,
+                                lineNumber: 310,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -338,14 +407,14 @@ function ZoneLayout(param) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 246,
+                                        lineNumber: 315,
                                         columnNumber: 13
                                     }, this),
                                     "Constraints"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                lineNumber: 245,
+                                lineNumber: 314,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -356,20 +425,20 @@ function ZoneLayout(param) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 250,
+                                        lineNumber: 319,
                                         columnNumber: 13
                                     }, this),
                                     "Installation"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                lineNumber: 249,
+                                lineNumber: 318,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                        lineNumber: 240,
+                        lineNumber: 309,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -384,7 +453,7 @@ function ZoneLayout(param) {
                                         children: "NVT Points (Network Termination)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 258,
+                                        lineNumber: 327,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -395,20 +464,20 @@ function ZoneLayout(param) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 263,
+                                                lineNumber: 332,
                                                 columnNumber: 15
                                             }, this),
                                             "Add NVT Point"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 259,
+                                        lineNumber: 328,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                lineNumber: 257,
+                                lineNumber: 326,
                                 columnNumber: 11
                             }, this),
                             showCabinetForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -419,20 +488,20 @@ function ZoneLayout(param) {
                                                 children: editingCabinetId ? 'Edit NVT Point' : 'Add New NVT Point'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 272,
+                                                lineNumber: 341,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                 children: editingCabinetId ? 'Update network termination point information' : 'Create a new network termination point for the project'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 275,
+                                                lineNumber: 344,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 271,
+                                        lineNumber: 340,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -450,7 +519,7 @@ function ZoneLayout(param) {
                                                                     children: "NVT Code *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 286,
+                                                                    lineNumber: 355,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -464,13 +533,13 @@ function ZoneLayout(param) {
                                                                     required: true
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 287,
+                                                                    lineNumber: 356,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 285,
+                                                            lineNumber: 354,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -480,7 +549,7 @@ function ZoneLayout(param) {
                                                                     children: "Name *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 297,
+                                                                    lineNumber: 366,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -494,13 +563,13 @@ function ZoneLayout(param) {
                                                                     required: true
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 298,
+                                                                    lineNumber: 367,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 296,
+                                                            lineNumber: 365,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -511,7 +580,7 @@ function ZoneLayout(param) {
                                                                     children: "Address"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 308,
+                                                                    lineNumber: 377,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -524,13 +593,13 @@ function ZoneLayout(param) {
                                                                     placeholder: "Müllerstraße 1, 13353 Berlin"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 309,
+                                                                    lineNumber: 378,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 307,
+                                                            lineNumber: 376,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -541,7 +610,7 @@ function ZoneLayout(param) {
                                                                     children: "Notes"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 318,
+                                                                    lineNumber: 387,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -555,19 +624,19 @@ function ZoneLayout(param) {
                                                                     rows: 3
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 319,
+                                                                    lineNumber: 388,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 317,
+                                                            lineNumber: 386,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 284,
+                                                    lineNumber: 353,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -579,7 +648,7 @@ function ZoneLayout(param) {
                                                             children: editingCabinetId ? 'Update NVT Point' : 'Create NVT Point'
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 330,
+                                                            lineNumber: 399,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -589,30 +658,30 @@ function ZoneLayout(param) {
                                                             children: "Cancel"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 336,
+                                                            lineNumber: 405,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 329,
+                                                    lineNumber: 398,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 283,
+                                            lineNumber: 352,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 282,
+                                        lineNumber: 351,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                lineNumber: 270,
+                                lineNumber: 339,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -623,7 +692,7 @@ function ZoneLayout(param) {
                                                 children: "NVT Points List"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 352,
+                                                lineNumber: 421,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -633,13 +702,13 @@ function ZoneLayout(param) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 353,
+                                                lineNumber: 422,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 351,
+                                        lineNumber: 420,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -647,7 +716,7 @@ function ZoneLayout(param) {
                                             children: "Loading cabinets..."
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 359,
+                                            lineNumber: 428,
                                             columnNumber: 17
                                         }, this) : !cabinets || cabinets.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "text-center py-8",
@@ -656,7 +725,7 @@ function ZoneLayout(param) {
                                                     className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 362,
+                                                    lineNumber: 431,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -664,7 +733,7 @@ function ZoneLayout(param) {
                                                     children: "No NVT Points"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 363,
+                                                    lineNumber: 432,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -672,7 +741,7 @@ function ZoneLayout(param) {
                                                     children: "Add network termination points to get started."
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 364,
+                                                    lineNumber: 433,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -680,13 +749,13 @@ function ZoneLayout(param) {
                                                     children: "Add First NVT Point"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 367,
+                                                    lineNumber: 436,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 361,
+                                            lineNumber: 430,
                                             columnNumber: 17
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "overflow-x-auto",
@@ -699,53 +768,53 @@ function ZoneLayout(param) {
                                                                     children: "Code"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 376,
+                                                                    lineNumber: 445,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                     children: "Name"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 377,
+                                                                    lineNumber: 446,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                     children: "Address"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 378,
+                                                                    lineNumber: 447,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                     children: "Segments"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 379,
+                                                                    lineNumber: 448,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                     children: "Total Length"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 380,
+                                                                    lineNumber: 449,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                     children: "Actions"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 381,
+                                                                    lineNumber: 450,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 375,
+                                                            lineNumber: 444,
                                                             columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                        lineNumber: 374,
+                                                        lineNumber: 443,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableBody"], {
@@ -756,14 +825,14 @@ function ZoneLayout(param) {
                                                                         children: cabinet.code
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 387,
+                                                                        lineNumber: 456,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
                                                                         children: cabinet.name
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 390,
+                                                                        lineNumber: 459,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -774,26 +843,26 @@ function ZoneLayout(param) {
                                                                                     className: "w-4 h-4 text-gray-400"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 394,
+                                                                                    lineNumber: 463,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 cabinet.address
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 393,
+                                                                            lineNumber: 462,
                                                                             columnNumber: 31
                                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                             className: "text-gray-400",
                                                                             children: "-"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 398,
+                                                                            lineNumber: 467,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 391,
+                                                                        lineNumber: 460,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -805,19 +874,19 @@ function ZoneLayout(param) {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 402,
+                                                                            lineNumber: 471,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 401,
+                                                                        lineNumber: 470,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
                                                                         children: cabinet.total_length ? "".concat(cabinet.total_length.toFixed(1), "m") : '0.0m'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 406,
+                                                                        lineNumber: 475,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -833,12 +902,12 @@ function ZoneLayout(param) {
                                                                                         className: "w-4 h-4"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                        lineNumber: 417,
+                                                                                        lineNumber: 486,
                                                                                         columnNumber: 33
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 411,
+                                                                                    lineNumber: 480,
                                                                                     columnNumber: 31
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -850,62 +919,62 @@ function ZoneLayout(param) {
                                                                                         className: "w-4 h-4 text-red-500"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                        lineNumber: 425,
+                                                                                        lineNumber: 494,
                                                                                         columnNumber: 33
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 419,
+                                                                                    lineNumber: 488,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 410,
+                                                                            lineNumber: 479,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 409,
+                                                                        lineNumber: 478,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, cabinet.id, true, {
                                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                lineNumber: 386,
+                                                                lineNumber: 455,
                                                                 columnNumber: 25
                                                             }, this))
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                        lineNumber: 384,
+                                                        lineNumber: 453,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 373,
+                                                lineNumber: 442,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 372,
+                                            lineNumber: 441,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 357,
+                                        lineNumber: 426,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                lineNumber: 350,
+                                lineNumber: 419,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                        lineNumber: 256,
+                        lineNumber: 325,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -920,7 +989,7 @@ function ZoneLayout(param) {
                                         children: "Project Constraints & Obstacles"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 443,
+                                        lineNumber: 512,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -931,20 +1000,20 @@ function ZoneLayout(param) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 448,
+                                                lineNumber: 517,
                                                 columnNumber: 15
                                             }, this),
                                             "Add Constraint"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 444,
+                                        lineNumber: 513,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                lineNumber: 442,
+                                lineNumber: 511,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -955,20 +1024,20 @@ function ZoneLayout(param) {
                                                 children: "Planned Constraint Types"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 456,
+                                                lineNumber: 525,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                 children: "Common obstacles encountered during fiber optic installation"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 457,
+                                                lineNumber: 526,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 455,
+                                        lineNumber: 524,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -983,7 +1052,7 @@ function ZoneLayout(param) {
                                                             className: "w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 467,
+                                                            lineNumber: 536,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -993,7 +1062,7 @@ function ZoneLayout(param) {
                                                                     children: constraint.label
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 469,
+                                                                    lineNumber: 538,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1001,36 +1070,36 @@ function ZoneLayout(param) {
                                                                     children: constraint.description
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 470,
+                                                                    lineNumber: 539,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 468,
+                                                            lineNumber: 537,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, constraint.value, true, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 466,
+                                                    lineNumber: 535,
                                                     columnNumber: 21
                                                 }, this);
                                             })
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 462,
+                                            lineNumber: 531,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 461,
+                                        lineNumber: 530,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                lineNumber: 454,
+                                lineNumber: 523,
                                 columnNumber: 11
                             }, this),
                             showConstraintForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1041,20 +1110,20 @@ function ZoneLayout(param) {
                                                 children: "Add Project Constraint"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 483,
+                                                lineNumber: 552,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                 children: "Document obstacles and restrictions for planning"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 484,
+                                                lineNumber: 553,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 482,
+                                        lineNumber: 551,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1072,7 +1141,7 @@ function ZoneLayout(param) {
                                                                     children: "Constraint Type *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 492,
+                                                                    lineNumber: 561,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -1087,12 +1156,12 @@ function ZoneLayout(param) {
                                                                                 placeholder: "Select constraint type"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                lineNumber: 498,
+                                                                                lineNumber: 567,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 497,
+                                                                            lineNumber: 566,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1107,37 +1176,37 @@ function ZoneLayout(param) {
                                                                                                 className: "w-4 h-4"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                                lineNumber: 506,
+                                                                                                lineNumber: 575,
                                                                                                 columnNumber: 35
                                                                                             }, this),
                                                                                             type.label
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                        lineNumber: 505,
+                                                                                        lineNumber: 574,
                                                                                         columnNumber: 33
                                                                                     }, this)
                                                                                 }, type.value, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 504,
+                                                                                    lineNumber: 573,
                                                                                     columnNumber: 31
                                                                                 }, this);
                                                                             })
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 500,
+                                                                            lineNumber: 569,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 493,
+                                                                    lineNumber: 562,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 491,
+                                                            lineNumber: 560,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1147,7 +1216,7 @@ function ZoneLayout(param) {
                                                                     children: "Criticality *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 517,
+                                                                    lineNumber: 586,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -1162,12 +1231,12 @@ function ZoneLayout(param) {
                                                                                 placeholder: "Select severity"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                lineNumber: 523,
+                                                                                lineNumber: 592,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 522,
+                                                                            lineNumber: 591,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1181,19 +1250,19 @@ function ZoneLayout(param) {
                                                                                                 className: "w-3 h-3 bg-green-500 rounded-full"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                                lineNumber: 528,
+                                                                                                lineNumber: 597,
                                                                                                 columnNumber: 31
                                                                                             }, this),
                                                                                             "Low"
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                        lineNumber: 527,
+                                                                                        lineNumber: 596,
                                                                                         columnNumber: 29
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 526,
+                                                                                    lineNumber: 595,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1205,19 +1274,19 @@ function ZoneLayout(param) {
                                                                                                 className: "w-3 h-3 bg-yellow-500 rounded-full"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                                lineNumber: 534,
+                                                                                                lineNumber: 603,
                                                                                                 columnNumber: 31
                                                                                             }, this),
                                                                                             "Medium"
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                        lineNumber: 533,
+                                                                                        lineNumber: 602,
                                                                                         columnNumber: 29
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 532,
+                                                                                    lineNumber: 601,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1229,19 +1298,19 @@ function ZoneLayout(param) {
                                                                                                 className: "w-3 h-3 bg-orange-500 rounded-full"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                                lineNumber: 540,
+                                                                                                lineNumber: 609,
                                                                                                 columnNumber: 31
                                                                                             }, this),
                                                                                             "High"
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                        lineNumber: 539,
+                                                                                        lineNumber: 608,
                                                                                         columnNumber: 29
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 538,
+                                                                                    lineNumber: 607,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -1253,37 +1322,37 @@ function ZoneLayout(param) {
                                                                                                 className: "w-3 h-3 bg-red-500 rounded-full"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                                lineNumber: 546,
+                                                                                                lineNumber: 615,
                                                                                                 columnNumber: 31
                                                                                             }, this),
                                                                                             "Critical"
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                        lineNumber: 545,
+                                                                                        lineNumber: 614,
                                                                                         columnNumber: 29
                                                                                     }, this)
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 544,
+                                                                                    lineNumber: 613,
                                                                                     columnNumber: 27
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 525,
+                                                                            lineNumber: 594,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 518,
+                                                                    lineNumber: 587,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 516,
+                                                            lineNumber: 585,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1294,7 +1363,7 @@ function ZoneLayout(param) {
                                                                     children: "Location"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 555,
+                                                                    lineNumber: 624,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1307,13 +1376,13 @@ function ZoneLayout(param) {
                                                                     placeholder: "Specific location or address"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 556,
+                                                                    lineNumber: 625,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 554,
+                                                            lineNumber: 623,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1324,7 +1393,7 @@ function ZoneLayout(param) {
                                                                     children: "Constraint Description *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 565,
+                                                                    lineNumber: 634,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1339,19 +1408,19 @@ function ZoneLayout(param) {
                                                                     required: true
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 566,
+                                                                    lineNumber: 635,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 564,
+                                                            lineNumber: 633,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 490,
+                                                    lineNumber: 559,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1362,7 +1431,7 @@ function ZoneLayout(param) {
                                                             children: "Add Constraint"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 578,
+                                                            lineNumber: 647,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1372,30 +1441,30 @@ function ZoneLayout(param) {
                                                             children: "Cancel"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 581,
+                                                            lineNumber: 650,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 577,
+                                                    lineNumber: 646,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 489,
+                                            lineNumber: 558,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 488,
+                                        lineNumber: 557,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                lineNumber: 481,
+                                lineNumber: 550,
                                 columnNumber: 13
                             }, this),
                             savedConstraints.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1406,7 +1475,7 @@ function ZoneLayout(param) {
                                                 children: "Saved Project Constraints"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 598,
+                                                lineNumber: 667,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -1418,13 +1487,13 @@ function ZoneLayout(param) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 599,
+                                                lineNumber: 668,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 597,
+                                        lineNumber: 666,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1439,35 +1508,35 @@ function ZoneLayout(param) {
                                                                     children: "Type"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 608,
+                                                                    lineNumber: 677,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                     children: "Severity"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 609,
+                                                                    lineNumber: 678,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                     children: "Location"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 610,
+                                                                    lineNumber: 679,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                     children: "Description"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 611,
+                                                                    lineNumber: 680,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                                     children: "Added"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 612,
+                                                                    lineNumber: 681,
                                                                     columnNumber: 25
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
@@ -1475,18 +1544,18 @@ function ZoneLayout(param) {
                                                                     children: "Actions"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 613,
+                                                                    lineNumber: 682,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 607,
+                                                            lineNumber: 676,
                                                             columnNumber: 23
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                        lineNumber: 606,
+                                                        lineNumber: 675,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableBody"], {
@@ -1503,19 +1572,19 @@ function ZoneLayout(param) {
                                                                                     className: "w-4 h-4 text-blue-500"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 625,
+                                                                                    lineNumber: 694,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 (constraintType === null || constraintType === void 0 ? void 0 : constraintType.label) || constraint.type
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 624,
+                                                                            lineNumber: 693,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 623,
+                                                                        lineNumber: 692,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1525,12 +1594,12 @@ function ZoneLayout(param) {
                                                                             children: constraint.severity.charAt(0).toUpperCase() + constraint.severity.slice(1)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 630,
+                                                                            lineNumber: 699,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 629,
+                                                                        lineNumber: 698,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1539,12 +1608,12 @@ function ZoneLayout(param) {
                                                                             children: "-"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 635,
+                                                                            lineNumber: 704,
                                                                             columnNumber: 55
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 634,
+                                                                        lineNumber: 703,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1555,12 +1624,12 @@ function ZoneLayout(param) {
                                                                             children: constraint.description
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 638,
+                                                                            lineNumber: 707,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 637,
+                                                                        lineNumber: 706,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1568,7 +1637,7 @@ function ZoneLayout(param) {
                                                                         children: constraint.createdAt
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 642,
+                                                                        lineNumber: 711,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1581,710 +1650,1104 @@ function ZoneLayout(param) {
                                                                                 className: "w-4 h-4"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                lineNumber: 652,
+                                                                                lineNumber: 721,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 646,
+                                                                            lineNumber: 715,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                        lineNumber: 645,
+                                                                        lineNumber: 714,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, constraint.id, true, {
                                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                lineNumber: 622,
+                                                                lineNumber: 691,
                                                                 columnNumber: 27
                                                             }, this);
                                                         })
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                        lineNumber: 616,
+                                                        lineNumber: 685,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                lineNumber: 605,
+                                                lineNumber: 674,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 604,
+                                            lineNumber: 673,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                        lineNumber: 603,
+                                        lineNumber: 672,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                lineNumber: 596,
+                                lineNumber: 665,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                        lineNumber: 441,
+                        lineNumber: 510,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
                         value: "installation",
                         className: "space-y-4",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
-                                            children: "Cabinet Installation Plans"
-                                        }, void 0, false, {
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
+                                                children: "Select NVT Point for Installation Plans"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                lineNumber: 740,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
+                                                children: "Choose a specific NVT point to view and manage installation plans"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                lineNumber: 741,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                        lineNumber: 739,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
+                                        children: !cabinets || cabinets.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-center py-8",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$router$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Router$3e$__["Router"], {
+                                                    className: "mx-auto h-12 w-12 text-gray-400 mb-4"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                    lineNumber: 748,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                    className: "text-lg font-medium mb-2",
+                                                    children: "No NVT Points Available"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                    lineNumber: 749,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    className: "text-gray-600 mb-4",
+                                                    children: "Create NVT points first to manage installation plans."
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                    lineNumber: 750,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                    onClick: ()=>setShowCabinetForm(true),
+                                                    children: "Add NVT Point"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                    lineNumber: 753,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 670,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
-                                            children: "Installation procedures for new cabinet enclosures"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 671,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                    lineNumber: 669,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "grid grid-cols-1 md:grid-cols-2 gap-6",
+                                            lineNumber: 747,
+                                            columnNumber: 17
+                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-4",
                                             children: [
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                     children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                                            className: "text-lg font-semibold mb-4 flex items-center gap-2",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$construction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Construction$3e$__["Construction"], {
-                                                                    className: "w-5 h-5"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 680,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                "Lower Cabinet Part"
-                                                            ]
-                                                        }, void 0, true, {
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                            htmlFor: "cabinet-select",
+                                                            children: "Select NVT Point"
+                                                        }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 679,
-                                                            columnNumber: 19
+                                                            lineNumber: 760,
+                                                            columnNumber: 21
                                                         }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "space-y-4",
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
+                                                            value: selectedCabinetId || "",
+                                                            onValueChange: setSelectedCabinetId,
                                                             children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
-                                                                            className: "font-medium flex items-center gap-2",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__["MapPin"], {
-                                                                                    className: "w-4 h-4 text-blue-500"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 686,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                "1. Installation Site Marking"
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 685,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                                            className: "text-sm text-gray-600 ml-6 space-y-1",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Determine exact location per project"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 690,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Check for absence of utility lines"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 691,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Mark excavation outline"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 692,
-                                                                                    columnNumber: 25
-                                                                                }, this)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 689,
-                                                                            columnNumber: 23
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 684,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
-                                                                            className: "font-medium flex items-center gap-2",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$construction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Construction$3e$__["Construction"], {
-                                                                                    className: "w-4 h-4 text-orange-500"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 698,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                "2. Earthwork"
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 697,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                                            className: "text-sm text-gray-600 ml-6 space-y-1",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Excavate pit according to cabinet size"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 702,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Depth: typically 1.2-1.5m"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 703,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Install formwork if needed"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 704,
-                                                                                    columnNumber: 25
-                                                                                }, this)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 701,
-                                                                            columnNumber: 23
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 696,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
-                                                                            className: "font-medium flex items-center gap-2",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$router$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Router$3e$__["Router"], {
-                                                                                    className: "w-4 h-4 text-green-500"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 710,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                "3. Cable Routing"
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 709,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                                            className: "text-sm text-gray-600 ml-6 space-y-1",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Route incoming cables to installation site"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 714,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Prepare cable penetrations"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 715,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Ensure watertight sealing"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 716,
-                                                                                    columnNumber: 25
-                                                                                }, this)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 713,
-                                                                            columnNumber: 23
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 708,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
-                                                                            className: "font-medium flex items-center gap-2",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Package$3e$__["Package"], {
-                                                                                    className: "w-4 h-4 text-purple-500"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 722,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                "4. Lower Part Installation"
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 721,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                                            className: "text-sm text-gray-600 ml-6 space-y-1",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Install cabinet base"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 726,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Level with spirit level"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 727,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Backfill and compact"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 728,
-                                                                                    columnNumber: 25
-                                                                                }, this)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 725,
-                                                                            columnNumber: 23
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 720,
-                                                                    columnNumber: 21
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 683,
-                                                            columnNumber: 19
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 678,
-                                                    columnNumber: 17
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                                            className: "text-lg font-semibold mb-4 flex items-center gap-2",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$router$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Router$3e$__["Router"], {
-                                                                    className: "w-5 h-5"
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                                        placeholder: "Choose an NVT Point..."
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 766,
+                                                                        columnNumber: 25
+                                                                    }, this)
                                                                 }, void 0, false, {
-                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 737,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                "Upper Cabinet Part"
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 736,
-                                                            columnNumber: 19
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "space-y-4",
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
-                                                                            className: "font-medium flex items-center gap-2",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
-                                                                                    className: "w-4 h-4 text-blue-500"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 743,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                "1. Preparation per Plans"
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 742,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                                            className: "text-sm text-gray-600 ml-6 space-y-1",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Study connection diagram"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 747,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Prepare required materials"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 748,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Check equipment completeness"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 749,
-                                                                                    columnNumber: 25
-                                                                                }, this)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 746,
-                                                                            columnNumber: 23
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 741,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
-                                                                            className: "font-medium flex items-center gap-2",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$router$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Router$3e$__["Router"], {
-                                                                                    className: "w-4 h-4 text-green-500"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 755,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                "2. Connection Assembly"
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 754,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                                            className: "text-sm text-gray-600 ml-6 space-y-1",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Route all cables into cabinet"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 759,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Perform fiber splicing per diagram"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 760,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Install splitters and patch panels"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 761,
-                                                                                    columnNumber: 25
-                                                                                }, this)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 758,
-                                                                            columnNumber: 23
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 753,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
-                                                                            className: "font-medium flex items-center gap-2",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Package$3e$__["Package"], {
-                                                                                    className: "w-4 h-4 text-purple-500"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 767,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                "3. Equipment Connection"
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 766,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                                            className: "text-sm text-gray-600 ml-6 space-y-1",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Install active equipment"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 771,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Connect power supply"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 772,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Configure equipment"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 773,
-                                                                                    columnNumber: 25
-                                                                                }, this)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 770,
-                                                                            columnNumber: 23
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
                                                                     lineNumber: 765,
-                                                                    columnNumber: 21
+                                                                    columnNumber: 23
                                                                 }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
-                                                                            className: "font-medium flex items-center gap-2",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$ruler$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Ruler$3e$__["Ruler"], {
-                                                                                    className: "w-4 h-4 text-orange-500"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 779,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                "4. Testing & Completion"
-                                                                            ]
-                                                                        }, void 0, true, {
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                                    children: cabinets.map((cabinet)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                            value: cabinet.id,
+                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Package$3e$__["Package"], {
+                                                                                        className: "w-4 h-4"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 772,
+                                                                                        columnNumber: 31
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                        className: "font-medium",
+                                                                                        children: cabinet.code
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 773,
+                                                                                        columnNumber: 31
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                        className: "text-gray-500",
+                                                                                        children: [
+                                                                                            "- ",
+                                                                                            cabinet.name
+                                                                                        ]
+                                                                                    }, void 0, true, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 774,
+                                                                                        columnNumber: 31
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 771,
+                                                                                columnNumber: 29
+                                                                            }, this)
+                                                                        }, cabinet.id, false, {
                                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 778,
-                                                                            columnNumber: 23
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
-                                                                            className: "text-sm text-gray-600 ml-6 space-y-1",
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Test all connections"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 783,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Measure line attenuation"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 784,
-                                                                                    columnNumber: 25
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                                                                    children: "• Close and seal cabinet"
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                                    lineNumber: 785,
-                                                                                    columnNumber: 25
-                                                                                }, this)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                            lineNumber: 782,
-                                                                            columnNumber: 23
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
+                                                                            lineNumber: 770,
+                                                                            columnNumber: 27
+                                                                        }, this))
+                                                                }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                                    lineNumber: 777,
-                                                                    columnNumber: 21
+                                                                    lineNumber: 768,
+                                                                    columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 740,
-                                                            columnNumber: 19
+                                                            lineNumber: 761,
+                                                            columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 735,
-                                                    columnNumber: 17
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 676,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "mt-8 border-t pt-6",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                                    className: "text-lg font-semibold mb-4 flex items-center gap-2",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
-                                                            className: "w-5 h-5"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 795,
-                                                            columnNumber: 19
-                                                        }, this),
-                                                        "Cabinet Plans Upload"
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 794,
-                                                    columnNumber: 17
+                                                    lineNumber: 759,
+                                                    columnNumber: 19
                                                 }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    className: "border-2 border-dashed border-gray-300 rounded-lg p-6 text-center",
+                                                selectedCabinetId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "p-4 bg-blue-50 border border-blue-200 rounded-lg",
                                                     children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
-                                                            className: "mx-auto h-12 w-12 text-gray-400 mb-4"
-                                                        }, void 0, false, {
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex items-center gap-2 mb-2",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Package$3e$__["Package"], {
+                                                                    className: "w-5 h-5 text-blue-600"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                    lineNumber: 785,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "font-medium",
+                                                                    children: "Selected Cabinet:"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                    lineNumber: 786,
+                                                                    columnNumber: 25
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                    className: "text-blue-700",
+                                                                    children: [
+                                                                        (_cabinets_find = cabinets.find((c)=>c.id === selectedCabinetId)) === null || _cabinets_find === void 0 ? void 0 : _cabinets_find.code,
+                                                                        " - ",
+                                                                        (_cabinets_find1 = cabinets.find((c)=>c.id === selectedCabinetId)) === null || _cabinets_find1 === void 0 ? void 0 : _cabinets_find1.name
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                    lineNumber: 787,
+                                                                    columnNumber: 25
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 799,
-                                                            columnNumber: 19
+                                                            lineNumber: 784,
+                                                            columnNumber: 23
                                                         }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                                            className: "text-lg font-medium mb-2",
-                                                            children: "Upload Cabinet Plans"
-                                                        }, void 0, false, {
+                                                        ((_cabinets_find2 = cabinets.find((c)=>c.id === selectedCabinetId)) === null || _cabinets_find2 === void 0 ? void 0 : _cabinets_find2.address) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "flex items-center gap-2 text-sm text-gray-600",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__["MapPin"], {
+                                                                    className: "w-4 h-4"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                    lineNumber: 793,
+                                                                    columnNumber: 27
+                                                                }, this),
+                                                                (_cabinets_find3 = cabinets.find((c)=>c.id === selectedCabinetId)) === null || _cabinets_find3 === void 0 ? void 0 : _cabinets_find3.address
+                                                            ]
+                                                        }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 800,
-                                                            columnNumber: 19
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-gray-600 mb-4",
-                                                            children: "Drag and drop files here or click to browse"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 801,
-                                                            columnNumber: 19
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
-                                                            variant: "outline",
-                                                            children: "Select Files"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 804,
-                                                            columnNumber: 19
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                            className: "text-sm text-gray-500 mt-2",
-                                                            children: "Supported formats: PDF, DWG, PNG, JPG, JPEG"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                            lineNumber: 807,
-                                                            columnNumber: 19
+                                                            lineNumber: 792,
+                                                            columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                                    lineNumber: 798,
-                                                    columnNumber: 17
+                                                    lineNumber: 783,
+                                                    columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                            lineNumber: 793,
-                                            columnNumber: 15
+                                            lineNumber: 758,
+                                            columnNumber: 17
                                         }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                                    lineNumber: 675,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                            lineNumber: 668,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                        lineNumber: 745,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                lineNumber: 738,
+                                columnNumber: 11
+                            }, this),
+                            selectedCabinetId && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardHeader"], {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardTitle"], {
+                                                children: "Cabinet Installation Plans"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                lineNumber: 808,
+                                                columnNumber: 17
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
+                                                children: [
+                                                    "Installation procedures for ",
+                                                    cabinets === null || cabinets === void 0 ? void 0 : (_cabinets_find4 = cabinets.find((c)=>c.id === selectedCabinetId)) === null || _cabinets_find4 === void 0 ? void 0 : _cabinets_find4.name
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                lineNumber: 809,
+                                                columnNumber: 17
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                        lineNumber: 807,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "grid grid-cols-1 md:grid-cols-2 gap-6",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                                className: "text-lg font-semibold mb-4 flex items-center gap-2",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$construction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Construction$3e$__["Construction"], {
+                                                                        className: "w-5 h-5"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 818,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    "Lower Cabinet Part"
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 817,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "space-y-4",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                                className: "font-medium flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__["MapPin"], {
+                                                                                        className: "w-4 h-4 text-blue-500"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 824,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    "1. Installation Site Marking"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 823,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                                                                className: "text-sm text-gray-600 ml-6 space-y-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Determine exact location per project"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 828,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Check for absence of utility lines"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 829,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Mark excavation outline"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 830,
+                                                                                        columnNumber: 25
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 827,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 822,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                                className: "font-medium flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$construction$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Construction$3e$__["Construction"], {
+                                                                                        className: "w-4 h-4 text-orange-500"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 836,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    "2. Earthwork"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 835,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                                                                className: "text-sm text-gray-600 ml-6 space-y-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Excavate pit according to cabinet size"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 840,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Depth: typically 1.2-1.5m"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 841,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Install formwork if needed"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 842,
+                                                                                        columnNumber: 25
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 839,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 834,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                                className: "font-medium flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$router$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Router$3e$__["Router"], {
+                                                                                        className: "w-4 h-4 text-green-500"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 848,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    "3. Cable Routing"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 847,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                                                                className: "text-sm text-gray-600 ml-6 space-y-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Route incoming cables to installation site"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 852,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Prepare cable penetrations"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 853,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Ensure watertight sealing"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 854,
+                                                                                        columnNumber: 25
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 851,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 846,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                                className: "font-medium flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Package$3e$__["Package"], {
+                                                                                        className: "w-4 h-4 text-purple-500"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 860,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    "4. Lower Part Installation"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 859,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                                                                className: "text-sm text-gray-600 ml-6 space-y-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Install cabinet base"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 864,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Level with spirit level"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 865,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Backfill and compact"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 866,
+                                                                                        columnNumber: 25
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 863,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 858,
+                                                                        columnNumber: 21
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 821,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                        lineNumber: 816,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                                className: "text-lg font-semibold mb-4 flex items-center gap-2",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$router$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Router$3e$__["Router"], {
+                                                                        className: "w-5 h-5"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 875,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    "Upper Cabinet Part"
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 874,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "space-y-4",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                                className: "font-medium flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
+                                                                                        className: "w-4 h-4 text-blue-500"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 881,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    "1. Preparation per Plans"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 880,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                                                                className: "text-sm text-gray-600 ml-6 space-y-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Study connection diagram"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 885,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Prepare required materials"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 886,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Check equipment completeness"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 887,
+                                                                                        columnNumber: 25
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 884,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 879,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                                className: "font-medium flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$router$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Router$3e$__["Router"], {
+                                                                                        className: "w-4 h-4 text-green-500"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 893,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    "2. Connection Assembly"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 892,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                                                                className: "text-sm text-gray-600 ml-6 space-y-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Route all cables into cabinet"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 897,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Perform fiber splicing per diagram"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 898,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Install splitters and patch panels"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 899,
+                                                                                        columnNumber: 25
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 896,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 891,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                                className: "font-medium flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Package$3e$__["Package"], {
+                                                                                        className: "w-4 h-4 text-purple-500"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 905,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    "3. Equipment Connection"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 904,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                                                                className: "text-sm text-gray-600 ml-6 space-y-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Install active equipment"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 909,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Connect power supply"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 910,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Configure equipment"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 911,
+                                                                                        columnNumber: 25
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 908,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 903,
+                                                                        columnNumber: 21
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                                className: "font-medium flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$ruler$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Ruler$3e$__["Ruler"], {
+                                                                                        className: "w-4 h-4 text-orange-500"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 917,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    "4. Testing & Completion"
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 916,
+                                                                                columnNumber: 23
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
+                                                                                className: "text-sm text-gray-600 ml-6 space-y-1",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Test all connections"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 921,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Measure line attenuation"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 922,
+                                                                                        columnNumber: 25
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                                                                        children: "• Close and seal cabinet"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 923,
+                                                                                        columnNumber: 25
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 920,
+                                                                                columnNumber: 23
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 915,
+                                                                        columnNumber: 21
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 878,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                        lineNumber: 873,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                lineNumber: 814,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                className: "mt-8 border-t pt-6",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                        className: "text-lg font-semibold mb-4 flex items-center gap-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
+                                                                className: "w-5 h-5"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 933,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            "Installation Plans for ",
+                                                            cabinets === null || cabinets === void 0 ? void 0 : (_cabinets_find5 = cabinets.find((c)=>c.id === selectedCabinetId)) === null || _cabinets_find5 === void 0 ? void 0 : _cabinets_find5.code
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                        lineNumber: 932,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "border-2 border-dashed border-gray-300 rounded-lg p-6 text-center",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$upload$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Upload$3e$__["Upload"], {
+                                                                className: "mx-auto h-12 w-12 text-gray-400 mb-4"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 937,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
+                                                                className: "text-lg font-medium mb-2",
+                                                                children: "Upload Installation Plans"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 938,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-gray-600 mb-4",
+                                                                children: [
+                                                                    "Upload connection diagrams and installation plans for ",
+                                                                    cabinets === null || cabinets === void 0 ? void 0 : (_cabinets_find6 = cabinets.find((c)=>c.id === selectedCabinetId)) === null || _cabinets_find6 === void 0 ? void 0 : _cabinets_find6.name
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 939,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                                                type: "file",
+                                                                multiple: true,
+                                                                accept: ".pdf,.dwg,.dxf,.png,.jpg,.jpeg,.bmp,.tiff,.doc,.docx,.xls,.xlsx",
+                                                                onChange: (e)=>{
+                                                                    if (e.target.files) {
+                                                                        handleFileUpload(e.target.files);
+                                                                    }
+                                                                },
+                                                                className: "hidden",
+                                                                id: "file-upload",
+                                                                disabled: uploadingFile
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 942,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                                variant: "outline",
+                                                                onClick: ()=>{
+                                                                    var _document_getElementById;
+                                                                    return (_document_getElementById = document.getElementById('file-upload')) === null || _document_getElementById === void 0 ? void 0 : _document_getElementById.click();
+                                                                },
+                                                                disabled: uploadingFile,
+                                                                children: uploadingFile ? 'Uploading...' : 'Select Files'
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 955,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                className: "text-sm text-gray-500 mt-2",
+                                                                children: "Supported formats: PDF, DWG, PNG, JPG, JPEG, Word, Excel (Max 50MB)"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 962,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                        lineNumber: 936,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        className: "mt-6",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                className: "font-medium mb-3",
+                                                                children: "Uploaded Plans"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 969,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "space-y-2",
+                                                                children: cabinetFiles.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-sm text-gray-500 text-center py-4",
+                                                                    children: "No installation plans uploaded yet for this cabinet."
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                    lineNumber: 972,
+                                                                    columnNumber: 23
+                                                                }, this) : cabinetFiles.map((file, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex items-center justify-between p-3 border rounded-lg",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "flex items-center gap-3",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
+                                                                                        className: "w-5 h-5 text-blue-500"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 979,
+                                                                                        columnNumber: 29
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                        children: [
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                                className: "font-medium",
+                                                                                                children: file.file_name
+                                                                                            }, void 0, false, {
+                                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                                lineNumber: 981,
+                                                                                                columnNumber: 31
+                                                                                            }, this),
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                                className: "text-sm text-gray-500",
+                                                                                                children: [
+                                                                                                    (file.file_size / 1024 / 1024).toFixed(2),
+                                                                                                    " MB •",
+                                                                                                    file.uploaded_at ? new Date(file.uploaded_at).toLocaleDateString() : 'Unknown date'
+                                                                                                ]
+                                                                                            }, void 0, true, {
+                                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                                lineNumber: 982,
+                                                                                                columnNumber: 31
+                                                                                            }, this)
+                                                                                        ]
+                                                                                    }, void 0, true, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 980,
+                                                                                        columnNumber: 29
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 978,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                                                        variant: "outline",
+                                                                                        size: "sm",
+                                                                                        onClick: ()=>window.open(file.file_url, '_blank'),
+                                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__["Eye"], {
+                                                                                            className: "w-4 h-4"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                            lineNumber: 994,
+                                                                                            columnNumber: 31
+                                                                                        }, this)
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 989,
+                                                                                        columnNumber: 29
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
+                                                                                        variant: "outline",
+                                                                                        size: "sm",
+                                                                                        onClick: ()=>{
+                                                                                            const a = document.createElement('a');
+                                                                                            a.href = file.file_url;
+                                                                                            a.download = file.file_name;
+                                                                                            a.click();
+                                                                                        },
+                                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"], {
+                                                                                            className: "w-4 h-4"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                            lineNumber: 1006,
+                                                                                            columnNumber: 31
+                                                                                        }, this)
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                        lineNumber: 996,
+                                                                                        columnNumber: 29
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                                lineNumber: 988,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        ]
+                                                                    }, index, true, {
+                                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                        lineNumber: 977,
+                                                                        columnNumber: 25
+                                                                    }, this))
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                                lineNumber: 970,
+                                                                columnNumber: 19
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                        lineNumber: 968,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                                lineNumber: 931,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                        lineNumber: 813,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
+                                lineNumber: 806,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                        lineNumber: 667,
+                        lineNumber: 736,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-                lineNumber: 239,
+                lineNumber: 308,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/project-preparation/zone-layout.tsx",
-        lineNumber: 229,
+        lineNumber: 298,
         columnNumber: 5
     }, this);
 }
-_s(ZoneLayout, "bNPp6ffLaWyWgr/W1wqTOH6R4HA=", false, function() {
+_s(ZoneLayout, "SuNvcxgZuXV+rPFIg+P8SUx3bEo=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$zone$2d$layout$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCabinets"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$zone$2d$layout$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCreateCabinet"],

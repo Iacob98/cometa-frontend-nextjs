@@ -93,13 +93,16 @@ __turbopack_context__.s([
     "GET",
     ()=>GET,
     "POST",
-    ()=>POST
+    ()=>POST,
+    "PUT",
+    ()=>PUT
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/server.js [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$module$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/node_modules/@supabase/supabase-js/dist/module/index.js [app-route] (ecmascript) <locals>");
 ;
 ;
-const supabase = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$module$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["createClient"])(("TURBOPACK compile-time value", "https://oijmohlhdxoawzvctnxx.supabase.co"), ("TURBOPACK compile-time value", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pam1vaGxoZHhvYXd6dmN0bnh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyODUzMjcsImV4cCI6MjA3MDg2MTMyN30.vw9G5hcSfd-m5AZqeGlmzGvqc9ImYioDFR-AsiHoFro"));
+// Service role client for bypassing RLS
+const supabase = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$module$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["createClient"])(("TURBOPACK compile-time value", "https://oijmohlhdxoawzvctnxx.supabase.co"), process.env.SUPABASE_SERVICE_ROLE_KEY || ("TURBOPACK compile-time value", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9pam1vaGxoZHhvYXd6dmN0bnh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyODUzMjcsImV4cCI6MjA3MDg2MTMyN30.vw9G5hcSfd-m5AZqeGlmzGvqc9ImYioDFR-AsiHoFro"));
 async function GET(request) {
     try {
         const { searchParams } = new URL(request.url);
@@ -235,6 +238,15 @@ async function GET(request) {
                 housing: housingResult.data || [],
                 plans: plansResult.data || [],
                 utility_contacts: utilityContactsResult.data || []
+            },
+            steps_summary: {
+                utility_contacts: utilityContactsResult.data?.length || 0,
+                facilities: facilitiesResult.data?.length || 0,
+                housing_units: housingResult.data?.length || 0,
+                plans: plansResult.data?.length || 0,
+                crews: 0,
+                materials: 0,
+                equipment: 0 // TODO: Add equipment count when available
             }
         };
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(preparationData);
@@ -338,6 +350,75 @@ async function POST(request) {
         console.error('Project preparation POST error:', error);
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
             error: 'Failed to create preparation item'
+        }, {
+            status: 500
+        });
+    }
+}
+async function PUT(request) {
+    try {
+        const body = await request.json();
+        const { project_id, status, reason } = body;
+        if (!project_id || !status) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'Project ID and status are required'
+            }, {
+                status: 400
+            });
+        }
+        // Validate status values
+        const validStatuses = [
+            'draft',
+            'planning',
+            'active',
+            'paused',
+            'completed',
+            'cancelled'
+        ];
+        if (!validStatuses.includes(status)) {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: `Invalid status. Must be one of: ${validStatuses.join(', ')}`
+            }, {
+                status: 400
+            });
+        }
+        // Update project status
+        const { data: updatedProject, error } = await supabase.from('projects').update({
+            status,
+            updated_at: new Date().toISOString()
+        }).eq('id', project_id).select(`
+        id,
+        name,
+        status,
+        updated_at
+      `).single();
+        if (error) {
+            console.error('Supabase project status update error:', error);
+            if (error.code === 'PGRST116') {
+                return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                    error: 'Project not found'
+                }, {
+                    status: 404
+                });
+            }
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'Failed to update project status'
+            }, {
+                status: 500
+            });
+        }
+        // Log status change (optional - could add to activity log table)
+        console.log(`Project ${project_id} status changed to ${status}`, reason ? `Reason: ${reason}` : '');
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            message: 'Project status updated successfully',
+            project: updatedProject,
+            previous_status: status,
+            reason
+        });
+    } catch (error) {
+        console.error('Project preparation PUT error:', error);
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+            error: 'Failed to update project status'
         }, {
             status: 500
         });

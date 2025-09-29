@@ -1,9 +1,10 @@
 var R=require("../../../../chunks/[turbopack]_runtime.js")("server/app/api/zone-layout/cabinets/route.js")
-R.c("server/chunks/[root-of-the-server]__f8fbbdba._.js")
-R.c("server/chunks/node_modules_next_dist_bc5c1ff1._.js")
-R.c("server/chunks/node_modules_next_29210f95._.js")
-R.c("server/chunks/node_modules_next_dist_b1b1c4a4._.js")
-R.c("server/chunks/node_modules_next_dist_58725b8c._.js")
-R.m(84711)
-R.m(95801)
-module.exports=R.m(95801).exports
+R.c("server/chunks/node_modules_@supabase_node-fetch_lib_index_d6dc7176.js")
+R.c("server/chunks/node_modules_next_4bfff641._.js")
+R.c("server/chunks/57264_tr46_f590098b._.js")
+R.c("server/chunks/node_modules_@supabase_auth-js_dist_module_efadc399._.js")
+R.c("server/chunks/node_modules_@supabase_046be6ae._.js")
+R.c("server/chunks/[root-of-the-server]__8897244c._.js")
+R.m("[project]/.next-internal/server/app/api/zone-layout/cabinets/route/actions.js [app-rsc] (server actions loader, ecmascript)")
+R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/src/app/api/zone-layout/cabinets/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)")
+module.exports=R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/src/app/api/zone-layout/cabinets/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)").exports

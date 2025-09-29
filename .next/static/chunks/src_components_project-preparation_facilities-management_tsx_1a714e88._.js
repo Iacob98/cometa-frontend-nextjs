@@ -21,8 +21,14 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$plus$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Plus$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/plus.js [app-client] (ecmascript) <export default as Plus>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$square$2d$pen$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Edit$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/square-pen.js [app-client] (ecmascript) <export default as Edit>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/trash-2.js [app-client] (ecmascript) <export default as Trash2>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/map-pin.js [app-client] (ecmascript) <export default as MapPin>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__User$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/user.js [app-client] (ecmascript) <export default as User>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/mail.js [app-client] (ecmascript) <export default as Mail>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/phone.js [app-client] (ecmascript) <export default as Phone>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Package$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/package.js [app-client] (ecmascript) <export default as Package>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$project$2d$preparation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/use-project-preparation.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/use-housing-units.ts [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@tanstack/react-query/build/modern/useQuery.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/sonner/dist/index.mjs [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
@@ -40,21 +46,54 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
+;
 function FacilitiesManagement(param) {
     let { projectId } = param;
+    var _projectCosts_project_budget, _projectCosts_project, _projectCosts_costs_facilities_total, _projectCosts_costs_facilities, _projectCosts_costs, _projectCosts_costs_housing_total, _projectCosts_costs_housing, _projectCosts_costs1, _projectCosts_project_remaining_budget, _projectCosts_project1, _projectCosts_project_budget_utilized_percentage, _projectCosts_project2;
     _s();
     const { data: facilities, isLoading: facilitiesLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$project$2d$preparation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFacilities"])(projectId);
     const { data: housingUnits, isLoading: housingLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useHousingUnits"])(projectId);
     const createFacilityMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$project$2d$preparation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCreateFacility"])();
+    const deleteFacilityMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$project$2d$preparation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDeleteFacility"])();
     const createHousingMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCreateHousingUnit"])();
     const updateHousingMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useUpdateHousingUnit"])();
     const deleteHousingMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDeleteHousingUnit"])();
+    // Get project costs for budget impact
+    const { data: projectCosts } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"])({
+        queryKey: [
+            'project-costs',
+            projectId
+        ],
+        queryFn: {
+            "FacilitiesManagement.useQuery": async ()=>{
+                const response = await fetch("/api/project-preparation/costs?project_id=".concat(projectId));
+                if (!response.ok) throw new Error('Failed to fetch project costs');
+                return response.json();
+            }
+        }["FacilitiesManagement.useQuery"],
+        enabled: !!projectId
+    });
+    const { data: suppliers } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"])({
+        queryKey: [
+            'suppliers'
+        ],
+        queryFn: {
+            "FacilitiesManagement.useQuery": async ()=>{
+                const response = await fetch('/api/suppliers');
+                if (!response.ok) throw new Error('Failed to fetch suppliers');
+                const data = await response.json();
+                return data.items || [];
+            }
+        }["FacilitiesManagement.useQuery"]
+    });
     const [showFacilityForm, setShowFacilityForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [showHousingForm, setShowHousingForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [editingHousingId, setEditingHousingId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [facilityForm, setFacilityForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])({
         type: '',
+        supplier_id: '',
         rent_daily_eur: '',
+        rent_period: 'daily',
         service_freq: '',
         status: 'planned',
         start_date: '',
@@ -66,7 +105,43 @@ function FacilitiesManagement(param) {
         rooms_total: '',
         beds_total: '',
         rent_daily_eur: '',
+        rent_period: 'daily',
+        advance_payment: '',
+        check_in_date: '',
+        check_out_date: '',
         status: 'available'
+    });
+    // Predefined facility types with option to add custom
+    const facilityTypes = [
+        'Site Office',
+        'Storage Container',
+        'Portable Toilet',
+        'Warehouse',
+        'Parking Space',
+        'Security Cabin',
+        'Break Room',
+        'Tool Storage',
+        'Equipment Shed',
+        'Meeting Room'
+    ];
+    // Find selected supplier for displaying details
+    const selectedSupplier = suppliers === null || suppliers === void 0 ? void 0 : suppliers.find((supplier)=>supplier.id === facilityForm.supplier_id);
+    // Fetch materials for selected supplier
+    const { data: supplierMaterials } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"])({
+        queryKey: [
+            'supplier-materials',
+            facilityForm.supplier_id
+        ],
+        queryFn: {
+            "FacilitiesManagement.useQuery": async ()=>{
+                if (!facilityForm.supplier_id) return [];
+                const response = await fetch("/api/materials?supplier_id=".concat(facilityForm.supplier_id, "&per_page=10"));
+                if (!response.ok) return [];
+                const data = await response.json();
+                return data.items || [];
+            }
+        }["FacilitiesManagement.useQuery"],
+        enabled: !!facilityForm.supplier_id
     });
     const handleFacilitySubmit = async (e)=>{
         e.preventDefault();
@@ -75,10 +150,14 @@ function FacilitiesManagement(param) {
             return;
         }
         try {
+            const rentAmount = parseFloat(facilityForm.rent_daily_eur);
+            // Convert monthly rate to daily if needed
+            const dailyRate = facilityForm.rent_period === 'monthly' ? rentAmount / 30 : rentAmount;
             await createFacilityMutation.mutateAsync({
                 project_id: projectId,
                 type: facilityForm.type,
-                rent_daily_eur: parseFloat(facilityForm.rent_daily_eur),
+                supplier_id: facilityForm.supplier_id || undefined,
+                rent_daily_eur: dailyRate,
                 service_freq: facilityForm.service_freq || undefined,
                 status: facilityForm.status,
                 start_date: facilityForm.start_date || undefined,
@@ -88,7 +167,9 @@ function FacilitiesManagement(param) {
             // Reset form
             setFacilityForm({
                 type: '',
+                supplier_id: '',
                 rent_daily_eur: '',
+                rent_period: 'daily',
                 service_freq: '',
                 status: 'planned',
                 start_date: '',
@@ -107,6 +188,9 @@ function FacilitiesManagement(param) {
             return;
         }
         try {
+            const rentAmount = parseFloat(housingForm.rent_daily_eur);
+            // Convert monthly rate to daily if needed
+            const dailyRate = housingForm.rent_period === 'monthly' ? rentAmount / 30 : rentAmount;
             if (editingHousingId) {
                 // Update existing housing unit
                 await updateHousingMutation.mutateAsync({
@@ -114,8 +198,11 @@ function FacilitiesManagement(param) {
                     address: housingForm.address,
                     rooms_total: parseInt(housingForm.rooms_total),
                     beds_total: parseInt(housingForm.beds_total),
-                    rent_daily_eur: parseFloat(housingForm.rent_daily_eur),
-                    status: housingForm.status
+                    rent_daily_eur: dailyRate,
+                    status: housingForm.status,
+                    advance_payment: housingForm.advance_payment ? parseFloat(housingForm.advance_payment) : undefined,
+                    check_in_date: housingForm.check_in_date || undefined,
+                    check_out_date: housingForm.check_out_date || undefined
                 });
                 setEditingHousingId(null);
             } else {
@@ -125,8 +212,11 @@ function FacilitiesManagement(param) {
                     address: housingForm.address,
                     rooms_total: parseInt(housingForm.rooms_total),
                     beds_total: parseInt(housingForm.beds_total),
-                    rent_daily_eur: parseFloat(housingForm.rent_daily_eur),
-                    status: housingForm.status
+                    rent_daily_eur: dailyRate,
+                    status: housingForm.status,
+                    advance_payment: housingForm.advance_payment ? parseFloat(housingForm.advance_payment) : undefined,
+                    check_in_date: housingForm.check_in_date || undefined,
+                    check_out_date: housingForm.check_out_date || undefined
                 });
             }
             // Reset form
@@ -135,6 +225,10 @@ function FacilitiesManagement(param) {
                 rooms_total: '',
                 beds_total: '',
                 rent_daily_eur: '',
+                rent_period: 'daily',
+                advance_payment: '',
+                check_in_date: '',
+                check_out_date: '',
                 status: 'available'
             });
             setShowHousingForm(false);
@@ -144,11 +238,15 @@ function FacilitiesManagement(param) {
     };
     const handleEditHousing = (housing)=>{
         setHousingForm({
-            address: housing.address,
-            rooms_total: housing.rooms_total.toString(),
-            beds_total: housing.beds_total.toString(),
-            rent_daily_eur: housing.rent_daily_eur.toString(),
-            status: housing.status
+            address: housing.address || '',
+            rooms_total: housing.rooms_total ? housing.rooms_total.toString() : '',
+            beds_total: housing.beds_total ? housing.beds_total.toString() : '',
+            rent_daily_eur: housing.rent_daily_eur ? housing.rent_daily_eur.toString() : '',
+            rent_period: 'daily',
+            advance_payment: housing.advance_payment ? housing.advance_payment.toString() : '',
+            check_in_date: housing.check_in_date || '',
+            check_out_date: housing.check_out_date || '',
+            status: housing.status || 'available'
         });
         setEditingHousingId(housing.id);
         setShowHousingForm(true);
@@ -169,9 +267,35 @@ function FacilitiesManagement(param) {
             rooms_total: '',
             beds_total: '',
             rent_daily_eur: '',
+            rent_period: 'daily',
+            advance_payment: '',
+            check_in_date: '',
+            check_out_date: '',
             status: 'available'
         });
         setShowHousingForm(false);
+    };
+    const handleEditFacility = (facility)=>{
+        setFacilityForm({
+            type: facility.type,
+            rent_daily_eur: facility.rent_daily_eur.toString(),
+            rent_period: 'daily',
+            service_freq: facility.service_freq || '',
+            status: facility.status,
+            start_date: facility.start_date || '',
+            end_date: facility.end_date || '',
+            location_text: facility.location_text || ''
+        });
+        setShowFacilityForm(true);
+    };
+    const handleDeleteFacility = async (facilityId, facilityType)=>{
+        if (confirm('Are you sure you want to delete facility "'.concat(facilityType, '"?'))) {
+            try {
+                await deleteFacilityMutation.mutateAsync(facilityId);
+            } catch (error) {
+            // Error is handled by the mutation
+            }
+        }
     };
     const getStatusColor = (status)=>{
         switch(status){
@@ -196,7 +320,7 @@ function FacilitiesManagement(param) {
             children: "Loading facilities and housing..."
         }, void 0, false, {
             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-            lineNumber: 188,
+            lineNumber: 300,
             columnNumber: 12
         }, this);
     }
@@ -210,7 +334,7 @@ function FacilitiesManagement(param) {
                         children: "Facilities & Housing Management"
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                        lineNumber: 194,
+                        lineNumber: 306,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -218,13 +342,148 @@ function FacilitiesManagement(param) {
                         children: "Manage project facilities and housing arrangements for the team"
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                        lineNumber: 195,
+                        lineNumber: 307,
                         columnNumber: 9
+                    }, this),
+                    projectCosts && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200",
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                            className: "grid grid-cols-1 md:grid-cols-4 gap-4 text-sm",
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-medium text-blue-900",
+                                            children: "Project Budget"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                            lineNumber: 314,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xl font-bold text-blue-600",
+                                            children: [
+                                                "€",
+                                                ((_projectCosts_project = projectCosts.project) === null || _projectCosts_project === void 0 ? void 0 : (_projectCosts_project_budget = _projectCosts_project.budget) === null || _projectCosts_project_budget === void 0 ? void 0 : _projectCosts_project_budget.toLocaleString()) || '0'
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                            lineNumber: 315,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                    lineNumber: 313,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-medium text-orange-900",
+                                            children: "Facilities Cost"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                            lineNumber: 320,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-lg font-semibold text-orange-600",
+                                            children: [
+                                                "€",
+                                                ((_projectCosts_costs = projectCosts.costs) === null || _projectCosts_costs === void 0 ? void 0 : (_projectCosts_costs_facilities = _projectCosts_costs.facilities) === null || _projectCosts_costs_facilities === void 0 ? void 0 : (_projectCosts_costs_facilities_total = _projectCosts_costs_facilities.total) === null || _projectCosts_costs_facilities_total === void 0 ? void 0 : _projectCosts_costs_facilities_total.toLocaleString()) || '0'
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                            lineNumber: 321,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                    lineNumber: 319,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-medium text-green-900",
+                                            children: "Housing Cost"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                            lineNumber: 326,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-lg font-semibold text-green-600",
+                                            children: [
+                                                "€",
+                                                ((_projectCosts_costs1 = projectCosts.costs) === null || _projectCosts_costs1 === void 0 ? void 0 : (_projectCosts_costs_housing = _projectCosts_costs1.housing) === null || _projectCosts_costs_housing === void 0 ? void 0 : (_projectCosts_costs_housing_total = _projectCosts_costs_housing.total) === null || _projectCosts_costs_housing_total === void 0 ? void 0 : _projectCosts_costs_housing_total.toLocaleString()) || '0'
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                            lineNumber: 327,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                    lineNumber: 325,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "font-medium text-red-900",
+                                            children: "Remaining Budget"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                            lineNumber: 332,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-lg font-semibold text-red-600",
+                                            children: [
+                                                "€",
+                                                ((_projectCosts_project1 = projectCosts.project) === null || _projectCosts_project1 === void 0 ? void 0 : (_projectCosts_project_remaining_budget = _projectCosts_project1.remaining_budget) === null || _projectCosts_project_remaining_budget === void 0 ? void 0 : _projectCosts_project_remaining_budget.toLocaleString()) || '0'
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                            lineNumber: 333,
+                                            columnNumber: 17
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                            className: "text-xs text-gray-600",
+                                            children: [
+                                                ((_projectCosts_project2 = projectCosts.project) === null || _projectCosts_project2 === void 0 ? void 0 : (_projectCosts_project_budget_utilized_percentage = _projectCosts_project2.budget_utilized_percentage) === null || _projectCosts_project_budget_utilized_percentage === void 0 ? void 0 : _projectCosts_project_budget_utilized_percentage.toFixed(1)) || '0',
+                                                "% used"
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                            lineNumber: 336,
+                                            columnNumber: 17
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                    lineNumber: 331,
+                                    columnNumber: 15
+                                }, this)
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                            lineNumber: 312,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
+                        fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                        lineNumber: 311,
+                        columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                lineNumber: 193,
+                lineNumber: 305,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tabs"], {
@@ -242,14 +501,14 @@ function FacilitiesManagement(param) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 203,
+                                        lineNumber: 348,
                                         columnNumber: 13
                                     }, this),
                                     "Facilities"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                lineNumber: 202,
+                                lineNumber: 347,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -260,20 +519,20 @@ function FacilitiesManagement(param) {
                                         className: "w-4 h-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 207,
+                                        lineNumber: 352,
                                         columnNumber: 13
                                     }, this),
                                     "Housing"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                lineNumber: 206,
+                                lineNumber: 351,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                        lineNumber: 201,
+                        lineNumber: 346,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -290,7 +549,7 @@ function FacilitiesManagement(param) {
                                                 children: "Project Facilities"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 216,
+                                                lineNumber: 361,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -301,13 +560,13 @@ function FacilitiesManagement(param) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 217,
+                                                lineNumber: 362,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 215,
+                                        lineNumber: 360,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -318,20 +577,20 @@ function FacilitiesManagement(param) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 225,
+                                                lineNumber: 370,
                                                 columnNumber: 15
                                             }, this),
                                             "Add Facility"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 221,
+                                        lineNumber: 366,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                lineNumber: 214,
+                                lineNumber: 359,
                                 columnNumber: 11
                             }, this),
                             showFacilityForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -342,20 +601,20 @@ function FacilitiesManagement(param) {
                                                 children: "Add New Facility"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 234,
+                                                lineNumber: 379,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                 children: "Add a new facility for the project (e.g., office, warehouse, site office)"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 235,
+                                                lineNumber: 380,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 233,
+                                        lineNumber: 378,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -373,59 +632,493 @@ function FacilitiesManagement(param) {
                                                                     children: "Facility Type *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 243,
+                                                                    lineNumber: 388,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
+                                                                    value: facilityTypes.includes(facilityForm.type) ? facilityForm.type : '',
+                                                                    onValueChange: (value)=>setFacilityForm((prev)=>({
+                                                                                ...prev,
+                                                                                type: value
+                                                                            })),
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                                                placeholder: "Select facility type"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                lineNumber: 394,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 393,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                                            children: facilityTypes.map((type)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                                    value: type,
+                                                                                    children: type
+                                                                                }, type, false, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 398,
+                                                                                    columnNumber: 29
+                                                                                }, this))
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 396,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                    lineNumber: 389,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                    id: "facility-type",
-                                                                    value: facilityForm.type,
+                                                                    className: "mt-2",
+                                                                    placeholder: "Or enter custom type...",
+                                                                    value: facilityTypes.includes(facilityForm.type) ? '' : facilityForm.type,
                                                                     onChange: (e)=>setFacilityForm((prev)=>({
                                                                                 ...prev,
                                                                                 type: e.target.value
-                                                                            })),
-                                                                    placeholder: "e.g., Site Office, Warehouse, Storage",
-                                                                    required: true
+                                                                            }))
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 244,
+                                                                    lineNumber: 404,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 242,
+                                                            lineNumber: 387,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                                    htmlFor: "supplier",
+                                                                    children: "Supplier"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                    lineNumber: 413,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
+                                                                    value: facilityForm.supplier_id,
+                                                                    onValueChange: (value)=>setFacilityForm((prev)=>({
+                                                                                ...prev,
+                                                                                supplier_id: value
+                                                                            })),
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                                                placeholder: "Select supplier (optional)"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                lineNumber: 419,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 418,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                                            children: suppliers === null || suppliers === void 0 ? void 0 : suppliers.map((supplier)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                                    value: supplier.id,
+                                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                        className: "flex flex-col",
+                                                                                        children: [
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                className: "font-medium",
+                                                                                                children: supplier.name
+                                                                                            }, void 0, false, {
+                                                                                                fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                                lineNumber: 425,
+                                                                                                columnNumber: 33
+                                                                                            }, this),
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                className: "flex items-center gap-4 text-xs text-gray-500 mt-1",
+                                                                                                children: [
+                                                                                                    supplier.contact_person && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                        className: "flex items-center gap-1",
+                                                                                                        children: [
+                                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__User$3e$__["User"], {
+                                                                                                                className: "w-3 h-3"
+                                                                                                            }, void 0, false, {
+                                                                                                                fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                                                lineNumber: 429,
+                                                                                                                columnNumber: 39
+                                                                                                            }, this),
+                                                                                                            supplier.contact_person
+                                                                                                        ]
+                                                                                                    }, void 0, true, {
+                                                                                                        fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                                        lineNumber: 428,
+                                                                                                        columnNumber: 37
+                                                                                                    }, this),
+                                                                                                    supplier.materials_count > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                        className: "flex items-center gap-1",
+                                                                                                        children: [
+                                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Package$3e$__["Package"], {
+                                                                                                                className: "w-3 h-3"
+                                                                                                            }, void 0, false, {
+                                                                                                                fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                                                lineNumber: 435,
+                                                                                                                columnNumber: 39
+                                                                                                            }, this),
+                                                                                                            supplier.materials_count,
+                                                                                                            " items"
+                                                                                                        ]
+                                                                                                    }, void 0, true, {
+                                                                                                        fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                                        lineNumber: 434,
+                                                                                                        columnNumber: 37
+                                                                                                    }, this)
+                                                                                                ]
+                                                                                            }, void 0, true, {
+                                                                                                fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                                lineNumber: 426,
+                                                                                                columnNumber: 33
+                                                                                            }, this)
+                                                                                        ]
+                                                                                    }, void 0, true, {
+                                                                                        fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                        lineNumber: 424,
+                                                                                        columnNumber: 31
+                                                                                    }, this)
+                                                                                }, supplier.id, false, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 423,
+                                                                                    columnNumber: 29
+                                                                                }, this))
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 421,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                    lineNumber: 414,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                selectedSupplier && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "mt-3 p-4 bg-blue-50 border border-blue-200 rounded-lg",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                                            className: "font-medium text-blue-900 mb-3 flex items-center gap-2",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$building$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Building$3e$__["Building"], {
+                                                                                    className: "w-4 h-4"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 450,
+                                                                                    columnNumber: 29
+                                                                                }, this),
+                                                                                selectedSupplier.name
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 449,
+                                                                            columnNumber: 27
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "grid grid-cols-1 md:grid-cols-2 gap-3 text-sm",
+                                                                            children: [
+                                                                                selectedSupplier.contact_person && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "flex items-center gap-2 text-blue-700",
+                                                                                    children: [
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__User$3e$__["User"], {
+                                                                                            className: "w-4 h-4"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 456,
+                                                                                            columnNumber: 33
+                                                                                        }, this),
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                            children: selectedSupplier.contact_person
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 457,
+                                                                                            columnNumber: 33
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 455,
+                                                                                    columnNumber: 31
+                                                                                }, this),
+                                                                                selectedSupplier.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "flex items-center gap-2 text-blue-700",
+                                                                                    children: [
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__["Mail"], {
+                                                                                            className: "w-4 h-4"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 462,
+                                                                                            columnNumber: 33
+                                                                                        }, this),
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                            children: selectedSupplier.email
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 463,
+                                                                                            columnNumber: 33
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 461,
+                                                                                    columnNumber: 31
+                                                                                }, this),
+                                                                                selectedSupplier.phone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "flex items-center gap-2 text-blue-700",
+                                                                                    children: [
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {
+                                                                                            className: "w-4 h-4"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 468,
+                                                                                            columnNumber: 33
+                                                                                        }, this),
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                            children: selectedSupplier.phone
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 469,
+                                                                                            columnNumber: 33
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 467,
+                                                                                    columnNumber: 31
+                                                                                }, this),
+                                                                                selectedSupplier.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "flex items-center gap-2 text-blue-700",
+                                                                                    children: [
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2d$pin$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MapPin$3e$__["MapPin"], {
+                                                                                            className: "w-4 h-4"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 474,
+                                                                                            columnNumber: 33
+                                                                                        }, this),
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                            children: selectedSupplier.address
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 475,
+                                                                                            columnNumber: 33
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 473,
+                                                                                    columnNumber: 31
+                                                                                }, this),
+                                                                                selectedSupplier.materials_count > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "flex items-center gap-2 text-blue-700",
+                                                                                    children: [
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$package$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Package$3e$__["Package"], {
+                                                                                            className: "w-4 h-4"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 480,
+                                                                                            columnNumber: 33
+                                                                                        }, this),
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                            children: [
+                                                                                                selectedSupplier.materials_count,
+                                                                                                " materials available"
+                                                                                            ]
+                                                                                        }, void 0, true, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 481,
+                                                                                            columnNumber: 33
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 479,
+                                                                                    columnNumber: 31
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 453,
+                                                                            columnNumber: 27
+                                                                        }, this),
+                                                                        supplierMaterials && supplierMaterials.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "mt-4 pt-3 border-t border-blue-200",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                                    className: "font-medium text-blue-900 mb-2 text-sm",
+                                                                                    children: "Available Materials:"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 489,
+                                                                                    columnNumber: 31
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    className: "space-y-2 max-h-40 overflow-y-auto",
+                                                                                    children: [
+                                                                                        supplierMaterials.slice(0, 5).map((material)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                className: "flex justify-between items-center text-xs bg-white p-2 rounded border",
+                                                                                                children: [
+                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                        className: "font-medium text-gray-700",
+                                                                                                        children: material.name
+                                                                                                    }, void 0, false, {
+                                                                                                        fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                                        lineNumber: 493,
+                                                                                                        columnNumber: 37
+                                                                                                    }, this),
+                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                        className: "text-blue-600",
+                                                                                                        children: [
+                                                                                                            "€",
+                                                                                                            material.unit_price_eur ? material.unit_price_eur.toFixed(2) : 'N/A',
+                                                                                                            "/",
+                                                                                                            material.unit
+                                                                                                        ]
+                                                                                                    }, void 0, true, {
+                                                                                                        fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                                        lineNumber: 494,
+                                                                                                        columnNumber: 37
+                                                                                                    }, this)
+                                                                                                ]
+                                                                                            }, material.id, true, {
+                                                                                                fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                                lineNumber: 492,
+                                                                                                columnNumber: 35
+                                                                                            }, this)),
+                                                                                        supplierMaterials.length > 5 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                            className: "text-xs text-blue-600 text-center py-1",
+                                                                                            children: [
+                                                                                                "+",
+                                                                                                supplierMaterials.length - 5,
+                                                                                                " more materials..."
+                                                                                            ]
+                                                                                        }, void 0, true, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 500,
+                                                                                            columnNumber: 35
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 490,
+                                                                                    columnNumber: 31
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 488,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                    lineNumber: 448,
+                                                                    columnNumber: 25
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                            lineNumber: 412,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                     htmlFor: "facility-rent",
-                                                                    children: "Daily Rent (EUR) *"
+                                                                    children: "Rent Amount (EUR) *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 254,
+                                                                    lineNumber: 512,
                                                                     columnNumber: 23
                                                                 }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                    id: "facility-rent",
-                                                                    type: "number",
-                                                                    step: "0.01",
-                                                                    value: facilityForm.rent_daily_eur,
-                                                                    onChange: (e)=>setFacilityForm((prev)=>({
-                                                                                ...prev,
-                                                                                rent_daily_eur: e.target.value
-                                                                            })),
-                                                                    placeholder: "150.00",
-                                                                    required: true
-                                                                }, void 0, false, {
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex gap-2",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                            id: "facility-rent",
+                                                                            type: "number",
+                                                                            step: "0.01",
+                                                                            value: facilityForm.rent_daily_eur,
+                                                                            onChange: (e)=>setFacilityForm((prev)=>({
+                                                                                        ...prev,
+                                                                                        rent_daily_eur: e.target.value
+                                                                                    })),
+                                                                            placeholder: "150.00",
+                                                                            required: true
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 514,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
+                                                                            value: facilityForm.rent_period,
+                                                                            onValueChange: (value)=>setFacilityForm((prev)=>({
+                                                                                        ...prev,
+                                                                                        rent_period: value
+                                                                                    })),
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                                                    className: "w-[100px]",
+                                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                        lineNumber: 528,
+                                                                                        columnNumber: 29
+                                                                                    }, this)
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 527,
+                                                                                    columnNumber: 27
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                                                    children: [
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                                            value: "daily",
+                                                                                            children: "/day"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 531,
+                                                                                            columnNumber: 29
+                                                                                        }, this),
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                                            value: "monthly",
+                                                                                            children: "/month"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 532,
+                                                                                            columnNumber: 29
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 530,
+                                                                                    columnNumber: 27
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 523,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 255,
+                                                                    lineNumber: 513,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 253,
+                                                            lineNumber: 511,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -435,7 +1128,7 @@ function FacilitiesManagement(param) {
                                                                     children: "Status"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 267,
+                                                                    lineNumber: 539,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -448,56 +1141,56 @@ function FacilitiesManagement(param) {
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
                                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                lineNumber: 273,
+                                                                                lineNumber: 545,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                            lineNumber: 272,
+                                                                            lineNumber: 544,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
                                                                             children: [
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
                                                                                     value: "planned",
-                                                                                    children: "🟡 Planned"
+                                                                                    children: "Planned"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                    lineNumber: 276,
+                                                                                    lineNumber: 548,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
                                                                                     value: "active",
-                                                                                    children: "🟢 Active"
+                                                                                    children: "Active"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                    lineNumber: 277,
+                                                                                    lineNumber: 549,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
                                                                                     value: "completed",
-                                                                                    children: "🔵 Completed"
+                                                                                    children: "Completed"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                    lineNumber: 278,
+                                                                                    lineNumber: 550,
                                                                                     columnNumber: 27
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                            lineNumber: 275,
+                                                                            lineNumber: 547,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 268,
+                                                                    lineNumber: 540,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 266,
+                                                            lineNumber: 538,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -507,7 +1200,7 @@ function FacilitiesManagement(param) {
                                                                     children: "Service Frequency"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 284,
+                                                                    lineNumber: 556,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -520,13 +1213,13 @@ function FacilitiesManagement(param) {
                                                                     placeholder: "e.g., Weekly, Daily"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 285,
+                                                                    lineNumber: 557,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 283,
+                                                            lineNumber: 555,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -536,7 +1229,7 @@ function FacilitiesManagement(param) {
                                                                     children: "Start Date"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 294,
+                                                                    lineNumber: 566,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -549,13 +1242,13 @@ function FacilitiesManagement(param) {
                                                                             }))
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 295,
+                                                                    lineNumber: 567,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 293,
+                                                            lineNumber: 565,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -565,7 +1258,7 @@ function FacilitiesManagement(param) {
                                                                     children: "End Date"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 304,
+                                                                    lineNumber: 576,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -578,19 +1271,19 @@ function FacilitiesManagement(param) {
                                                                             }))
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 305,
+                                                                    lineNumber: 577,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 303,
+                                                            lineNumber: 575,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                    lineNumber: 241,
+                                                    lineNumber: 386,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -600,7 +1293,7 @@ function FacilitiesManagement(param) {
                                                             children: "Location"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 315,
+                                                            lineNumber: 587,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -613,13 +1306,13 @@ function FacilitiesManagement(param) {
                                                             placeholder: "Facility address or location description"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 316,
+                                                            lineNumber: 588,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                    lineNumber: 314,
+                                                    lineNumber: 586,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -631,7 +1324,7 @@ function FacilitiesManagement(param) {
                                                             children: "Add Facility"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 325,
+                                                            lineNumber: 597,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -641,30 +1334,30 @@ function FacilitiesManagement(param) {
                                                             children: "Cancel"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 331,
+                                                            lineNumber: 603,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                    lineNumber: 324,
+                                                    lineNumber: 596,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                            lineNumber: 240,
+                                            lineNumber: 385,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 239,
+                                        lineNumber: 384,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                lineNumber: 232,
+                                lineNumber: 377,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -677,7 +1370,7 @@ function FacilitiesManagement(param) {
                                                 className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 349,
+                                                lineNumber: 621,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -685,7 +1378,7 @@ function FacilitiesManagement(param) {
                                                 children: "No Facilities"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 350,
+                                                lineNumber: 622,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -693,7 +1386,7 @@ function FacilitiesManagement(param) {
                                                 children: "Add facilities needed for the project."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 351,
+                                                lineNumber: 623,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -701,13 +1394,13 @@ function FacilitiesManagement(param) {
                                                 children: "Add First Facility"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 354,
+                                                lineNumber: 626,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 348,
+                                        lineNumber: 620,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Table"], {
                                         children: [
@@ -718,60 +1411,60 @@ function FacilitiesManagement(param) {
                                                             children: "Type"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 362,
+                                                            lineNumber: 634,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                             children: "Status"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 363,
+                                                            lineNumber: 635,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                             children: "Daily Rent"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 364,
+                                                            lineNumber: 636,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                             children: "Period"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 365,
+                                                            lineNumber: 637,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                             children: "Location"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 366,
+                                                            lineNumber: 638,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                             children: "Supplier"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 367,
+                                                            lineNumber: 639,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                             children: "Actions"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 368,
+                                                            lineNumber: 640,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                    lineNumber: 361,
+                                                    lineNumber: 633,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 360,
+                                                lineNumber: 632,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableBody"], {
@@ -782,7 +1475,7 @@ function FacilitiesManagement(param) {
                                                                 children: facility.type
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 374,
+                                                                lineNumber: 646,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -791,12 +1484,12 @@ function FacilitiesManagement(param) {
                                                                     children: facility.status
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 378,
+                                                                    lineNumber: 650,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 377,
+                                                                lineNumber: 649,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -807,7 +1500,7 @@ function FacilitiesManagement(param) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 382,
+                                                                lineNumber: 654,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -820,7 +1513,7 @@ function FacilitiesManagement(param) {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 387,
+                                                                    lineNumber: 659,
                                                                     columnNumber: 29
                                                                 }, this) : facility.start_date ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                     className: "text-sm",
@@ -830,19 +1523,19 @@ function FacilitiesManagement(param) {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 391,
+                                                                    lineNumber: 663,
                                                                     columnNumber: 29
                                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                     className: "text-gray-400",
                                                                     children: "Not set"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 393,
+                                                                    lineNumber: 665,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 385,
+                                                                lineNumber: 657,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -851,12 +1544,12 @@ function FacilitiesManagement(param) {
                                                                     children: "-"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 398,
+                                                                    lineNumber: 670,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 396,
+                                                                lineNumber: 668,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -865,12 +1558,12 @@ function FacilitiesManagement(param) {
                                                                     children: "-"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 403,
+                                                                    lineNumber: 675,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 401,
+                                                                lineNumber: 673,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -880,75 +1573,77 @@ function FacilitiesManagement(param) {
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                                                                             variant: "ghost",
                                                                             size: "sm",
+                                                                            onClick: ()=>handleEditFacility(facility),
                                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$square$2d$pen$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Edit$3e$__["Edit"], {
                                                                                 className: "w-4 h-4"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                lineNumber: 409,
+                                                                                lineNumber: 685,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                            lineNumber: 408,
+                                                                            lineNumber: 680,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                                                                             variant: "ghost",
                                                                             size: "sm",
+                                                                            onClick: ()=>handleDeleteFacility(facility.id, facility.type),
                                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trash$2d$2$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Trash2$3e$__["Trash2"], {
                                                                                 className: "w-4 h-4 text-red-500"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                lineNumber: 412,
+                                                                                lineNumber: 692,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                            lineNumber: 411,
+                                                                            lineNumber: 687,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 407,
+                                                                    lineNumber: 679,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 406,
+                                                                lineNumber: 678,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, facility.id, true, {
                                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                        lineNumber: 373,
+                                                        lineNumber: 645,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 371,
+                                                lineNumber: 643,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 359,
+                                        lineNumber: 631,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                    lineNumber: 346,
+                                    lineNumber: 618,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                lineNumber: 345,
+                                lineNumber: 617,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                        lineNumber: 213,
+                        lineNumber: 358,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -965,7 +1660,7 @@ function FacilitiesManagement(param) {
                                                 children: "Housing Units"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 429,
+                                                lineNumber: 709,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -976,13 +1671,13 @@ function FacilitiesManagement(param) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 430,
+                                                lineNumber: 710,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 428,
+                                        lineNumber: 708,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -993,20 +1688,20 @@ function FacilitiesManagement(param) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 438,
+                                                lineNumber: 718,
                                                 columnNumber: 15
                                             }, this),
                                             "Add Housing"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 434,
+                                        lineNumber: 714,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                lineNumber: 427,
+                                lineNumber: 707,
                                 columnNumber: 11
                             }, this),
                             showHousingForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1017,20 +1712,20 @@ function FacilitiesManagement(param) {
                                                 children: editingHousingId ? 'Edit Housing Unit' : 'Add New Housing Unit'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 447,
+                                                lineNumber: 727,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                 children: editingHousingId ? 'Update housing unit information' : 'Add accommodation for project team members'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 450,
+                                                lineNumber: 730,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 446,
+                                        lineNumber: 726,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1049,7 +1744,7 @@ function FacilitiesManagement(param) {
                                                                     children: "Address *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 461,
+                                                                    lineNumber: 741,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1063,13 +1758,13 @@ function FacilitiesManagement(param) {
                                                                     required: true
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 462,
+                                                                    lineNumber: 742,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 460,
+                                                            lineNumber: 740,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1079,7 +1774,7 @@ function FacilitiesManagement(param) {
                                                                     children: "Total Rooms *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 472,
+                                                                    lineNumber: 752,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1095,13 +1790,13 @@ function FacilitiesManagement(param) {
                                                                     required: true
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 473,
+                                                                    lineNumber: 753,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 471,
+                                                            lineNumber: 751,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1111,7 +1806,7 @@ function FacilitiesManagement(param) {
                                                                     children: "Total Beds *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 485,
+                                                                    lineNumber: 765,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1127,45 +1822,192 @@ function FacilitiesManagement(param) {
                                                                     required: true
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 486,
+                                                                    lineNumber: 766,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 484,
+                                                            lineNumber: 764,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                     htmlFor: "housing-rent",
-                                                                    children: "Daily Rent (EUR) *"
+                                                                    children: "Rent Amount (EUR) *"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 498,
+                                                                    lineNumber: 778,
                                                                     columnNumber: 23
                                                                 }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
-                                                                    id: "housing-rent",
-                                                                    type: "number",
-                                                                    step: "0.01",
-                                                                    value: housingForm.rent_daily_eur,
-                                                                    onChange: (e)=>setHousingForm((prev)=>({
-                                                                                ...prev,
-                                                                                rent_daily_eur: e.target.value
-                                                                            })),
-                                                                    placeholder: "Daily rental cost",
-                                                                    required: true
-                                                                }, void 0, false, {
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "flex gap-2",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                            id: "housing-rent",
+                                                                            type: "number",
+                                                                            step: "0.01",
+                                                                            value: housingForm.rent_daily_eur,
+                                                                            onChange: (e)=>setHousingForm((prev)=>({
+                                                                                        ...prev,
+                                                                                        rent_daily_eur: e.target.value
+                                                                                    })),
+                                                                            placeholder: "150.00",
+                                                                            required: true
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 780,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
+                                                                            value: housingForm.rent_period,
+                                                                            onValueChange: (value)=>setHousingForm((prev)=>({
+                                                                                        ...prev,
+                                                                                        rent_period: value
+                                                                                    })),
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                                                    className: "w-[100px]",
+                                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
+                                                                                        fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                        lineNumber: 794,
+                                                                                        columnNumber: 29
+                                                                                    }, this)
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 793,
+                                                                                    columnNumber: 27
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                                                    children: [
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                                            value: "daily",
+                                                                                            children: "/day"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 797,
+                                                                                            columnNumber: 29
+                                                                                        }, this),
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                                            value: "monthly",
+                                                                                            children: "/month"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                            lineNumber: 798,
+                                                                                            columnNumber: 29
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                                    lineNumber: 796,
+                                                                                    columnNumber: 27
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                            lineNumber: 789,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 499,
+                                                                    lineNumber: 779,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 497,
+                                                            lineNumber: 777,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                                    htmlFor: "advance-payment",
+                                                                    children: "Advance Payment (EUR)"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                    lineNumber: 805,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                    id: "advance-payment",
+                                                                    type: "number",
+                                                                    step: "0.01",
+                                                                    value: housingForm.advance_payment,
+                                                                    onChange: (e)=>setHousingForm((prev)=>({
+                                                                                ...prev,
+                                                                                advance_payment: e.target.value
+                                                                            })),
+                                                                    placeholder: "0.00"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                    lineNumber: 806,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                            lineNumber: 804,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                                    htmlFor: "check-in-date",
+                                                                    children: "Check-in Date"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                    lineNumber: 817,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                    id: "check-in-date",
+                                                                    type: "date",
+                                                                    value: housingForm.check_in_date,
+                                                                    onChange: (e)=>setHousingForm((prev)=>({
+                                                                                ...prev,
+                                                                                check_in_date: e.target.value
+                                                                            }))
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                    lineNumber: 818,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                            lineNumber: 816,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                                    htmlFor: "check-out-date",
+                                                                    children: "Check-out Date"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                    lineNumber: 827,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
+                                                                    id: "check-out-date",
+                                                                    type: "date",
+                                                                    value: housingForm.check_out_date,
+                                                                    onChange: (e)=>setHousingForm((prev)=>({
+                                                                                ...prev,
+                                                                                check_out_date: e.target.value
+                                                                            }))
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                                    lineNumber: 828,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
+                                                            lineNumber: 826,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1175,7 +2017,7 @@ function FacilitiesManagement(param) {
                                                                     children: "Status"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 511,
+                                                                    lineNumber: 837,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -1188,62 +2030,62 @@ function FacilitiesManagement(param) {
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
                                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                lineNumber: 517,
+                                                                                lineNumber: 843,
                                                                                 columnNumber: 27
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                            lineNumber: 516,
+                                                                            lineNumber: 842,
                                                                             columnNumber: 25
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
                                                                             children: [
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
                                                                                     value: "available",
-                                                                                    children: "🟢 Available"
+                                                                                    children: "Available"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                    lineNumber: 520,
+                                                                                    lineNumber: 846,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
                                                                                     value: "occupied",
-                                                                                    children: "🔴 Occupied"
+                                                                                    children: "Occupied"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                    lineNumber: 521,
+                                                                                    lineNumber: 847,
                                                                                     columnNumber: 27
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
                                                                                     value: "maintenance",
-                                                                                    children: "🟡 Maintenance"
+                                                                                    children: "Maintenance"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                    lineNumber: 522,
+                                                                                    lineNumber: 848,
                                                                                     columnNumber: 27
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                            lineNumber: 519,
+                                                                            lineNumber: 845,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 512,
+                                                                    lineNumber: 838,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 510,
+                                                            lineNumber: 836,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                    lineNumber: 459,
+                                                    lineNumber: 739,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1255,7 +2097,7 @@ function FacilitiesManagement(param) {
                                                             children: editingHousingId ? 'Update Housing Unit' : 'Add Housing Unit'
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 529,
+                                                            lineNumber: 855,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1265,30 +2107,30 @@ function FacilitiesManagement(param) {
                                                             children: "Cancel"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 535,
+                                                            lineNumber: 861,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                    lineNumber: 528,
+                                                    lineNumber: 854,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                            lineNumber: 458,
+                                            lineNumber: 738,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 457,
+                                        lineNumber: 737,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                lineNumber: 445,
+                                lineNumber: 725,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -1301,7 +2143,7 @@ function FacilitiesManagement(param) {
                                                 className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 553,
+                                                lineNumber: 879,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1309,7 +2151,7 @@ function FacilitiesManagement(param) {
                                                 children: "No Housing Units"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 554,
+                                                lineNumber: 880,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1317,7 +2159,7 @@ function FacilitiesManagement(param) {
                                                 children: "Add housing accommodations for the project team."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 555,
+                                                lineNumber: 881,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1325,13 +2167,13 @@ function FacilitiesManagement(param) {
                                                 children: "Add First Housing Unit"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 558,
+                                                lineNumber: 884,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 552,
+                                        lineNumber: 878,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Table"], {
                                         children: [
@@ -1342,53 +2184,53 @@ function FacilitiesManagement(param) {
                                                             children: "Address"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 566,
+                                                            lineNumber: 892,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                             children: "Rooms"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 567,
+                                                            lineNumber: 893,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
-                                                            children: "Area (sqm)"
+                                                            children: "Beds"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 568,
+                                                            lineNumber: 894,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
-                                                            children: "Type"
+                                                            children: "Daily Rent"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 569,
+                                                            lineNumber: 895,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                             children: "Status"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 570,
+                                                            lineNumber: 896,
                                                             columnNumber: 23
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableHead"], {
                                                             children: "Actions"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                            lineNumber: 571,
+                                                            lineNumber: 897,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                    lineNumber: 565,
+                                                    lineNumber: 891,
                                                     columnNumber: 21
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 564,
+                                                lineNumber: 890,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableBody"], {
@@ -1396,31 +2238,35 @@ function FacilitiesManagement(param) {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
                                                                 className: "font-medium",
-                                                                children: housing.full_address || housing.unit_number || 'N/A'
+                                                                children: housing.address || 'N/A'
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 577,
+                                                                lineNumber: 903,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
-                                                                children: housing.room_count || 'N/A'
+                                                                children: housing.rooms_total || 'N/A'
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 580,
+                                                                lineNumber: 906,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
-                                                                children: housing.area_sqm || 'N/A'
+                                                                children: housing.beds_total || 'N/A'
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 581,
+                                                                lineNumber: 907,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
-                                                                children: housing.unit_type
-                                                            }, void 0, false, {
+                                                                children: [
+                                                                    "€",
+                                                                    housing.rent_daily_eur ? housing.rent_daily_eur.toLocaleString() : '0',
+                                                                    "/day"
+                                                                ]
+                                                            }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 582,
+                                                                lineNumber: 908,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1429,12 +2275,12 @@ function FacilitiesManagement(param) {
                                                                     children: housing.status
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 586,
+                                                                    lineNumber: 912,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 585,
+                                                                lineNumber: 911,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1450,12 +2296,12 @@ function FacilitiesManagement(param) {
                                                                                 className: "w-4 h-4"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                lineNumber: 598,
+                                                                                lineNumber: 924,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                            lineNumber: 592,
+                                                                            lineNumber: 918,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1467,79 +2313,83 @@ function FacilitiesManagement(param) {
                                                                                 className: "w-4 h-4 text-red-500"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                                lineNumber: 606,
+                                                                                lineNumber: 932,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                            lineNumber: 600,
+                                                                            lineNumber: 926,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                    lineNumber: 591,
+                                                                    lineNumber: 917,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                                lineNumber: 590,
+                                                                lineNumber: 916,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, housing.id, true, {
                                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                        lineNumber: 576,
+                                                        lineNumber: 902,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                                lineNumber: 574,
+                                                lineNumber: 900,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                        lineNumber: 563,
+                                        lineNumber: 889,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                    lineNumber: 550,
+                                    lineNumber: 876,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                                lineNumber: 549,
+                                lineNumber: 875,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                        lineNumber: 426,
+                        lineNumber: 706,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-                lineNumber: 200,
+                lineNumber: 345,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
-        lineNumber: 192,
+        lineNumber: 304,
         columnNumber: 5
     }, this);
 }
-_s(FacilitiesManagement, "wI/5OvAJcGPqbWMr9GazVZDLstU=", false, function() {
+_s(FacilitiesManagement, "7g/GYHeslz801RAk/BoSvFfBp6o=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$project$2d$preparation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFacilities"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useHousingUnits"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$project$2d$preparation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCreateFacility"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$project$2d$preparation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDeleteFacility"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCreateHousingUnit"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useUpdateHousingUnit"],
-        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDeleteHousingUnit"]
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDeleteHousingUnit"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"]
     ];
 });
 _c = FacilitiesManagement;

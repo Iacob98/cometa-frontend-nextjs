@@ -1,0 +1,3 @@
+{
+  "/api/zone-layout/cabinets/[id]/upload/route": "app/api/zone-layout/cabinets/[id]/upload/route.js"
+}

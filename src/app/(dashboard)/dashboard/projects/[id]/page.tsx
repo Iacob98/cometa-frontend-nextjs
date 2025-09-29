@@ -625,18 +625,20 @@ export default function ProjectDetailsPage() {
           </Card>
 
           {/* Resource Summary */}
-          {resourcesData && (resourcesData.equipment?.length > 0 || resourcesData.vehicles?.length > 0) && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Zap className="h-5 w-5" />
-                  Resource Summary
-                </CardTitle>
-                <CardDescription>
-                  Overview of all resources assigned to this project
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="h-5 w-5" />
+                Resource Summary
+              </CardTitle>
+              <CardDescription>
+                Overview of all resources assigned to this project
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {resourcesLoading ? (
+                <div className="text-center py-4">Loading resources...</div>
+              ) : resourcesData ? (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg">
                   <div className="text-center">
                     <div className="text-2xl font-bold">
@@ -655,16 +657,18 @@ export default function ProjectDetailsPage() {
                   <div className="text-center">
                     <div className="text-2xl font-bold text-green-600">
                       €{(
-                        (resourcesData?.equipment?.reduce((sum: number, eq: any) => sum + (eq.equipment?.daily_rate || 0), 0) || 0) +
+                        (resourcesData?.equipment?.reduce((sum: number, eq: any) => sum + (eq.rental_cost_per_day || 0), 0) || 0) +
                         (resourcesData?.vehicles?.reduce((sum: number, vh: any) => sum + (vh.rental_cost_per_day || 0), 0) || 0)
                       ).toFixed(0)}
                     </div>
                     <div className="text-sm text-muted-foreground">Total Cost</div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              ) : (
+                <div className="text-center py-4 text-muted-foreground">No resource data available</div>
+              )}
+            </CardContent>
+          </Card>
 
           {/* Equipment & Transport Overview */}
           <div className="grid gap-6 md:grid-cols-2">

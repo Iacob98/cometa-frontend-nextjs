@@ -25,6 +25,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__User$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/user.js [app-ssr] (ecmascript) <export default as User>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/mail.js [app-ssr] (ecmascript) <export default as Mail>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Shield$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/shield.js [app-ssr] (ecmascript) <export default as Shield>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$wrench$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Wrench$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/wrench.js [app-ssr] (ecmascript) <export default as Wrench>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$truck$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Truck$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/truck.js [app-ssr] (ecmascript) <export default as Truck>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$hard$2d$hat$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__HardHat$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/hard-hat.js [app-ssr] (ecmascript) <export default as HardHat>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/zap.js [app-ssr] (ecmascript) <export default as Zap>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/button.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/card.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/badge.tsx [app-ssr] (ecmascript)");
@@ -83,6 +87,19 @@ function ProjectDetailsPage() {
         },
         enabled: !!projectId
     });
+    // Fetch project resources (equipment and vehicles assigned to project crews)
+    const { data: resourcesData, isLoading: resourcesLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useQuery"])({
+        queryKey: [
+            'project-resources',
+            projectId
+        ],
+        queryFn: async ()=>{
+            const response = await fetch(`/api/projects/${projectId}/resources`);
+            if (!response.ok) throw new Error('Failed to fetch project resources');
+            return response.json();
+        },
+        enabled: !!projectId
+    });
     const getStatusBadgeVariant = (status)=>{
         switch(status){
             case "active":
@@ -122,7 +139,7 @@ function ProjectDetailsPage() {
                             className: "h-8 w-8 bg-muted animate-pulse rounded"
                         }, void 0, false, {
                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                            lineNumber: 85,
+                            lineNumber: 96,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -132,26 +149,26 @@ function ProjectDetailsPage() {
                                     className: "h-8 w-64 bg-muted animate-pulse rounded"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 87,
+                                    lineNumber: 98,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "h-4 w-48 bg-muted animate-pulse rounded"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 88,
+                                    lineNumber: 99,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                            lineNumber: 86,
+                            lineNumber: 97,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                    lineNumber: 84,
+                    lineNumber: 95,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -162,18 +179,18 @@ function ProjectDetailsPage() {
                             className: "h-32 bg-muted animate-pulse rounded-lg"
                         }, i, false, {
                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                            lineNumber: 93,
+                            lineNumber: 104,
                             columnNumber: 13
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                    lineNumber: 91,
+                    lineNumber: 102,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-            lineNumber: 83,
+            lineNumber: 94,
             columnNumber: 7
         }, this);
     }
@@ -193,25 +210,25 @@ function ProjectDetailsPage() {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 110,
+                                lineNumber: 121,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 children: "Back"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 111,
+                                lineNumber: 122,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 104,
+                        lineNumber: 115,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                    lineNumber: 103,
+                    lineNumber: 114,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -224,7 +241,7 @@ function ProjectDetailsPage() {
                                     className: "mx-auto h-12 w-12 text-muted-foreground"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 117,
+                                    lineNumber: 128,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -232,7 +249,7 @@ function ProjectDetailsPage() {
                                     children: "Project not found"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 118,
+                                    lineNumber: 129,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -240,29 +257,29 @@ function ProjectDetailsPage() {
                                     children: "The project you're looking for doesn't exist or you don't have permission to view it."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 119,
+                                    lineNumber: 130,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                            lineNumber: 116,
+                            lineNumber: 127,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 115,
+                        lineNumber: 126,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                    lineNumber: 114,
+                    lineNumber: 125,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-            lineNumber: 102,
+            lineNumber: 113,
             columnNumber: 7
         }, this);
     }
@@ -307,20 +324,20 @@ function ProjectDetailsPage() {
                                         className: "h-4 w-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 165,
+                                        lineNumber: 176,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         children: "Back"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 166,
+                                        lineNumber: 177,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 159,
+                                lineNumber: 170,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -333,7 +350,7 @@ function ProjectDetailsPage() {
                                                 children: project.name
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 170,
+                                                lineNumber: 181,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -341,13 +358,13 @@ function ProjectDetailsPage() {
                                                 children: getStatusLabel(project.status)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 171,
+                                                lineNumber: 182,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 169,
+                                        lineNumber: 180,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -359,19 +376,19 @@ function ProjectDetailsPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 175,
+                                        lineNumber: 186,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 168,
+                                lineNumber: 179,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 158,
+                        lineNumber: 169,
                         columnNumber: 9
                     }, this),
                     canManageProjects && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -381,20 +398,20 @@ function ProjectDetailsPage() {
                                 className: "mr-2 h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 182,
+                                lineNumber: 193,
                                 columnNumber: 13
                             }, this),
                             "Edit Project"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 181,
+                        lineNumber: 192,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                lineNumber: 157,
+                lineNumber: 168,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -410,20 +427,20 @@ function ProjectDetailsPage() {
                                         children: "Project Progress"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 192,
+                                        lineNumber: 203,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$trending$2d$up$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__TrendingUp$3e$__["TrendingUp"], {
                                         className: "h-4 w-4 text-muted-foreground"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 193,
+                                        lineNumber: 204,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 191,
+                                lineNumber: 202,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -434,27 +451,27 @@ function ProjectDetailsPage() {
                                             className: "h-8 w-16 bg-muted animate-pulse rounded"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 198,
+                                            lineNumber: 209,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "h-2 w-full bg-muted animate-pulse rounded"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 199,
+                                            lineNumber: 210,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "h-3 w-32 bg-muted animate-pulse rounded"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 200,
+                                            lineNumber: 211,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 197,
+                                    lineNumber: 208,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                     children: [
@@ -466,7 +483,7 @@ function ProjectDetailsPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 204,
+                                            lineNumber: 215,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$progress$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Progress"], {
@@ -474,7 +491,7 @@ function ProjectDetailsPage() {
                                             className: "mt-2"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 205,
+                                            lineNumber: 216,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -487,20 +504,20 @@ function ProjectDetailsPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 206,
+                                            lineNumber: 217,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 195,
+                                lineNumber: 206,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 190,
+                        lineNumber: 201,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -513,20 +530,20 @@ function ProjectDetailsPage() {
                                         children: "Work Entries"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 216,
+                                        lineNumber: 227,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$building$2d$2$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Building2$3e$__["Building2"], {
                                         className: "h-4 w-4 text-muted-foreground"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 217,
+                                        lineNumber: 228,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 215,
+                                lineNumber: 226,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -537,20 +554,20 @@ function ProjectDetailsPage() {
                                             className: "h-8 w-12 bg-muted animate-pulse rounded"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 222,
+                                            lineNumber: 233,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "h-3 w-20 bg-muted animate-pulse rounded"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 223,
+                                            lineNumber: 234,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 221,
+                                    lineNumber: 232,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                     children: [
@@ -559,7 +576,7 @@ function ProjectDetailsPage() {
                                             children: progressData.workEntries
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 227,
+                                            lineNumber: 238,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -570,20 +587,20 @@ function ProjectDetailsPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 228,
+                                            lineNumber: 239,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 219,
+                                lineNumber: 230,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 214,
+                        lineNumber: 225,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -596,20 +613,20 @@ function ProjectDetailsPage() {
                                         children: "Team Members"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 238,
+                                        lineNumber: 249,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"], {
                                         className: "h-4 w-4 text-muted-foreground"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 239,
+                                        lineNumber: 250,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 237,
+                                lineNumber: 248,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -620,20 +637,20 @@ function ProjectDetailsPage() {
                                             className: "h-8 w-8 bg-muted animate-pulse rounded"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 244,
+                                            lineNumber: 255,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "h-3 w-24 bg-muted animate-pulse rounded"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 245,
+                                            lineNumber: 256,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 243,
+                                    lineNumber: 254,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                     children: [
@@ -642,7 +659,7 @@ function ProjectDetailsPage() {
                                             children: progressData.teamMembers
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 249,
+                                            lineNumber: 260,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -650,20 +667,20 @@ function ProjectDetailsPage() {
                                             children: "Active on this project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 250,
+                                            lineNumber: 261,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 241,
+                                lineNumber: 252,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 236,
+                        lineNumber: 247,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -676,20 +693,20 @@ function ProjectDetailsPage() {
                                         children: "Current Phase"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 260,
+                                        lineNumber: 271,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$calendar$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Calendar$3e$__["Calendar"], {
                                         className: "h-4 w-4 text-muted-foreground"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 261,
+                                        lineNumber: 272,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 259,
+                                lineNumber: 270,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -700,20 +717,20 @@ function ProjectDetailsPage() {
                                             className: "h-8 w-16 bg-muted animate-pulse rounded"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 266,
+                                            lineNumber: 277,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "h-3 w-28 bg-muted animate-pulse rounded"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 267,
+                                            lineNumber: 278,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 265,
+                                    lineNumber: 276,
                                     columnNumber: 15
                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                     children: [
@@ -726,7 +743,7 @@ function ProjectDetailsPage() {
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 271,
+                                            lineNumber: 282,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -734,26 +751,26 @@ function ProjectDetailsPage() {
                                             children: phaseData.phaseName
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 272,
+                                            lineNumber: 283,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 263,
+                                lineNumber: 274,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 258,
+                        lineNumber: 269,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                lineNumber: 189,
+                lineNumber: 200,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Tabs"], {
@@ -767,7 +784,7 @@ function ProjectDetailsPage() {
                                 children: "Overview"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 284,
+                                lineNumber: 295,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -778,7 +795,7 @@ function ProjectDetailsPage() {
                                         className: "h-4 w-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 286,
+                                        lineNumber: 297,
                                         columnNumber: 13
                                     }, this),
                                     "Preparation",
@@ -791,13 +808,13 @@ function ProjectDetailsPage() {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 289,
+                                        lineNumber: 300,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 285,
+                                lineNumber: 296,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -805,15 +822,15 @@ function ProjectDetailsPage() {
                                 children: "Progress"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 294,
+                                lineNumber: 305,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
                                 value: "team",
-                                children: "Team"
+                                children: "Resources"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 295,
+                                lineNumber: 306,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -821,7 +838,7 @@ function ProjectDetailsPage() {
                                 children: "Documents"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 296,
+                                lineNumber: 307,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -829,13 +846,13 @@ function ProjectDetailsPage() {
                                 children: "Financial"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                lineNumber: 297,
+                                lineNumber: 308,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 283,
+                        lineNumber: 294,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -852,20 +869,20 @@ function ProjectDetailsPage() {
                                                     children: "Project Information"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                    lineNumber: 305,
+                                                    lineNumber: 316,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                     children: "Basic details and specifications"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                    lineNumber: 306,
+                                                    lineNumber: 317,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 304,
+                                            lineNumber: 315,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -881,7 +898,7 @@ function ProjectDetailsPage() {
                                                                     children: "Customer"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 313,
+                                                                    lineNumber: 324,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -889,13 +906,13 @@ function ProjectDetailsPage() {
                                                                     children: project.customer || "—"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 314,
+                                                                    lineNumber: 325,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 312,
+                                                            lineNumber: 323,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -905,7 +922,7 @@ function ProjectDetailsPage() {
                                                                     children: "Project Manager"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 317,
+                                                                    lineNumber: 328,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -915,7 +932,7 @@ function ProjectDetailsPage() {
                                                                             className: "h-3 w-3 text-muted-foreground"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 319,
+                                                                            lineNumber: 330,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -923,19 +940,19 @@ function ProjectDetailsPage() {
                                                                             children: project.manager_name || project.manager?.full_name || "Not assigned"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 320,
+                                                                            lineNumber: 331,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 318,
+                                                                    lineNumber: 329,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 316,
+                                                            lineNumber: 327,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -945,7 +962,7 @@ function ProjectDetailsPage() {
                                                                     children: "City"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 326,
+                                                                    lineNumber: 337,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -955,7 +972,7 @@ function ProjectDetailsPage() {
                                                                             className: "h-3 w-3 text-muted-foreground"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 328,
+                                                                            lineNumber: 339,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -963,63 +980,9 @@ function ProjectDetailsPage() {
                                                                             children: project.city || "—"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 329,
+                                                                            lineNumber: 340,
                                                                             columnNumber: 23
                                                                         }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 327,
-                                                                    columnNumber: 21
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 325,
-                                                            columnNumber: 19
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-sm font-medium text-muted-foreground",
-                                                                    children: "Total Length"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 333,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-sm font-mono",
-                                                                    children: [
-                                                                        project.total_length_m,
-                                                                        " meters"
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 334,
-                                                                    columnNumber: 21
-                                                                }, this)
-                                                            ]
-                                                        }, void 0, true, {
-                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 332,
-                                                            columnNumber: 19
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            children: [
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-sm font-medium text-muted-foreground",
-                                                                    children: "Rate per Meter"
-                                                                }, void 0, false, {
-                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 337,
-                                                                    columnNumber: 21
-                                                                }, this),
-                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                    className: "text-sm font-mono",
-                                                                    children: [
-                                                                        "€",
-                                                                        project.base_rate_per_m
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
@@ -1036,10 +999,64 @@ function ProjectDetailsPage() {
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                     className: "text-sm font-medium text-muted-foreground",
+                                                                    children: "Total Length"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 344,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-sm font-mono",
+                                                                    children: [
+                                                                        project.total_length_m,
+                                                                        " meters"
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 345,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 343,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-sm font-medium text-muted-foreground",
+                                                                    children: "Rate per Meter"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 348,
+                                                                    columnNumber: 21
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-sm font-mono",
+                                                                    children: [
+                                                                        "€",
+                                                                        project.base_rate_per_m
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 349,
+                                                                    columnNumber: 21
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 347,
+                                                            columnNumber: 19
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                    className: "text-sm font-medium text-muted-foreground",
                                                                     children: "Project Value"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 341,
+                                                                    lineNumber: 352,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1053,13 +1070,13 @@ function ProjectDetailsPage() {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 342,
+                                                                    lineNumber: 353,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 340,
+                                                            lineNumber: 351,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1069,7 +1086,7 @@ function ProjectDetailsPage() {
                                                                     children: "Language"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 350,
+                                                                    lineNumber: 361,
                                                                     columnNumber: 21
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1079,7 +1096,7 @@ function ProjectDetailsPage() {
                                                                             className: "h-3 w-3 text-muted-foreground"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 352,
+                                                                            lineNumber: 363,
                                                                             columnNumber: 23
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1087,25 +1104,25 @@ function ProjectDetailsPage() {
                                                                             children: project.language_default?.toUpperCase()
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 353,
+                                                                            lineNumber: 364,
                                                                             columnNumber: 23
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 351,
+                                                                    lineNumber: 362,
                                                                     columnNumber: 21
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 349,
+                                                            lineNumber: 360,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                    lineNumber: 311,
+                                                    lineNumber: 322,
                                                     columnNumber: 17
                                                 }, this),
                                                 project.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1115,7 +1132,7 @@ function ProjectDetailsPage() {
                                                             children: "Address"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 360,
+                                                            lineNumber: 371,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1123,13 +1140,13 @@ function ProjectDetailsPage() {
                                                             children: project.address
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 361,
+                                                            lineNumber: 372,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                    lineNumber: 359,
+                                                    lineNumber: 370,
                                                     columnNumber: 19
                                                 }, this),
                                                 project.contact_24h && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1139,7 +1156,7 @@ function ProjectDetailsPage() {
                                                             children: "24h Contact"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 367,
+                                                            lineNumber: 378,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1149,7 +1166,7 @@ function ProjectDetailsPage() {
                                                                     className: "h-3 w-3 text-muted-foreground"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 369,
+                                                                    lineNumber: 380,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1157,31 +1174,31 @@ function ProjectDetailsPage() {
                                                                     children: project.contact_24h
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 370,
+                                                                    lineNumber: 381,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 368,
+                                                            lineNumber: 379,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                    lineNumber: 366,
+                                                    lineNumber: 377,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 310,
+                                            lineNumber: 321,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 303,
+                                    lineNumber: 314,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1192,20 +1209,20 @@ function ProjectDetailsPage() {
                                                     children: "Project Timeline"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                    lineNumber: 380,
+                                                    lineNumber: 391,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                                     children: "Important dates and milestones"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                    lineNumber: 381,
+                                                    lineNumber: 392,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 379,
+                                            lineNumber: 390,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1221,7 +1238,7 @@ function ProjectDetailsPage() {
                                                                     className: "h-4 w-4 text-muted-foreground"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 389,
+                                                                    lineNumber: 400,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1229,13 +1246,13 @@ function ProjectDetailsPage() {
                                                                     children: "Start Date"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 390,
+                                                                    lineNumber: 401,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 388,
+                                                            lineNumber: 399,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1247,13 +1264,13 @@ function ProjectDetailsPage() {
                                                             })
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 392,
+                                                            lineNumber: 403,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                    lineNumber: 387,
+                                                    lineNumber: 398,
                                                     columnNumber: 19
                                                 }, this),
                                                 project.end_date_plan && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1266,7 +1283,7 @@ function ProjectDetailsPage() {
                                                                     className: "h-4 w-4 text-muted-foreground"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 405,
+                                                                    lineNumber: 416,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1274,13 +1291,13 @@ function ProjectDetailsPage() {
                                                                     children: "Planned End"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 406,
+                                                                    lineNumber: 417,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 404,
+                                                            lineNumber: 415,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1292,13 +1309,13 @@ function ProjectDetailsPage() {
                                                             })
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 408,
+                                                            lineNumber: 419,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                    lineNumber: 403,
+                                                    lineNumber: 414,
                                                     columnNumber: 19
                                                 }, this),
                                                 project.start_date && project.end_date_plan && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1311,7 +1328,7 @@ function ProjectDetailsPage() {
                                                                 children: "Duration"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 421,
+                                                                lineNumber: 432,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1322,41 +1339,41 @@ function ProjectDetailsPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 422,
+                                                                lineNumber: 433,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 420,
+                                                        lineNumber: 431,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                    lineNumber: 419,
+                                                    lineNumber: 430,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 385,
+                                            lineNumber: 396,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 378,
+                                    lineNumber: 389,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                            lineNumber: 301,
+                            lineNumber: 312,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 300,
+                        lineNumber: 311,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1366,12 +1383,12 @@ function ProjectDetailsPage() {
                             projectId: projectId
                         }, void 0, false, {
                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                            lineNumber: 437,
+                            lineNumber: 448,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 436,
+                        lineNumber: 447,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1385,20 +1402,20 @@ function ProjectDetailsPage() {
                                             children: "Project Progress Overview"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 443,
+                                            lineNumber: 454,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Track progress across different aspects of the project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 444,
+                                            lineNumber: 455,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 442,
+                                    lineNumber: 453,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1415,7 +1432,7 @@ function ProjectDetailsPage() {
                                                                 children: "Overall Progress"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 452,
+                                                                lineNumber: 463,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1426,26 +1443,26 @@ function ProjectDetailsPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 453,
+                                                                lineNumber: 464,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 451,
+                                                        lineNumber: 462,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$progress$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Progress"], {
                                                         value: progressData.progressPercentage
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 455,
+                                                        lineNumber: 466,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 450,
+                                                lineNumber: 461,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1458,7 +1475,7 @@ function ProjectDetailsPage() {
                                                                 children: "Phase Progress"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 460,
+                                                                lineNumber: 471,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1469,20 +1486,20 @@ function ProjectDetailsPage() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 461,
+                                                                lineNumber: 472,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 459,
+                                                        lineNumber: 470,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$progress$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Progress"], {
                                                         value: phaseData.phaseProgress
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 463,
+                                                        lineNumber: 474,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1495,591 +1512,1366 @@ function ProjectDetailsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 464,
+                                                        lineNumber: 475,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 458,
+                                                lineNumber: 469,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 449,
+                                        lineNumber: 460,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 448,
+                                    lineNumber: 459,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                            lineNumber: 441,
+                            lineNumber: 452,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 440,
+                        lineNumber: 451,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
                         value: "team",
                         className: "space-y-6",
-                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
-                            children: [
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardHeader"], {
-                                    children: [
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
-                                            children: "Team Assignment"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 476,
-                                            columnNumber: 15
-                                        }, this),
-                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
-                                            children: "Team members working on this project"
-                                        }, void 0, false, {
-                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 477,
-                                            columnNumber: 15
-                                        }, this)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 475,
-                                    columnNumber: 13
-                                }, this),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
-                                    children: teamLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "space-y-4",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardHeader"], {
                                         children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "flex items-center space-x-4",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "skeleton h-4 w-4 rounded-full"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 485,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2 flex-1",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "skeleton h-4 w-full"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 487,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "skeleton h-3 w-3/4"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 488,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 486,
-                                                        columnNumber: 21
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
+                                                children: "Resources Overview"
+                                            }, void 0, false, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 484,
-                                                columnNumber: 19
+                                                lineNumber: 487,
+                                                columnNumber: 15
                                             }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "flex items-center space-x-4",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "skeleton h-4 w-4 rounded-full"
-                                                    }, void 0, false, {
-                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 492,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "space-y-2 flex-1",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "skeleton h-4 w-full"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 494,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "skeleton h-3 w-3/4"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 495,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 493,
-                                                        columnNumber: 21
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
+                                                children: "Team members, equipment and transport assigned to this project"
+                                            }, void 0, false, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 491,
-                                                columnNumber: 19
+                                                lineNumber: 488,
+                                                columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 483,
-                                        columnNumber: 17
-                                    }, this) : teamData?.crews?.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "space-y-6",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg",
-                                                children: [
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "text-center",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-2xl font-bold",
-                                                                children: teamData.summary.total_crews
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 504,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-sm text-muted-foreground",
-                                                                children: "Total Crews"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 505,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 503,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "text-center",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-2xl font-bold",
-                                                                children: teamData.summary.total_members
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 508,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-sm text-muted-foreground",
-                                                                children: "Team Members"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 509,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 507,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "text-center",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-2xl font-bold",
-                                                                children: teamData.summary.foreman_count
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 512,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-sm text-muted-foreground",
-                                                                children: "Foremen"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 513,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 511,
-                                                        columnNumber: 21
-                                                    }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "text-center",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-2xl font-bold",
-                                                                children: teamData.summary.worker_count
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 516,
-                                                                columnNumber: 23
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                className: "text-sm text-muted-foreground",
-                                                                children: "Workers"
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 517,
-                                                                columnNumber: 23
-                                                            }, this)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 515,
-                                                        columnNumber: 21
-                                                    }, this)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 502,
-                                                columnNumber: 19
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "space-y-4",
-                                                children: teamData.crews.map((crew)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
-                                                        className: "p-4",
-                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                            className: "space-y-4",
+                                        lineNumber: 486,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
+                                        children: teamLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-4",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex items-center space-x-4",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "skeleton h-4 w-4 rounded-full"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 496,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "space-y-2 flex-1",
                                                             children: [
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    className: "flex items-center justify-between",
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                            children: [
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
-                                                                                    className: "font-semibold",
-                                                                                    children: crew.name
-                                                                                }, void 0, false, {
-                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                    lineNumber: 528,
-                                                                                    columnNumber: 31
-                                                                                }, this),
-                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                                    className: "text-sm text-muted-foreground",
-                                                                                    children: [
-                                                                                        crew.member_count,
-                                                                                        " members • Status: ",
-                                                                                        crew.status
-                                                                                    ]
-                                                                                }, void 0, true, {
-                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                    lineNumber: 529,
-                                                                                    columnNumber: 31
-                                                                                }, this)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 527,
-                                                                            columnNumber: 29
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
-                                                                            variant: crew.status === 'active' ? 'default' : 'secondary',
-                                                                            children: crew.status
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 533,
-                                                                            columnNumber: 29
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 526,
-                                                                    columnNumber: 27
-                                                                }, this),
-                                                                crew.foreman && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    className: "border-l-2 border-primary pl-4",
-                                                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                        className: "flex items-center space-x-3",
-                                                                        children: [
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Shield$3e$__["Shield"], {
-                                                                                className: "h-4 w-4 text-primary"
-                                                                            }, void 0, false, {
-                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                lineNumber: 542,
-                                                                                columnNumber: 33
-                                                                            }, this),
-                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                children: [
-                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                        className: "font-medium",
-                                                                                        children: crew.foreman.full_name
-                                                                                    }, void 0, false, {
-                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                        lineNumber: 544,
-                                                                                        columnNumber: 35
-                                                                                    }, this),
-                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                        className: "text-sm text-muted-foreground flex items-center space-x-2",
-                                                                                        children: [
-                                                                                            crew.foreman.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                                                                children: [
-                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__["Mail"], {
-                                                                                                        className: "h-3 w-3"
-                                                                                                    }, void 0, false, {
-                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                        lineNumber: 548,
-                                                                                                        columnNumber: 41
-                                                                                                    }, this),
-                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                                        children: crew.foreman.email
-                                                                                                    }, void 0, false, {
-                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                        lineNumber: 549,
-                                                                                                        columnNumber: 41
-                                                                                                    }, this)
-                                                                                                ]
-                                                                                            }, void 0, true),
-                                                                                            crew.foreman.phone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                                                                children: [
-                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                                        children: "•"
-                                                                                                    }, void 0, false, {
-                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                        lineNumber: 554,
-                                                                                                        columnNumber: 41
-                                                                                                    }, this),
-                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {
-                                                                                                        className: "h-3 w-3"
-                                                                                                    }, void 0, false, {
-                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                        lineNumber: 555,
-                                                                                                        columnNumber: 41
-                                                                                                    }, this),
-                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                                        children: crew.foreman.phone
-                                                                                                    }, void 0, false, {
-                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                        lineNumber: 556,
-                                                                                                        columnNumber: 41
-                                                                                                    }, this)
-                                                                                                ]
-                                                                                            }, void 0, true)
-                                                                                        ]
-                                                                                    }, void 0, true, {
-                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                        lineNumber: 545,
-                                                                                        columnNumber: 35
-                                                                                    }, this),
-                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
-                                                                                        variant: "outline",
-                                                                                        className: "text-xs mt-1",
-                                                                                        children: "Foreman"
-                                                                                    }, void 0, false, {
-                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                        lineNumber: 560,
-                                                                                        columnNumber: 35
-                                                                                    }, this)
-                                                                                ]
-                                                                            }, void 0, true, {
-                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                lineNumber: 543,
-                                                                                columnNumber: 33
-                                                                            }, this)
-                                                                        ]
-                                                                    }, void 0, true, {
-                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                        lineNumber: 541,
-                                                                        columnNumber: 31
-                                                                    }, this)
+                                                                    className: "skeleton h-4 w-full"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 540,
-                                                                    columnNumber: 29
+                                                                    lineNumber: 498,
+                                                                    columnNumber: 23
                                                                 }, this),
-                                                                crew.members && crew.members.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    className: "space-y-2",
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
-                                                                            className: "text-sm font-medium text-muted-foreground",
-                                                                            children: "Team Members"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 571,
-                                                                            columnNumber: 31
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                            className: "grid gap-2",
-                                                                            children: crew.members.map((member)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                    className: "flex items-center space-x-3 py-2",
-                                                                                    children: [
-                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__User$3e$__["User"], {
-                                                                                            className: "h-4 w-4 text-muted-foreground"
-                                                                                        }, void 0, false, {
-                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                            lineNumber: 575,
-                                                                                            columnNumber: 37
-                                                                                        }, this),
-                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                            className: "flex-1",
-                                                                                            children: [
-                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                                    className: "font-medium",
-                                                                                                    children: member.user.full_name
-                                                                                                }, void 0, false, {
-                                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                    lineNumber: 577,
-                                                                                                    columnNumber: 39
-                                                                                                }, this),
-                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                                                    className: "text-sm text-muted-foreground flex items-center space-x-2",
-                                                                                                    children: [
-                                                                                                        member.user.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                                                                            children: [
-                                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__["Mail"], {
-                                                                                                                    className: "h-3 w-3"
-                                                                                                                }, void 0, false, {
-                                                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                                    lineNumber: 581,
-                                                                                                                    columnNumber: 45
-                                                                                                                }, this),
-                                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                                                    children: member.user.email
-                                                                                                                }, void 0, false, {
-                                                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                                    lineNumber: 582,
-                                                                                                                    columnNumber: 45
-                                                                                                                }, this)
-                                                                                                            ]
-                                                                                                        }, void 0, true),
-                                                                                                        member.user.phone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
-                                                                                                            children: [
-                                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                                                    children: "•"
-                                                                                                                }, void 0, false, {
-                                                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                                    lineNumber: 587,
-                                                                                                                    columnNumber: 45
-                                                                                                                }, this),
-                                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {
-                                                                                                                    className: "h-3 w-3"
-                                                                                                                }, void 0, false, {
-                                                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                                    lineNumber: 588,
-                                                                                                                    columnNumber: 45
-                                                                                                                }, this),
-                                                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                                                                    children: member.user.phone
-                                                                                                                }, void 0, false, {
-                                                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                                    lineNumber: 589,
-                                                                                                                    columnNumber: 45
-                                                                                                                }, this)
-                                                                                                            ]
-                                                                                                        }, void 0, true)
-                                                                                                    ]
-                                                                                                }, void 0, true, {
-                                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                                    lineNumber: 578,
-                                                                                                    columnNumber: 39
-                                                                                                }, this)
-                                                                                            ]
-                                                                                        }, void 0, true, {
-                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                            lineNumber: 576,
-                                                                                            columnNumber: 37
-                                                                                        }, this),
-                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
-                                                                                            variant: "outline",
-                                                                                            className: "text-xs",
-                                                                                            children: member.role_in_crew
-                                                                                        }, void 0, false, {
-                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                            lineNumber: 594,
-                                                                                            columnNumber: 37
-                                                                                        }, this)
-                                                                                    ]
-                                                                                }, member.id, true, {
-                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                    lineNumber: 574,
-                                                                                    columnNumber: 35
-                                                                                }, this))
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 572,
-                                                                            columnNumber: 31
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "skeleton h-3 w-3/4"
+                                                                }, void 0, false, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 570,
-                                                                    columnNumber: 29
+                                                                    lineNumber: 499,
+                                                                    columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 525,
-                                                            columnNumber: 25
+                                                            lineNumber: 497,
+                                                            columnNumber: 21
                                                         }, this)
-                                                    }, crew.id, false, {
-                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 524,
-                                                        columnNumber: 23
-                                                    }, this))
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 522,
-                                                columnNumber: 19
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 495,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "flex items-center space-x-4",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "skeleton h-4 w-4 rounded-full"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 503,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "space-y-2 flex-1",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "skeleton h-4 w-full"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 505,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "skeleton h-3 w-3/4"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 506,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 504,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 502,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                            lineNumber: 494,
+                                            columnNumber: 17
+                                        }, this) : teamData?.crews?.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "space-y-6",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-center",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-2xl font-bold",
+                                                                    children: teamData.summary.total_crews
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 515,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-sm text-muted-foreground",
+                                                                    children: "Total Crews"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 516,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 514,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-center",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-2xl font-bold",
+                                                                    children: teamData.summary.total_members
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 519,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-sm text-muted-foreground",
+                                                                    children: "Team Members"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 520,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 518,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-center",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-2xl font-bold",
+                                                                    children: teamData.summary.foreman_count
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 523,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-sm text-muted-foreground",
+                                                                    children: "Foremen"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 524,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 522,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-center",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-2xl font-bold",
+                                                                    children: teamData.summary.worker_count
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 527,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-sm text-muted-foreground",
+                                                                    children: "Workers"
+                                                                }, void 0, false, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 528,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 526,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 513,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "space-y-4",
+                                                    children: teamData.crews.map((crew)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
+                                                            className: "p-4",
+                                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "space-y-4",
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex items-center justify-between",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
+                                                                                        className: "font-semibold",
+                                                                                        children: crew.name
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                        lineNumber: 539,
+                                                                                        columnNumber: 31
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                                        className: "text-sm text-muted-foreground",
+                                                                                        children: [
+                                                                                            crew.member_count,
+                                                                                            " members • Status: ",
+                                                                                            crew.status
+                                                                                        ]
+                                                                                    }, void 0, true, {
+                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                        lineNumber: 540,
+                                                                                        columnNumber: 31
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                lineNumber: 538,
+                                                                                columnNumber: 29
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                variant: crew.status === 'active' ? 'default' : 'secondary',
+                                                                                children: crew.status
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                lineNumber: 544,
+                                                                                columnNumber: 29
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                        lineNumber: 537,
+                                                                        columnNumber: 27
+                                                                    }, this),
+                                                                    crew.foreman && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "border-l-2 border-primary pl-4",
+                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "flex items-center space-x-3",
+                                                                            children: [
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$shield$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Shield$3e$__["Shield"], {
+                                                                                    className: "h-4 w-4 text-primary"
+                                                                                }, void 0, false, {
+                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                    lineNumber: 553,
+                                                                                    columnNumber: 33
+                                                                                }, this),
+                                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                    children: [
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                            className: "font-medium",
+                                                                                            children: crew.foreman.full_name
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                            lineNumber: 555,
+                                                                                            columnNumber: 35
+                                                                                        }, this),
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                            className: "text-sm text-muted-foreground flex items-center space-x-2",
+                                                                                            children: [
+                                                                                                crew.foreman.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                                                                    children: [
+                                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__["Mail"], {
+                                                                                                            className: "h-3 w-3"
+                                                                                                        }, void 0, false, {
+                                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                            lineNumber: 559,
+                                                                                                            columnNumber: 41
+                                                                                                        }, this),
+                                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                            children: crew.foreman.email
+                                                                                                        }, void 0, false, {
+                                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                            lineNumber: 560,
+                                                                                                            columnNumber: 41
+                                                                                                        }, this)
+                                                                                                    ]
+                                                                                                }, void 0, true),
+                                                                                                crew.foreman.phone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                                                                    children: [
+                                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                            children: "•"
+                                                                                                        }, void 0, false, {
+                                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                            lineNumber: 565,
+                                                                                                            columnNumber: 41
+                                                                                                        }, this),
+                                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {
+                                                                                                            className: "h-3 w-3"
+                                                                                                        }, void 0, false, {
+                                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                            lineNumber: 566,
+                                                                                                            columnNumber: 41
+                                                                                                        }, this),
+                                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                            children: crew.foreman.phone
+                                                                                                        }, void 0, false, {
+                                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                            lineNumber: 567,
+                                                                                                            columnNumber: 41
+                                                                                                        }, this)
+                                                                                                    ]
+                                                                                                }, void 0, true)
+                                                                                            ]
+                                                                                        }, void 0, true, {
+                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                            lineNumber: 556,
+                                                                                            columnNumber: 35
+                                                                                        }, this),
+                                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                            variant: "outline",
+                                                                                            className: "text-xs mt-1",
+                                                                                            children: "Foreman"
+                                                                                        }, void 0, false, {
+                                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                            lineNumber: 571,
+                                                                                            columnNumber: 35
+                                                                                        }, this)
+                                                                                    ]
+                                                                                }, void 0, true, {
+                                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                    lineNumber: 554,
+                                                                                    columnNumber: 33
+                                                                                }, this)
+                                                                            ]
+                                                                        }, void 0, true, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 552,
+                                                                            columnNumber: 31
+                                                                        }, this)
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                        lineNumber: 551,
+                                                                        columnNumber: 29
+                                                                    }, this),
+                                                                    crew.members && crew.members.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "space-y-2",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
+                                                                                className: "text-sm font-medium text-muted-foreground",
+                                                                                children: "Team Members"
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                lineNumber: 582,
+                                                                                columnNumber: 31
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "grid gap-2",
+                                                                                children: crew.members.map((member)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                        className: "flex items-center space-x-3 py-2",
+                                                                                        children: [
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$user$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__User$3e$__["User"], {
+                                                                                                className: "h-4 w-4 text-muted-foreground"
+                                                                                            }, void 0, false, {
+                                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                lineNumber: 586,
+                                                                                                columnNumber: 37
+                                                                                            }, this),
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                className: "flex-1",
+                                                                                                children: [
+                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                        className: "font-medium",
+                                                                                                        children: member.user.full_name
+                                                                                                    }, void 0, false, {
+                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                        lineNumber: 588,
+                                                                                                        columnNumber: 39
+                                                                                                    }, this),
+                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                        className: "text-sm text-muted-foreground flex items-center space-x-2",
+                                                                                                        children: [
+                                                                                                            member.user.email && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                                                                                children: [
+                                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$mail$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Mail$3e$__["Mail"], {
+                                                                                                                        className: "h-3 w-3"
+                                                                                                                    }, void 0, false, {
+                                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                                        lineNumber: 592,
+                                                                                                                        columnNumber: 45
+                                                                                                                    }, this),
+                                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                                        children: member.user.email
+                                                                                                                    }, void 0, false, {
+                                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                                        lineNumber: 593,
+                                                                                                                        columnNumber: 45
+                                                                                                                    }, this)
+                                                                                                                ]
+                                                                                                            }, void 0, true),
+                                                                                                            member.user.phone && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                                                                                children: [
+                                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                                        children: "•"
+                                                                                                                    }, void 0, false, {
+                                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                                        lineNumber: 598,
+                                                                                                                        columnNumber: 45
+                                                                                                                    }, this),
+                                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$phone$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Phone$3e$__["Phone"], {
+                                                                                                                        className: "h-3 w-3"
+                                                                                                                    }, void 0, false, {
+                                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                                        lineNumber: 599,
+                                                                                                                        columnNumber: 45
+                                                                                                                    }, this),
+                                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                                                                                        children: member.user.phone
+                                                                                                                    }, void 0, false, {
+                                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                                        lineNumber: 600,
+                                                                                                                        columnNumber: 45
+                                                                                                                    }, this)
+                                                                                                                ]
+                                                                                                            }, void 0, true)
+                                                                                                        ]
+                                                                                                    }, void 0, true, {
+                                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                        lineNumber: 589,
+                                                                                                        columnNumber: 39
+                                                                                                    }, this)
+                                                                                                ]
+                                                                                            }, void 0, true, {
+                                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                lineNumber: 587,
+                                                                                                columnNumber: 37
+                                                                                            }, this),
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                                variant: "outline",
+                                                                                                className: "text-xs",
+                                                                                                children: member.role_in_crew
+                                                                                            }, void 0, false, {
+                                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                lineNumber: 605,
+                                                                                                columnNumber: 37
+                                                                                            }, this)
+                                                                                        ]
+                                                                                    }, member.id, true, {
+                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                        lineNumber: 585,
+                                                                                        columnNumber: 35
+                                                                                    }, this))
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                lineNumber: 583,
+                                                                                columnNumber: 31
+                                                                            }, this)
+                                                                        ]
+                                                                    }, void 0, true, {
+                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                        lineNumber: 581,
+                                                                        columnNumber: 29
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                lineNumber: 536,
+                                                                columnNumber: 25
+                                                            }, this)
+                                                        }, crew.id, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 535,
+                                                            columnNumber: 23
+                                                        }, this))
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 533,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                            lineNumber: 511,
+                                            columnNumber: 17
+                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-center py-8 text-muted-foreground",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"], {
+                                                    className: "h-12 w-12 mx-auto mb-4 opacity-50"
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 620,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                    children: "No teams assigned to this project yet."
+                                                }, void 0, false, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 621,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                            lineNumber: 619,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 500,
-                                        columnNumber: 17
-                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "text-center py-8 text-muted-foreground",
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"], {
-                                                className: "h-12 w-12 mx-auto mb-4 opacity-50"
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 609,
-                                                columnNumber: 19
-                                            }, this),
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                children: "No teams assigned to this project yet."
-                                            }, void 0, false, {
-                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 610,
-                                                columnNumber: 19
-                                            }, this)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 608,
-                                        columnNumber: 17
+                                        lineNumber: 492,
+                                        columnNumber: 13
                                     }, this)
-                                }, void 0, false, {
-                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 481,
-                                    columnNumber: 13
-                                }, this)
-                            ]
-                        }, void 0, true, {
-                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                            lineNumber: 474,
-                            columnNumber: 11
-                        }, this)
-                    }, void 0, false, {
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                lineNumber: 485,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardHeader"], {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
+                                                className: "flex items-center gap-2",
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$zap$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Zap$3e$__["Zap"], {
+                                                        className: "h-5 w-5"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                        lineNumber: 631,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    "Resource Summary"
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                lineNumber: 630,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
+                                                children: "Overview of all resources assigned to this project"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                lineNumber: 634,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                        lineNumber: 629,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
+                                        children: resourcesLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-center py-4",
+                                            children: "Loading resources..."
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                            lineNumber: 640,
+                                            columnNumber: 17
+                                        }, this) : resourcesData ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg",
+                                            children: [
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-center",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-2xl font-bold",
+                                                            children: (resourcesData?.equipment?.length || 0) + (resourcesData?.vehicles?.length || 0) + (resourcesData?.materials?.length || 0)
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 644,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-sm text-muted-foreground",
+                                                            children: "Total Resources"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 647,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 643,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-center",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-2xl font-bold text-orange-600",
+                                                            children: resourcesData?.equipment?.length || 0
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 650,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-sm text-muted-foreground",
+                                                            children: "Equipment"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 651,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 649,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-center",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-2xl font-bold text-blue-600",
+                                                            children: resourcesData?.vehicles?.length || 0
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 654,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-sm text-muted-foreground",
+                                                            children: "Vehicles"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 655,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 653,
+                                                    columnNumber: 19
+                                                }, this),
+                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-center",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-2xl font-bold text-green-600",
+                                                            children: [
+                                                                "€",
+                                                                ((resourcesData?.equipment?.reduce((sum, eq)=>sum + (eq.rental_cost_per_day || 0), 0) || 0) + (resourcesData?.vehicles?.reduce((sum, vh)=>sum + (vh.rental_cost_per_day || 0), 0) || 0)).toFixed(0)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 658,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "text-sm text-muted-foreground",
+                                                            children: "Total Cost"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 664,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 657,
+                                                    columnNumber: 19
+                                                }, this)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                            lineNumber: 642,
+                                            columnNumber: 17
+                                        }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            className: "text-center py-4 text-muted-foreground",
+                                            children: "No resource data available"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                            lineNumber: 668,
+                                            columnNumber: 17
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                        lineNumber: 638,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                lineNumber: 628,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "grid gap-6 md:grid-cols-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardHeader"], {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
+                                                        className: "flex items-center gap-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$wrench$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Wrench$3e$__["Wrench"], {
+                                                                className: "h-5 w-5"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                lineNumber: 679,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            "Equipment Overview"
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                        lineNumber: 678,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
+                                                        children: "Tools and equipment assigned to this project"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                        lineNumber: 682,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                lineNumber: 677,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
+                                                children: resourcesLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "space-y-3",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "skeleton h-4 w-full"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 689,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "skeleton h-4 w-3/4"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 690,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "skeleton h-4 w-1/2"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 691,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 688,
+                                                    columnNumber: 19
+                                                }, this) : resourcesData?.equipment?.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "space-y-4",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "grid grid-cols-3 gap-4 p-3 bg-muted/50 rounded-lg",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-center",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-lg font-bold",
+                                                                            children: resourcesData?.equipment?.length || 0
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 698,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-xs text-muted-foreground",
+                                                                            children: "Assigned"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 699,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 697,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-center",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-lg font-bold text-green-600",
+                                                                            children: resourcesData.equipment.filter((eq)=>eq.owned).length
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 702,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-xs text-muted-foreground",
+                                                                            children: "Owned"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 705,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 701,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-center",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-lg font-bold text-blue-600",
+                                                                            children: resourcesData.equipment.filter((eq)=>!eq.owned).length
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 708,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-xs text-muted-foreground",
+                                                                            children: "Rented"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 711,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 707,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 696,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "space-y-2",
+                                                            children: [
+                                                                resourcesData.equipment.slice(0, 3).map((equipment)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex items-center justify-between p-2 border rounded",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$hard$2d$hat$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__HardHat$3e$__["HardHat"], {
+                                                                                        className: "h-4 w-4 text-muted-foreground"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                        lineNumber: 720,
+                                                                                        columnNumber: 29
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                        children: [
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                className: "font-medium text-sm",
+                                                                                                children: equipment.name
+                                                                                            }, void 0, false, {
+                                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                lineNumber: 722,
+                                                                                                columnNumber: 31
+                                                                                            }, this),
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                className: "text-xs text-muted-foreground",
+                                                                                                children: [
+                                                                                                    equipment.type,
+                                                                                                    " • ",
+                                                                                                    equipment.crew_name,
+                                                                                                    " • ",
+                                                                                                    equipment.period
+                                                                                                ]
+                                                                                            }, void 0, true, {
+                                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                lineNumber: 723,
+                                                                                                columnNumber: 31
+                                                                                            }, this),
+                                                                                            equipment.daily_rate > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                className: "text-xs text-blue-600",
+                                                                                                children: [
+                                                                                                    "€",
+                                                                                                    equipment.daily_rate,
+                                                                                                    "/day (€",
+                                                                                                    equipment.total_cost?.toFixed(2),
+                                                                                                    " total)"
+                                                                                                ]
+                                                                                            }, void 0, true, {
+                                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                lineNumber: 727,
+                                                                                                columnNumber: 33
+                                                                                            }, this)
+                                                                                        ]
+                                                                                    }, void 0, true, {
+                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                        lineNumber: 721,
+                                                                                        columnNumber: 29
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                lineNumber: 719,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                variant: equipment.owned ? 'default' : 'secondary',
+                                                                                className: "text-xs",
+                                                                                children: equipment.owned ? 'Owned' : 'Rented'
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                lineNumber: 733,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        ]
+                                                                    }, equipment.id, true, {
+                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                        lineNumber: 718,
+                                                                        columnNumber: 25
+                                                                    }, this)),
+                                                                resourcesData.equipment.length > 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-center text-sm text-muted-foreground",
+                                                                    children: [
+                                                                        "+",
+                                                                        resourcesData.equipment.length - 3,
+                                                                        " more items"
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 742,
+                                                                    columnNumber: 25
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 716,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 694,
+                                                    columnNumber: 19
+                                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-center py-6 text-muted-foreground",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$wrench$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Wrench$3e$__["Wrench"], {
+                                                            className: "h-8 w-8 mx-auto mb-2 opacity-50"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 750,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-sm",
+                                                            children: "No equipment assigned yet"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 751,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 749,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                lineNumber: 686,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                        lineNumber: 676,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardHeader"], {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardTitle"], {
+                                                        className: "flex items-center gap-2",
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$truck$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Truck$3e$__["Truck"], {
+                                                                className: "h-5 w-5"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                lineNumber: 761,
+                                                                columnNumber: 19
+                                                            }, this),
+                                                            "Transport Overview"
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                        lineNumber: 760,
+                                                        columnNumber: 17
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
+                                                        children: "Vehicles and transport assigned to teams"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                        lineNumber: 764,
+                                                        columnNumber: 17
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                lineNumber: 759,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
+                                                children: resourcesLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "space-y-3",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "skeleton h-4 w-full"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 771,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "skeleton h-4 w-3/4"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 772,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "skeleton h-4 w-1/2"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 773,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 770,
+                                                    columnNumber: 19
+                                                }, this) : resourcesData?.vehicles?.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "space-y-4",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "grid grid-cols-3 gap-4 p-3 bg-muted/50 rounded-lg",
+                                                            children: [
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-center",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-lg font-bold",
+                                                                            children: resourcesData?.vehicles?.length || 0
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 780,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-xs text-muted-foreground",
+                                                                            children: "Assigned"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 781,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 779,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-center",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-lg font-bold text-green-600",
+                                                                            children: resourcesData.vehicles.filter((v)=>v.owned).length
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 784,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-xs text-muted-foreground",
+                                                                            children: "Owned"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 787,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 783,
+                                                                    columnNumber: 23
+                                                                }, this),
+                                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-center",
+                                                                    children: [
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-lg font-bold text-blue-600",
+                                                                            children: resourcesData.vehicles.filter((v)=>!v.owned).length
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 790,
+                                                                            columnNumber: 25
+                                                                        }, this),
+                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                            className: "text-xs text-muted-foreground",
+                                                                            children: "Rented"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                            lineNumber: 793,
+                                                                            columnNumber: 25
+                                                                        }, this)
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 789,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 778,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            className: "space-y-2",
+                                                            children: [
+                                                                resourcesData.vehicles.slice(0, 3).map((vehicle)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                        className: "flex items-center justify-between p-2 border rounded",
+                                                                        children: [
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                className: "flex items-center gap-2",
+                                                                                children: [
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$truck$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Truck$3e$__["Truck"], {
+                                                                                        className: "h-4 w-4 text-muted-foreground"
+                                                                                    }, void 0, false, {
+                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                        lineNumber: 802,
+                                                                                        columnNumber: 29
+                                                                                    }, this),
+                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                        children: [
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                className: "font-medium text-sm",
+                                                                                                children: [
+                                                                                                    vehicle.brand,
+                                                                                                    " ",
+                                                                                                    vehicle.model
+                                                                                                ]
+                                                                                            }, void 0, true, {
+                                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                lineNumber: 804,
+                                                                                                columnNumber: 31
+                                                                                            }, this),
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                className: "text-xs text-muted-foreground",
+                                                                                                children: [
+                                                                                                    vehicle.plate_number,
+                                                                                                    " • ",
+                                                                                                    vehicle.type,
+                                                                                                    " • ",
+                                                                                                    vehicle.crew_name
+                                                                                                ]
+                                                                                            }, void 0, true, {
+                                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                lineNumber: 807,
+                                                                                                columnNumber: 31
+                                                                                            }, this),
+                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                className: "text-xs text-muted-foreground",
+                                                                                                children: vehicle.period
+                                                                                            }, void 0, false, {
+                                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                lineNumber: 810,
+                                                                                                columnNumber: 31
+                                                                                            }, this),
+                                                                                            vehicle.daily_rate > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                                                className: "text-xs text-blue-600",
+                                                                                                children: [
+                                                                                                    "€",
+                                                                                                    vehicle.daily_rate,
+                                                                                                    "/day (€",
+                                                                                                    vehicle.total_cost?.toFixed(2),
+                                                                                                    " total)"
+                                                                                                ]
+                                                                                            }, void 0, true, {
+                                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                                lineNumber: 814,
+                                                                                                columnNumber: 33
+                                                                                            }, this)
+                                                                                        ]
+                                                                                    }, void 0, true, {
+                                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                        lineNumber: 803,
+                                                                                        columnNumber: 29
+                                                                                    }, this)
+                                                                                ]
+                                                                            }, void 0, true, {
+                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                lineNumber: 801,
+                                                                                columnNumber: 27
+                                                                            }, this),
+                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                variant: vehicle.owned ? 'default' : 'secondary',
+                                                                                className: "text-xs",
+                                                                                children: vehicle.owned ? 'Owned' : 'Rented'
+                                                                            }, void 0, false, {
+                                                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                                lineNumber: 820,
+                                                                                columnNumber: 27
+                                                                            }, this)
+                                                                        ]
+                                                                    }, vehicle.id, true, {
+                                                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                        lineNumber: 800,
+                                                                        columnNumber: 25
+                                                                    }, this)),
+                                                                resourcesData.vehicles.length > 3 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                    className: "text-center text-sm text-muted-foreground",
+                                                                    children: [
+                                                                        "+",
+                                                                        resourcesData.vehicles.length - 3,
+                                                                        " more vehicles"
+                                                                    ]
+                                                                }, void 0, true, {
+                                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                                    lineNumber: 829,
+                                                                    columnNumber: 25
+                                                                }, this)
+                                                            ]
+                                                        }, void 0, true, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 798,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 776,
+                                                    columnNumber: 19
+                                                }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    className: "text-center py-6 text-muted-foreground",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$truck$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Truck$3e$__["Truck"], {
+                                                            className: "h-8 w-8 mx-auto mb-2 opacity-50"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 837,
+                                                            columnNumber: 21
+                                                        }, this),
+                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                            className: "text-sm",
+                                                            children: "No vehicles assigned yet"
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                            lineNumber: 838,
+                                                            columnNumber: 21
+                                                        }, this)
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                    lineNumber: 836,
+                                                    columnNumber: 19
+                                                }, this)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                                lineNumber: 768,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                        lineNumber: 758,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
+                                lineNumber: 674,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 473,
+                        lineNumber: 484,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2093,20 +2885,20 @@ function ProjectDetailsPage() {
                                             children: "Project Documents"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 620,
+                                            lineNumber: 849,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Files, plans, and documentation related to this project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 621,
+                                            lineNumber: 850,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 619,
+                                    lineNumber: 848,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2117,7 +2909,7 @@ function ProjectDetailsPage() {
                                                 className: "skeleton h-20 w-full rounded-lg"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 628,
+                                                lineNumber: 857,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2127,33 +2919,33 @@ function ProjectDetailsPage() {
                                                         className: "skeleton h-4 w-full"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 630,
+                                                        lineNumber: 859,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "skeleton h-4 w-3/4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 631,
+                                                        lineNumber: 860,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "skeleton h-4 w-1/2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 632,
+                                                        lineNumber: 861,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 629,
+                                                lineNumber: 858,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 627,
+                                        lineNumber: 856,
                                         columnNumber: 17
                                     }, this) : documentsData?.documents?.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "space-y-6",
@@ -2171,7 +2963,7 @@ function ProjectDetailsPage() {
                                                                 children: category.count
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 641,
+                                                                lineNumber: 870,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2179,18 +2971,18 @@ function ProjectDetailsPage() {
                                                                 children: category.name
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                lineNumber: 644,
+                                                                lineNumber: 873,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, category.id, true, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 640,
+                                                        lineNumber: 869,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 638,
+                                                lineNumber: 867,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2211,12 +3003,12 @@ function ProjectDetailsPage() {
                                                                                     className: "h-6 w-6 text-purple-600"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                    lineNumber: 658,
+                                                                                    lineNumber: 887,
                                                                                     columnNumber: 35
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                lineNumber: 657,
+                                                                                lineNumber: 886,
                                                                                 columnNumber: 33
                                                                             }, this) : doc.is_pdf ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                                 className: "w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center",
@@ -2224,12 +3016,12 @@ function ProjectDetailsPage() {
                                                                                     className: "h-6 w-6 text-red-600"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                    lineNumber: 662,
+                                                                                    lineNumber: 891,
                                                                                     columnNumber: 35
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                lineNumber: 661,
+                                                                                lineNumber: 890,
                                                                                 columnNumber: 33
                                                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                                 className: "w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center",
@@ -2237,17 +3029,17 @@ function ProjectDetailsPage() {
                                                                                     className: "h-6 w-6 text-blue-600"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                    lineNumber: 666,
+                                                                                    lineNumber: 895,
                                                                                     columnNumber: 35
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                lineNumber: 665,
+                                                                                lineNumber: 894,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 655,
+                                                                            lineNumber: 884,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2258,7 +3050,7 @@ function ProjectDetailsPage() {
                                                                                     children: doc.file_name
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                    lineNumber: 671,
+                                                                                    lineNumber: 900,
                                                                                     columnNumber: 31
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2268,14 +3060,14 @@ function ProjectDetailsPage() {
                                                                                             children: doc.size_formatted
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                            lineNumber: 673,
+                                                                                            lineNumber: 902,
                                                                                             columnNumber: 33
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                             children: "•"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                            lineNumber: 674,
+                                                                                            lineNumber: 903,
                                                                                             columnNumber: 33
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2285,27 +3077,27 @@ function ProjectDetailsPage() {
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                            lineNumber: 675,
+                                                                                            lineNumber: 904,
                                                                                             columnNumber: 33
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                             children: "•"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                            lineNumber: 676,
+                                                                                            lineNumber: 905,
                                                                                             columnNumber: 33
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                                             children: new Date(doc.uploaded_at).toLocaleDateString('de-DE')
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                            lineNumber: 677,
+                                                                                            lineNumber: 906,
                                                                                             columnNumber: 33
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                    lineNumber: 672,
+                                                                                    lineNumber: 901,
                                                                                     columnNumber: 31
                                                                                 }, this),
                                                                                 doc.notes && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2313,7 +3105,7 @@ function ProjectDetailsPage() {
                                                                                     children: doc.notes
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                    lineNumber: 680,
+                                                                                    lineNumber: 909,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2329,7 +3121,7 @@ function ProjectDetailsPage() {
                                                                                             children: doc.document_type
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                            lineNumber: 683,
+                                                                                            lineNumber: 912,
                                                                                             columnNumber: 33
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -2338,25 +3130,25 @@ function ProjectDetailsPage() {
                                                                                             children: doc.status
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                            lineNumber: 693,
+                                                                                            lineNumber: 922,
                                                                                             columnNumber: 33
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                    lineNumber: 682,
+                                                                                    lineNumber: 911,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 670,
+                                                                            lineNumber: 899,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 654,
+                                                                    lineNumber: 883,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2365,53 +3157,75 @@ function ProjectDetailsPage() {
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
                                                                             variant: "outline",
                                                                             size: "sm",
+                                                                            onClick: ()=>{
+                                                                                // For PDF files, try to open in new tab for preview
+                                                                                if (doc.file_name?.toLowerCase().includes('.pdf')) {
+                                                                                    window.open(doc.file_path, '_blank');
+                                                                                } else {
+                                                                                    // For other files, download directly
+                                                                                    const link = document.createElement('a');
+                                                                                    link.href = doc.file_path;
+                                                                                    link.download = doc.file_name;
+                                                                                    document.body.appendChild(link);
+                                                                                    link.click();
+                                                                                    document.body.removeChild(link);
+                                                                                }
+                                                                            },
                                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__["Eye"], {
                                                                                 className: "h-4 w-4"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                lineNumber: 704,
+                                                                                lineNumber: 950,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 703,
+                                                                            lineNumber: 932,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
                                                                             variant: "outline",
                                                                             size: "sm",
+                                                                            onClick: ()=>{
+                                                                                const link = document.createElement('a');
+                                                                                link.href = doc.file_path + '?download=true';
+                                                                                link.download = doc.file_name;
+                                                                                document.body.appendChild(link);
+                                                                                link.click();
+                                                                                document.body.removeChild(link);
+                                                                            },
                                                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"], {
                                                                                 className: "h-4 w-4"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                                lineNumber: 707,
+                                                                                lineNumber: 964,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                            lineNumber: 706,
+                                                                            lineNumber: 952,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                                    lineNumber: 702,
+                                                                    lineNumber: 931,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                            lineNumber: 653,
+                                                            lineNumber: 882,
                                                             columnNumber: 25
                                                         }, this)
                                                     }, doc.id, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 652,
+                                                        lineNumber: 881,
                                                         columnNumber: 23
                                                     }, this))
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 650,
+                                                lineNumber: 879,
                                                 columnNumber: 19
                                             }, this),
                                             documentsData.pagination && documentsData.pagination.total > documentsData.pagination.per_page && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2425,13 +3239,13 @@ function ProjectDetailsPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 717,
+                                                lineNumber: 974,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 636,
+                                        lineNumber: 865,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-center py-8 text-muted-foreground",
@@ -2440,14 +3254,14 @@ function ProjectDetailsPage() {
                                                 className: "h-12 w-12 mx-auto mb-4 opacity-50"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 724,
+                                                lineNumber: 981,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 children: "No documents uploaded for this project yet."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 725,
+                                                lineNumber: 982,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2456,29 +3270,29 @@ function ProjectDetailsPage() {
                                                 children: "Upload Documents"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 726,
+                                                lineNumber: 983,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 723,
+                                        lineNumber: 980,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 625,
+                                    lineNumber: 854,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                            lineNumber: 618,
+                            lineNumber: 847,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 617,
+                        lineNumber: 846,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2492,20 +3306,20 @@ function ProjectDetailsPage() {
                                             children: "Financial Overview"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 738,
+                                            lineNumber: 995,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Budget, costs, and financial tracking for this project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                            lineNumber: 739,
+                                            lineNumber: 996,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 737,
+                                    lineNumber: 994,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2520,7 +3334,7 @@ function ProjectDetailsPage() {
                                                         children: "Project Budget"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 746,
+                                                        lineNumber: 1003,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2534,13 +3348,13 @@ function ProjectDetailsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 747,
+                                                        lineNumber: 1004,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 745,
+                                                lineNumber: 1002,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2551,7 +3365,7 @@ function ProjectDetailsPage() {
                                                         children: "Spent to Date"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 755,
+                                                        lineNumber: 1012,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2565,13 +3379,13 @@ function ProjectDetailsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 756,
+                                                        lineNumber: 1013,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 754,
+                                                lineNumber: 1011,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2582,7 +3396,7 @@ function ProjectDetailsPage() {
                                                         children: "Remaining Budget"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 764,
+                                                        lineNumber: 1021,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2596,13 +3410,13 @@ function ProjectDetailsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 765,
+                                                        lineNumber: 1022,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 763,
+                                                lineNumber: 1020,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2613,7 +3427,7 @@ function ProjectDetailsPage() {
                                                         children: "Spent Percentage"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 773,
+                                                        lineNumber: 1030,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2624,7 +3438,7 @@ function ProjectDetailsPage() {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 774,
+                                                        lineNumber: 1031,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$progress$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Progress"], {
@@ -2632,47 +3446,47 @@ function ProjectDetailsPage() {
                                                         className: "mt-1"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                        lineNumber: 775,
+                                                        lineNumber: 1032,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                                lineNumber: 772,
+                                                lineNumber: 1029,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                        lineNumber: 744,
+                                        lineNumber: 1001,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                                    lineNumber: 743,
+                                    lineNumber: 1000,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                            lineNumber: 736,
+                            lineNumber: 993,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                        lineNumber: 735,
+                        lineNumber: 992,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-                lineNumber: 282,
+                lineNumber: 293,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/(dashboard)/dashboard/projects/[id]/page.tsx",
-        lineNumber: 155,
+        lineNumber: 166,
         columnNumber: 5
     }, this);
 }

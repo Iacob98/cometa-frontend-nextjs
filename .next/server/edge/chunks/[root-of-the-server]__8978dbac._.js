@@ -26,7 +26,8 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 // Define public routes that don't require authentication
 const publicRoutes = [
     '/login',
-    '/register'
+    '/register',
+    '/'
 ];
 // Define routes that require specific roles
 const roleBasedRoutes = {

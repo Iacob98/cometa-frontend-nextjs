@@ -548,6 +548,12 @@ function useCreateFacility() {
                     variables.project_id
                 ]
             });
+            queryClient.invalidateQueries({
+                queryKey: [
+                    'project-costs',
+                    variables.project_id
+                ]
+            });
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["toast"].success(data.message || 'Facility created successfully');
         },
         onError: (error)=>{
@@ -692,6 +698,11 @@ function useDeleteFacility() {
                     'project-preparation'
                 ]
             });
+            queryClient.invalidateQueries({
+                queryKey: [
+                    'project-costs'
+                ]
+            });
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["toast"].success(data.message || 'Facility deleted successfully');
         },
         onError: (error)=>{
@@ -712,6 +723,11 @@ function useDeleteHousingUnit() {
             queryClient.invalidateQueries({
                 queryKey: [
                     'project-preparation'
+                ]
+            });
+            queryClient.invalidateQueries({
+                queryKey: [
+                    'project-costs'
                 ]
             });
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["toast"].success(data.message || 'Housing unit deleted successfully');
@@ -963,15 +979,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$di
 ;
 const api = {
     getHousingUnits: async (projectId)=>{
-        const response = await fetch(`/api/housing-units?project_id=${projectId}`);
+        const response = await fetch(`/api/project-preparation/housing?project_id=${projectId}`);
         if (!response.ok) {
             throw new Error('Failed to fetch housing units');
         }
         const data = await response.json();
-        return data.items || [];
+        return Array.isArray(data) ? data : [];
     },
     createHousingUnit: async (data)=>{
-        const response = await fetch('/api/housing-units', {
+        const response = await fetch('/api/project-preparation/housing', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -985,7 +1001,7 @@ const api = {
         return response.json();
     },
     updateHousingUnit: async (data)=>{
-        const response = await fetch(`/api/housing-units/${data.id}`, {
+        const response = await fetch(`/api/project-preparation/housing/${data.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -999,7 +1015,7 @@ const api = {
         return response.json();
     },
     deleteHousingUnit: async (id)=>{
-        const response = await fetch(`/api/housing-units/${id}`, {
+        const response = await fetch(`/api/project-preparation/housing/${id}`, {
             method: 'DELETE'
         });
         if (!response.ok) {
@@ -1036,6 +1052,12 @@ function useCreateHousingUnit() {
                     variables.project_id
                 ]
             });
+            queryClient.invalidateQueries({
+                queryKey: [
+                    'project-costs',
+                    variables.project_id
+                ]
+            });
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["toast"].success(data.message || 'Housing unit created successfully');
         },
         onError: (error)=>{
@@ -1058,6 +1080,11 @@ function useUpdateHousingUnit() {
                     'project-preparation'
                 ]
             });
+            queryClient.invalidateQueries({
+                queryKey: [
+                    'project-costs'
+                ]
+            });
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["toast"].success(data.message || 'Housing unit updated successfully');
         },
         onError: (error)=>{
@@ -1078,6 +1105,11 @@ function useDeleteHousingUnit() {
             queryClient.invalidateQueries({
                 queryKey: [
                     'project-preparation'
+                ]
+            });
+            queryClient.invalidateQueries({
+                queryKey: [
+                    'project-costs'
                 ]
             });
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["toast"].success(data.message || 'Housing unit deleted successfully');
@@ -1742,7 +1774,8 @@ function useGlobalTeams() {
                     foreman_name: crew.foreman?.full_name || crew.foreman_name,
                     is_active: crew.status === 'active',
                     project_count: projectCounts[crew.name] || 0,
-                    specialization: 'mixed'
+                    specialization: 'mixed',
+                    member_count: crew.member_count || 0
                 }));
         }
     });
@@ -2007,17 +2040,11 @@ function useProjectResources(projectId) {
     return (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useQuery"])({
         queryKey: resourceKeys.projectResources(projectId),
         queryFn: async ()=>{
-            // TODO: Implement proper project resources API
-            return {
-                vehicles: [],
-                equipment: [],
-                summary: {
-                    total_resources: 0,
-                    total_vehicles: 0,
-                    total_equipment: 0,
-                    total_cost: 0
-                }
-            };
+            const response = await fetch(`/api/projects/${projectId}/resources`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch project resources');
+            }
+            return response.json();
         },
         enabled: !!projectId,
         staleTime: 5 * 60 * 1000

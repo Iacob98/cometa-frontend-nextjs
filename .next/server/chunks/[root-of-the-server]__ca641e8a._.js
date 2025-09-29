@@ -117,6 +117,7 @@ async function GET(request) {
         description,
         status,
         leader_user_id,
+        project_id,
         created_at,
         updated_at,
         leader:users!crews_leader_user_id_fkey(
@@ -152,7 +153,9 @@ async function GET(request) {
         if (status) {
             query = query.eq('status', status);
         }
-        // Note: project_id filter removed as crews don't have direct project relationship
+        if (project_id) {
+            query = query.eq('project_id', project_id);
+        }
         const { data: crews, error, count } = await query;
         if (error) {
             console.error('Supabase crews query error:', error);
@@ -168,6 +171,7 @@ async function GET(request) {
                 name: crew.name,
                 description: crew.description || '',
                 status: crew.status || 'active',
+                project_id: crew.project_id,
                 foreman: crew.leader ? {
                     id: crew.leader.id,
                     full_name: `${crew.leader.first_name} ${crew.leader.last_name}`,

@@ -110,51 +110,89 @@ async function GET(request, { params }) {
                 status: 400
             });
         }
-        // Get crews that have worked on this project through work_entries
-        const { data: workEntries, error: workError } = await supabase.from('work_entries').select(`
-        crew_id,
-        crews:crews(
+        // Get crews directly assigned to this project
+        const { data: crews, error: crewsError } = await supabase.from('crews').select(`
+        id,
+        name,
+        description,
+        status,
+        leader_user_id,
+        created_at,
+        updated_at,
+        crew_members:crew_members(
           id,
-          name,
-          description,
-          status,
-          leader_user_id,
-          created_at,
-          updated_at
+          user_id,
+          role,
+          is_active,
+          joined_at,
+          users:users(
+            id,
+            first_name,
+            last_name,
+            email,
+            role
+          )
         )
-      `).eq('project_id', projectId).not('crew_id', 'is', null);
-        if (workError) {
-            console.error('Supabase work entries query error:', workError);
+      `).eq('project_id', projectId);
+        if (crewsError) {
+            console.error('Supabase crews query error:', crewsError);
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 error: 'Failed to fetch team data'
             }, {
                 status: 500
             });
         }
-        // Extract unique crews from work entries
-        const crewsMap = new Map();
-        (workEntries || []).forEach((entry)=>{
-            if (entry.crews) {
-                crewsMap.set(entry.crews.id, entry.crews);
-            }
+        // Calculate total members across all crews
+        let totalMembers = 0;
+        const formattedCrews = (crews || []).map((crew)=>{
+            const activeMembers = (crew.crew_members || []).filter((member)=>member.is_active);
+            totalMembers += activeMembers.length;
+            const leaderMember = activeMembers.find((member)=>member.role === 'leader');
+            return {
+                id: crew.id,
+                name: crew.name,
+                description: crew.description,
+                status: crew.status,
+                leader_user_id: crew.leader_user_id,
+                leader: leaderMember?.users || null,
+                foreman: leaderMember ? {
+                    ...leaderMember.users,
+                    full_name: `${leaderMember.users.first_name} ${leaderMember.users.last_name}`.trim()
+                } : null,
+                members: activeMembers.map((member)=>({
+                        id: member.id,
+                        user_id: member.user_id,
+                        role: member.role,
+                        role_in_crew: member.role,
+                        is_active: member.is_active,
+                        joined_at: member.joined_at,
+                        user: {
+                            ...member.users,
+                            full_name: `${member.users.first_name} ${member.users.last_name}`.trim()
+                        }
+                    })),
+                member_count: activeMembers.length,
+                created_at: crew.created_at,
+                updated_at: crew.updated_at
+            };
         });
-        const crews = Array.from(crewsMap.values());
-        // For now, return simplified structure until we can fix the nested queries
+        // Calculate summary statistics
+        const summary = {
+            total_crews: formattedCrews.length,
+            total_members: totalMembers,
+            foreman_count: formattedCrews.reduce((count, crew)=>{
+                return count + crew.members.filter((m)=>m.role === 'leader' || m.role === 'foreman').length;
+            }, 0),
+            worker_count: formattedCrews.reduce((count, crew)=>{
+                return count + crew.members.filter((m)=>m.role === 'member' || m.role === 'worker' || m.role === 'trainee').length;
+            }, 0)
+        };
         const formattedTeam = {
             project_id: projectId,
-            crews: (crews || []).map((crew)=>({
-                    id: crew.id,
-                    name: crew.name,
-                    description: crew.description,
-                    status: crew.status,
-                    leader_user_id: crew.leader_user_id,
-                    leader: null,
-                    members: [],
-                    created_at: crew.created_at,
-                    updated_at: crew.updated_at
-                })),
-            total_members: 0,
-            active_crews: (crews || []).filter((crew)=>crew.status === 'active').length
+            crews: formattedCrews,
+            total_members: totalMembers,
+            active_crews: (crews || []).filter((crew)=>crew.status === 'active').length,
+            summary: summary
         };
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(formattedTeam);
     } catch (error) {

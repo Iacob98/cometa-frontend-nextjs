@@ -114,7 +114,7 @@ async function GET(request, { params }) {
                 status: 400
             });
         }
-        // Get real documents from database
+        // Get documents from the documents table (all, no pagination here)
         const { data: documents, error: documentsError } = await supabase.from('documents').select(`
         id,
         filename,
@@ -134,16 +134,27 @@ async function GET(request, { params }) {
         )
       `).eq('project_id', projectId).eq('is_active', true).order('upload_date', {
             ascending: false
-        }).range(offset, offset + per_page - 1);
+        });
+        // Get project plans as well
+        const { data: projectPlans, error: plansError } = await supabase.from('project_plans').select(`
+        id,
+        filename,
+        file_path,
+        file_url,
+        file_size,
+        plan_type,
+        description,
+        created_at
+      `).eq('project_id', projectId).order('created_at', {
+            ascending: false
+        });
         if (documentsError) {
             console.error('Documents query error:', documentsError);
-            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-                error: 'Failed to fetch project documents'
-            }, {
-                status: 500
-            });
         }
-        // Transform data for frontend compatibility
+        if (plansError) {
+            console.error('Project plans query error:', plansError);
+        }
+        // Transform documents for frontend compatibility
         const transformedDocuments = (documents || []).map((doc)=>({
                 id: doc.id,
                 project_id: projectId,
@@ -156,25 +167,56 @@ async function GET(request, { params }) {
                 notes: doc.description || '',
                 status: doc.is_active ? 'active' : 'inactive',
                 uploaded_by_name: doc.uploader ? `${doc.uploader.first_name} ${doc.uploader.last_name}` : 'Unknown',
-                uploader_email: doc.uploader?.email || null
+                uploader_email: doc.uploader?.email || null,
+                source: 'documents'
             }));
-        // Get total count for pagination
-        const { count: totalCount, error: countError } = await supabase.from('documents').select('*', {
+        // Transform project plans to match document format
+        const transformedPlans = (projectPlans || []).map((plan)=>({
+                id: plan.id,
+                project_id: projectId,
+                document_type: 'plan',
+                file_name: plan.filename,
+                file_path: `/api/project-preparation/plans/${plan.id}/download`,
+                file_size: plan.file_size,
+                uploaded_at: plan.created_at,
+                uploaded_by: null,
+                notes: plan.description || '',
+                status: 'active',
+                uploaded_by_name: 'User',
+                uploader_email: null,
+                source: 'plans',
+                plan_type: plan.plan_type
+            }));
+        // Combine both document sources
+        const allDocuments = [
+            ...transformedDocuments,
+            ...transformedPlans
+        ].sort((a, b)=>new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime()).slice(offset, offset + per_page);
+        // Get total count for pagination (documents + plans)
+        const { count: documentsCount, error: countError } = await supabase.from('documents').select('*', {
             count: 'exact',
             head: true
         }).eq('project_id', projectId).eq('is_active', true);
+        const { count: plansCount, error: plansCountError } = await supabase.from('project_plans').select('*', {
+            count: 'exact',
+            head: true
+        }).eq('project_id', projectId);
         if (countError) {
             console.error('Documents count query error:', countError);
         }
-        // Calculate summary counts from real data
+        if (plansCountError) {
+            console.error('Plans count query error:', plansCountError);
+        }
+        const totalCount = (documentsCount || 0) + (plansCount || 0);
+        // Calculate summary counts from combined data
         const documentCounts = {
-            document_count: totalCount || 0,
-            active_count: transformedDocuments.filter((d)=>d.status === 'active').length,
-            pending_count: transformedDocuments.filter((d)=>d.status === 'pending').length,
-            plans_count: transformedDocuments.filter((d)=>d.document_type === 'plan').length,
-            permits_count: transformedDocuments.filter((d)=>d.document_type === 'permit').length,
-            reports_count: transformedDocuments.filter((d)=>d.document_type === 'report').length,
-            photos_count: transformedDocuments.filter((d)=>d.document_type === 'photo').length
+            document_count: totalCount,
+            active_count: allDocuments.filter((d)=>d.status === 'active').length,
+            pending_count: allDocuments.filter((d)=>d.status === 'pending').length,
+            plans_count: allDocuments.filter((d)=>d.document_type === 'plan').length,
+            permits_count: allDocuments.filter((d)=>d.document_type === 'permit').length,
+            reports_count: allDocuments.filter((d)=>d.document_type === 'report').length,
+            photos_count: allDocuments.filter((d)=>d.document_type === 'photo').length
         };
         // Create categories for frontend compatibility
         const categories = [
@@ -210,14 +252,14 @@ async function GET(request, { params }) {
             }
         ];
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            documents: transformedDocuments,
+            documents: allDocuments,
             summary: documentCounts,
             categories: categories,
             pagination: {
                 page,
                 per_page,
-                total: totalCount || 0,
-                total_pages: Math.ceil((totalCount || 0) / per_page)
+                total: totalCount,
+                total_pages: Math.ceil(totalCount / per_page)
             }
         });
     } catch (error) {

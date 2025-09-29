@@ -227,41 +227,13 @@ function UtilityContacts({ projectId }) {
             return;
         }
         try {
-            // Create FormData for file upload
-            const formData = new FormData();
-            // Add metadata
-            const metadata = {
-                bucketName: 'project-documents',
-                projectId,
-                category: 'plan',
-                title: planFormData.title,
-                description: planFormData.description,
-                plan_type: planFormData.plan_type
-            };
-            formData.append('metadata', JSON.stringify(metadata));
-            formData.append('file0', planFormData.file);
-            // Call our upload API
-            const response = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData
-            });
-            if (!response.ok) {
-                throw new Error(`Upload failed with status: ${response.status}`);
-            }
-            const result = await response.json();
-            if (result.error) {
-                throw new Error(result.error);
-            }
-            // Create plan entry using the mutation
+            // Use the hook to create plan entry with file upload
             await createPlanMutation.mutateAsync({
                 project_id: projectId,
                 title: planFormData.title,
                 description: planFormData.description,
                 plan_type: planFormData.plan_type,
-                filename: planFormData.file.name,
-                file_size: planFormData.file.size,
-                file_url: result.files[0]?.url || '',
-                file_path: result.files[0]?.fileName || ''
+                file: planFormData.file
             });
             // Reset form
             setPlanFormData({
@@ -271,7 +243,6 @@ function UtilityContacts({ projectId }) {
                 file: null
             });
             setShowPlanUpload(false);
-            __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["toast"].success(`Plan uploaded successfully! ${result.successCount} file(s) uploaded.`);
         } catch (error) {
             console.error('Plan upload error:', error);
             __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["toast"].error(`Failed to upload plan: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -332,7 +303,7 @@ function UtilityContacts({ projectId }) {
             children: "Loading..."
         }, void 0, false, {
             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-            lineNumber: 278,
+            lineNumber: 242,
             columnNumber: 12
         }, this);
     }
@@ -348,7 +319,7 @@ function UtilityContacts({ projectId }) {
                             children: "Plans & Communications"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                            lineNumber: 286,
+                            lineNumber: 250,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -356,18 +327,18 @@ function UtilityContacts({ projectId }) {
                             children: "Manage project plans and utility company contacts"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                            lineNumber: 287,
+                            lineNumber: 251,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                    lineNumber: 285,
+                    lineNumber: 249,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                lineNumber: 284,
+                lineNumber: 248,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -385,27 +356,27 @@ function UtilityContacts({ projectId }) {
                                                     className: "w-5 h-5"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 299,
+                                                    lineNumber: 263,
                                                     columnNumber: 17
                                                 }, this),
                                                 "Project Plans"
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 298,
+                                            lineNumber: 262,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Upload and manage technical plans and documents"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 302,
+                                            lineNumber: 266,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 297,
+                                    lineNumber: 261,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -416,25 +387,25 @@ function UtilityContacts({ projectId }) {
                                             className: "w-4 h-4"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 310,
+                                            lineNumber: 274,
                                             columnNumber: 15
                                         }, this),
                                         "Upload Plan"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 306,
+                                    lineNumber: 270,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                            lineNumber: 296,
+                            lineNumber: 260,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                        lineNumber: 295,
+                        lineNumber: 259,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -455,7 +426,7 @@ function UtilityContacts({ projectId }) {
                                                             children: "Plan Title *"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 322,
+                                                            lineNumber: 286,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -469,13 +440,13 @@ function UtilityContacts({ projectId }) {
                                                             required: true
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 323,
+                                                            lineNumber: 287,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 321,
+                                                    lineNumber: 285,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -485,7 +456,7 @@ function UtilityContacts({ projectId }) {
                                                             children: "Plan Type *"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 333,
+                                                            lineNumber: 297,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
@@ -500,12 +471,12 @@ function UtilityContacts({ projectId }) {
                                                                         placeholder: "Select plan type"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                        lineNumber: 339,
+                                                                        lineNumber: 303,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 338,
+                                                                    lineNumber: 302,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -514,30 +485,30 @@ function UtilityContacts({ projectId }) {
                                                                             children: type.label
                                                                         }, type.value, false, {
                                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                            lineNumber: 343,
+                                                                            lineNumber: 307,
                                                                             columnNumber: 27
                                                                         }, this))
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 341,
+                                                                    lineNumber: 305,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 334,
+                                                            lineNumber: 298,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 332,
+                                                    lineNumber: 296,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 320,
+                                            lineNumber: 284,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -547,7 +518,7 @@ function UtilityContacts({ projectId }) {
                                                     children: "Description"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 353,
+                                                    lineNumber: 317,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -561,13 +532,13 @@ function UtilityContacts({ projectId }) {
                                                     rows: 2
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 354,
+                                                    lineNumber: 318,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 352,
+                                            lineNumber: 316,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -577,7 +548,7 @@ function UtilityContacts({ projectId }) {
                                                     children: "File *"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 364,
+                                                    lineNumber: 328,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -588,7 +559,7 @@ function UtilityContacts({ projectId }) {
                                                     required: true
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 365,
+                                                    lineNumber: 329,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -596,7 +567,7 @@ function UtilityContacts({ projectId }) {
                                                     children: "Supported formats: PDF, Images (JPG, PNG, GIF), Excel files. Max size: 10MB"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 372,
+                                                    lineNumber: 336,
                                                     columnNumber: 19
                                                 }, this),
                                                 planFormData.file && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -612,18 +583,18 @@ function UtilityContacts({ projectId }) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                        lineNumber: 377,
+                                                        lineNumber: 341,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 376,
+                                                    lineNumber: 340,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 363,
+                                            lineNumber: 327,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -637,14 +608,14 @@ function UtilityContacts({ projectId }) {
                                                             className: "w-4 h-4 mr-2"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 386,
+                                                            lineNumber: 350,
                                                             columnNumber: 21
                                                         }, this),
                                                         createPlanMutation.isPending ? 'Uploading...' : 'Upload Plan'
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 385,
+                                                    lineNumber: 349,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -662,24 +633,24 @@ function UtilityContacts({ projectId }) {
                                                     children: "Cancel"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 389,
+                                                    lineNumber: 353,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 384,
+                                            lineNumber: 348,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 319,
+                                    lineNumber: 283,
                                     columnNumber: 15
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 318,
+                                lineNumber: 282,
                                 columnNumber: 13
                             }, this),
                             !plans || plans.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -689,7 +660,7 @@ function UtilityContacts({ projectId }) {
                                         className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                        lineNumber: 407,
+                                        lineNumber: 371,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -697,7 +668,7 @@ function UtilityContacts({ projectId }) {
                                         children: "No Plans Uploaded"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                        lineNumber: 408,
+                                        lineNumber: 372,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -705,7 +676,7 @@ function UtilityContacts({ projectId }) {
                                         children: "Upload project plans, technical drawings, and design documents to get started."
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                        lineNumber: 409,
+                                        lineNumber: 373,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -715,20 +686,20 @@ function UtilityContacts({ projectId }) {
                                                 className: "w-4 h-4 mr-2"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                lineNumber: 413,
+                                                lineNumber: 377,
                                                 columnNumber: 17
                                             }, this),
                                             "Upload First Plan"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                        lineNumber: 412,
+                                        lineNumber: 376,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 406,
+                                lineNumber: 370,
                                 columnNumber: 13
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4",
@@ -749,7 +720,7 @@ function UtilityContacts({ projectId }) {
                                                                 children: planTypeInfo.label
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                lineNumber: 426,
+                                                                lineNumber: 390,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h4", {
@@ -757,7 +728,7 @@ function UtilityContacts({ projectId }) {
                                                                 children: plan.title
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                lineNumber: 429,
+                                                                lineNumber: 393,
                                                                 columnNumber: 27
                                                             }, this),
                                                             plan.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -765,7 +736,7 @@ function UtilityContacts({ projectId }) {
                                                                 children: plan.description
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                lineNumber: 431,
+                                                                lineNumber: 395,
                                                                 columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -778,7 +749,7 @@ function UtilityContacts({ projectId }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                        lineNumber: 434,
+                                                                        lineNumber: 398,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -788,7 +759,7 @@ function UtilityContacts({ projectId }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                        lineNumber: 435,
+                                                                        lineNumber: 399,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -798,19 +769,19 @@ function UtilityContacts({ projectId }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                        lineNumber: 436,
+                                                                        lineNumber: 400,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                lineNumber: 433,
+                                                                lineNumber: 397,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                        lineNumber: 425,
+                                                        lineNumber: 389,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -820,32 +791,41 @@ function UtilityContacts({ projectId }) {
                                                                 variant: "ghost",
                                                                 size: "sm",
                                                                 title: "View",
+                                                                onClick: ()=>window.open(`/api/project-preparation/plans/${plan.id}/download`, '_blank'),
                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$eye$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Eye$3e$__["Eye"], {
                                                                     className: "w-4 h-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 441,
+                                                                    lineNumber: 410,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                lineNumber: 440,
+                                                                lineNumber: 404,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
                                                                 variant: "ghost",
                                                                 size: "sm",
                                                                 title: "Download",
+                                                                onClick: ()=>{
+                                                                    const link = document.createElement('a');
+                                                                    link.href = `/api/project-preparation/plans/${plan.id}/download?download=true`;
+                                                                    link.download = plan.filename;
+                                                                    document.body.appendChild(link);
+                                                                    link.click();
+                                                                    document.body.removeChild(link);
+                                                                },
                                                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$download$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Download$3e$__["Download"], {
                                                                     className: "w-4 h-4"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 444,
+                                                                    lineNumber: 425,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                lineNumber: 443,
+                                                                lineNumber: 412,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -857,52 +837,52 @@ function UtilityContacts({ projectId }) {
                                                                     className: "w-4 h-4 text-red-500"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 452,
+                                                                    lineNumber: 433,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                lineNumber: 446,
+                                                                lineNumber: 427,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                        lineNumber: 439,
+                                                        lineNumber: 403,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                lineNumber: 424,
+                                                lineNumber: 388,
                                                 columnNumber: 23
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 423,
+                                            lineNumber: 387,
                                             columnNumber: 21
                                         }, this)
                                     }, plan.id, false, {
                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                        lineNumber: 422,
+                                        lineNumber: 386,
                                         columnNumber: 19
                                     }, this);
                                 })
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 418,
+                                lineNumber: 382,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                        lineNumber: 315,
+                        lineNumber: 279,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                lineNumber: 294,
+                lineNumber: 258,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -915,7 +895,7 @@ function UtilityContacts({ projectId }) {
                                 children: "Utility Contacts"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 468,
+                                lineNumber: 449,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -923,13 +903,13 @@ function UtilityContacts({ projectId }) {
                                 children: "Manage utility companies and emergency contacts for the project"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 469,
+                                lineNumber: 450,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                        lineNumber: 467,
+                        lineNumber: 448,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -940,20 +920,20 @@ function UtilityContacts({ projectId }) {
                                 className: "w-4 h-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 477,
+                                lineNumber: 458,
                                 columnNumber: 11
                             }, this),
                             "Add Contact"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                        lineNumber: 473,
+                        lineNumber: 454,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                lineNumber: 466,
+                lineNumber: 447,
                 columnNumber: 7
             }, this),
             showForm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -964,20 +944,20 @@ function UtilityContacts({ projectId }) {
                                 children: editingContactId ? 'Edit Utility Contact' : 'Add New Utility Contact'
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 486,
+                                lineNumber: 467,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                 children: editingContactId ? 'Update contact information for utility company' : 'Add contact information for utility companies and emergency services'
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 489,
+                                lineNumber: 470,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                        lineNumber: 485,
+                        lineNumber: 466,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -995,7 +975,7 @@ function UtilityContacts({ projectId }) {
                                                     children: "Type *"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 500,
+                                                    lineNumber: 481,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
@@ -1010,12 +990,12 @@ function UtilityContacts({ projectId }) {
                                                                 placeholder: "Select utility type"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                lineNumber: 506,
+                                                                lineNumber: 487,
                                                                 columnNumber: 23
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 505,
+                                                            lineNumber: 486,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1024,24 +1004,24 @@ function UtilityContacts({ projectId }) {
                                                                     children: kind.label
                                                                 }, kind.value, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 510,
+                                                                    lineNumber: 491,
                                                                     columnNumber: 25
                                                                 }, this))
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 508,
+                                                            lineNumber: 489,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 501,
+                                                    lineNumber: 482,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 499,
+                                            lineNumber: 480,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1051,7 +1031,7 @@ function UtilityContacts({ projectId }) {
                                                     children: "Organization *"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 519,
+                                                    lineNumber: 500,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1065,13 +1045,13 @@ function UtilityContacts({ projectId }) {
                                                     required: true
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 520,
+                                                    lineNumber: 501,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 518,
+                                            lineNumber: 499,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1081,7 +1061,7 @@ function UtilityContacts({ projectId }) {
                                                     children: "Phone Number"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 530,
+                                                    lineNumber: 511,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1094,13 +1074,13 @@ function UtilityContacts({ projectId }) {
                                                     placeholder: "+49 xxx xxx xxxx"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 531,
+                                                    lineNumber: 512,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 529,
+                                            lineNumber: 510,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1110,7 +1090,7 @@ function UtilityContacts({ projectId }) {
                                                     children: "Email"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 540,
+                                                    lineNumber: 521,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1124,13 +1104,13 @@ function UtilityContacts({ projectId }) {
                                                     placeholder: "contact@utility.com"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 541,
+                                                    lineNumber: 522,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 539,
+                                            lineNumber: 520,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1140,7 +1120,7 @@ function UtilityContacts({ projectId }) {
                                                     children: "Contact Person"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 551,
+                                                    lineNumber: 532,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1153,19 +1133,19 @@ function UtilityContacts({ projectId }) {
                                                     placeholder: "John Doe"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 552,
+                                                    lineNumber: 533,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 550,
+                                            lineNumber: 531,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 498,
+                                    lineNumber: 479,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1175,7 +1155,7 @@ function UtilityContacts({ projectId }) {
                                             children: "Notes"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 562,
+                                            lineNumber: 543,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1189,13 +1169,13 @@ function UtilityContacts({ projectId }) {
                                             rows: 3
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 563,
+                                            lineNumber: 544,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 561,
+                                    lineNumber: 542,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1207,7 +1187,7 @@ function UtilityContacts({ projectId }) {
                                             children: editingContactId ? 'Update Contact' : 'Add Contact'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 573,
+                                            lineNumber: 554,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1217,30 +1197,30 @@ function UtilityContacts({ projectId }) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 579,
+                                            lineNumber: 560,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 572,
+                                    lineNumber: 553,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                            lineNumber: 497,
+                            lineNumber: 478,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                        lineNumber: 496,
+                        lineNumber: 477,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                lineNumber: 484,
+                lineNumber: 465,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1251,7 +1231,7 @@ function UtilityContacts({ projectId }) {
                                 children: "Current Utility Contacts"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 595,
+                                lineNumber: 576,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
@@ -1261,13 +1241,13 @@ function UtilityContacts({ projectId }) {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 596,
+                                lineNumber: 577,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                        lineNumber: 594,
+                        lineNumber: 575,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1278,7 +1258,7 @@ function UtilityContacts({ projectId }) {
                                     className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 603,
+                                    lineNumber: 584,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1286,7 +1266,7 @@ function UtilityContacts({ projectId }) {
                                     children: "No Utility Contacts"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 604,
+                                    lineNumber: 585,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1294,7 +1274,7 @@ function UtilityContacts({ projectId }) {
                                     children: "Add utility companies and emergency contacts to get started."
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 605,
+                                    lineNumber: 586,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1302,13 +1282,13 @@ function UtilityContacts({ projectId }) {
                                     children: "Add First Contact"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 608,
+                                    lineNumber: 589,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                            lineNumber: 602,
+                            lineNumber: 583,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "overflow-x-auto",
@@ -1321,60 +1301,60 @@ function UtilityContacts({ projectId }) {
                                                     children: "Type"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 617,
+                                                    lineNumber: 598,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableHead"], {
                                                     children: "Organization"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 618,
+                                                    lineNumber: 599,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableHead"], {
                                                     children: "Contact Person"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 619,
+                                                    lineNumber: 600,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableHead"], {
                                                     children: "Phone"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 620,
+                                                    lineNumber: 601,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableHead"], {
                                                     children: "Email"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 621,
+                                                    lineNumber: 602,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableHead"], {
                                                     children: "Notes"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 622,
+                                                    lineNumber: 603,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableHead"], {
                                                     children: "Actions"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                    lineNumber: 623,
+                                                    lineNumber: 604,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 616,
+                                            lineNumber: 597,
                                             columnNumber: 19
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                        lineNumber: 615,
+                                        lineNumber: 596,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableBody"], {
@@ -1388,12 +1368,12 @@ function UtilityContacts({ projectId }) {
                                                             children: kindInfo.label
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 632,
+                                                            lineNumber: 613,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                        lineNumber: 631,
+                                                        lineNumber: 612,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1401,7 +1381,7 @@ function UtilityContacts({ projectId }) {
                                                         children: contact.organization
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                        lineNumber: 636,
+                                                        lineNumber: 617,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1412,26 +1392,26 @@ function UtilityContacts({ projectId }) {
                                                                     className: "w-4 h-4 text-gray-400"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 642,
+                                                                    lineNumber: 623,
                                                                     columnNumber: 31
                                                                 }, this),
                                                                 contact.contact_person
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 641,
+                                                            lineNumber: 622,
                                                             columnNumber: 29
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "text-gray-400",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 646,
+                                                            lineNumber: 627,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                        lineNumber: 639,
+                                                        lineNumber: 620,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1442,7 +1422,7 @@ function UtilityContacts({ projectId }) {
                                                                     className: "w-4 h-4 text-gray-400"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 652,
+                                                                    lineNumber: 633,
                                                                     columnNumber: 31
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1451,25 +1431,25 @@ function UtilityContacts({ projectId }) {
                                                                     children: contact.phone
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 653,
+                                                                    lineNumber: 634,
                                                                     columnNumber: 31
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 651,
+                                                            lineNumber: 632,
                                                             columnNumber: 29
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "text-gray-400",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 658,
+                                                            lineNumber: 639,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                        lineNumber: 649,
+                                                        lineNumber: 630,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1480,7 +1460,7 @@ function UtilityContacts({ projectId }) {
                                                                     className: "w-4 h-4 text-gray-400"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 664,
+                                                                    lineNumber: 645,
                                                                     columnNumber: 31
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
@@ -1489,25 +1469,25 @@ function UtilityContacts({ projectId }) {
                                                                     children: contact.email
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 665,
+                                                                    lineNumber: 646,
                                                                     columnNumber: 31
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 663,
+                                                            lineNumber: 644,
                                                             columnNumber: 29
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "text-gray-400",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 670,
+                                                            lineNumber: 651,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                        lineNumber: 661,
+                                                        lineNumber: 642,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1516,19 +1496,19 @@ function UtilityContacts({ projectId }) {
                                                             children: contact.notes
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 675,
+                                                            lineNumber: 656,
                                                             columnNumber: 29
                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                             className: "text-gray-400",
                                                             children: "-"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 679,
+                                                            lineNumber: 660,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                        lineNumber: 673,
+                                                        lineNumber: 654,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$table$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TableCell"], {
@@ -1544,12 +1524,12 @@ function UtilityContacts({ projectId }) {
                                                                         className: "w-4 h-4"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                        lineNumber: 690,
+                                                                        lineNumber: 671,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 684,
+                                                                    lineNumber: 665,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1561,57 +1541,57 @@ function UtilityContacts({ projectId }) {
                                                                         className: "w-4 h-4 text-red-500"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                        lineNumber: 698,
+                                                                        lineNumber: 679,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                                    lineNumber: 692,
+                                                                    lineNumber: 673,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                            lineNumber: 683,
+                                                            lineNumber: 664,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                        lineNumber: 682,
+                                                        lineNumber: 663,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, contact.id, true, {
                                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                                lineNumber: 630,
+                                                lineNumber: 611,
                                                 columnNumber: 23
                                             }, this);
                                         })
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                        lineNumber: 626,
+                                        lineNumber: 607,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                lineNumber: 614,
+                                lineNumber: 595,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                            lineNumber: 613,
+                            lineNumber: 594,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                        lineNumber: 600,
+                        lineNumber: 581,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                lineNumber: 593,
+                lineNumber: 574,
                 columnNumber: 7
             }, this),
             contacts && contacts.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -1621,12 +1601,12 @@ function UtilityContacts({ projectId }) {
                             children: "Contact Summary"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                            lineNumber: 716,
+                            lineNumber: 697,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                        lineNumber: 715,
+                        lineNumber: 696,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1642,7 +1622,7 @@ function UtilityContacts({ projectId }) {
                                             children: count
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 724,
+                                            lineNumber: 705,
                                             columnNumber: 21
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1650,36 +1630,36 @@ function UtilityContacts({ projectId }) {
                                             children: kind.label
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                            lineNumber: 725,
+                                            lineNumber: 706,
                                             columnNumber: 21
                                         }, this)
                                     ]
                                 }, kind.value, true, {
                                     fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                                    lineNumber: 723,
+                                    lineNumber: 704,
                                     columnNumber: 19
                                 }, this);
                             })
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                            lineNumber: 719,
+                            lineNumber: 700,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                        lineNumber: 718,
+                        lineNumber: 699,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-                lineNumber: 714,
+                lineNumber: 695,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/project-preparation/utility-contacts.tsx",
-        lineNumber: 282,
+        lineNumber: 246,
         columnNumber: 5
     }, this);
 }

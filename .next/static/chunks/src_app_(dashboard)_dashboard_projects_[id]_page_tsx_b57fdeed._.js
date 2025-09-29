@@ -12,7 +12,7 @@
   "static/chunks/src_components_ui_a7fff600._.js",
   "static/chunks/src_hooks_2c8dc22c._.js",
   "static/chunks/src_app_(dashboard)_dashboard_projects_[id]_page_tsx_6dc03c5c._.js",
-  "static/chunks/node_modules_98f42cbc._.js"
+  "static/chunks/node_modules_4131a5dc._.js"
 ],
     source: "dynamic"
 });
