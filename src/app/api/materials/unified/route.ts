@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+// Service role client for bypassing RLS
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 export async function GET(request: NextRequest) {
@@ -16,24 +17,12 @@ export async function GET(request: NextRequest) {
     const offset = (page - 1) * per_page;
 
     if (view === 'warehouse') {
-      // Get materials from warehouse/inventory
+      // Get materials from warehouse/inventory with stock information using RPC function
       const { data: materials, error, count } = await supabase
-        .from('materials')
-        .select(`
-          id,
-          name,
-          category,
-          unit,
-          unit_price_eur,
-          supplier_name,
-          description,
-          is_active,
-          created_at,
-          updated_at
-        `, { count: 'exact' })
-        .eq('is_active', true)
-        .order('name', { ascending: true })
-        .range(offset, offset + per_page - 1);
+        .rpc('get_materials_with_inventory', {
+          p_offset: offset,
+          p_limit: per_page
+        });
 
       if (error) {
         console.error('Supabase error:', error);
@@ -43,12 +32,45 @@ export async function GET(request: NextRequest) {
         );
       }
 
+      // Materials data already includes inventory information from the RPC function
+      const materialsWithStock = (materials || []).map(material => {
+        const currentStock = Number(material.current_stock) || 0;
+        const reservedStock = Number(material.reserved_stock) || 0;
+        const availableStock = Math.max(0, currentStock - reservedStock);
+        const minLevel = Number(material.minimum_level) || 0;
+
+        return {
+          id: material.id,
+          name: material.name,
+          category: material.category,
+          unit: material.unit,
+          unit_price_eur: material.unit_price_eur,
+          supplier_name: material.supplier_name,
+          description: material.description,
+          is_active: material.is_active,
+          created_at: material.created_at,
+          updated_at: material.updated_at,
+          // Add stock fields expected by frontend
+          available_qty: availableStock,
+          total_qty: currentStock,
+          reserved_qty: reservedStock,
+          min_stock: minLevel,
+          max_stock: material.maximum_level || null,
+          price: material.unit_price_eur || 0,
+          // Calculate stock status
+          is_low_stock: currentStock <= minLevel,
+          is_over_allocated: reservedStock > currentStock,
+          over_allocated_qty: Math.max(0, reservedStock - currentStock)
+        };
+      });
+
+      const totalCount = materials?.[0]?.total_count || 0;
       return NextResponse.json({
-        materials: materials || [],
-        total: count || 0,
+        materials: materialsWithStock,
+        total: Number(totalCount),
         page,
         per_page,
-        total_pages: Math.ceil((count || 0) / per_page),
+        total_pages: Math.ceil(Number(totalCount) / per_page),
         view: 'warehouse'
       });
 
@@ -103,7 +125,7 @@ export async function GET(request: NextRequest) {
       }
 
       return NextResponse.json({
-        allocations: allocations || [],
+        materials: allocations || [],
         total: count || 0,
         page,
         per_page,

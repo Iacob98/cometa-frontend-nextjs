@@ -29,7 +29,6 @@ interface MaterialAssignmentForm {
   material_id: string;
   quantity: number;
   from_date: string;
-  to_date?: string;
   notes?: string;
 }
 
@@ -37,7 +36,6 @@ interface EditMaterialForm {
   quantity: number;
   unit_price: number;
   from_date: string;
-  to_date?: string;
   notes?: string;
 }
 
@@ -181,6 +179,11 @@ export default function Materials({ projectId }: MaterialsProps) {
     }
   };
 
+  // DEBUG: Log project materials data
+  console.log('DEBUG - projectMaterials:', projectMaterials);
+  console.log('DEBUG - projectMaterials.materials length:', projectMaterials?.materials?.length);
+  console.log('DEBUG - projectMaterials.materials:', projectMaterials?.materials);
+
   const totalMaterials = projectMaterials?.materials?.length || 0;
   const pendingCount = projectMaterials?.materials?.filter(m => m.status === 'allocated')?.length || 0;
   const usedCount = projectMaterials?.materials?.filter(m => m.status === 'used')?.length || 0;
@@ -279,17 +282,17 @@ export default function Materials({ projectId }: MaterialsProps) {
                             </div>
                             <h5 className="font-semibold">{material.material?.name || material.name || 'Unknown Material'}</h5>
                             <p className="text-sm text-gray-600">
-                              Quantity: {material.allocated_qty} {material.material?.unit || material.unit}
+                              Quantity: {material.quantity_allocated || material.allocated_qty} {material.material?.unit || material.unit}
                             </p>
                             <div className="flex items-center space-x-4 mt-2 text-sm">
                               <span className="flex items-center">
                                 <Calendar className="w-4 h-4 mr-1" />
-                                {material.allocation_date}
+                                {material.allocated_date || material.allocation_date}
                                 {material.return_date && ` - ${material.return_date}`}
                               </span>
                               <span className="flex items-center">
                                 <Euro className="w-4 h-4 mr-1" />
-                                €{material.material?.price || material.unit_price || 0}/unit
+                                €{material.material?.unit_price_eur || material.material?.price || material.unit_price || 0}/unit
                               </span>
                             </div>
                             {material.notes && (
@@ -300,7 +303,7 @@ export default function Materials({ projectId }: MaterialsProps) {
                             )}
                           </div>
                           <div className="text-right">
-                            <p className="font-semibold">€{material.total_cost?.toFixed(2) || '0.00'}</p>
+                            <p className="font-semibold">€{((material.quantity_allocated || material.allocated_qty || 0) * (material.material?.unit_price_eur || material.material?.price || material.unit_price || 0)).toFixed(2)}</p>
                             <div className="flex space-x-2 mt-2">
                               <Button
                                 size="sm"
@@ -464,14 +467,7 @@ export default function Materials({ projectId }: MaterialsProps) {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="to_date">End Date (Optional)</Label>
-                          <Input
-                            type="date"
-                            {...assignForm.register('to_date')}
-                          />
-                        </div>
+                      <div>
                         <div>
                           {assignForm.watch('quantity') && (
                             <div className="p-3 bg-blue-50 rounded-lg">
@@ -647,21 +643,13 @@ export default function Materials({ projectId }: MaterialsProps) {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div>
                   <div>
                     <Label htmlFor="edit-from-date">Start Date</Label>
                     <Input
                       id="edit-from-date"
                       type="date"
                       {...editForm.register('from_date', { required: true })}
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="edit-to-date">End Date</Label>
-                    <Input
-                      id="edit-to-date"
-                      type="date"
-                      {...editForm.register('to_date')}
                     />
                   </div>
                 </div>
