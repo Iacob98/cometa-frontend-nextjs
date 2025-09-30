@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
+// Service role client for bypassing RLS to read allocations
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 export async function GET(request: NextRequest) {
@@ -78,11 +79,15 @@ export async function GET(request: NextRequest) {
     const materialIds = (materials || []).map(m => m.id);
 
     // Fetch active allocations (not fully used or returned) for all materials
-    const { data: allocations } = await supabase
+    const { data: allocations, error: allocationsError } = await supabase
       .from("material_allocations")
       .select("material_id, quantity_remaining")
       .in("material_id", materialIds)
       .in("status", ["allocated", "partially_used"]);
+
+    if (allocationsError) {
+      console.error("Allocations query error:", allocationsError);
+    }
 
     // Calculate reserved quantities per material
     const reservedByMaterial = (allocations || []).reduce((acc, alloc) => {
