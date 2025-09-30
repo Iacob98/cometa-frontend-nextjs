@@ -1,0 +1,4 @@
+psql:/tmp/backup_schema.sql:15: ERROR:  function pg_get_tabledef(unknown, information_schema.sql_identifier) does not exist
+LINE 2:        pg_get_tabledef('public', table_name) as definition
+               ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.

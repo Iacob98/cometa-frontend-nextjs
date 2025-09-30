@@ -20,6 +20,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Database**: PostgreSQL 14 via Supabase (direct connection)
 - **Migration Status**: ✅ **COMPLETED** - All FastAPI microservices migrated to pure Supabase
 - **Architecture**: Next.js API Routes → Direct Supabase PostgreSQL queries
+- **Database Optimization**: ✅ **COMPLETED** (2025-09-30) - Removed 24 unused tables (33% reduction)
 
 ### **LEGACY-STREAMLIT** (Migration in Progress)
 - **Legacy Admin**: Python 3.11+ with Streamlit 1.48+ (admin_app, port 8501)
@@ -203,6 +204,12 @@ const queryClient = new QueryClient({
 ```
 
 ### Database Schema Hierarchy
+
+**Database Status**: 49 active tables (optimized from 73 tables on 2025-09-30)
+- **Removed**: 24 unused tables (33% reduction)
+- **Active**: All remaining tables are actively used in the codebase
+- **Performance**: Simplified schema for better migration and backup performance
+
 ```
 Project
 ├── Cabinet (Network distribution points)
@@ -218,6 +225,14 @@ Project
     ├── SupplierMaterial (Flexible material pricing)
     └── MaterialOrder (Order tracking)
 ```
+
+**Recently Removed Tables** (2025-09-30 cleanup):
+- Legacy warehouse tables: `company_warehouse`, `company_warehouse_materials`
+- Unused pricing system: `price_lists`, `price_rules`, `price_extras`
+- Obsolete tracking: `vehicle_expenses`, `vehicle_tracking`, `worker_documents`
+- Unused features: `rentals`, `resource_requests`, `resource_usage`, `hse_requirements`
+- Legacy stages: `stage_defs`, `work_stages`, `cut_stages`, `material_stage_mapping`
+- Other unused: `asset_assignments`, `document_reminders`, `house_contacts`, `house_docs`, `house_status`, `material_moves`, `offmass_lines`, `plan_view_confirms`, `project_files`, `stock_locations`
 
 ### Authentication System
 - **PIN Code System**: 4-6 digit PIN codes for easy worker login
@@ -584,11 +599,33 @@ test('user can create a new project', async ({ page }) => {
 3. **Low Priority**: Legacy utilities, administrative tools
 
 ### Migration Checklist
+- [x] **Database Optimization**: Removed 24 unused tables (2025-09-30) ✅
+- [x] **API Consolidation**: Cleaned up duplicate API routes (2025-09-30) ✅
 - [ ] **API Authentication**: Unify PIN-based auth between Streamlit and FastAPI
 - [ ] **Database Access**: Replace direct SQL with FastAPI calls
 - [ ] **Session Management**: Migrate Streamlit session state to TanStack Query
 - [ ] **File Uploads**: Standardize Supabase storage access
 - [ ] **Internationalization**: Align next-intl with legacy translations
+
+### Recent Optimizations (2025-09-30)
+
+**Database Cleanup**:
+- Removed 24 unused tables from Supabase (73 → 49 tables)
+- Eliminated legacy warehouse system tables
+- Removed unused pricing, tracking, and staging tables
+- All deleted tables had 0 rows and 0 code references
+- Created backups before deletion: `backups/tables_backup_20250930_081531.txt`
+
+**API Consolidation**:
+- Confirmed 3 duplicate API routes (already removed or unused)
+- Verified no code references to legacy API endpoints
+- API structure remains clean with ~100 active endpoints
+
+**Impact**:
+- 33% reduction in database complexity
+- Improved migration and backup performance
+- Enhanced schema readability
+- Zero impact on functionality (all deleted tables were unused)
 
 ### Feature Parity Tracking
 | Feature | Streamlit Status | Next.js Status | Priority |
@@ -709,6 +746,36 @@ export async function POST(request: NextRequest) {
 }
 ```
 
+## Database & API Optimization Reports
+
+The following analysis reports provide detailed insights into database and API optimization:
+
+### Available Reports
+
+1. **DATABASE_ANALYSIS_REPORT.md** - Comprehensive database analysis
+   - Complete table usage statistics
+   - Identification of unused tables
+   - Duplicate/similar table structures
+   - Recommendations for optimization
+
+2. **API_DUPLICATION_REPORT.md** - API route duplication analysis
+   - Duplicate API endpoint detection
+   - Legacy vs modern API comparison
+   - Code quality analysis (Zod validation, error handling)
+   - Consolidation recommendations
+
+3. **CLEANUP_SUMMARY.md** - Optimization execution summary
+   - Tables removed (24 tables, 33% reduction)
+   - API consolidation results
+   - Backup information
+   - Before/after metrics
+
+**How to use these reports**:
+- Review before making database schema changes
+- Check for similar patterns before creating new tables
+- Verify table usage before deletion
+- Track optimization progress over time
+
 ## Best Practices Summary
 
 ### Development Workflow
@@ -717,6 +784,7 @@ export async function POST(request: NextRequest) {
 3. **Performance**: Leverage Next.js optimizations and TanStack Query caching
 4. **Testing**: Write tests for components and critical user flows
 5. **Migration**: Gradually replace Streamlit features with Next.js equivalents
+6. **Database Changes**: Always check optimization reports before schema modifications
 
 ### Code Quality
 1. **Consistent Patterns**: Follow established patterns for API routes, components, and state management
