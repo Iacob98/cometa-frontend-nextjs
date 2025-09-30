@@ -2,7 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { WebSocketProvider } from "@/lib/websocket-provider";
 
@@ -72,6 +72,37 @@ export function Providers({ children }: ProvidersProps) {
         },
       })
   );
+
+  // OPTIMIZATION: Monitor cache size in development
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      const monitorInterval = setInterval(() => {
+        const cache = queryClient.getQueryCache();
+        const queries = cache.getAll();
+        const cacheSize = queries.length;
+
+        console.log(`[React Query] Cache size: ${cacheSize} queries`);
+
+        if (cacheSize > 100) {
+          console.warn(
+            `⚠️ [React Query] Cache is growing large (${cacheSize} queries). ` +
+            `Consider more aggressive GC or refactoring query keys.`
+          );
+        }
+
+        // Log breakdown by query type
+        const queryTypes = queries.reduce((acc: Record<string, number>, query) => {
+          const key = query.queryKey[0] as string;
+          acc[key] = (acc[key] || 0) + 1;
+          return acc;
+        }, {});
+
+        console.log('[React Query] Cache breakdown:', queryTypes);
+      }, 60000); // Every minute
+
+      return () => clearInterval(monitorInterval);
+    }
+  }, [queryClient]);
 
   return (
     <QueryClientProvider client={queryClient}>
