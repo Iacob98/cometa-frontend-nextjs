@@ -74,12 +74,35 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Get all material IDs to fetch their allocations
+    const materialIds = (materials || []).map(m => m.id);
+
+    // Fetch active allocations (not fully used or returned) for all materials
+    const { data: allocations } = await supabase
+      .from("material_allocations")
+      .select("material_id, quantity_remaining")
+      .in("material_id", materialIds)
+      .in("status", ["allocated", "partially_used"]);
+
+    // Calculate reserved quantities per material
+    const reservedByMaterial = (allocations || []).reduce((acc, alloc) => {
+      const materialId = alloc.material_id;
+      const remaining = Number(alloc.quantity_remaining || 0);
+      acc[materialId] = (acc[materialId] || 0) + remaining;
+      return acc;
+    }, {} as Record<string, number>);
+
     // Transform materials to match frontend interface
     const transformedMaterials = (materials || []).map(material => ({
       ...material,
-      unit_cost: material.unit_price_eur || 0,
-      current_stock_qty: 100, // Default stock quantity
-      min_stock_level: 10     // Default minimum stock level
+      // Map database fields to frontend field names
+      current_stock_qty: Number(material.current_stock || 0),
+      min_stock_level: Number(material.min_stock_threshold || 0),
+      reserved_qty: reservedByMaterial[material.id] || 0,
+      unit_cost: Number(material.unit_price_eur || 0),
+      default_price_eur: Number(material.unit_price_eur || 0),
+      sku: null, // Not in database yet
+      last_updated: material.updated_at,
     }));
 
     return NextResponse.json({
@@ -162,9 +185,13 @@ export async function POST(request: NextRequest) {
     // Transform material to match frontend interface
     const transformedMaterial = {
       ...material,
-      unit_cost: material.unit_price_eur || 0,
-      current_stock_qty: 100, // Default stock quantity
-      min_stock_level: 10     // Default minimum stock level
+      current_stock_qty: Number(material.current_stock || 0),
+      min_stock_level: Number(material.min_stock_threshold || 0),
+      reserved_qty: 0, // New materials have no allocations
+      unit_cost: Number(material.unit_price_eur || 0),
+      default_price_eur: Number(material.unit_price_eur || 0),
+      sku: null,
+      last_updated: material.updated_at,
     };
 
     return NextResponse.json(transformedMaterial, { status: 201 });
