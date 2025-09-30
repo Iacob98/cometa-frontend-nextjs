@@ -2,6 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { activityKeys } from '@/lib/query-keys';
 
 export interface ActivityLog {
   id: string;
@@ -86,15 +87,6 @@ export interface CreateActivityData {
   ip_address?: string;
   user_agent?: string;
 }
-
-// Query keys
-export const activityKeys = {
-  all: ['activities'] as const,
-  lists: () => [...activityKeys.all, 'list'] as const,
-  list: (filters: ActivityFilters) => [...activityKeys.lists(), filters] as const,
-  stats: (filters: Omit<ActivityFilters, 'page' | 'per_page' | 'search'>) =>
-    [...activityKeys.all, 'stats', filters] as const,
-};
 
 // Fetch activities with filters
 export function useActivities(filters: ActivityFilters = {}) {

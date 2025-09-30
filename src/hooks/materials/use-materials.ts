@@ -5,7 +5,7 @@ import {
   type Material,
   type MaterialFilters,
 } from "@/lib/api-client";
-import { materialKeys } from "./query-keys";
+import { materialKeys } from "@/lib/query-keys";
 import { getMutationConfig, getIdempotentMutationConfig } from "@/lib/query-utils";
 
 // ============= QUERIES =============

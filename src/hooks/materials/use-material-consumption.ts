@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { materialKeys, allocationKeys } from "./query-keys";
+import { materialKeys, allocationKeys } from "@/lib/query-keys";
 import { getMutationConfig } from "@/lib/query-utils";
 
 // Material Consumption Hook

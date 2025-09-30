@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { materialAllocationsApi } from "@/lib/api-client";
-import { allocationKeys, materialKeys } from "./query-keys";
+import { allocationKeys, materialKeys } from "@/lib/query-keys";
 import { getMutationConfig, getIdempotentMutationConfig } from "@/lib/query-utils";
 import type { AllocationFilters, AllocationRequest } from "@/lib/api-client";
 

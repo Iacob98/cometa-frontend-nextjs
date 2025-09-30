@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { materialOrdersApi } from "@/lib/api-client";
-import { orderKeys, materialKeys } from "./query-keys";
+import { orderKeys, materialKeys } from "@/lib/query-keys";
 import { getMutationConfig, getIdempotentMutationConfig } from "@/lib/query-utils";
 import type { OrderFilters, MaterialOrder, MaterialOrderStatus } from "@/lib/api-client";
 

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { materialKeys, allocationKeys } from "./query-keys";
+import { materialKeys, allocationKeys } from "@/lib/query-keys";
 
 // TypeScript Interfaces for Project Material Operations
 export interface ProjectMaterial {

@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { suppliersApi } from "@/lib/api-client";
-import { supplierKeys } from "./query-keys";
+import { supplierKeys } from "@/lib/query-keys";
 import type { Supplier } from "@/lib/api-client";
 
 // Supplier Query Hooks

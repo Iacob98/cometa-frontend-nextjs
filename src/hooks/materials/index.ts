@@ -1,5 +1,5 @@
 // Re-export all query keys and utility functions
-export * from './query-keys';
+export * from '@/lib/query-keys';
 
 // Re-export material CRUD hooks
 export * from './use-materials';

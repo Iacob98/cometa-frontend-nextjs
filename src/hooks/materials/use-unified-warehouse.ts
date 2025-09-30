@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { materialKeys, allocationKeys } from "./query-keys";
+import { materialKeys, allocationKeys } from "@/lib/query-keys";
 
 // Unified Warehouse Materials Hook - Single source of truth for inventory
 export function useUnifiedWarehouseMaterials() {
