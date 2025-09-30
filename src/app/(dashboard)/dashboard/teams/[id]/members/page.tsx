@@ -41,13 +41,39 @@ interface Team {
 }
 
 async function fetchTeam(teamId: string): Promise<Team> {
-  const response = await fetch(`/api/crews?team_id=${teamId}`);
-  if (!response.ok) {
+  // Fetch crew basic info
+  const crewResponse = await fetch(`/api/crews/${teamId}`);
+  if (!crewResponse.ok) {
     throw new Error('Failed to fetch team');
   }
-  const data = await response.json();
-  const teams = data.crews || [];
-  return teams[0] || null;
+  const crew = await crewResponse.json();
+
+  // Fetch crew members
+  const membersResponse = await fetch(`/api/crews/${teamId}/members`);
+  if (!membersResponse.ok) {
+    throw new Error('Failed to fetch team members');
+  }
+  const membersData = await membersResponse.json();
+
+  // Combine data
+  return {
+    id: crew.id,
+    name: crew.name,
+    description: crew.description,
+    project_id: crew.project_id,
+    project_name: crew.project_name || '',
+    foreman: crew.leader ? {
+      id: crew.leader.id,
+      first_name: crew.leader.first_name,
+      last_name: crew.leader.last_name,
+      full_name: crew.leader.full_name,
+      email: crew.leader.email,
+      phone: crew.leader.phone,
+      role: crew.leader.role || 'foreman',
+    } : null,
+    members: membersData.members || [],
+    member_count: (membersData.members || []).length,
+  };
 }
 
 async function fetchAvailableUsers(): Promise<User[]> {
@@ -72,7 +98,17 @@ async function addMemberToTeam(teamId: string, userId: string, role: string = 'c
   });
 
   if (!response.ok) {
-    throw new Error('Failed to add member to team');
+    const errorData = await response.json().catch(() => ({}));
+    const errorMessage = errorData.error || 'Failed to add member to team';
+
+    // Log as warning for 409 (already member), error for others
+    if (response.status === 409) {
+      console.warn('⚠️ User already in crew:', errorMessage);
+    } else {
+      console.error('❌ Add member error:', errorMessage, errorData);
+    }
+
+    throw new Error(errorMessage);
   }
 
   return response.json();
@@ -153,13 +189,19 @@ export default function TeamMembersPage() {
         description: "Member successfully added to team",
       });
     },
-    onError: (error) => {
+    onError: (error: Error) => {
+      // Show warning toast for 409 (already member), error toast for others
+      const isAlreadyMember = error.message.includes('already a member');
+
       toast({
-        title: "Error",
-        description: "Failed to add member to team",
-        variant: "destructive",
+        title: isAlreadyMember ? "Already a Member" : "Error",
+        description: error.message || "Failed to add member to team",
+        variant: isAlreadyMember ? "default" : "destructive",
       });
-      console.error('Add member error:', error);
+
+      if (!isAlreadyMember) {
+        console.error('❌ Add member mutation error:', error);
+      }
     },
   });
 
@@ -230,8 +272,21 @@ export default function TeamMembersPage() {
     currentMemberIds.push(team.foreman.id);
   }
 
+  // Debug: log filtering
+  console.log('🔍 Team members filtering:', {
+    totalUsers: availableUsers.length,
+    currentMemberIds,
+    foremanId: team.foreman?.id,
+  });
+
   const filteredAvailableUsers = availableUsers
-    .filter(user => !currentMemberIds.includes(user.id))
+    .filter(user => {
+      const isExcluded = currentMemberIds.includes(user.id);
+      if (isExcluded) {
+        console.log('✅ Excluding user (already member):', user.full_name, user.id);
+      }
+      return !isExcluded;
+    })
     .filter(user => {
       if (!searchQuery) return true;
       const searchLower = searchQuery.toLowerCase();
@@ -241,6 +296,8 @@ export default function TeamMembersPage() {
         user.role.toLowerCase().includes(searchLower)
       );
     });
+
+  console.log('📋 Filtered available users:', filteredAvailableUsers.length);
 
   return (
     <div className="space-y-6">
@@ -400,6 +457,7 @@ export default function TeamMembersPage() {
                       size="sm"
                       onClick={() => handleAddMember(user.id, 'member')}
                       disabled={addMemberMutation.isPending}
+                      title="Add to team"
                     >
                       <UserPlus className="h-4 w-4" />
                     </Button>
