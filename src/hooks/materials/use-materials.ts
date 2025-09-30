@@ -6,6 +6,7 @@ import {
   type MaterialFilters,
 } from "@/lib/api-client";
 import { materialKeys } from "./query-keys";
+import { getMutationConfig, getIdempotentMutationConfig } from "@/lib/query-utils";
 
 // ============= QUERIES =============
 
@@ -47,6 +48,7 @@ export function useCreateMaterial() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...getIdempotentMutationConfig(), // ✅ Safe to retry creates
     mutationFn: (data: Partial<Material>) => materialsApi.createMaterial(data),
     onSuccess: (newMaterial) => {
       queryClient.invalidateQueries({ queryKey: materialKeys.lists() });
@@ -63,6 +65,7 @@ export function useUpdateMaterial() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...getMutationConfig(), // ✅ Retry on network errors
     mutationFn: ({ id, data }: { id: string; data: Partial<Material> }) =>
       materialsApi.updateMaterial(id, data),
     onMutate: async ({ id, data }) => {
@@ -114,6 +117,7 @@ export function useAdjustStock() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...getMutationConfig(), // ✅ Retry on network errors
     mutationFn: ({ id, adjustment, reason }: { id: string; adjustment: number; reason?: string }) =>
       fetch(`/api/materials/${id}/adjust-stock`, {
         method: 'POST',

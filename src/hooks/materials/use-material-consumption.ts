@@ -1,12 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { materialKeys, allocationKeys } from "./query-keys";
+import { getMutationConfig } from "@/lib/query-utils";
 
 // Material Consumption Hook
 export function useConsumeMaterial() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...getMutationConfig(), // ✅ Add retry strategy
     mutationFn: (data: {
       allocation_id: string;
       consumed_qty: number;

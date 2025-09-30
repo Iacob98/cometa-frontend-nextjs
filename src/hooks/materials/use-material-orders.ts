@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { materialOrdersApi } from "@/lib/api-client";
 import { orderKeys, materialKeys } from "./query-keys";
+import { getMutationConfig, getIdempotentMutationConfig } from "@/lib/query-utils";
 import type { OrderFilters, MaterialOrder, MaterialOrderStatus } from "@/lib/api-client";
 
 // Order Query Hooks
@@ -27,6 +28,7 @@ export function useCreateOrder() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...getIdempotentMutationConfig(), // ✅ Safe to retry creates
     mutationFn: (data: Partial<MaterialOrder>) => materialOrdersApi.createOrder(data),
     onSuccess: (newOrder) => {
       // ✅ OPTIMIZED: Мгновенное добавление в кэш
@@ -58,6 +60,7 @@ export function useUpdateOrderStatus() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...getMutationConfig(), // ✅ Retry on network errors
     mutationFn: ({ id, status }: { id: string; status: MaterialOrderStatus }) =>
       materialOrdersApi.updateOrderStatus(id, status),
     onSuccess: (updatedOrder) => {

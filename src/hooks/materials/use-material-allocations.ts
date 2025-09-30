@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { materialAllocationsApi } from "@/lib/api-client";
 import { allocationKeys, materialKeys } from "./query-keys";
+import { getMutationConfig, getIdempotentMutationConfig } from "@/lib/query-utils";
 import type { AllocationFilters, AllocationRequest } from "@/lib/api-client";
 
 // Allocation Query Hooks
@@ -27,6 +28,7 @@ export function useCreateAllocation() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...getIdempotentMutationConfig(), // ✅ Safe to retry creates
     mutationFn: (data: AllocationRequest) => materialAllocationsApi.createAllocation(data),
     onSuccess: (newAllocation) => {
       // ✅ OPTIMIZED: Мгновенное добавление в кэш + точечная инвалидация
@@ -78,6 +80,7 @@ export function useRecordUsage() {
   const queryClient = useQueryClient();
 
   return useMutation({
+    ...getMutationConfig(), // ✅ Retry on network errors
     mutationFn: ({ id, usage }: { id: string; usage: { used_qty: number; notes?: string } }) =>
       materialAllocationsApi.recordUsage(id, usage),
     onSuccess: (updatedAllocation) => {
