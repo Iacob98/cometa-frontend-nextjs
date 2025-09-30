@@ -123,11 +123,37 @@ export function useAdjustStock() {
         if (!res.ok) throw new Error('Failed to adjust stock');
         return res.json();
       }),
-    onSuccess: (_, { id }) => {
-      queryClient.invalidateQueries({ queryKey: materialKeys.detail(id) });
-      queryClient.invalidateQueries({ queryKey: materialKeys.lists() });
+    onSuccess: (updatedMaterial, { id }) => {
+      // ✅ OPTIMIZED: Мгновенное обновление кэша вместо инвалидации
+
+      // 1. Обновить конкретный материал напрямую
+      queryClient.setQueryData(
+        materialKeys.detail(id),
+        updatedMaterial
+      );
+
+      // 2. Обновить материал в списках (если он там ес)
+      queryClient.setQueriesData(
+        { queryKey: materialKeys.lists() },
+        (oldData: any) => {
+          if (!oldData?.materials) return oldData;
+          return {
+            ...oldData,
+            materials: oldData.materials.map((m: any) =>
+              m.id === id ? { ...m, ...updatedMaterial } : m
+            ),
+          };
+        }
+      );
+
+      // 3. Инвалидировать unified warehouse (там более сложная структура)
+      queryClient.invalidateQueries({
+        queryKey: [...materialKeys.all, "unified-warehouse"]
+      });
+
+      // 4. Инвалидировать low stock если нужно
       queryClient.invalidateQueries({ queryKey: materialKeys.lowStock() });
-      queryClient.invalidateQueries({ queryKey: [...materialKeys.all, "unified-warehouse"] });
+
       toast.success("Stock adjusted successfully");
     },
     onError: (error) => {

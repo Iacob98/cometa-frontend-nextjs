@@ -29,10 +29,43 @@ export function useCreateAllocation() {
   return useMutation({
     mutationFn: (data: AllocationRequest) => materialAllocationsApi.createAllocation(data),
     onSuccess: (newAllocation) => {
-      queryClient.invalidateQueries({ queryKey: allocationKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: materialKeys.lists() });
-      queryClient.invalidateQueries({ queryKey: materialKeys.lowStock() });
+      // ✅ OPTIMIZED: Мгновенное добавление в кэш + точечная инвалидация
+
+      // 1. Добавить новую allocation в кэш детали
       queryClient.setQueryData(allocationKeys.detail(newAllocation.id), newAllocation);
+
+      // 2. Добавить в списки allocations (оптимистично)
+      queryClient.setQueriesData(
+        { queryKey: allocationKeys.lists() },
+        (oldData: any) => {
+          if (!oldData?.allocations) return oldData;
+          return {
+            ...oldData,
+            allocations: [newAllocation, ...oldData.allocations],
+          };
+        }
+      );
+
+      // 3. Обновить конкретный материал (уменьшить available_qty)
+      if (newAllocation.material_id) {
+        queryClient.setQueryData(
+          materialKeys.detail(newAllocation.material_id),
+          (oldMaterial: any) => {
+            if (!oldMaterial) return oldMaterial;
+            return {
+              ...oldMaterial,
+              available_qty: oldMaterial.available_qty - newAllocation.allocated_qty,
+            };
+          }
+        );
+      }
+
+      // 4. Инвалидировать списки материалов (для consistency)
+      queryClient.invalidateQueries({ queryKey: materialKeys.lists() });
+
+      // 5. Инвалидировать low stock (может появиться новый)
+      queryClient.invalidateQueries({ queryKey: materialKeys.lowStock() });
+
       toast.success("Material allocated successfully");
     },
     onError: (error) => {
@@ -48,9 +81,28 @@ export function useRecordUsage() {
     mutationFn: ({ id, usage }: { id: string; usage: { used_qty: number; notes?: string } }) =>
       materialAllocationsApi.recordUsage(id, usage),
     onSuccess: (updatedAllocation) => {
+      // ✅ OPTIMIZED: Мгновенное обновление кэша
+
+      // 1. Обновить конкретную allocation
       queryClient.setQueryData(allocationKeys.detail(updatedAllocation.id), updatedAllocation);
-      queryClient.invalidateQueries({ queryKey: allocationKeys.lists() });
+
+      // 2. Обновить allocation в списках
+      queryClient.setQueriesData(
+        { queryKey: allocationKeys.lists() },
+        (oldData: any) => {
+          if (!oldData?.allocations) return oldData;
+          return {
+            ...oldData,
+            allocations: oldData.allocations.map((a: any) =>
+              a.id === updatedAllocation.id ? updatedAllocation : a
+            ),
+          };
+        }
+      );
+
+      // 3. Инвалидировать материалы (может измениться consumed_qty)
       queryClient.invalidateQueries({ queryKey: materialKeys.lists() });
+
       toast.success("Usage recorded successfully");
     },
     onError: (error) => {

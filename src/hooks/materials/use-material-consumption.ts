@@ -25,15 +25,40 @@ export function useConsumeMaterial() {
       });
     },
     onSuccess: (result, variables) => {
-      // Invalidate all material-related queries to ensure consistency
-      queryClient.invalidateQueries({ queryKey: materialKeys.all });
-      queryClient.invalidateQueries({ queryKey: [...allocationKeys.all] });
-      queryClient.invalidateQueries({ queryKey: [...materialKeys.all, "unified-warehouse"] });
-      queryClient.invalidateQueries({ queryKey: [...materialKeys.all, "allocation-targets"] });
+      // ✅ OPTIMIZED: Точечная инвалидация только затронутых данных
 
-      // If we know the project, invalidate project-specific queries
+      // 1. Обновить конкретную allocation (если известен ID)
+      if (variables.allocation_id) {
+        queryClient.invalidateQueries({
+          queryKey: allocationKeys.detail(variables.allocation_id)
+        });
+
+        // 2. Обновить списки allocations (они содержат consumed_qty)
+        queryClient.invalidateQueries({
+          queryKey: allocationKeys.lists()
+        });
+      }
+
+      // 3. Инвалидировать unified warehouse (изменился доступный stock)
+      queryClient.invalidateQueries({
+        queryKey: [...materialKeys.all, "unified-warehouse"]
+      });
+
+      // 4. Инвалидировать allocation targets (availability изменилась)
+      queryClient.invalidateQueries({
+        queryKey: [...materialKeys.all, "allocation-targets"]
+      });
+
+      // 5. Если привязано к work entry, обновить проектные материалы
       if (variables.work_entry_id) {
-        queryClient.invalidateQueries({ queryKey: [...allocationKeys.all, "project"] });
+        // Здесь нужно знать project_id, но его нет в variables
+        // Оставляем широкую инвалидацию для project allocations
+        queryClient.invalidateQueries({
+          predicate: (query) => {
+            return query.queryKey.includes("project") &&
+                   query.queryKey.includes("allocations");
+          }
+        });
       }
 
       toast.success(result.message || "Material consumed successfully");

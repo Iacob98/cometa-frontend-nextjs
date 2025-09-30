@@ -29,8 +29,23 @@ export function useCreateOrder() {
   return useMutation({
     mutationFn: (data: Partial<MaterialOrder>) => materialOrdersApi.createOrder(data),
     onSuccess: (newOrder) => {
-      queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
+      // ✅ OPTIMIZED: Мгновенное добавление в кэш
+
+      // 1. Добавить заказ в кэш детали
       queryClient.setQueryData(orderKeys.detail(newOrder.id), newOrder);
+
+      // 2. Добавить в списки заказов оптимистично
+      queryClient.setQueriesData(
+        { queryKey: orderKeys.lists() },
+        (oldData: any) => {
+          if (!oldData?.orders) return oldData;
+          return {
+            ...oldData,
+            orders: [newOrder, ...oldData.orders],
+          };
+        }
+      );
+
       toast.success("Order created successfully");
     },
     onError: (error) => {
@@ -46,11 +61,41 @@ export function useUpdateOrderStatus() {
     mutationFn: ({ id, status }: { id: string; status: MaterialOrderStatus }) =>
       materialOrdersApi.updateOrderStatus(id, status),
     onSuccess: (updatedOrder) => {
-      queryClient.setQueryData(orderKeys.detail(updatedOrder.id), updatedOrder);
-      queryClient.invalidateQueries({ queryKey: orderKeys.lists() });
+      // ✅ OPTIMIZED: Мгновенное обновление + точечная инвалидация
 
-      // If order is delivered, update material stock levels
-      if (updatedOrder.status === "delivered") {
+      // 1. Обновить заказ в кэше детали
+      queryClient.setQueryData(orderKeys.detail(updatedOrder.id), updatedOrder);
+
+      // 2. Обновить заказ в списках
+      queryClient.setQueriesData(
+        { queryKey: orderKeys.lists() },
+        (oldData: any) => {
+          if (!oldData?.orders) return oldData;
+          return {
+            ...oldData,
+            orders: oldData.orders.map((o: any) =>
+              o.id === updatedOrder.id ? updatedOrder : o
+            ),
+          };
+        }
+      );
+
+      // 3. Если заказ доставлен, обновить stock материала
+      if (updatedOrder.status === "delivered" && updatedOrder.material_id) {
+        // Обновить конкретный материал (увеличить stock)
+        queryClient.setQueryData(
+          materialKeys.detail(updatedOrder.material_id),
+          (oldMaterial: any) => {
+            if (!oldMaterial) return oldMaterial;
+            return {
+              ...oldMaterial,
+              available_qty: oldMaterial.available_qty + updatedOrder.quantity,
+              total_qty: oldMaterial.total_qty + updatedOrder.quantity,
+            };
+          }
+        );
+
+        // Инвалидировать списки материалов для consistency
         queryClient.invalidateQueries({ queryKey: materialKeys.lists() });
         queryClient.invalidateQueries({ queryKey: materialKeys.lowStock() });
       }
