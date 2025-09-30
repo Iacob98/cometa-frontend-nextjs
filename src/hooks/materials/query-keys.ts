@@ -37,6 +37,7 @@ export const orderKeys = {
 };
 
 // Centralized cache invalidation function for all material-related queries
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function invalidateAllMaterialQueries(queryClient: any) {
   // Invalidate all material queries
   queryClient.invalidateQueries({ queryKey: materialKeys.all });
