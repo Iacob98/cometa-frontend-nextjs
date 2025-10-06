@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Building, Home, Plus, Edit, Trash2, MapPin, Euro, Calendar, User, Mail, Phone, Package } from 'lucide-react';
+import { Building, Home, Plus, Edit, Trash2, MapPin, Euro, Calendar, User, Users, Mail, Phone, Package } from 'lucide-react';
 import { useFacilities, useCreateFacility, useDeleteFacility } from '@/hooks/use-project-preparation';
 import { useHousingUnits, useCreateHousingUnit, useUpdateHousingUnit, useDeleteHousingUnit } from '@/hooks/use-housing-units';
 import { useQuery } from '@tanstack/react-query';
@@ -70,12 +70,16 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
     address: '',
     rooms_total: '',
     beds_total: '',
+    occupied_beds: '0',
     rent_daily_eur: '',
     rent_period: 'daily', // daily or monthly
     advance_payment: '',
     check_in_date: '',
     check_out_date: '',
     status: 'available',
+    owner_first_name: '',
+    owner_last_name: '',
+    owner_phone: '',
   });
 
   // Predefined facility types with option to add custom
@@ -171,11 +175,15 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
           address: housingForm.address,
           rooms_total: parseInt(housingForm.rooms_total),
           beds_total: parseInt(housingForm.beds_total),
+          occupied_beds: parseInt(housingForm.occupied_beds || '0'),
           rent_daily_eur: dailyRate,
           status: housingForm.status,
           advance_payment: housingForm.advance_payment ? parseFloat(housingForm.advance_payment) : undefined,
           check_in_date: housingForm.check_in_date || undefined,
           check_out_date: housingForm.check_out_date || undefined,
+          owner_first_name: housingForm.owner_first_name || undefined,
+          owner_last_name: housingForm.owner_last_name || undefined,
+          owner_phone: housingForm.owner_phone || undefined,
         });
         setEditingHousingId(null);
       } else {
@@ -185,11 +193,15 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
           address: housingForm.address,
           rooms_total: parseInt(housingForm.rooms_total),
           beds_total: parseInt(housingForm.beds_total),
+          occupied_beds: parseInt(housingForm.occupied_beds || '0'),
           rent_daily_eur: dailyRate,
           status: housingForm.status,
           advance_payment: housingForm.advance_payment ? parseFloat(housingForm.advance_payment) : undefined,
           check_in_date: housingForm.check_in_date || undefined,
           check_out_date: housingForm.check_out_date || undefined,
+          owner_first_name: housingForm.owner_first_name || undefined,
+          owner_last_name: housingForm.owner_last_name || undefined,
+          owner_phone: housingForm.owner_phone || undefined,
         });
       }
 
@@ -198,12 +210,16 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
         address: '',
         rooms_total: '',
         beds_total: '',
+        occupied_beds: '0',
         rent_daily_eur: '',
         rent_period: 'daily',
         advance_payment: '',
         check_in_date: '',
         check_out_date: '',
         status: 'available',
+        owner_first_name: '',
+        owner_last_name: '',
+        owner_phone: '',
       });
       setShowHousingForm(false);
     } catch (error) {
@@ -216,12 +232,16 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
       address: housing.address || '',
       rooms_total: housing.rooms_total ? housing.rooms_total.toString() : '',
       beds_total: housing.beds_total ? housing.beds_total.toString() : '',
+      occupied_beds: housing.occupied_beds ? housing.occupied_beds.toString() : '0',
       rent_daily_eur: housing.rent_daily_eur ? housing.rent_daily_eur.toString() : '',
       rent_period: 'daily',
       advance_payment: housing.advance_payment ? housing.advance_payment.toString() : '',
       check_in_date: housing.check_in_date || '',
       check_out_date: housing.check_out_date || '',
       status: housing.status || 'available',
+      owner_first_name: housing.owner_first_name || '',
+      owner_last_name: housing.owner_last_name || '',
+      owner_phone: housing.owner_phone || '',
     });
     setEditingHousingId(housing.id);
     setShowHousingForm(true);
@@ -243,12 +263,16 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
       address: '',
       rooms_total: '',
       beds_total: '',
+      occupied_beds: '0',
       rent_daily_eur: '',
       rent_period: 'daily',
       advance_payment: '',
       check_in_date: '',
       check_out_date: '',
       status: 'available',
+      owner_first_name: '',
+      owner_last_name: '',
+      owner_phone: '',
     });
     setShowHousingForm(false);
   };
@@ -289,11 +313,23 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
         return 'bg-green-100 text-green-800';
       case 'occupied':
         return 'bg-red-100 text-red-800';
+      case 'checked_out':
+        return 'bg-blue-100 text-blue-800';
       case 'maintenance':
         return 'bg-orange-100 text-orange-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
+  };
+
+  const getOccupancyColor = (occupiedBeds: number, totalBeds: number) => {
+    if (totalBeds === 0) return 'text-gray-500';
+    const percentage = (occupiedBeds / totalBeds) * 100;
+
+    if (percentage === 0) return 'text-green-600';
+    if (percentage < 50) return 'text-green-600';
+    if (percentage < 90) return 'text-yellow-600';
+    return 'text-red-600';
   };
 
   if (facilitiesLoading || housingLoading) {
@@ -775,6 +811,28 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                     </div>
 
                     <div>
+                      <Label htmlFor="occupied-beds">Occupied Beds</Label>
+                      <Input
+                        id="occupied-beds"
+                        type="number"
+                        min="0"
+                        max={housingForm.beds_total || undefined}
+                        value={housingForm.occupied_beds || '0'}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value) || 0;
+                          const maxBeds = parseInt(housingForm.beds_total) || 0;
+                          if (value <= maxBeds) {
+                            setHousingForm(prev => ({ ...prev, occupied_beds: e.target.value }));
+                          }
+                        }}
+                        placeholder="Currently occupied"
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Number of currently occupied beds
+                      </p>
+                    </div>
+
+                    <div>
                       <Label htmlFor="housing-rent">Rent Amount (EUR) *</Label>
                       <div className="flex gap-2">
                         <Input
@@ -845,9 +903,46 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                         <SelectContent>
                           <SelectItem value="available">Available</SelectItem>
                           <SelectItem value="occupied">Occupied</SelectItem>
+                          <SelectItem value="checked_out">Checked Out</SelectItem>
                           <SelectItem value="maintenance">Maintenance</SelectItem>
                         </SelectContent>
                       </Select>
+                    </div>
+                  </div>
+
+                  {/* Owner Contact Information */}
+                  <div className="space-y-2 border-t pt-4">
+                    <h4 className="font-medium">Owner Contact Information</h4>
+                    <p className="text-sm text-muted-foreground">Contact details for the property owner</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="owner_first_name">Owner First Name</Label>
+                      <Input
+                        id="owner_first_name"
+                        value={housingForm.owner_first_name}
+                        onChange={(e) => setHousingForm(prev => ({ ...prev, owner_first_name: e.target.value }))}
+                        placeholder="Max"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="owner_last_name">Owner Last Name</Label>
+                      <Input
+                        id="owner_last_name"
+                        value={housingForm.owner_last_name}
+                        onChange={(e) => setHousingForm(prev => ({ ...prev, owner_last_name: e.target.value }))}
+                        placeholder="Mustermann"
+                      />
+                    </div>
+                    <div className="md:col-span-2">
+                      <Label htmlFor="owner_phone">Owner Phone Number</Label>
+                      <Input
+                        id="owner_phone"
+                        value={housingForm.owner_phone}
+                        onChange={(e) => setHousingForm(prev => ({ ...prev, owner_phone: e.target.value }))}
+                        placeholder="+49 30 12345678"
+                      />
                     </div>
                   </div>
 
@@ -890,8 +985,10 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                   <TableHeader>
                     <TableRow>
                       <TableHead>Address</TableHead>
+                      <TableHead>Owner Contact</TableHead>
                       <TableHead>Rooms</TableHead>
                       <TableHead>Beds</TableHead>
+                      <TableHead>Occupancy</TableHead>
                       <TableHead>Daily Rent</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Actions</TableHead>
@@ -903,8 +1000,32 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                         <TableCell className="font-medium">
                           {housing.address || 'N/A'}
                         </TableCell>
+                        <TableCell>
+                          {housing.owner_first_name || housing.owner_last_name ? (
+                            <div className="flex flex-col">
+                              <span className="text-sm">
+                                {[housing.owner_first_name, housing.owner_last_name]
+                                  .filter(Boolean)
+                                  .join(' ')}
+                              </span>
+                              {housing.owner_phone && (
+                                <span className="text-xs text-gray-500">{housing.owner_phone}</span>
+                              )}
+                            </div>
+                          ) : (
+                            <span className="text-gray-400 text-sm">No contact</span>
+                          )}
+                        </TableCell>
                         <TableCell>{housing.rooms_total || 'N/A'}</TableCell>
                         <TableCell>{housing.beds_total || 'N/A'}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-1">
+                            <Users className={`w-4 h-4 ${getOccupancyColor(housing.occupied_beds || 0, housing.beds_total || 0)}`} />
+                            <span className={`font-semibold ${getOccupancyColor(housing.occupied_beds || 0, housing.beds_total || 0)}`}>
+                              {housing.occupied_beds || 0}/{housing.beds_total || 0}
+                            </span>
+                          </div>
+                        </TableCell>
                         <TableCell>
                           €{housing.rent_daily_eur ? housing.rent_daily_eur.toLocaleString() : '0'}/day
                         </TableCell>

@@ -12,11 +12,18 @@ const CreateHousingUnitSchema = z.object({
   address: z.string().min(1, "Address is required"),
   rooms_total: z.number().int().positive("Number of rooms must be positive"),
   beds_total: z.number().int().positive("Number of beds must be positive"),
+  occupied_beds: z.number().int().min(0, "Occupied beds cannot be negative").optional().default(0),
   rent_daily_eur: z.number().positive("Daily rent must be positive"),
-  status: z.enum(['available', 'occupied', 'maintenance']).default('available'),
+  status: z.enum(['available', 'occupied', 'checked_out', 'maintenance']).default('available'),
   advance_payment: z.number().optional(),
   check_in_date: z.string().optional(),
   check_out_date: z.string().optional(),
+  owner_first_name: z.string().optional(),
+  owner_last_name: z.string().optional(),
+  owner_phone: z.string().optional(),
+}).refine((data) => data.occupied_beds <= data.beds_total, {
+  message: "Occupied beds cannot exceed total beds",
+  path: ["occupied_beds"],
 });
 
 export async function GET(request: NextRequest) {
@@ -31,28 +38,29 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Fetch housing units from database - mapping from existing schema
+    // Fetch housing units from database - using new rental housing columns
     const { data: housingUnits, error } = await supabase
       .from('housing_units')
       .select(`
         id,
         project_id,
-        house_id,
-        unit_number,
-        unit_type,
-        floor,
-        room_count,
-        area_sqm,
-        contact_person,
-        contact_phone,
-        access_instructions,
-        installation_notes,
+        address,
+        rooms_total,
+        beds_total,
+        occupied_beds,
+        rent_daily_eur,
+        advance_payment,
+        check_in_date,
+        check_out_date,
         status,
+        owner_first_name,
+        owner_last_name,
+        owner_phone,
         created_at,
-        updated_at,
-        houses(id, street, city, house_number, postal_code)
+        updated_at
       `)
       .eq('project_id', project_id)
+      .not('address', 'is', null)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -63,41 +71,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Transform data to match our expected format
-    const transformedUnits = (housingUnits || []).map(unit => {
-      let additionalData = {};
-      try {
-        additionalData = JSON.parse(unit.installation_notes || '{}');
-      } catch (e) {
-        // ignore parsing errors
-      }
-
-      const houseInfo = Array.isArray(unit.houses) ? unit.houses[0] : unit.houses;
-      const addressParts = [
-        houseInfo?.street,
-        houseInfo?.house_number,
-        houseInfo?.city,
-        houseInfo?.postal_code
-      ].filter(Boolean);
-
-      return {
-        id: unit.id,
-        project_id: unit.project_id,
-        address: additionalData.address || (addressParts.length > 0 ? addressParts.join(', ') : unit.unit_number || 'N/A'),
-        rooms_total: unit.room_count || 0,
-        beds_total: additionalData.beds_total || (unit.area_sqm ? Math.floor(unit.area_sqm / 10) : 0),
-        rent_daily_eur: additionalData.rent_daily_eur || 0,
-        status: unit.status === 'completed' ? 'available' :
-                unit.status === 'in_progress' ? 'occupied' : 'available',
-        advance_payment: additionalData.advance_payment,
-        check_in_date: additionalData.check_in_date,
-        check_out_date: additionalData.check_out_date,
-        created_at: unit.created_at,
-        updated_at: unit.updated_at
-      };
-    });
-
-    return NextResponse.json(transformedUnits);
+    // Return housing units directly - no transformation needed with new columns
+    return NextResponse.json(housingUnits || []);
   } catch (error) {
     console.error("Project preparation housing API error:", error);
     return NextResponse.json(
@@ -139,24 +114,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Map simplified data to existing schema
+    // Use new rental housing columns directly
     const insertData = {
       project_id: validatedData.project_id,
-      unit_number: `Unit-${Date.now()}`, // Generate a unique unit number
-      unit_type: 'apartment', // default type
-      room_count: validatedData.rooms_total,
-      area_sqm: validatedData.beds_total * 10, // rough estimate: beds * 10 sqm
-      status: validatedData.status === 'available' ? 'pending' :
-              validatedData.status === 'occupied' ? 'in_progress' : 'pending',
-      // Store additional fields as notes for now
-      installation_notes: JSON.stringify({
-        address: validatedData.address,
-        rent_daily_eur: validatedData.rent_daily_eur,
-        beds_total: validatedData.beds_total,
-        advance_payment: validatedData.advance_payment,
-        check_in_date: validatedData.check_in_date,
-        check_out_date: validatedData.check_out_date
-      })
+      address: validatedData.address,
+      rooms_total: validatedData.rooms_total,
+      beds_total: validatedData.beds_total,
+      occupied_beds: validatedData.occupied_beds || 0,
+      rent_daily_eur: validatedData.rent_daily_eur,
+      status: validatedData.status,
+      advance_payment: validatedData.advance_payment,
+      check_in_date: validatedData.check_in_date,
+      check_out_date: validatedData.check_out_date,
+      owner_first_name: validatedData.owner_first_name,
+      owner_last_name: validatedData.owner_last_name,
+      owner_phone: validatedData.owner_phone,
     };
 
     // Create housing unit in database
@@ -166,11 +138,20 @@ export async function POST(request: NextRequest) {
       .select(`
         id,
         project_id,
-        unit_number,
-        room_count,
-        area_sqm,
+        address,
+        rooms_total,
+        beds_total,
+        occupied_beds,
+        rent_daily_eur,
+        advance_payment,
+        check_in_date,
+        check_out_date,
         status,
-        installation_notes
+        owner_first_name,
+        owner_last_name,
+        owner_phone,
+        created_at,
+        updated_at
       `)
       .single();
 
@@ -182,33 +163,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Transform response to match expected format
-    let additionalData = {};
-    try {
-      additionalData = JSON.parse(housingUnit.installation_notes || '{}');
-    } catch (e) {
-      // ignore parsing errors
-    }
-
-    const transformedUnit = {
-      id: housingUnit.id,
-      project_id: housingUnit.project_id,
-      address: additionalData.address || housingUnit.unit_number || 'N/A',
-      rooms_total: housingUnit.room_count || 0,
-      beds_total: additionalData.beds_total || Math.floor((housingUnit.area_sqm || 0) / 10),
-      rent_daily_eur: additionalData.rent_daily_eur || 0,
-      status: housingUnit.status === 'pending' ? 'available' :
-              housingUnit.status === 'in_progress' ? 'occupied' : 'available',
-      advance_payment: additionalData.advance_payment,
-      check_in_date: additionalData.check_in_date,
-      check_out_date: additionalData.check_out_date
-    };
-
+    // Return housing unit directly - no transformation needed with new columns
     const response = {
       success: true,
       message: "Housing unit created successfully",
       housing_unit_id: housingUnit.id,
-      housing_unit: transformedUnit
+      housing_unit: housingUnit
     };
 
     return NextResponse.json(response, { status: 201 });

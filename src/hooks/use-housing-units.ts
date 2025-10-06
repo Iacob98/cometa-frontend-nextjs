@@ -12,9 +12,21 @@ export interface HousingUnit {
   area_sqm?: number;
   contact_person?: string;
   contact_phone?: string;
+  owner_first_name?: string;
+  owner_last_name?: string;
+  owner_phone?: string;
   access_instructions?: string;
   installation_notes?: string;
   status: string;
+  // Rental housing fields
+  address?: string;
+  rooms_total?: number;
+  beds_total?: number;
+  occupied_beds?: number;
+  rent_daily_eur?: number;
+  advance_payment?: number;
+  check_in_date?: string;
+  check_out_date?: string;
   created_at: string;
   updated_at: string;
   project_name?: string;
@@ -31,11 +43,15 @@ export interface CreateHousingUnitData {
   address: string;
   rooms_total: number;
   beds_total: number;
+  occupied_beds?: number;
   rent_daily_eur: number;
   status: string;
   advance_payment?: number;
   check_in_date?: string;
   check_out_date?: string;
+  owner_first_name?: string;
+  owner_last_name?: string;
+  owner_phone?: string;
 }
 
 export interface UpdateHousingUnitData {
@@ -43,11 +59,15 @@ export interface UpdateHousingUnitData {
   address?: string;
   rooms_total?: number;
   beds_total?: number;
+  occupied_beds?: number;
   rent_daily_eur?: number;
   status?: string;
   advance_payment?: number;
   check_in_date?: string;
   check_out_date?: string;
+  owner_first_name?: string;
+  owner_last_name?: string;
+  owner_phone?: string;
 }
 
 const api = {
