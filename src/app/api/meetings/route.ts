@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 import type { CreateMeetingRequest, Meeting } from '@/types/calendar'
+
+// Service role client for accessing all data
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 /**
  * GET /api/meetings
@@ -9,7 +15,6 @@ import type { CreateMeetingRequest, Meeting } from '@/types/calendar'
  */
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createClient()
     const searchParams = request.nextUrl.searchParams
 
     const projectId = searchParams.get('project_id')
@@ -71,7 +76,6 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const supabase = await createClient()
     const body: CreateMeetingRequest = await request.json()
 
     // Validate required fields

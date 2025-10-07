@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@supabase/supabase-js'
 import type { UpdateMeetingRequest } from '@/types/calendar'
+
+// Service role client for accessing all data
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 /**
  * GET /api/meetings/[id]
@@ -12,7 +18,6 @@ export async function GET(
 ) {
   try {
     const { id } = await context.params
-    const supabase = await createClient()
 
     const { data: meeting, error } = await supabase
       .from('meetings')
@@ -51,7 +56,6 @@ export async function PUT(
 ) {
   try {
     const { id } = await context.params
-    const supabase = await createClient()
     const body: UpdateMeetingRequest = await request.json()
 
     // Build update object (only include provided fields)
@@ -131,7 +135,6 @@ export async function DELETE(
 ) {
   try {
     const { id } = await context.params
-    const supabase = await createClient()
 
     // Delete meeting (participants will be deleted automatically due to CASCADE)
     const { error } = await supabase.from('meetings').delete().eq('id', id)
