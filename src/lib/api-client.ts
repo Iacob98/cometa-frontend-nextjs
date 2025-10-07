@@ -74,9 +74,12 @@ import type {
 } from "@/types";
 
 // API Configuration
-const API_BASE_URL = typeof window !== 'undefined'
-  ? window.location.origin
-  : process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const getApiBaseUrl = () => {
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+};
 
 export class ApiError extends Error {
   constructor(
@@ -216,7 +219,7 @@ class BaseApiClient {
 // Service clients
 export class AuthApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/auth`);
+    super(`${getApiBaseUrl()}/api/auth`);
   }
 
   async login(credentials: LoginRequest): Promise<TokenResponse> {
@@ -238,7 +241,7 @@ export class AuthApiClient extends BaseApiClient {
 
 export class ProjectsApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/projects`);
+    super(`${getApiBaseUrl()}/api/projects`);
   }
 
   async getProjects(filters?: ProjectFilters): Promise<PaginatedResponse<Project>> {
@@ -265,7 +268,7 @@ export class ProjectsApiClient extends BaseApiClient {
 
 export class WorkEntriesApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/work-entries`);
+    super(`${getApiBaseUrl()}/api/work-entries`);
   }
 
   async getWorkEntries(filters?: WorkEntryFilters): Promise<PaginatedResponse<WorkEntry>> {
@@ -295,7 +298,7 @@ export class WorkEntriesApiClient extends BaseApiClient {
 
 export class UsersApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/users`);
+    super(`${getApiBaseUrl()}/api/users`);
   }
 
   async getUsers(filters?: { role?: string; is_active?: string; page?: number; per_page?: number }): Promise<PaginatedResponse<User>> {
@@ -321,7 +324,7 @@ export class UsersApiClient extends BaseApiClient {
 
 export class TeamsApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/teams`);
+    super(`${getApiBaseUrl()}/api/teams`);
   }
 
   async getCrews(): Promise<Crew[]> {
@@ -347,7 +350,7 @@ export class TeamsApiClient extends BaseApiClient {
 
 export class MaterialsApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/materials`);
+    super(`${getApiBaseUrl()}/api/materials`);
   }
 
   async getMaterials(filters?: MaterialFilters): Promise<PaginatedResponse<Material>> {
@@ -381,7 +384,7 @@ export class MaterialsApiClient extends BaseApiClient {
 
 export class SuppliersApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/suppliers`);
+    super(`${getApiBaseUrl()}/api/suppliers`);
   }
 
   async getSuppliers(): Promise<Supplier[]> {
@@ -407,7 +410,7 @@ export class SuppliersApiClient extends BaseApiClient {
 
 export class MaterialAllocationsApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/materials/allocations`);
+    super(`${getApiBaseUrl()}/api/materials/allocations`);
   }
 
   async getAllocations(filters?: AllocationFilters): Promise<PaginatedResponse<MaterialAllocation>> {
@@ -437,7 +440,7 @@ export class MaterialAllocationsApiClient extends BaseApiClient {
 
 export class MaterialOrdersApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/material-orders`);
+    super(`${getApiBaseUrl()}/api/material-orders`);
   }
 
   async getOrders(filters?: OrderFilters): Promise<PaginatedResponse<MaterialOrder>> {
@@ -475,7 +478,7 @@ export class MaterialOrdersApiClient extends BaseApiClient {
 
 export class HousesApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/houses`);
+    super(`${getApiBaseUrl()}/api/houses`);
   }
 
   async getHouses(filters?: HouseFilters): Promise<PaginatedResponse<House>> {
@@ -557,7 +560,7 @@ export class HousesApiClient extends BaseApiClient {
 
 export class AppointmentsApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/appointments`);
+    super(`${getApiBaseUrl()}/api/appointments`);
   }
 
   async getAppointments(filters?: AppointmentFilters): Promise<PaginatedResponse<HouseAppointment>> {
@@ -595,7 +598,7 @@ export class AppointmentsApiClient extends BaseApiClient {
 
 export class NotificationsApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/notifications`);
+    super(`${getApiBaseUrl()}/api/notifications`);
   }
 
   async getNotifications(filters?: NotificationFilters): Promise<PaginatedResponse<Notification>> {
@@ -629,7 +632,7 @@ export class NotificationsApiClient extends BaseApiClient {
 
 export class NotificationPreferencesApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/notification-preferences`);
+    super(`${getApiBaseUrl()}/api/notification-preferences`);
   }
 
   async getPreferences(userId: string): Promise<NotificationPreferences> {
@@ -643,7 +646,7 @@ export class NotificationPreferencesApiClient extends BaseApiClient {
 
 export class NotificationTemplatesApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/notification-templates`);
+    super(`${getApiBaseUrl()}/api/notification-templates`);
   }
 
   async getTemplates(): Promise<NotificationTemplate[]> {
@@ -769,7 +772,7 @@ export class WebSocketApiClient {
 
 export class DocumentsApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/documents`);
+    super(`${getApiBaseUrl()}/api/documents`);
   }
 
   async getDocuments(filters?: DocumentFilters): Promise<PaginatedResponse<Document>> {
@@ -870,7 +873,7 @@ export class DocumentsApiClient extends BaseApiClient {
 
 export class DocumentCategoriesApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/document-categories`);
+    super(`${getApiBaseUrl()}/api/document-categories`);
   }
 
   async getCategories(): Promise<DocumentCategory[]> {
@@ -896,7 +899,7 @@ export class DocumentCategoriesApiClient extends BaseApiClient {
 
 export class DocumentAccessApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/document-access`);
+    super(`${getApiBaseUrl()}/api/document-access`);
   }
 
   async getDocumentAccess(documentId: string): Promise<DocumentAccess[]> {
@@ -918,7 +921,7 @@ export class DocumentAccessApiClient extends BaseApiClient {
 
 export class DocumentSharesApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/document-shares`);
+    super(`${getApiBaseUrl()}/api/document-shares`);
   }
 
   async createShare(data: Omit<DocumentShare, 'id' | 'share_token' | 'access_count' | 'created_at' | 'last_accessed_at'>): Promise<DocumentShare> {
@@ -948,7 +951,7 @@ export class DocumentSharesApiClient extends BaseApiClient {
 
 export class DocumentTemplatesApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/document-templates`);
+    super(`${getApiBaseUrl()}/api/document-templates`);
   }
 
   async getTemplates(): Promise<DocumentTemplate[]> {
@@ -978,7 +981,7 @@ export class DocumentTemplatesApiClient extends BaseApiClient {
 
 export class GeospatialApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/geospatial`);
+    super(`${getApiBaseUrl()}/api/geospatial`);
   }
 
   async getFeatures(filters?: GeospatialFilters): Promise<PaginatedResponse<GeospatialFeature>> {
@@ -1020,7 +1023,7 @@ export class GeospatialApiClient extends BaseApiClient {
 
 export class GeoRoutesApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/geo-routes`);
+    super(`${getApiBaseUrl()}/api/geo-routes`);
   }
 
   async getRoutes(projectId?: string): Promise<GeoRoute[]> {
@@ -1062,7 +1065,7 @@ export class GeoRoutesApiClient extends BaseApiClient {
 
 export class GeoLayersApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/geo-layers`);
+    super(`${getApiBaseUrl()}/api/geo-layers`);
   }
 
   async getLayers(projectId?: string): Promise<GeoLayer[]> {
@@ -1100,7 +1103,7 @@ export class GeoLayersApiClient extends BaseApiClient {
 
 export class GeoMeasurementsApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/geo-measurements`);
+    super(`${getApiBaseUrl()}/api/geo-measurements`);
   }
 
   async getMeasurements(projectId?: string): Promise<GeoMeasurement[]> {
@@ -1134,7 +1137,7 @@ export class GeoMeasurementsApiClient extends BaseApiClient {
 
 export class GeoAnnotationsApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/geo-annotations`);
+    super(`${getApiBaseUrl()}/api/geo-annotations`);
   }
 
   async getAnnotations(projectId?: string): Promise<GeoAnnotation[]> {
@@ -1160,7 +1163,7 @@ export class GeoAnnotationsApiClient extends BaseApiClient {
 
 export class MapTilesApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/map-tiles`);
+    super(`${getApiBaseUrl()}/api/map-tiles`);
   }
 
   async getTiles(): Promise<MapTile[]> {
@@ -1190,7 +1193,7 @@ export class MapTilesApiClient extends BaseApiClient {
 
 export class GeoAnalysisApiClient extends BaseApiClient {
   constructor() {
-    super(`${API_BASE_URL}/api/geo-analysis`);
+    super(`${getApiBaseUrl()}/api/geo-analysis`);
   }
 
   async getAnalyses(projectId?: string): Promise<GeoAnalysis[]> {
