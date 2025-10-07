@@ -2908,6 +2908,10 @@ body {
   color: hsl(var(--destructive));
 }
 
+.hover\:text-primary:hover {
+  color: hsl(var(--primary));
+}
+
 .hover\:text-primary-foreground:hover {
   color: hsl(var(--primary-foreground));
 }

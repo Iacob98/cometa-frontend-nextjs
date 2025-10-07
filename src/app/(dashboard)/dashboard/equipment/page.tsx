@@ -42,6 +42,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 
 const statusColors = {
   available: "bg-green-100 text-green-800 border-green-200",
+  issued_to_brigade: "bg-blue-100 text-blue-800 border-blue-200",
   in_use: "bg-blue-100 text-blue-800 border-blue-200",
   maintenance: "bg-yellow-100 text-yellow-800 border-yellow-200",
   broken: "bg-red-100 text-red-800 border-red-200",
@@ -49,6 +50,7 @@ const statusColors = {
 
 const statusLabels = {
   available: "Available",
+  issued_to_brigade: "Issued to Brigade",
   in_use: "In Use",
   maintenance: "Maintenance",
   broken: "Broken",
@@ -56,6 +58,7 @@ const statusLabels = {
 
 const statusIcons = {
   available: CheckCircle,
+  issued_to_brigade: Activity,
   in_use: Activity,
   maintenance: Clock,
   broken: XCircle,

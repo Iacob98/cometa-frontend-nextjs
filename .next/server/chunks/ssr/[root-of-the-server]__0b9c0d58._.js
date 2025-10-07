@@ -161,7 +161,11 @@ __turbopack_context__.s([
     ()=>wsApi
 ]);
 // API Configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const getApiBaseUrl = ()=>{
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    return process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+};
 class ApiError extends Error {
     status;
     response;
@@ -261,7 +265,7 @@ class BaseApiClient {
 }
 class AuthApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/auth`);
+        super(`${getApiBaseUrl()}/api/auth`);
     }
     async login(credentials) {
         return this.post("/login", credentials);
@@ -280,7 +284,7 @@ class AuthApiClient extends BaseApiClient {
 }
 class ProjectsApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/projects`);
+        super(`${getApiBaseUrl()}/api/projects`);
     }
     async getProjects(filters) {
         return this.get("/", filters);
@@ -300,7 +304,7 @@ class ProjectsApiClient extends BaseApiClient {
 }
 class WorkEntriesApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/work-entries`);
+        super(`${getApiBaseUrl()}/api/work-entries`);
     }
     async getWorkEntries(filters) {
         return this.get("/", filters);
@@ -323,7 +327,7 @@ class WorkEntriesApiClient extends BaseApiClient {
 }
 class UsersApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/users`);
+        super(`${getApiBaseUrl()}/api/users`);
     }
     async getUsers(filters) {
         return this.get("/", filters);
@@ -343,7 +347,7 @@ class UsersApiClient extends BaseApiClient {
 }
 class TeamsApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/teams`);
+        super(`${getApiBaseUrl()}/api/teams`);
     }
     async getCrews() {
         return this.get("/crews");
@@ -363,7 +367,7 @@ class TeamsApiClient extends BaseApiClient {
 }
 class MaterialsApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/materials`);
+        super(`${getApiBaseUrl()}/api/materials`);
     }
     async getMaterials(filters) {
         return this.get("/", filters);
@@ -389,7 +393,7 @@ class MaterialsApiClient extends BaseApiClient {
 }
 class SuppliersApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/suppliers`);
+        super(`${getApiBaseUrl()}/api/suppliers`);
     }
     async getSuppliers() {
         return this.get("/");
@@ -409,7 +413,7 @@ class SuppliersApiClient extends BaseApiClient {
 }
 class MaterialAllocationsApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/material-allocations`);
+        super(`${getApiBaseUrl()}/api/materials/allocations`);
     }
     async getAllocations(filters) {
         return this.get("/", filters);
@@ -432,7 +436,7 @@ class MaterialAllocationsApiClient extends BaseApiClient {
 }
 class MaterialOrdersApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/material-orders`);
+        super(`${getApiBaseUrl()}/api/material-orders`);
     }
     async getOrders(filters) {
         return this.get("/", filters);
@@ -463,7 +467,7 @@ class MaterialOrdersApiClient extends BaseApiClient {
 }
 class HousesApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/houses`);
+        super(`${getApiBaseUrl()}/api/houses`);
     }
     async getHouses(filters) {
         return this.get("/", filters);
@@ -532,7 +536,7 @@ class HousesApiClient extends BaseApiClient {
 }
 class AppointmentsApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/appointments`);
+        super(`${getApiBaseUrl()}/api/appointments`);
     }
     async getAppointments(filters) {
         return this.get("/", filters);
@@ -567,7 +571,7 @@ class AppointmentsApiClient extends BaseApiClient {
 }
 class NotificationsApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/notifications`);
+        super(`${getApiBaseUrl()}/api/notifications`);
     }
     async getNotifications(filters) {
         return this.get("/", filters);
@@ -593,7 +597,7 @@ class NotificationsApiClient extends BaseApiClient {
 }
 class NotificationPreferencesApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/notification-preferences`);
+        super(`${getApiBaseUrl()}/api/notification-preferences`);
     }
     async getPreferences(userId) {
         return this.get(`/user/${userId}`);
@@ -604,7 +608,7 @@ class NotificationPreferencesApiClient extends BaseApiClient {
 }
 class NotificationTemplatesApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/notification-templates`);
+        super(`${getApiBaseUrl()}/api/notification-templates`);
     }
     async getTemplates() {
         return this.get("/");
@@ -632,7 +636,8 @@ class WebSocketApiClient {
     }
     connect(userId) {
         return new Promise((resolve, reject)=>{
-            const wsUrl = `${process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"}/ws/${userId}`;
+            const wsBaseUrl = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080";
+            const wsUrl = `${wsBaseUrl}/ws/${userId}`;
             this.ws = new WebSocket(wsUrl);
             this.ws.onopen = ()=>{
                 console.log("WebSocket connected");
@@ -714,7 +719,7 @@ class WebSocketApiClient {
 }
 class DocumentsApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/documents`);
+        super(`${getApiBaseUrl()}/api/documents`);
     }
     async getDocuments(filters) {
         return this.get("/", filters);
@@ -790,7 +795,7 @@ class DocumentsApiClient extends BaseApiClient {
 }
 class DocumentCategoriesApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/document-categories`);
+        super(`${getApiBaseUrl()}/api/document-categories`);
     }
     async getCategories() {
         return this.get("/");
@@ -810,7 +815,7 @@ class DocumentCategoriesApiClient extends BaseApiClient {
 }
 class DocumentAccessApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/document-access`);
+        super(`${getApiBaseUrl()}/api/document-access`);
     }
     async getDocumentAccess(documentId) {
         return this.get(`/document/${documentId}`);
@@ -827,7 +832,7 @@ class DocumentAccessApiClient extends BaseApiClient {
 }
 class DocumentSharesApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/document-shares`);
+        super(`${getApiBaseUrl()}/api/document-shares`);
     }
     async createShare(data) {
         return this.post("/", data);
@@ -852,7 +857,7 @@ class DocumentSharesApiClient extends BaseApiClient {
 }
 class DocumentTemplatesApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/document-templates`);
+        super(`${getApiBaseUrl()}/api/document-templates`);
     }
     async getTemplates() {
         return this.get("/");
@@ -875,7 +880,7 @@ class DocumentTemplatesApiClient extends BaseApiClient {
 }
 class GeospatialApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/geospatial`);
+        super(`${getApiBaseUrl()}/api/geospatial`);
     }
     async getFeatures(filters) {
         return this.get("/features", filters);
@@ -907,7 +912,7 @@ class GeospatialApiClient extends BaseApiClient {
 }
 class GeoRoutesApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/geo-routes`);
+        super(`${getApiBaseUrl()}/api/geo-routes`);
     }
     async getRoutes(projectId) {
         return this.get("/", projectId ? {
@@ -938,7 +943,7 @@ class GeoRoutesApiClient extends BaseApiClient {
 }
 class GeoLayersApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/geo-layers`);
+        super(`${getApiBaseUrl()}/api/geo-layers`);
     }
     async getLayers(projectId) {
         return this.get("/", projectId ? {
@@ -975,7 +980,7 @@ class GeoLayersApiClient extends BaseApiClient {
 }
 class GeoMeasurementsApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/geo-measurements`);
+        super(`${getApiBaseUrl()}/api/geo-measurements`);
     }
     async getMeasurements(projectId) {
         return this.get("/", projectId ? {
@@ -1007,7 +1012,7 @@ class GeoMeasurementsApiClient extends BaseApiClient {
 }
 class GeoAnnotationsApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/geo-annotations`);
+        super(`${getApiBaseUrl()}/api/geo-annotations`);
     }
     async getAnnotations(projectId) {
         return this.get("/", projectId ? {
@@ -1029,7 +1034,7 @@ class GeoAnnotationsApiClient extends BaseApiClient {
 }
 class MapTilesApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/map-tiles`);
+        super(`${getApiBaseUrl()}/api/map-tiles`);
     }
     async getTiles() {
         return this.get("/");
@@ -1052,7 +1057,7 @@ class MapTilesApiClient extends BaseApiClient {
 }
 class GeoAnalysisApiClient extends BaseApiClient {
     constructor(){
-        super(`${API_BASE_URL}/api/geo-analysis`);
+        super(`${getApiBaseUrl()}/api/geo-analysis`);
     }
     async getAnalyses(projectId) {
         return this.get("/", projectId ? {
@@ -1926,6 +1931,30 @@ function Providers({ children }) {
                 }
             }
         }));
+    // OPTIMIZATION: Monitor cache size in development
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
+        if ("TURBOPACK compile-time truthy", 1) {
+            const monitorInterval = setInterval(()=>{
+                const cache = queryClient.getQueryCache();
+                const queries = cache.getAll();
+                const cacheSize = queries.length;
+                console.log(`[React Query] Cache size: ${cacheSize} queries`);
+                if (cacheSize > 100) {
+                    console.warn(`⚠️ [React Query] Cache is growing large (${cacheSize} queries). ` + `Consider more aggressive GC or refactoring query keys.`);
+                }
+                // Log breakdown by query type
+                const queryTypes = queries.reduce((acc, query)=>{
+                    const key = query.queryKey[0];
+                    acc[key] = (acc[key] || 0) + 1;
+                    return acc;
+                }, {});
+                console.log('[React Query] Cache breakdown:', queryTypes);
+            }, 60000); // Every minute
+            return ()=>clearInterval(monitorInterval);
+        }
+    }, [
+        queryClient
+    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$QueryClientProvider$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["QueryClientProvider"], {
         client: queryClient,
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$websocket$2d$provider$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["WebSocketProvider"], {
@@ -1936,25 +1965,25 @@ function Providers({ children }) {
                     richColors: true
                 }, void 0, false, {
                     fileName: "[project]/src/lib/providers.tsx",
-                    lineNumber: 80,
+                    lineNumber: 111,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2d$devtools$2f$build$2f$modern$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ReactQueryDevtools"], {
                     initialIsOpen: false
                 }, void 0, false, {
                     fileName: "[project]/src/lib/providers.tsx",
-                    lineNumber: 81,
+                    lineNumber: 112,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/lib/providers.tsx",
-            lineNumber: 78,
+            lineNumber: 109,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/lib/providers.tsx",
-        lineNumber: 77,
+        lineNumber: 108,
         columnNumber: 5
     }, this);
 }
