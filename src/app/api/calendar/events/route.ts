@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { EVENT_TYPE_COLORS } from '@/types/calendar'
 import type {
   CalendarEvent,
   ProjectEvent,
@@ -8,7 +9,6 @@ import type {
   MeetingEvent,
   WorkEntryEvent,
   GetCalendarEventsRequest,
-  EVENT_TYPE_COLORS,
 } from '@/types/calendar'
 
 // Service role client for accessing all data
