@@ -670,7 +670,10 @@ export class WebSocketApiClient {
 
   connect(userId: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      const wsUrl = `${process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080"}/ws/${userId}`;
+      const wsBaseUrl = typeof window !== 'undefined'
+        ? window.location.origin.replace(/^http/, 'ws')
+        : process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080";
+      const wsUrl = `${wsBaseUrl}/ws/${userId}`;
 
       this.ws = new WebSocket(wsUrl);
 
