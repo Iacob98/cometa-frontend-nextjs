@@ -525,6 +525,7 @@ export default function NewProjectPage() {
                                 min="0"
                                 placeholder="e.g., 500"
                                 {...field}
+                                value={field.value || ""}
                               />
                             </FormControl>
                             <FormMessage />
@@ -539,7 +540,7 @@ export default function NewProjectPage() {
                           <FormItem>
                             <FormLabel>Notes</FormLabel>
                             <FormControl>
-                              <Input placeholder="Additional notes" {...field} />
+                              <Input placeholder="Additional notes" {...field} value={field.value || ""} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -556,8 +557,8 @@ export default function NewProjectPage() {
                   onClick={() =>
                     appendSoilType({
                       soil_type_name: "",
-                      price_per_meter: 0,
-                      quantity_meters: undefined,
+                      price_per_meter: "" as any,
+                      quantity_meters: "" as any,
                       notes: "",
                     })
                   }
