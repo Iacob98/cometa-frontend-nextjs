@@ -511,6 +511,7 @@ export default function EquipmentPage() {
                         <TableHead>Type</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Ownership</TableHead>
+                        <TableHead>Location</TableHead>
                         <TableHead>Daily Rate</TableHead>
                         <TableHead className="w-[100px]">Actions</TableHead>
                       </TableRow>
@@ -555,6 +556,11 @@ export default function EquipmentPage() {
                             <TableCell>
                               <span className={item.owned ? "text-green-600 font-medium" : "text-orange-600 font-medium"}>
                                 {item.owned ? "Owned" : "Rented"}
+                              </span>
+                            </TableCell>
+                            <TableCell>
+                              <span className="text-sm">
+                                {item.current_location || "Not specified"}
                               </span>
                             </TableCell>
                             <TableCell>
