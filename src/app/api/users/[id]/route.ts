@@ -46,7 +46,7 @@ export async function GET(
     const formattedUser = {
       ...user,
       full_name: `${user.first_name} ${user.last_name}`.trim(),
-      skills: user.skills || []
+      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || [])
     };
 
     return NextResponse.json(formattedUser);
@@ -103,7 +103,7 @@ export async function PUT(
     const formattedUser = {
       ...user,
       full_name: `${user.first_name} ${user.last_name}`.trim(),
-      skills: user.skills || []
+      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || [])
     };
 
     return NextResponse.json({

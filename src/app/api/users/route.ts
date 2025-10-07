@@ -25,7 +25,9 @@ export async function GET(request: NextRequest) {
         first_name,
         last_name,
         role,
+        pin_code,
         phone,
+        skills,
         is_active,
         language_preference,
         created_at,
@@ -57,8 +59,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Parse skills from JSONB string to array
+    const parsedUsers = (users || []).map(user => ({
+      ...user,
+      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || [])
+    }));
+
     return NextResponse.json({
-      items: users || [],
+      items: parsedUsers,
       total: count || 0,
       page,
       per_page,

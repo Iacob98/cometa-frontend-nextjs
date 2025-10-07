@@ -174,5 +174,35 @@
         "created_at": "2025-09-28T13:53:47.526Z"
       }
     }
+  ],
+  "b136d8a8-90a3-442a-9703-c1c7470f7d05": [
+    {
+      "id": "doc-1759835041085",
+      "user_id": "b136d8a8-90a3-442a-9703-c1c7470f7d05",
+      "category_id": "passport",
+      "document_number": "фцв",
+      "file_name": "FR A_52 (1).pdf",
+      "file_size": 40733,
+      "file_type": "application/pdf",
+      "file_url": "/api/users/b136d8a8-90a3-442a-9703-c1c7470f7d05/documents/doc-1759835041085/download",
+      "status": "active",
+      "notes": "",
+      "issuing_authority": "вфц",
+      "issue_date": null,
+      "expiry_date": null,
+      "is_verified": false,
+      "created_at": "2025-10-07T11:04:01.097Z",
+      "updated_at": "2025-10-07T11:04:01.098Z",
+      "category": {
+        "id": "passport",
+        "code": "PASSPORT",
+        "name_en": "Passport",
+        "name_ru": "Паспорт",
+        "name_de": "Reisepass",
+        "required_for_work": true,
+        "color": "#3b82f6",
+        "created_at": "2025-10-07T11:04:01.097Z"
+      }
+    }
   ]
 }
