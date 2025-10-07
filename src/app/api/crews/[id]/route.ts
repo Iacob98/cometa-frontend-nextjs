@@ -21,7 +21,7 @@ export async function GET(
       );
     }
 
-    const { data: crew, error } = await supabaseService
+    const { data: crew, error} = await supabaseService
       .from('crews')
       .select(`
         id,
@@ -32,9 +32,18 @@ export async function GET(
         project_id,
         created_at,
         updated_at,
-        leader:users!crews_leader_user_id_fkey(id, first_name, last_name, email, phone)
+        leader:users!crews_leader_user_id_fkey(id, first_name, last_name, email, phone, role),
+        crew_members(
+          id,
+          user_id,
+          role,
+          is_active,
+          joined_at,
+          user:users(id, first_name, last_name, email, phone, role)
+        )
       `)
       .eq('id', id)
+      .eq('crew_members.is_active', true)
       .single();
 
     if (error) {
@@ -52,6 +61,39 @@ export async function GET(
       );
     }
 
+    // Format members array - include leader as first member
+    const formattedMembers = [
+      // Add leader as first member if exists
+      ...(crew.leader ? [{
+        id: `leader-${crew.leader.id}`,
+        user_id: crew.leader.id,
+        role: 'leader',
+        role_in_crew: 'leader',
+        is_active: true,
+        joined_at: crew.created_at,
+        full_name: `${crew.leader.first_name || ''} ${crew.leader.last_name || ''}`.trim(),
+        user: {
+          id: crew.leader.id,
+          first_name: crew.leader.first_name,
+          last_name: crew.leader.last_name,
+          email: crew.leader.email,
+          phone: crew.leader.phone,
+          role: crew.leader.role
+        }
+      }] : []),
+      // Add regular members
+      ...(crew.crew_members || []).map((member: any) => ({
+        id: member.id,
+        user_id: member.user_id,
+        role: member.role,
+        role_in_crew: member.role,
+        is_active: member.is_active,
+        joined_at: member.joined_at,
+        full_name: member.user ? `${member.user.first_name} ${member.user.last_name}` : '',
+        user: member.user
+      }))
+    ];
+
     // Format response for frontend compatibility
     const formattedCrew = {
       ...crew,
@@ -59,6 +101,8 @@ export async function GET(
         ...crew.leader,
         full_name: `${crew.leader.first_name || ''} ${crew.leader.last_name || ''}`.trim(),
       } : null,
+      members: formattedMembers,
+      member_count: (crew.crew_members?.length || 0) + (crew.leader_user_id ? 1 : 0)
     };
 
     return NextResponse.json(formattedCrew);

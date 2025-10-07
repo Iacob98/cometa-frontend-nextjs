@@ -135,13 +135,11 @@ export async function GET(request: NextRequest) {
     };
 
     return NextResponse.json({
-      allocations: formattedAllocations,
-      pagination: {
-        page,
-        per_page,
-        total: count || 0,
-        total_pages: Math.ceil((count || 0) / per_page)
-      },
+      items: formattedAllocations,
+      total: count || 0,
+      page,
+      per_page,
+      pages: Math.ceil((count || 0) / per_page),
       summary: {
         total_allocations: count || 0,
         total_value: totalValue,

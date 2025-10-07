@@ -78,7 +78,7 @@ const navigation: NavItem[] = [
   },
   {
     title: "Materials",
-    href: "/dashboard/materials",
+    href: "/dashboard/materials/inventory",
     icon: Package,
     roles: ["admin", "pm"],
   },

@@ -457,7 +457,7 @@ class MaterialOrdersApiClient extends BaseApiClient {
         return this.post("/", data);
     }
     async updateOrder(id, data) {
-        return this.patch("/".concat(id), data);
+        return this.put("/".concat(id), data);
     }
     async deleteOrder(id) {
         return this.delete("/".concat(id));
@@ -474,7 +474,7 @@ class MaterialOrdersApiClient extends BaseApiClient {
         return this.delete("/".concat(orderId, "/items/").concat(itemId));
     }
     constructor(){
-        super("".concat(getApiBaseUrl(), "/api/material-orders"));
+        super("".concat(getApiBaseUrl(), "/api/materials/orders"));
     }
 }
 class HousesApiClient extends BaseApiClient {

@@ -440,7 +440,7 @@ export class MaterialAllocationsApiClient extends BaseApiClient {
 
 export class MaterialOrdersApiClient extends BaseApiClient {
   constructor() {
-    super(`${getApiBaseUrl()}/api/material-orders`);
+    super(`${getApiBaseUrl()}/api/materials/orders`);
   }
 
   async getOrders(filters?: OrderFilters): Promise<PaginatedResponse<MaterialOrder>> {
@@ -456,7 +456,7 @@ export class MaterialOrdersApiClient extends BaseApiClient {
   }
 
   async updateOrder(id: string, data: Partial<MaterialOrder>): Promise<MaterialOrder> {
-    return this.patch<MaterialOrder>(`/${id}`, data);
+    return this.put<MaterialOrder>(`/${id}`, data);
   }
 
   async deleteOrder(id: string): Promise<void> {

@@ -193,8 +193,8 @@ const api = {
     if (filters?.crew_id) params.append('crew_id', filters.crew_id);
     if (filters?.active_only) params.append('active_only', filters.active_only.toString());
 
-    // Use our new equipment assignments API
-    const url = `/api/equipment/assignments${params.toString() ? `?${params.toString()}` : ''}`;
+    // Use resources equipment assignments API (unified endpoint)
+    const url = `/api/resources/equipment-assignments${params.toString() ? `?${params.toString()}` : ''}`;
     const response = await fetch(url);
 
     if (!response.ok) {

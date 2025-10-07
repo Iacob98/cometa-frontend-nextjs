@@ -436,7 +436,7 @@ class MaterialAllocationsApiClient extends BaseApiClient {
 }
 class MaterialOrdersApiClient extends BaseApiClient {
     constructor(){
-        super(`${getApiBaseUrl()}/api/material-orders`);
+        super(`${getApiBaseUrl()}/api/materials/orders`);
     }
     async getOrders(filters) {
         return this.get("/", filters);
@@ -448,7 +448,7 @@ class MaterialOrdersApiClient extends BaseApiClient {
         return this.post("/", data);
     }
     async updateOrder(id, data) {
-        return this.patch(`/${id}`, data);
+        return this.put(`/${id}`, data);
     }
     async deleteOrder(id) {
         return this.delete(`/${id}`);

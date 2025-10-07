@@ -1066,10 +1066,6 @@ img, video {
   width: 50px;
 }
 
-.w-\[70px\] {
-  width: 70px;
-}
-
 .w-\[80px\] {
   width: 80px;
 }
@@ -1704,10 +1700,6 @@ img, video {
 
 .bg-destructive\/10 {
   background-color: hsl(var(--destructive) / .1);
-}
-
-.bg-destructive\/5 {
-  background-color: hsl(var(--destructive) / .05);
 }
 
 .bg-emerald-100 {

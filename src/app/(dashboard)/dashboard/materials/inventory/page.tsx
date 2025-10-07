@@ -18,7 +18,8 @@ import {
   BarChart3,
   Clock,
   Calendar,
-  User
+  User,
+  Truck
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,8 @@ import { z } from "zod";
 import { useMaterials } from "@/hooks/materials";
 import { useQuery } from "@tanstack/react-query";
 import { useMaterialOrders } from "@/hooks/use-material-orders";
+import { useAllocations } from "@/hooks/materials/use-material-allocations";
+import { useUpdateOrderStatus } from "@/hooks/materials/use-material-orders";
 
 const stockAdjustmentSchema = z.object({
   quantity: z.coerce.number().refine((val) => val !== 0, {
@@ -70,19 +73,19 @@ export default function InventoryManagementPage() {
     per_page: 1000,
   });
 
-  // Fetch allocations directly from API
-  const { data: allocationsData, isLoading: allocationsLoading } = useQuery({
-    queryKey: ['materials', 'allocations', allocationFilters],
-    queryFn: async () => {
-      const params = new URLSearchParams();
-      if (allocationFilters.material_id) params.append('material_id', allocationFilters.material_id);
-      if (allocationFilters.project_id) params.append('project_id', allocationFilters.project_id);
-      params.append('per_page', '100');
+  // Fetch allocations using proper hook
+  const { data: allocationsData, isLoading: allocationsLoading } = useAllocations({
+    material_id: allocationFilters.material_id || undefined,
+    project_id: allocationFilters.project_id || undefined,
+    per_page: 100,
+  });
 
-      const response = await fetch(`/api/materials/allocations?${params}`);
-      if (!response.ok) throw new Error('Failed to fetch allocations');
-      return response.json();
-    },
+  // Debug: Log allocations data
+  console.log('🔍 Allocations Debug:', {
+    data: allocationsData,
+    total: allocationsData?.total,
+    items: allocationsData?.items?.length,
+    isLoading: allocationsLoading
   });
 
   // Fetch orders using the proper hook with correct query keys
@@ -90,6 +93,9 @@ export default function InventoryManagementPage() {
     page: 1,
     per_page: 100
   });
+
+  // Order status update mutation
+  const updateOrderStatus = useUpdateOrderStatus();
 
   // Create a simple stock adjustment handler
   const adjustStock = {
@@ -174,6 +180,17 @@ export default function InventoryManagementPage() {
     }
   );
 
+  const handleMarkAsDelivered = async (orderId: string) => {
+    try {
+      await updateOrderStatus.mutateAsync({
+        id: orderId,
+        status: "delivered"
+      });
+    } catch (error) {
+      console.error("Failed to mark order as delivered:", error);
+    }
+  };
+
   const handleStockAdjustment = async (data: StockAdjustmentFormData) => {
     if (!selectedMaterial) return;
 
@@ -203,6 +220,36 @@ export default function InventoryManagementPage() {
       return { status: "low", label: "Low Stock", color: "bg-yellow-100 text-yellow-800 border-yellow-200" };
     } else {
       return { status: "normal", label: "In Stock", color: "bg-green-100 text-green-800 border-green-200" };
+    }
+  };
+
+  const getOrderStatusBadge = (status: string) => {
+    switch (status) {
+      case "pending":
+        return { label: "Pending", color: "bg-yellow-100 text-yellow-800 border-yellow-200", icon: Clock };
+      case "ordered":
+        return { label: "Ordered", color: "bg-blue-100 text-blue-800 border-blue-200", icon: Package };
+      case "delivered":
+        return { label: "Delivered", color: "bg-green-100 text-green-800 border-green-200", icon: Package };
+      case "cancelled":
+        return { label: "Cancelled", color: "bg-red-100 text-red-800 border-red-200", icon: AlertTriangle };
+      default:
+        return { label: status, color: "bg-gray-100 text-gray-800 border-gray-200", icon: Package };
+    }
+  };
+
+  const getAllocationStatusBadge = (status: string) => {
+    switch (status) {
+      case "allocated":
+        return { label: "Allocated", color: "bg-blue-100 text-blue-800 border-blue-200", icon: Package };
+      case "partially_used":
+        return { label: "Partially Used", color: "bg-yellow-100 text-yellow-800 border-yellow-200", icon: TrendingDown };
+      case "fully_used":
+        return { label: "Fully Used", color: "bg-green-100 text-green-800 border-green-200", icon: TrendingUp };
+      case "returned":
+        return { label: "Returned", color: "bg-gray-100 text-gray-800 border-gray-200", icon: RefreshCw };
+      default:
+        return { label: status, color: "bg-gray-100 text-gray-800 border-gray-200", icon: Package };
     }
   };
 
@@ -401,7 +448,10 @@ export default function InventoryManagementPage() {
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="inventory">Inventory ({materials.length})</TabsTrigger>
           <TabsTrigger value="low-stock">Low Stock ({stats.lowStock})</TabsTrigger>
-          <TabsTrigger value="allocations">Allocations ({allocationsData?.pagination?.total || 0})</TabsTrigger>
+          <TabsTrigger value="allocations">
+            Allocations ({allocationsData?.total || 0})
+            {allocationsData && <span className="text-xs text-green-600">✓v2</span>}
+          </TabsTrigger>
           <TabsTrigger value="orders">Orders ({ordersData?.total || 0})</TabsTrigger>
         </TabsList>
 
@@ -423,10 +473,10 @@ export default function InventoryManagementPage() {
                     <TableHead>Material</TableHead>
                     <TableHead>Category</TableHead>
                     <TableHead>Current Stock</TableHead>
-                    <TableHead>Reserved</TableHead>
                     <TableHead>Available</TableHead>
                     <TableHead>Min Level</TableHead>
                     <TableHead>Status</TableHead>
+                    <TableHead>Supplier</TableHead>
                     <TableHead>Unit Value</TableHead>
                     <TableHead>Total Value</TableHead>
                     <TableHead>Last Updated</TableHead>
@@ -461,11 +511,6 @@ export default function InventoryManagementPage() {
                           </span>
                         </TableCell>
                         <TableCell>
-                          <span className="text-orange-600">
-                            {material.reserved_qty.toLocaleString()} {material.unit}
-                          </span>
-                        </TableCell>
-                        <TableCell>
                           <span className={available <= 0 ? "text-red-600 font-medium" : "text-green-600 font-medium"}>
                             {available.toLocaleString()} {material.unit}
                           </span>
@@ -481,6 +526,13 @@ export default function InventoryManagementPage() {
                           <Badge className={stockStatus.color}>
                             {stockStatus.label}
                           </Badge>
+                        </TableCell>
+                        <TableCell>
+                          {material.supplier ? (
+                            <span className="text-sm">{material.supplier.name}</span>
+                          ) : (
+                            <span className="text-muted-foreground text-sm">No supplier</span>
+                          )}
                         </TableCell>
                         <TableCell>
                           <span>€{material.default_price_eur.toFixed(2)}</span>
@@ -765,7 +817,7 @@ export default function InventoryManagementPage() {
                     <Skeleton className="h-12 w-full" />
                     <Skeleton className="h-12 w-full" />
                   </div>
-                ) : allocationsData?.allocations && allocationsData.allocations.length > 0 ? (
+                ) : allocationsData?.items && allocationsData.items.length > 0 ? (
                   <div className="rounded-md border">
                     <Table>
                       <TableHeader>
@@ -773,6 +825,7 @@ export default function InventoryManagementPage() {
                           <TableHead>Date</TableHead>
                           <TableHead>Material</TableHead>
                           <TableHead>Quantity</TableHead>
+                          <TableHead>Status</TableHead>
                           <TableHead>Target</TableHead>
                           <TableHead>Value</TableHead>
                           <TableHead>Allocated By</TableHead>
@@ -780,7 +833,7 @@ export default function InventoryManagementPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {allocationsData.allocations.map((allocation: any) => (
+                        {allocationsData.items.map((allocation: any) => (
                           <TableRow key={allocation.id} className="hover:bg-muted/50">
                             <TableCell>
                               <div className="flex items-center space-x-2">
@@ -800,6 +853,18 @@ export default function InventoryManagementPage() {
                               <p className="font-medium">
                                 {(allocation.quantity_allocated || 0).toLocaleString()} {allocation.material?.unit || ''}
                               </p>
+                            </TableCell>
+                            <TableCell>
+                              {(() => {
+                                const statusBadge = getAllocationStatusBadge(allocation.status || 'allocated');
+                                const StatusIcon = statusBadge.icon;
+                                return (
+                                  <Badge className={`${statusBadge.color} flex items-center gap-1 w-fit`}>
+                                    <StatusIcon className="h-3 w-3" />
+                                    {statusBadge.label}
+                                  </Badge>
+                                );
+                              })()}
                             </TableCell>
                             <TableCell>
                               <div>
@@ -888,32 +953,16 @@ export default function InventoryManagementPage() {
                             <span className="font-medium">€{(order.total_price || order.total_cost || 0).toFixed(2)}</span>
                           </TableCell>
                           <TableCell>
-                            <select
-                              value={order.status}
-                              onChange={async (e) => {
-                                const newStatus = e.target.value;
-                                try {
-                                  const response = await fetch(`/api/materials/orders/${order.id}`, {
-                                    method: 'PUT',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ status: newStatus }),
-                                  });
-                                  if (response.ok) {
-                                    window.location.reload();
-                                  } else {
-                                    alert('Failed to update order status');
-                                  }
-                                } catch (error) {
-                                  alert('Error updating order status');
-                                }
-                              }}
-                              className="px-2 py-1 border rounded text-sm"
-                            >
-                              <option value="pending">Pending</option>
-                              <option value="ordered">Ordered</option>
-                              <option value="delivered">Delivered</option>
-                              <option value="cancelled">Cancelled</option>
-                            </select>
+                            {(() => {
+                              const statusBadge = getOrderStatusBadge(order.status);
+                              const StatusIcon = statusBadge.icon;
+                              return (
+                                <Badge className={`${statusBadge.color} flex items-center gap-1 w-fit`}>
+                                  <StatusIcon className="h-3 w-3" />
+                                  {statusBadge.label}
+                                </Badge>
+                              );
+                            })()}
                           </TableCell>
                           <TableCell>
                             {order.order_date ? format(new Date(order.order_date), 'MMM dd, yyyy') : 'N/A'}
@@ -922,13 +971,27 @@ export default function InventoryManagementPage() {
                             {order.delivery_date || order.expected_delivery ? format(new Date(order.delivery_date || order.expected_delivery), 'MMM dd, yyyy') : 'N/A'}
                           </TableCell>
                           <TableCell>
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => router.push(`/dashboard/materials/${order.material_id}`)}
-                            >
-                              View
-                            </Button>
+                            <div className="flex items-center gap-2">
+                              {order.status === "ordered" && (
+                                <Button
+                                  size="sm"
+                                  variant="default"
+                                  onClick={() => handleMarkAsDelivered(order.id)}
+                                  disabled={updateOrderStatus.isPending}
+                                  className="flex items-center gap-1"
+                                >
+                                  <Truck className="h-3 w-3" />
+                                  Mark Delivered
+                                </Button>
+                              )}
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => router.push(`/dashboard/materials/${order.material_id}`)}
+                              >
+                                View
+                              </Button>
+                            </div>
                           </TableCell>
                         </TableRow>
                       ))}

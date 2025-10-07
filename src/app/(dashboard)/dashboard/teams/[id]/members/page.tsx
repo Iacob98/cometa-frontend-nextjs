@@ -171,6 +171,19 @@ export default function TeamMembersPage() {
     enabled: !!teamId,
   });
 
+  // Fetch all crews to check membership across all teams
+  const { data: allCrews = [] } = useQuery({
+    queryKey: ['teams'],
+    queryFn: async () => {
+      const response = await fetch('/api/crews');
+      if (!response.ok) {
+        throw new Error('Failed to fetch crews');
+      }
+      const data = await response.json();
+      return data.crews || [];
+    },
+  });
+
   // Fetch available users
   const { data: availableUsers = [], isLoading: usersLoading } = useQuery({
     queryKey: ['users'],
@@ -266,26 +279,26 @@ export default function TeamMembersPage() {
     );
   }
 
-  // Filter available users (exclude current members and foreman)
-  const currentMemberIds = team.members.map(m => m.user_id);
-  if (team.foreman) {
-    currentMemberIds.push(team.foreman.id);
-  }
+  // Helper function to check if user is assigned to ANY team
+  const isUserAssignedToAnyTeam = (userId: string): boolean => {
+    if (!allCrews || allCrews.length === 0) return false;
 
-  // Debug: log filtering
-  console.log('🔍 Team members filtering:', {
-    totalUsers: availableUsers.length,
-    currentMemberIds,
-    foremanId: team.foreman?.id,
-  });
+    return allCrews.some((crew: any) =>
+      // Check if user is foreman of any crew
+      crew.foreman?.id === userId ||
+      // Check if user is member of any crew
+      crew.members?.some((member: any) => member.user_id === userId)
+    );
+  };
 
+  // Filter available users: exclude those assigned to ANY team
   const filteredAvailableUsers = availableUsers
     .filter(user => {
-      const isExcluded = currentMemberIds.includes(user.id);
-      if (isExcluded) {
-        console.log('✅ Excluding user (already member):', user.full_name, user.id);
+      const isAssigned = isUserAssignedToAnyTeam(user.id);
+      if (isAssigned) {
+        console.log('✅ Excluding user (already in a team):', user.full_name, user.id);
       }
-      return !isExcluded;
+      return !isAssigned;
     })
     .filter(user => {
       if (!searchQuery) return true;
@@ -297,7 +310,7 @@ export default function TeamMembersPage() {
       );
     });
 
-  console.log('📋 Filtered available users:', filteredAvailableUsers.length);
+  console.log('📋 Available users (not in any team):', filteredAvailableUsers.length);
 
   return (
     <div className="space-y-6">
@@ -328,37 +341,14 @@ export default function TeamMembersPage() {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Users className="h-5 w-5" />
-              <span>Current Members ({team.members.length + (team.foreman ? 1 : 0)})</span>
+              <span>Current Members ({team.members.length})</span>
             </CardTitle>
             <CardDescription>
               Members of this team
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/* Foreman */}
-            {team.foreman && (
-              <div className="flex items-center justify-between p-3 border rounded-lg bg-muted/50">
-                <div className="flex items-center space-x-3">
-                  <Avatar className="h-10 w-10">
-                    <AvatarImage src="" />
-                    <AvatarFallback>
-                      {team.foreman.first_name?.[0]}{team.foreman.last_name?.[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-medium">{team.foreman.full_name}</p>
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="secondary">Foreman</Badge>
-                      <span className="text-sm text-muted-foreground">
-                        {team.foreman.email}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Team Members */}
+            {/* Team Members (including leader) */}
             {team.members.length > 0 ? (
               team.members.map((member) => (
                 <div key={member.user_id} className="flex items-center justify-between p-3 border rounded-lg">

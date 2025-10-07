@@ -34,7 +34,16 @@ export async function GET(request: NextRequest) {
         current_stock,
         min_stock_threshold,
         created_at,
-        updated_at
+        updated_at,
+        supplier_materials!inner(
+          supplier:suppliers(
+            id,
+            name,
+            contact_person,
+            phone,
+            email
+          )
+        )
       `,
         { count: "exact" }
       )
@@ -98,17 +107,30 @@ export async function GET(request: NextRequest) {
     }, {} as Record<string, number>);
 
     // Transform materials to match frontend interface
-    const transformedMaterials = (materials || []).map(material => ({
-      ...material,
-      // Map database fields to frontend field names
-      current_stock_qty: Number(material.current_stock || 0),
-      min_stock_level: Number(material.min_stock_threshold || 0),
-      reserved_qty: reservedByMaterial[material.id] || 0,
-      unit_cost: Number(material.unit_price_eur || 0),
-      default_price_eur: Number(material.unit_price_eur || 0),
-      sku: null, // Not in database yet
-      last_updated: material.updated_at,
-    }));
+    const transformedMaterials = (materials || []).map(material => {
+      // Extract supplier from supplier_materials junction
+      const supplierData = material.supplier_materials?.[0]?.supplier || null;
+
+      return {
+        ...material,
+        // Map database fields to frontend field names
+        current_stock_qty: Number(material.current_stock || 0),
+        min_stock_level: Number(material.min_stock_threshold || 0),
+        reserved_qty: reservedByMaterial[material.id] || 0,
+        unit_cost: Number(material.unit_price_eur || 0),
+        default_price_eur: Number(material.unit_price_eur || 0),
+        sku: null, // Not in database yet
+        last_updated: material.updated_at,
+        // Add supplier information
+        supplier: supplierData ? {
+          id: supplierData.id,
+          name: supplierData.name,
+          contact_person: supplierData.contact_person,
+          phone: supplierData.phone,
+          email: supplierData.email,
+        } : null,
+      };
+    });
 
     return NextResponse.json({
       items: transformedMaterials,

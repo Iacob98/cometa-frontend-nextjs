@@ -62,7 +62,7 @@ export function useUpdateOrderStatus() {
   return useMutation({
     ...getMutationConfig(), // ✅ Retry on network errors
     mutationFn: ({ id, status }: { id: string; status: MaterialOrderStatus }) =>
-      materialOrdersApi.updateOrderStatus(id, status),
+      materialOrdersApi.updateOrder(id, { status }),
     onSuccess: (updatedOrder) => {
       // ✅ OPTIMIZED: Мгновенное обновление + точечная инвалидация
 
