@@ -102,7 +102,7 @@ export default function EquipmentPage() {
   // Handle URL tab parameter
   useEffect(() => {
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['fleet', 'assignments', 'usage', 'management'].includes(tabParam)) {
+    if (tabParam && ['fleet', 'assignments', 'usage'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
   }, [searchParams]);
@@ -410,10 +410,6 @@ export default function EquipmentPage() {
           <TabsTrigger value="usage" className="flex items-center space-x-2">
             <Activity className="h-4 w-4" />
             <span>Usage & Analytics</span>
-          </TabsTrigger>
-          <TabsTrigger value="management" className="flex items-center space-x-2">
-            <Settings className="h-4 w-4" />
-            <span>Management</span>
           </TabsTrigger>
         </TabsList>
 
@@ -908,141 +904,6 @@ export default function EquipmentPage() {
             </CardHeader>
             <CardContent>
               <PerformanceChart />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="management" className="space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Maintenance Due</p>
-                    <p className="text-2xl font-bold text-yellow-600">{stats.maintenance}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Equipment needs attention
-                    </p>
-                  </div>
-                  <Settings className="h-8 w-8 text-yellow-600" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Out of Service</p>
-                    <p className="text-2xl font-bold text-red-600">{stats.broken}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Requiring immediate repair
-                    </p>
-                  </div>
-                  <XCircle className="h-8 w-8 text-red-600" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Compliance Rate</p>
-                    <p className="text-2xl font-bold text-green-600">
-                      {analytics?.equipment?.totalCount > 0
-                        ? `${Math.round(((analytics?.equipment?.byStatus?.available || 0) + (analytics?.equipment?.byStatus?.in_use || 0)) / analytics?.equipment?.totalCount * 100)}%`
-                        : '0%'}
-                    </p>
-                    <p className="text-xs text-green-600 mt-1">
-                      Operational equipment
-                    </p>
-                  </div>
-                  <CheckCircle className="h-8 w-8 text-green-600" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>Common management tasks</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Button className="w-full justify-start" onClick={() => router.push('/dashboard/equipment/new')}>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add New Equipment
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Activity className="mr-2 h-4 w-4" />
-                  Schedule Maintenance
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <BarChart3 className="mr-2 h-4 w-4" />
-                  Generate Report
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Settings className="mr-2 h-4 w-4" />
-                  Bulk Operations
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Upcoming Maintenance</CardTitle>
-                <CardDescription>Equipment requiring attention</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {equipment.filter(eq => eq.status === 'maintenance').slice(0, 3).map((item) => (
-                    <div key={item.id} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div>
-                        <div className="font-medium">{item.name}</div>
-                        <div className="text-sm text-muted-foreground">{item.inventory_no}</div>
-                      </div>
-                      <Badge className="bg-yellow-100 text-yellow-800">
-                        {statusLabels[item.status]}
-                      </Badge>
-                    </div>
-                  ))}
-                  {equipment.filter(eq => eq.status === 'maintenance').length === 0 && (
-                    <div className="text-center py-6 text-muted-foreground">
-                      No maintenance scheduled
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Equipment Categories</CardTitle>
-              <CardDescription>Manage equipment by type and category</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {Object.entries(typeLabels).map(([type, label]) => {
-                  const count = equipment.filter(eq => eq.type === type).length;
-                  const value = equipment.filter(eq => eq.type === type).reduce((sum, eq) => sum + (eq.purchase_price_eur || 0), 0);
-                  return (
-                    <div key={type} className="p-4 border rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium">{label}</h4>
-                        <Badge className={typeColors[type]}>{count}</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground">Total Value: €{value.toLocaleString()}</p>
-                      <div className="mt-3 space-x-2">
-                        <Button size="sm" variant="outline">View All</Button>
-                        <Button size="sm" variant="ghost">Manage</Button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
             </CardContent>
           </Card>
         </TabsContent>
