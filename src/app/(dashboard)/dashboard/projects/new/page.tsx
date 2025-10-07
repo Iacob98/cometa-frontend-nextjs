@@ -17,6 +17,20 @@ import { useProjectManagers } from "@/hooks/use-users";
 import { requireAuth } from "@/lib/auth";
 import type { CreateProjectRequest, Language } from "@/types";
 
+// Soil type options
+const SOIL_TYPES = [
+  { value: "sand", label: "Sand (Песок)" },
+  { value: "clay", label: "Clay (Глина)" },
+  { value: "gravel", label: "Gravel (Гравий)" },
+  { value: "soil", label: "Soil (Земля)" },
+  { value: "rock", label: "Rock (Камень)" },
+  { value: "asphalt", label: "Asphalt (Асфальт)" },
+  { value: "concrete", label: "Concrete (Бетон)" },
+  { value: "paving_stone", label: "Paving Stone (Брусчатка)" },
+  { value: "mixed", label: "Mixed (Смешанный)" },
+  { value: "other", label: "Other (Другое)" },
+] as const;
+
 // Validation schema
 const soilTypeSchema = z.object({
   soil_type_name: z.string().min(1, "Soil type name is required"),
@@ -456,10 +470,21 @@ export default function NewProjectPage() {
                         name={`soil_types.${index}.soil_type_name`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Soil Type Name *</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g., Sand, Clay, Rock" {...field} />
-                            </FormControl>
+                            <FormLabel>Soil Type *</FormLabel>
+                            <Select onValueChange={field.onChange} value={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select soil type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {SOIL_TYPES.map((soilType) => (
+                                  <SelectItem key={soilType.value} value={soilType.label}>
+                                    {soilType.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                             <FormMessage />
                           </FormItem>
                         )}
