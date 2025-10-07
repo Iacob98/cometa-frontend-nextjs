@@ -2,6 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 🚨 CRITICAL WORKFLOW RULES 🚨
+
+**AFTER EVERY COMPLETED TASK:**
+1. ✅ **ALWAYS** make a git commit with descriptive message
+2. ✅ **ALWAYS** run `git pull origin dev` to sync with remote
+3. ✅ **ALWAYS** verify no conflicts before continuing
+4. ✅ **NEVER** batch multiple completed tasks before committing
+
+**WHY:** This prevents losing work and ensures continuous synchronization with remote repository.
+
 ## Project Overview
 
 **COMETA** is a Fiber Optic Construction Management System with hybrid architecture combining legacy Streamlit apps and modern Next.js/Supabase for fiber optic cable installation project management. **Migration completed**: Fully migrated from FastAPI microservices to pure Supabase implementation.
