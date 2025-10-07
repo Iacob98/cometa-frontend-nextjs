@@ -484,6 +484,7 @@ export function useCreateHousingUnit() {
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['housing-units', variables.project_id] });
       queryClient.invalidateQueries({ queryKey: ['project-preparation', variables.project_id] });
+      queryClient.invalidateQueries({ queryKey: ['project-costs', variables.project_id] });
       toast.success(data.message || 'Housing unit created successfully');
     },
     onError: (error: Error) => {
@@ -517,6 +518,7 @@ export function useUpdateFacility() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['facilities'] });
       queryClient.invalidateQueries({ queryKey: ['project-preparation'] });
+      queryClient.invalidateQueries({ queryKey: ['project-costs'] });
       toast.success(data.message || 'Facility updated successfully');
     },
     onError: (error: Error) => {
@@ -533,6 +535,7 @@ export function useUpdateHousingUnit() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['housing-units'] });
       queryClient.invalidateQueries({ queryKey: ['project-preparation'] });
+      queryClient.invalidateQueries({ queryKey: ['project-costs'] });
       toast.success(data.message || 'Housing unit updated successfully');
     },
     onError: (error: Error) => {
