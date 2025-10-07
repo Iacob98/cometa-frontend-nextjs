@@ -522,7 +522,7 @@ export default function EquipmentPage() {
                     </TableHeader>
                     <TableBody>
                       {allResources.map((item) => {
-                        const StatusIcon = statusIcons[item.status as keyof typeof statusIcons];
+                        const StatusIcon = statusIcons[item.status as keyof typeof statusIcons] || Activity;
 
                         return (
                           <TableRow key={item.id} className="hover:bg-muted/50">
