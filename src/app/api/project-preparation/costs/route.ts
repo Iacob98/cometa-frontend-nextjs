@@ -15,11 +15,18 @@ export async function GET(request: NextRequest) {
 
     // Get project costs from various sources
     const [
+      projectRes,
       facilitiesRes,
       equipmentRes,
       materialRes,
       laborRes
     ] = await Promise.all([
+      // Project information
+      supabase
+        .from('projects')
+        .select('id, name, budget')
+        .eq('id', projectId)
+        .single(),
       // Facilities costs
       supabase
         .from('facilities')
@@ -60,6 +67,10 @@ export async function GET(request: NextRequest) {
         .select('*')
         .eq('project_id', projectId)
     ])
+
+    if (projectRes.error) {
+      console.error('Project query error:', projectRes.error)
+    }
 
     if (facilitiesRes.error) {
       console.error('Facilities costs query error:', facilitiesRes.error)
@@ -104,7 +115,19 @@ export async function GET(request: NextRequest) {
       return total + parseFloat(entry.labor_cost || 0)
     }, 0)
 
+    const totalCosts = facilityCosts + equipmentCosts + materialCosts + laborCosts
+    const projectBudget = parseFloat(projectRes.data?.budget || 0)
+    const remainingBudget = projectBudget - totalCosts
+    const budgetUtilized = projectBudget > 0 ? (totalCosts / projectBudget) * 100 : 0
+
     const costs = {
+      project: {
+        id: projectRes.data?.id,
+        name: projectRes.data?.name,
+        budget: projectBudget,
+        remaining_budget: remainingBudget,
+        budget_utilized_percentage: budgetUtilized
+      },
       facilities: {
         items: facilitiesRes.data || [],
         total: facilityCosts
@@ -126,7 +149,7 @@ export async function GET(request: NextRequest) {
         equipment: equipmentCosts,
         materials: materialCosts,
         labor: laborCosts,
-        total: facilityCosts + equipmentCosts + materialCosts + laborCosts
+        total: totalCosts
       }
     }
 

@@ -416,7 +416,7 @@ function FacilitiesManagement({ projectId }) {
                                             className: "text-lg font-semibold text-orange-600",
                                             children: [
                                                 "€",
-                                                projectCosts.costs?.facilities?.total?.toLocaleString() || '0'
+                                                projectCosts.facilities?.total?.toLocaleString() || '0'
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
@@ -443,7 +443,7 @@ function FacilitiesManagement({ projectId }) {
                                             className: "text-lg font-semibold text-green-600",
                                             children: [
                                                 "€",
-                                                projectCosts.costs?.housing?.total?.toLocaleString() || '0'
+                                                projectCosts.housing?.total?.toLocaleString() || '0'
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",

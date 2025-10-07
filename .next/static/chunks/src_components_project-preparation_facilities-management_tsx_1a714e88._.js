@@ -50,7 +50,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 function FacilitiesManagement(param) {
     let { projectId } = param;
-    var _projectCosts_project_budget, _projectCosts_project, _projectCosts_costs_facilities_total, _projectCosts_costs_facilities, _projectCosts_costs, _projectCosts_costs_housing_total, _projectCosts_costs_housing, _projectCosts_costs1, _projectCosts_project_remaining_budget, _projectCosts_project1, _projectCosts_project_budget_utilized_percentage, _projectCosts_project2;
+    var _projectCosts_project_budget, _projectCosts_project, _projectCosts_facilities_total, _projectCosts_facilities, _projectCosts_housing_total, _projectCosts_housing, _projectCosts_project_remaining_budget, _projectCosts_project1, _projectCosts_project_budget_utilized_percentage, _projectCosts_project2;
     _s();
     const { data: facilities, isLoading: facilitiesLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$project$2d$preparation$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFacilities"])(projectId);
     const { data: housingUnits, isLoading: housingLoading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$housing$2d$units$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useHousingUnits"])(projectId);
@@ -426,7 +426,7 @@ function FacilitiesManagement(param) {
                                             className: "text-lg font-semibold text-orange-600",
                                             children: [
                                                 "€",
-                                                ((_projectCosts_costs = projectCosts.costs) === null || _projectCosts_costs === void 0 ? void 0 : (_projectCosts_costs_facilities = _projectCosts_costs.facilities) === null || _projectCosts_costs_facilities === void 0 ? void 0 : (_projectCosts_costs_facilities_total = _projectCosts_costs_facilities.total) === null || _projectCosts_costs_facilities_total === void 0 ? void 0 : _projectCosts_costs_facilities_total.toLocaleString()) || '0'
+                                                ((_projectCosts_facilities = projectCosts.facilities) === null || _projectCosts_facilities === void 0 ? void 0 : (_projectCosts_facilities_total = _projectCosts_facilities.total) === null || _projectCosts_facilities_total === void 0 ? void 0 : _projectCosts_facilities_total.toLocaleString()) || '0'
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",
@@ -453,7 +453,7 @@ function FacilitiesManagement(param) {
                                             className: "text-lg font-semibold text-green-600",
                                             children: [
                                                 "€",
-                                                ((_projectCosts_costs1 = projectCosts.costs) === null || _projectCosts_costs1 === void 0 ? void 0 : (_projectCosts_costs_housing = _projectCosts_costs1.housing) === null || _projectCosts_costs_housing === void 0 ? void 0 : (_projectCosts_costs_housing_total = _projectCosts_costs_housing.total) === null || _projectCosts_costs_housing_total === void 0 ? void 0 : _projectCosts_costs_housing_total.toLocaleString()) || '0'
+                                                ((_projectCosts_housing = projectCosts.housing) === null || _projectCosts_housing === void 0 ? void 0 : (_projectCosts_housing_total = _projectCosts_housing.total) === null || _projectCosts_housing_total === void 0 ? void 0 : _projectCosts_housing_total.toLocaleString()) || '0'
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/facilities-management.tsx",

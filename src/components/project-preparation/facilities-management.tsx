@@ -355,13 +355,13 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
               <div>
                 <p className="font-medium text-orange-900">Facilities Cost</p>
                 <p className="text-lg font-semibold text-orange-600">
-                  €{projectCosts.costs?.facilities?.total?.toLocaleString() || '0'}
+                  €{projectCosts.facilities?.total?.toLocaleString() || '0'}
                 </p>
               </div>
               <div>
                 <p className="font-medium text-green-900">Housing Cost</p>
                 <p className="text-lg font-semibold text-green-600">
-                  €{projectCosts.costs?.housing?.total?.toLocaleString() || '0'}
+                  €{projectCosts.housing?.total?.toLocaleString() || '0'}
                 </p>
               </div>
               <div>

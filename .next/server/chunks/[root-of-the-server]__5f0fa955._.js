@@ -237,7 +237,9 @@ async function GET(request) {
             });
         }
         // Get project costs from various sources
-        const [facilitiesRes, equipmentRes, materialRes, laborRes] = await Promise.all([
+        const [projectRes, facilitiesRes, equipmentRes, materialRes, laborRes] = await Promise.all([
+            // Project information
+            __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$supabase$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["supabase"].from('projects').select('id, name, budget').eq('id', projectId).single(),
             // Facilities costs
             __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$supabase$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["supabase"].from('facilities').select('*').eq('project_id', projectId),
             // Equipment assignment costs
@@ -263,6 +265,9 @@ async function GET(request) {
             // Labor costs from work entries
             __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$supabase$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["supabase"].from('work_entries').select('*').eq('project_id', projectId)
         ]);
+        if (projectRes.error) {
+            console.error('Project query error:', projectRes.error);
+        }
         if (facilitiesRes.error) {
             console.error('Facilities costs query error:', facilitiesRes.error);
         }
@@ -295,7 +300,18 @@ async function GET(request) {
         const laborCosts = (laborRes.data || []).reduce((total, entry)=>{
             return total + parseFloat(entry.labor_cost || 0);
         }, 0);
+        const totalCosts = facilityCosts + equipmentCosts + materialCosts + laborCosts;
+        const projectBudget = parseFloat(projectRes.data?.budget || 0);
+        const remainingBudget = projectBudget - totalCosts;
+        const budgetUtilized = projectBudget > 0 ? totalCosts / projectBudget * 100 : 0;
         const costs = {
+            project: {
+                id: projectRes.data?.id,
+                name: projectRes.data?.name,
+                budget: projectBudget,
+                remaining_budget: remainingBudget,
+                budget_utilized_percentage: budgetUtilized
+            },
             facilities: {
                 items: facilitiesRes.data || [],
                 total: facilityCosts
@@ -317,7 +333,7 @@ async function GET(request) {
                 equipment: equipmentCosts,
                 materials: materialCosts,
                 labor: laborCosts,
-                total: facilityCosts + equipmentCosts + materialCosts + laborCosts
+                total: totalCosts
             }
         };
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(costs);
