@@ -14,6 +14,8 @@ import { usePermissions } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
 import { useProjectPreparation } from "@/hooks/use-project-preparation";
 import ProjectPreparationTab from "@/components/project-preparation/project-preparation-tab";
+import ProjectSoilTypesCard from "@/components/project-soil-types-card";
+import ProjectContactsCard from "@/components/project-contacts-card";
 import type { ProjectStatus } from "@/types";
 
 export default function ProjectDetailsPage() {
@@ -442,6 +444,12 @@ export default function ProjectDetailsPage() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Soil Types Section */}
+          <ProjectSoilTypesCard projectId={projectId} />
+
+          {/* Project Contacts Section */}
+          <ProjectContactsCard projectId={projectId} />
         </TabsContent>
 
         <TabsContent value="preparation" className="space-y-6">
