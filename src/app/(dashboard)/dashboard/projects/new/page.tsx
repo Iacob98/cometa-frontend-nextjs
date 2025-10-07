@@ -57,8 +57,6 @@ const createProjectSchema = z.object({
   contact_24h: z.string().optional(),
   start_date: z.string().optional(),
   end_date_plan: z.string().optional(),
-  total_length_m: z.coerce.number().min(0, "Length must be positive"),
-  base_rate_per_m: z.coerce.number().min(0, "Rate must be positive"),
   language_default: z.enum(["ru", "en", "de", "uz", "tr"]),
   pm_user_id: z.string().optional(),
   soil_types: z.array(soilTypeSchema).default([]),
@@ -85,8 +83,6 @@ export default function NewProjectPage() {
       contact_24h: "",
       start_date: "",
       end_date_plan: "",
-      total_length_m: 0,
-      base_rate_per_m: 15.5, // Default rate
       language_default: "de", // Default to German
       pm_user_id: "none",
       soil_types: [],
@@ -359,81 +355,6 @@ export default function NewProjectPage() {
                     </FormItem>
                   )}
                 />
-              </CardContent>
-            </Card>
-
-            {/* Project Scope */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Project Scope</CardTitle>
-                <CardDescription>
-                  Define the scope and financial parameters of the project
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="total_length_m"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Total Length (meters) *</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            placeholder="e.g., 1500"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Total length of fiber cable to be installed
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="base_rate_per_m"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Rate per Meter (€) *</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            placeholder="e.g., 15.50"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Base rate charged per meter of installation
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                {/* Calculated Total */}
-                <div className="rounded-md bg-muted p-4">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium">Estimated Project Value:</span>
-                    <span className="text-lg font-bold">
-                      €{(form.watch("total_length_m") * form.watch("base_rate_per_m")).toLocaleString("de-DE", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </span>
-                  </div>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {form.watch("total_length_m")} meters × €{form.watch("base_rate_per_m")} per meter
-                  </p>
-                </div>
               </CardContent>
             </Card>
 
