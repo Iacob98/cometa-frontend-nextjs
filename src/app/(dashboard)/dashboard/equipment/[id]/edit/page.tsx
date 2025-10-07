@@ -43,6 +43,7 @@ const equipmentFormSchema = z.object({
   inventory_no: z.string().optional(),
   owned: z.boolean().default(true),
   status: z.enum(['available', 'in_use', 'maintenance', 'broken']).default('available'),
+  current_location: z.string().max(200, "Location must be less than 200 characters").optional(),
   rental_cost_per_day: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
 })
 
@@ -80,6 +81,7 @@ export default function EditEquipmentPage() {
       inventory_no: "",
       owned: true,
       status: "available",
+      current_location: "",
     },
   })
 
@@ -124,6 +126,7 @@ export default function EditEquipmentPage() {
           inventory_no: equipmentData.inventory_no || "",
           owned: equipmentData.owned ?? true,
           status: equipmentData.status || "available",
+          current_location: equipmentData.current_location || "",
           rental_cost_per_day: equipmentData.rental_cost_per_day?.toString() || "",
         })
 
@@ -155,6 +158,7 @@ export default function EditEquipmentPage() {
         inventory_no: values.inventory_no || undefined,
         owned: values.owned,
         status: values.status,
+        current_location: values.current_location || undefined,
         rental_cost_per_day: values.rental_cost_per_day,
       }
 
@@ -382,6 +386,24 @@ export default function EditEquipmentPage() {
                             </Select>
                             <FormDescription>
                               Current operational status
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Current Location */}
+                      <FormField
+                        control={form.control}
+                        name="current_location"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Current Location</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g. Main Depot, Project Site A" {...field} />
+                            </FormControl>
+                            <FormDescription>
+                              Where the equipment is currently located
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
