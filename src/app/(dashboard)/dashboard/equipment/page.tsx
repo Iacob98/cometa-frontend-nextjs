@@ -238,7 +238,6 @@ export default function EquipmentPage() {
   const stats = allResources.reduce(
     (acc, item) => {
       acc.total += 1;
-      acc.totalValue += item.purchase_price_eur || 0;
 
       if (item.status === "available") acc.available += 1;
       else if (item.status === "in_use") acc.inUse += 1;
@@ -252,7 +251,6 @@ export default function EquipmentPage() {
     },
     {
       total: 0,
-      totalValue: 0,
       available: 0,
       inUse: 0,
       maintenance: 0,
@@ -342,7 +340,7 @@ export default function EquipmentPage() {
                 <p className="text-sm font-medium text-muted-foreground">Total Equipment</p>
                 <p className="text-2xl font-bold">{stats.total}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  €{stats.totalValue.toLocaleString()} value
+                  {stats.owned} owned, {stats.rented} rented
                 </p>
               </div>
               <Package className="h-8 w-8 text-blue-600" />
@@ -513,8 +511,6 @@ export default function EquipmentPage() {
                         <TableHead>Type</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead>Ownership</TableHead>
-                        <TableHead>Location</TableHead>
-                        <TableHead>Purchase Price</TableHead>
                         <TableHead>Daily Rate</TableHead>
                         <TableHead className="w-[100px]">Actions</TableHead>
                       </TableRow>
@@ -562,18 +558,8 @@ export default function EquipmentPage() {
                               </span>
                             </TableCell>
                             <TableCell>
-                              <span className="text-sm">
-                                {item.current_location || "Not specified"}
-                              </span>
-                            </TableCell>
-                            <TableCell>
                               <span className="font-medium">
-                                €{item.purchase_price_eur?.toLocaleString() || '0'}
-                              </span>
-                            </TableCell>
-                            <TableCell>
-                              <span className="font-medium">
-                                €{item.rental_price_per_day_eur?.toFixed(2) || '0'}/day
+                                {item.rental_cost_per_day ? `€${item.rental_cost_per_day}/day` : '-'}
                               </span>
                             </TableCell>
                             <TableCell>
