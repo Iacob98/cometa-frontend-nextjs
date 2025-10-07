@@ -10,6 +10,7 @@
   "/api/notifications/route": "app/api/notifications/route.js",
   "/api/project-preparation/costs/route": "app/api/project-preparation/costs/route.js",
   "/api/project-preparation/facilities/route": "app/api/project-preparation/facilities/route.js",
+  "/api/project-preparation/housing/[id]/route": "app/api/project-preparation/housing/[id]/route.js",
   "/api/project-preparation/housing/route": "app/api/project-preparation/housing/route.js",
   "/api/project-preparation/plans/route": "app/api/project-preparation/plans/route.js",
   "/api/project-preparation/route": "app/api/project-preparation/route.js",

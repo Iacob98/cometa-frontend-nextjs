@@ -237,11 +237,13 @@ async function GET(request) {
             });
         }
         // Get project costs from various sources
-        const [projectRes, facilitiesRes, equipmentRes, materialRes, laborRes] = await Promise.all([
+        const [projectRes, facilitiesRes, housingRes, equipmentRes, materialRes, laborRes] = await Promise.all([
             // Project information
-            __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$supabase$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["supabase"].from('projects').select('id, name, budget').eq('id', projectId).single(),
+            __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$supabase$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["supabase"].from('projects').select('id, name').eq('id', projectId).single(),
             // Facilities costs
             __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$supabase$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["supabase"].from('facilities').select('*').eq('project_id', projectId),
+            // Housing units costs
+            __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$supabase$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["supabase"].from('housing_units').select('*').eq('project_id', projectId),
             // Equipment assignment costs
             __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$supabase$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["supabase"].from('equipment_assignments').select(`
           *,
@@ -271,6 +273,9 @@ async function GET(request) {
         if (facilitiesRes.error) {
             console.error('Facilities costs query error:', facilitiesRes.error);
         }
+        if (housingRes.error) {
+            console.error('Housing costs query error:', housingRes.error);
+        }
         if (equipmentRes.error) {
             console.error('Equipment costs query error:', equipmentRes.error);
         }
@@ -284,6 +289,11 @@ async function GET(request) {
         const facilityCosts = (facilitiesRes.data || []).reduce((total, facility)=>{
             const dailyRate = parseFloat(facility.rent_daily_eur || 0);
             const days = facility.start_date && facility.end_date ? Math.ceil((new Date(facility.end_date).getTime() - new Date(facility.start_date).getTime()) / (1000 * 60 * 60 * 24)) : 0;
+            return total + dailyRate * days;
+        }, 0);
+        const housingCosts = (housingRes.data || []).reduce((total, housing)=>{
+            const dailyRate = parseFloat(housing.rent_daily_eur || 0);
+            const days = housing.check_in_date && housing.check_out_date ? Math.ceil((new Date(housing.check_out_date).getTime() - new Date(housing.check_in_date).getTime()) / (1000 * 60 * 60 * 24)) : 0;
             return total + dailyRate * days;
         }, 0);
         const equipmentCosts = (equipmentRes.data || []).reduce((total, assignment)=>{
@@ -300,7 +310,7 @@ async function GET(request) {
         const laborCosts = (laborRes.data || []).reduce((total, entry)=>{
             return total + parseFloat(entry.labor_cost || 0);
         }, 0);
-        const totalCosts = facilityCosts + equipmentCosts + materialCosts + laborCosts;
+        const totalCosts = facilityCosts + housingCosts + equipmentCosts + materialCosts + laborCosts;
         const projectBudget = parseFloat(projectRes.data?.budget || 0);
         const remainingBudget = projectBudget - totalCosts;
         const budgetUtilized = projectBudget > 0 ? totalCosts / projectBudget * 100 : 0;
@@ -316,6 +326,10 @@ async function GET(request) {
                 items: facilitiesRes.data || [],
                 total: facilityCosts
             },
+            housing: {
+                items: housingRes.data || [],
+                total: housingCosts
+            },
             equipment: {
                 items: equipmentRes.data || [],
                 total: equipmentCosts
@@ -330,6 +344,7 @@ async function GET(request) {
             },
             summary: {
                 facilities: facilityCosts,
+                housing: housingCosts,
                 equipment: equipmentCosts,
                 materials: materialCosts,
                 labor: laborCosts,
