@@ -44,10 +44,7 @@ const equipmentFormSchema = z.object({
   inventory_no: z.string().optional(),
   owned: z.boolean().default(true),
   status: z.enum(['available', 'in_use', 'maintenance', 'broken']).default('available'),
-  purchase_price_eur: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
-  rental_price_per_day_eur: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
-  rental_price_per_hour_eur: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
-  current_location: z.string().optional(),
+  rental_cost_per_day: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
 })
 
 type EquipmentFormValues = z.infer<typeof equipmentFormSchema>
@@ -80,7 +77,6 @@ export default function NewEquipmentPage() {
       inventory_no: "",
       owned: true,
       status: "available",
-      current_location: "",
     },
   })
 
@@ -96,10 +92,7 @@ export default function NewEquipmentPage() {
         inventory_no: values.inventory_no || undefined,
         owned: values.owned,
         status: values.status,
-        purchase_price_eur: values.purchase_price_eur,
-        rental_price_per_day_eur: values.rental_price_per_day_eur,
-        rental_price_per_hour_eur: values.rental_price_per_hour_eur,
-        current_location: values.current_location || undefined,
+        rental_cost_per_day: values.rental_cost_per_day,
       }
 
       // Submit to API
@@ -277,21 +270,6 @@ export default function NewEquipmentPage() {
                         )}
                       />
 
-                      {/* Current Location */}
-                      <FormField
-                        control={form.control}
-                        name="current_location"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Current Location</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g. Warehouse A, Site B" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
                       {/* Owned */}
                       <FormField
                         control={form.control}
@@ -331,18 +309,18 @@ export default function NewEquipmentPage() {
                       Financial Information
                     </CardTitle>
                     <CardDescription>
-                      Set purchase cost and rental rates for the equipment
+                      Set daily rental rate for the equipment
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* Purchase Price */}
+                      {/* Daily Rental Cost */}
                       <FormField
                         control={form.control}
-                        name="purchase_price_eur"
+                        name="rental_cost_per_day"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Purchase Price (€)</FormLabel>
+                            <FormLabel>Daily Rental Cost (€)</FormLabel>
                             <FormControl>
                               <Input
                                 type="number"
@@ -352,55 +330,7 @@ export default function NewEquipmentPage() {
                               />
                             </FormControl>
                             <FormDescription>
-                              Original purchase cost in euros
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <div></div>
-
-                      {/* Daily Rental Rate */}
-                      <FormField
-                        control={form.control}
-                        name="rental_price_per_day_eur"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Daily Rental Rate (€)</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                step="0.01"
-                                placeholder="0.00"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              Rate charged per day when renting to projects
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      {/* Hourly Rental Rate */}
-                      <FormField
-                        control={form.control}
-                        name="rental_price_per_hour_eur"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Hourly Rental Rate (€)</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                step="0.01"
-                                placeholder="0.00"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              Rate charged per hour when renting to projects
+                              Cost per day when equipment is rented out
                             </FormDescription>
                             <FormMessage />
                           </FormItem>

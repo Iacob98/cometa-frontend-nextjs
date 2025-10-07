@@ -8,10 +8,11 @@ export interface Equipment {
   inventory_no?: string;
   owned: boolean;
   status: 'available' | 'in_use' | 'maintenance' | 'broken';
-  purchase_price_eur: number;
-  rental_price_per_day_eur: number;
-  rental_price_per_hour_eur: number;
-  current_location?: string;
+  rental_cost_per_day?: number;
+  purchase_date?: string;
+  warranty_until?: string;
+  description?: string;
+  is_active?: boolean;
   quantity?: number; // Available quantity in inventory
 }
 
@@ -44,10 +45,10 @@ export interface CreateEquipmentData {
   inventory_no?: string;
   owned?: boolean;
   status?: string;
-  purchase_price_eur?: number;
-  rental_price_per_day_eur?: number;
-  rental_price_per_hour_eur?: number;
-  current_location?: string;
+  rental_cost_per_day?: number;
+  purchase_date?: string;
+  warranty_until?: string;
+  description?: string;
 }
 
 export interface CreateAssignmentData {
