@@ -316,7 +316,7 @@ export default function VehiclesPage() {
                   </TableRow>
                 ) : (
                   filteredVehicles.map((vehicle) => {
-                    const StatusIcon = statusIcons[vehicle.status as keyof typeof statusIcons];
+                    const StatusIcon = statusIcons[vehicle.status as keyof typeof statusIcons] || Activity;
                     return (
                       <TableRow key={vehicle.id}>
                         <TableCell className="font-medium">
@@ -333,15 +333,15 @@ export default function VehiclesPage() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline" className={typeColors[vehicle.type as keyof typeof typeColors]}>
+                          <Badge variant="outline" className={typeColors[vehicle.type as keyof typeof typeColors] || "bg-slate-100 text-slate-800 border-slate-200"}>
                             {typeLabels[vehicle.type as keyof typeof typeLabels] || vehicle.type}
                           </Badge>
                         </TableCell>
                         <TableCell className="font-mono text-sm">{vehicle.plate_number}</TableCell>
                         <TableCell>
-                          <Badge variant="outline" className={statusColors[vehicle.status as keyof typeof statusColors]}>
-                            <StatusIcon className="h-3 w-3 mr-1" />
-                            {statusLabels[vehicle.status as keyof typeof statusLabels]}
+                          <Badge variant="outline" className={statusColors[vehicle.status as keyof typeof statusColors] || "bg-gray-100 text-gray-800 border-gray-200"}>
+                            {StatusIcon && <StatusIcon className="h-3 w-3 mr-1" />}
+                            {statusLabels[vehicle.status as keyof typeof statusLabels] || vehicle.status}
                           </Badge>
                         </TableCell>
                         <TableCell>
