@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { CalendarIcon, ArrowLeft, Save, Building2 } from "lucide-react";
+import { CalendarIcon, ArrowLeft, Save, Building2, Plus, X, Users, Layers } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,6 +18,23 @@ import { requireAuth } from "@/lib/auth";
 import type { CreateProjectRequest, Language } from "@/types";
 
 // Validation schema
+const soilTypeSchema = z.object({
+  soil_type_name: z.string().min(1, "Soil type name is required"),
+  price_per_meter: z.coerce.number().min(0.01, "Price must be greater than 0"),
+  quantity_meters: z.coerce.number().optional(),
+  notes: z.string().optional(),
+});
+
+const contactSchema = z.object({
+  first_name: z.string().min(1, "First name is required"),
+  last_name: z.string().min(1, "Last name is required"),
+  department: z.string().optional(),
+  phone: z.string().optional(),
+  email: z.string().email("Invalid email").optional().or(z.literal("")),
+  position: z.string().optional(),
+  notes: z.string().optional(),
+});
+
 const createProjectSchema = z.object({
   name: z.string().min(1, "Project name is required").max(255, "Project name too long"),
   customer: z.string().optional(),
@@ -30,6 +47,8 @@ const createProjectSchema = z.object({
   base_rate_per_m: z.coerce.number().min(0, "Rate must be positive"),
   language_default: z.enum(["ru", "en", "de", "uz", "tr"]),
   pm_user_id: z.string().optional(),
+  soil_types: z.array(soilTypeSchema).default([]),
+  contacts: z.array(contactSchema).default([]),
 });
 
 type CreateProjectFormData = z.infer<typeof createProjectSchema>;
@@ -56,7 +75,28 @@ export default function NewProjectPage() {
       base_rate_per_m: 15.5, // Default rate
       language_default: "de", // Default to German
       pm_user_id: "none",
+      soil_types: [],
+      contacts: [],
     },
+  });
+
+  // Field arrays for dynamic soil types and contacts
+  const {
+    fields: soilTypeFields,
+    append: appendSoilType,
+    remove: removeSoilType,
+  } = useFieldArray({
+    control: form.control,
+    name: "soil_types",
+  });
+
+  const {
+    fields: contactFields,
+    append: appendContact,
+    remove: removeContact,
+  } = useFieldArray({
+    control: form.control,
+    name: "contacts",
   });
 
   const onSubmit = async (data: CreateProjectFormData) => {
@@ -69,6 +109,33 @@ export default function NewProjectPage() {
       };
 
       const newProject = await createProject.mutateAsync(projectData);
+
+      // Create soil types if any
+      if (data.soil_types && data.soil_types.length > 0) {
+        await Promise.all(
+          data.soil_types.map((soilType) =>
+            fetch(`/api/projects/${newProject.id}/soil-types`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(soilType),
+            })
+          )
+        );
+      }
+
+      // Create contacts if any
+      if (data.contacts && data.contacts.length > 0) {
+        await Promise.all(
+          data.contacts.map((contact) =>
+            fetch(`/api/projects/${newProject.id}/contacts`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(contact),
+            })
+          )
+        );
+      }
+
       router.push(`/dashboard/projects/${newProject.id}`);
     } catch (error) {
       // Error is handled by the mutation
@@ -353,6 +420,269 @@ export default function NewProjectPage() {
                     {form.watch("total_length_m")} meters × €{form.watch("base_rate_per_m")} per meter
                   </p>
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Soil Types Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Layers className="h-5 w-5" />
+                  <span>Soil Types (Optional)</span>
+                </CardTitle>
+                <CardDescription>
+                  Define soil types with pricing per meter for this project
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {soilTypeFields.map((field, index) => (
+                  <div key={field.id} className="p-4 border rounded-lg space-y-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-sm">Soil Type #{index + 1}</span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeSoilType(index)}
+                        className="h-8 w-8 p-0"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name={`soil_types.${index}.soil_type_name`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Soil Type Name *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., Sand, Clay, Rock" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`soil_types.${index}.price_per_meter`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Price per Meter (€) *</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                step="0.01"
+                                min="0.01"
+                                placeholder="e.g., 12.50"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name={`soil_types.${index}.quantity_meters`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Quantity (meters)</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                placeholder="e.g., 500"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`soil_types.${index}.notes`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Notes</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Additional notes" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    appendSoilType({
+                      soil_type_name: "",
+                      price_per_meter: 0,
+                      quantity_meters: undefined,
+                      notes: "",
+                    })
+                  }
+                  className="w-full"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Soil Type
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Contacts Section */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2">
+                  <Users className="h-5 w-5" />
+                  <span>Project Contacts (Optional)</span>
+                </CardTitle>
+                <CardDescription>
+                  Add key contacts for this project
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {contactFields.map((field, index) => (
+                  <div key={field.id} className="p-4 border rounded-lg space-y-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-medium text-sm">Contact #{index + 1}</span>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeContact(index)}
+                        className="h-8 w-8 p-0"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name={`contacts.${index}.first_name`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>First Name *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., John" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`contacts.${index}.last_name`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Last Name *</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., Smith" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name={`contacts.${index}.department`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Department</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., Engineering" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`contacts.${index}.phone`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Phone</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., +49 30 12345678" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name={`contacts.${index}.email`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., john.smith@example.com" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name={`contacts.${index}.position`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Position</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g., Project Coordinator" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                ))}
+
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() =>
+                    appendContact({
+                      first_name: "",
+                      last_name: "",
+                      department: "",
+                      phone: "",
+                      email: "",
+                      position: "",
+                      notes: "",
+                    })
+                  }
+                  className="w-full"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Contact
+                </Button>
               </CardContent>
             </Card>
 
