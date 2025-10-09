@@ -121,7 +121,6 @@ export async function GET(request: NextRequest) {
           quantity_used,
           quantity_remaining,
           allocated_date,
-          return_date,
           status,
           notes,
           allocated_by,
