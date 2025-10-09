@@ -130,18 +130,23 @@ const HOUSE_TYPES = [
 ];
 const CONNECTION_STATUSES = [
     {
-        value: 'pending',
-        label: 'Ausstehend',
+        value: 'created',
+        label: 'Erstellt',
         color: 'bg-gray-100 text-gray-800'
     },
     {
-        value: 'in_progress',
-        label: 'In Bearbeitung',
+        value: 'planned',
+        label: 'Geplant',
+        color: 'bg-blue-100 text-blue-800'
+    },
+    {
+        value: 'started',
+        label: 'Begonnen',
         color: 'bg-yellow-100 text-yellow-800'
     },
     {
-        value: 'completed',
-        label: 'Abgeschlossen',
+        value: 'finished',
+        label: 'Fertiggestellt',
         color: 'bg-green-100 text-green-800'
     }
 ];
@@ -264,19 +269,12 @@ function Houses(param) {
                     className: "h-8 w-1/3"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                    lineNumber: 178,
+                    lineNumber: 179,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "grid grid-cols-1 md:grid-cols-4 gap-4",
                     children: [
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
-                            className: "h-24"
-                        }, void 0, false, {
-                            fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 180,
-                            columnNumber: 11
-                        }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                             className: "h-24"
                         }, void 0, false, {
@@ -297,24 +295,31 @@ function Houses(param) {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
                             lineNumber: 183,
                             columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
+                            className: "h-24"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/project-preparation/houses.tsx",
+                            lineNumber: 184,
+                            columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                    lineNumber: 179,
+                    lineNumber: 180,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                     className: "h-96"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                    lineNumber: 185,
+                    lineNumber: 186,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/project-preparation/houses.tsx",
-            lineNumber: 177,
+            lineNumber: 178,
             columnNumber: 7
         }, this);
     }
@@ -329,7 +334,7 @@ function Houses(param) {
                             className: "mx-auto h-12 w-12 text-red-500 mb-4"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 195,
+                            lineNumber: 196,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -337,7 +342,7 @@ function Houses(param) {
                             children: "Error Loading Houses"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 196,
+                            lineNumber: 197,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -345,7 +350,7 @@ function Houses(param) {
                             children: error.message
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 197,
+                            lineNumber: 198,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -353,23 +358,23 @@ function Houses(param) {
                             children: "Try Again"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 198,
+                            lineNumber: 199,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                    lineNumber: 194,
+                    lineNumber: 195,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                lineNumber: 193,
+                lineNumber: 194,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/project-preparation/houses.tsx",
-            lineNumber: 192,
+            lineNumber: 193,
             columnNumber: 7
         }, this);
     }
@@ -435,8 +440,8 @@ function Houses(param) {
         }
     };
     const totalHouses = (housesData === null || housesData === void 0 ? void 0 : (_housesData_houses = housesData.houses) === null || _housesData_houses === void 0 ? void 0 : _housesData_houses.length) || 0;
-    const connectedCount = (housesData === null || housesData === void 0 ? void 0 : (_housesData_houses1 = housesData.houses) === null || _housesData_houses1 === void 0 ? void 0 : (_housesData_houses_filter = _housesData_houses1.filter((h)=>h.status === 'connected')) === null || _housesData_houses_filter === void 0 ? void 0 : _housesData_houses_filter.length) || 0;
-    const assignedCount = (housesData === null || housesData === void 0 ? void 0 : (_housesData_houses2 = housesData.houses) === null || _housesData_houses2 === void 0 ? void 0 : (_housesData_houses_filter1 = _housesData_houses2.filter((h)=>h.status === 'assigned')) === null || _housesData_houses_filter1 === void 0 ? void 0 : _housesData_houses_filter1.length) || 0;
+    const finishedCount = (housesData === null || housesData === void 0 ? void 0 : (_housesData_houses1 = housesData.houses) === null || _housesData_houses1 === void 0 ? void 0 : (_housesData_houses_filter = _housesData_houses1.filter((h)=>h.status === 'finished')) === null || _housesData_houses_filter === void 0 ? void 0 : _housesData_houses_filter.length) || 0;
+    const startedCount = (housesData === null || housesData === void 0 ? void 0 : (_housesData_houses2 = housesData.houses) === null || _housesData_houses2 === void 0 ? void 0 : (_housesData_houses_filter1 = _housesData_houses2.filter((h)=>h.status === 'started')) === null || _housesData_houses_filter1 === void 0 ? void 0 : _housesData_houses_filter1.length) || 0;
     const totalApartments = (housesData === null || housesData === void 0 ? void 0 : (_housesData_houses3 = housesData.houses) === null || _housesData_houses3 === void 0 ? void 0 : _housesData_houses3.reduce((sum, h)=>sum + (h.apartment_count || 1), 0)) || 0;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "space-y-6",
@@ -450,7 +455,7 @@ function Houses(param) {
                             children: "🏠 HA & HP+"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 283,
+                            lineNumber: 284,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -458,18 +463,18 @@ function Houses(param) {
                             children: "House management, connection status, and documentation"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 284,
+                            lineNumber: 285,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                    lineNumber: 282,
+                    lineNumber: 283,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                lineNumber: 281,
+                lineNumber: 282,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -485,7 +490,7 @@ function Houses(param) {
                                         className: "w-5 h-5 text-blue-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 293,
+                                        lineNumber: 294,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -495,7 +500,7 @@ function Houses(param) {
                                                 children: "Häuser gesamt"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 295,
+                                                lineNumber: 296,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -503,29 +508,29 @@ function Houses(param) {
                                                 children: totalHouses
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 296,
+                                                lineNumber: 297,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 294,
+                                        lineNumber: 295,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 292,
+                                lineNumber: 293,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 291,
+                            lineNumber: 292,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                        lineNumber: 290,
+                        lineNumber: 291,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -538,47 +543,47 @@ function Houses(param) {
                                         className: "w-5 h-5 text-green-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 305,
+                                        lineNumber: 306,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-sm font-medium",
-                                                children: "Verbunden"
+                                                children: "Fertiggestellt"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 307,
+                                                lineNumber: 308,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-2xl font-bold",
-                                                children: connectedCount
+                                                children: finishedCount
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 308,
+                                                lineNumber: 309,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 306,
+                                        lineNumber: 307,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 304,
+                                lineNumber: 305,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 303,
+                            lineNumber: 304,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                        lineNumber: 302,
+                        lineNumber: 303,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -591,47 +596,47 @@ function Houses(param) {
                                         className: "w-5 h-5 text-orange-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 317,
+                                        lineNumber: 318,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-sm font-medium",
-                                                children: "Zugewiesen"
+                                                children: "Begonnen"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 319,
+                                                lineNumber: 320,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-2xl font-bold",
-                                                children: assignedCount
+                                                children: startedCount
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 320,
+                                                lineNumber: 321,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 318,
+                                        lineNumber: 319,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 316,
+                                lineNumber: 317,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 315,
+                            lineNumber: 316,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                        lineNumber: 314,
+                        lineNumber: 315,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -644,7 +649,7 @@ function Houses(param) {
                                         className: "w-5 h-5 text-purple-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 329,
+                                        lineNumber: 330,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -654,7 +659,7 @@ function Houses(param) {
                                                 children: "Einheiten gesamt"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 331,
+                                                lineNumber: 332,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -662,35 +667,35 @@ function Houses(param) {
                                                 children: totalApartments
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 332,
+                                                lineNumber: 333,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 330,
+                                        lineNumber: 331,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 328,
+                                lineNumber: 329,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 327,
+                            lineNumber: 328,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                        lineNumber: 326,
+                        lineNumber: 327,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                lineNumber: 289,
+                lineNumber: 290,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tabs"], {
@@ -705,7 +710,7 @@ function Houses(param) {
                                 children: "Projekthäuser"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 342,
+                                lineNumber: 343,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -713,7 +718,7 @@ function Houses(param) {
                                 children: "Haus hinzufügen"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 343,
+                                lineNumber: 344,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -721,7 +726,7 @@ function Houses(param) {
                                 children: "Anschlussstatus"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 344,
+                                lineNumber: 345,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -729,13 +734,13 @@ function Houses(param) {
                                 children: "Hausdokumente"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 345,
+                                lineNumber: 346,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                        lineNumber: 341,
+                        lineNumber: 342,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -749,20 +754,20 @@ function Houses(param) {
                                             children: "Liste der Projekthäuser"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                            lineNumber: 352,
+                                            lineNumber: 353,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Houses assigned to this project with connection details"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                            lineNumber: 353,
+                                            lineNumber: 354,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 351,
+                                    lineNumber: 352,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -788,7 +793,7 @@ function Houses(param) {
                                                                                 children: "Address"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 367,
+                                                                                lineNumber: 368,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -798,13 +803,13 @@ function Houses(param) {
                                                                                 })
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 368,
+                                                                                lineNumber: 369,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 366,
+                                                                        lineNumber: 367,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -814,7 +819,7 @@ function Houses(param) {
                                                                                 children: "House Number"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 374,
+                                                                                lineNumber: 375,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -822,19 +827,19 @@ function Houses(param) {
                                                                                 ...editForm.register('house_number')
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 375,
+                                                                                lineNumber: 376,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 373,
+                                                                        lineNumber: 374,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 365,
+                                                                lineNumber: 366,
                                                                 columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -847,7 +852,7 @@ function Houses(param) {
                                                                                 children: "Connection Type"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 384,
+                                                                                lineNumber: 385,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -857,12 +862,12 @@ function Houses(param) {
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
                                                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 387,
+                                                                                            lineNumber: 388,
                                                                                             columnNumber: 37
                                                                                         }, this)
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                        lineNumber: 386,
+                                                                                        lineNumber: 387,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -871,24 +876,24 @@ function Houses(param) {
                                                                                                 children: type.label
                                                                                             }, type.value, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                                lineNumber: 391,
+                                                                                                lineNumber: 392,
                                                                                                 columnNumber: 39
                                                                                             }, this))
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                        lineNumber: 389,
+                                                                                        lineNumber: 390,
                                                                                         columnNumber: 35
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 385,
+                                                                                lineNumber: 386,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 383,
+                                                                        lineNumber: 384,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -898,7 +903,7 @@ function Houses(param) {
                                                                                 children: "Installation Method"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 399,
+                                                                                lineNumber: 400,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -908,12 +913,12 @@ function Houses(param) {
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
                                                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 402,
+                                                                                            lineNumber: 403,
                                                                                             columnNumber: 37
                                                                                         }, this)
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                        lineNumber: 401,
+                                                                                        lineNumber: 402,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -922,30 +927,30 @@ function Houses(param) {
                                                                                                 children: method.label
                                                                                             }, method.value, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                                lineNumber: 406,
+                                                                                                lineNumber: 407,
                                                                                                 columnNumber: 39
                                                                                             }, this))
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                        lineNumber: 404,
+                                                                                        lineNumber: 405,
                                                                                         columnNumber: 35
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 400,
+                                                                                lineNumber: 401,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 398,
+                                                                        lineNumber: 399,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 382,
+                                                                lineNumber: 383,
                                                                 columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -958,7 +963,7 @@ function Houses(param) {
                                                                                 children: "Status"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 417,
+                                                                                lineNumber: 418,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -968,12 +973,12 @@ function Houses(param) {
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
                                                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 420,
+                                                                                            lineNumber: 421,
                                                                                             columnNumber: 37
                                                                                         }, this)
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                        lineNumber: 419,
+                                                                                        lineNumber: 420,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -982,24 +987,24 @@ function Houses(param) {
                                                                                                 children: status.label
                                                                                             }, status.value, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                                lineNumber: 424,
+                                                                                                lineNumber: 425,
                                                                                                 columnNumber: 39
                                                                                             }, this))
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                        lineNumber: 422,
+                                                                                        lineNumber: 423,
                                                                                         columnNumber: 35
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 418,
+                                                                                lineNumber: 419,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 416,
+                                                                        lineNumber: 417,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1009,7 +1014,7 @@ function Houses(param) {
                                                                                 children: "Planned Date"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 432,
+                                                                                lineNumber: 433,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1018,19 +1023,19 @@ function Houses(param) {
                                                                                 ...editForm.register('planned_connection_date')
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 433,
+                                                                                lineNumber: 434,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 431,
+                                                                        lineNumber: 432,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 415,
+                                                                lineNumber: 416,
                                                                 columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1043,7 +1048,7 @@ function Houses(param) {
                                                                                 children: "Work Start Time"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 443,
+                                                                                lineNumber: 444,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1052,7 +1057,7 @@ function Houses(param) {
                                                                                 ...editForm.register('work_started_at')
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 444,
+                                                                                lineNumber: 445,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1060,13 +1065,13 @@ function Houses(param) {
                                                                                 children: "When work began on this connection"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 449,
+                                                                                lineNumber: 450,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 442,
+                                                                        lineNumber: 443,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1076,7 +1081,7 @@ function Houses(param) {
                                                                                 children: "Work Completion Time"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 452,
+                                                                                lineNumber: 453,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1085,7 +1090,7 @@ function Houses(param) {
                                                                                 ...editForm.register('work_completed_at')
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 453,
+                                                                                lineNumber: 454,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1093,19 +1098,19 @@ function Houses(param) {
                                                                                 children: "When work was completed"
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 458,
+                                                                                lineNumber: 459,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 451,
+                                                                        lineNumber: 452,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 441,
+                                                                lineNumber: 442,
                                                                 columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1115,7 +1120,7 @@ function Houses(param) {
                                                                         children: "Notes"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 463,
+                                                                        lineNumber: 464,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1123,13 +1128,13 @@ function Houses(param) {
                                                                         ...editForm.register('notes')
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 464,
+                                                                        lineNumber: 465,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 462,
+                                                                lineNumber: 463,
                                                                 columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1141,7 +1146,7 @@ function Houses(param) {
                                                                         children: updateHouse.isPending ? 'Updating...' : 'Update'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 471,
+                                                                        lineNumber: 472,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1151,19 +1156,19 @@ function Houses(param) {
                                                                         children: "Cancel"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 474,
+                                                                        lineNumber: 475,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 470,
+                                                                lineNumber: 471,
                                                                 columnNumber: 29
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 364,
+                                                        lineNumber: 365,
                                                         columnNumber: 27
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "flex items-center justify-between",
@@ -1179,7 +1184,7 @@ function Houses(param) {
                                                                                 children: ((_CONNECTION_STATUSES_find1 = CONNECTION_STATUSES.find((s)=>s.value === house.status)) === null || _CONNECTION_STATUSES_find1 === void 0 ? void 0 : _CONNECTION_STATUSES_find1.label) || house.status
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 483,
+                                                                                lineNumber: 484,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1192,7 +1197,7 @@ function Houses(param) {
                                                                                             className: "w-4 h-4 mr-1"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 490,
+                                                                                            lineNumber: 491,
                                                                                             columnNumber: 51
                                                                                         }, this) : null;
                                                                                     })(),
@@ -1200,7 +1205,7 @@ function Houses(param) {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 486,
+                                                                                lineNumber: 487,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1213,7 +1218,7 @@ function Houses(param) {
                                                                                             className: "w-4 h-4 mr-1"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 498,
+                                                                                            lineNumber: 499,
                                                                                             columnNumber: 51
                                                                                         }, this) : null;
                                                                                     })(),
@@ -1221,13 +1226,13 @@ function Houses(param) {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 494,
+                                                                                lineNumber: 495,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 482,
+                                                                        lineNumber: 483,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
@@ -1235,7 +1240,7 @@ function Houses(param) {
                                                                         children: house.address
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 503,
+                                                                        lineNumber: 504,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     house.house_number && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1246,7 +1251,7 @@ function Houses(param) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 505,
+                                                                        lineNumber: 506,
                                                                         columnNumber: 33
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1259,7 +1264,7 @@ function Houses(param) {
                                                                                         className: "w-4 h-4 mr-1"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                        lineNumber: 509,
+                                                                                        lineNumber: 510,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     house.apartment_count,
@@ -1267,7 +1272,7 @@ function Houses(param) {
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 508,
+                                                                                lineNumber: 509,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             house.planned_connection_date && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1277,14 +1282,14 @@ function Houses(param) {
                                                                                         className: "w-4 h-4 mr-1"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                        lineNumber: 514,
+                                                                                        lineNumber: 515,
                                                                                         columnNumber: 37
                                                                                     }, this),
                                                                                     house.planned_connection_date
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 513,
+                                                                                lineNumber: 514,
                                                                                 columnNumber: 35
                                                                             }, this),
                                                                             house.contact_name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1294,20 +1299,20 @@ function Houses(param) {
                                                                                         className: "w-4 h-4 mr-1"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                        lineNumber: 520,
+                                                                                        lineNumber: 521,
                                                                                         columnNumber: 37
                                                                                     }, this),
                                                                                     house.contact_name
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 519,
+                                                                                lineNumber: 520,
                                                                                 columnNumber: 35
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 507,
+                                                                        lineNumber: 508,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     house.notes && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1318,13 +1323,13 @@ function Houses(param) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 526,
+                                                                        lineNumber: 527,
                                                                         columnNumber: 33
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 481,
+                                                                lineNumber: 482,
                                                                 columnNumber: 29
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1338,12 +1343,12 @@ function Houses(param) {
                                                                             className: "w-4 h-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 535,
+                                                                            lineNumber: 536,
                                                                             columnNumber: 33
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 530,
+                                                                        lineNumber: 531,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1355,40 +1360,40 @@ function Houses(param) {
                                                                             className: "w-4 h-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 543,
+                                                                            lineNumber: 544,
                                                                             columnNumber: 33
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 537,
+                                                                        lineNumber: 538,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 529,
+                                                                lineNumber: 530,
                                                                 columnNumber: 29
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 480,
+                                                        lineNumber: 481,
                                                         columnNumber: 27
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                    lineNumber: 362,
+                                                    lineNumber: 363,
                                                     columnNumber: 23
                                                 }, this)
                                             }, house.id, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 361,
+                                                lineNumber: 362,
                                                 columnNumber: 21
                                             }, this);
                                         })
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 359,
+                                        lineNumber: 360,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-center py-12",
@@ -1397,7 +1402,7 @@ function Houses(param) {
                                                 className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 554,
+                                                lineNumber: 555,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1405,7 +1410,7 @@ function Houses(param) {
                                                 children: "Keine Häuser dem Projekt hinzugefügt"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 555,
+                                                lineNumber: 556,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1413,7 +1418,7 @@ function Houses(param) {
                                                 children: "Add houses to start tracking connections for this project."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 556,
+                                                lineNumber: 557,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1423,36 +1428,36 @@ function Houses(param) {
                                                         className: "w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 560,
+                                                        lineNumber: 561,
                                                         columnNumber: 21
                                                     }, this),
                                                     "Haus hinzufügen"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 559,
+                                                lineNumber: 560,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 553,
+                                        lineNumber: 554,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 357,
+                                    lineNumber: 358,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 350,
+                            lineNumber: 351,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                        lineNumber: 349,
+                        lineNumber: 350,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1465,20 +1470,20 @@ function Houses(param) {
                                             children: "🏠 Haus zum Projekt hinzufügen"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                            lineNumber: 573,
+                                            lineNumber: 574,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Add a new house to this project with connection details"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                            lineNumber: 574,
+                                            lineNumber: 575,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 572,
+                                    lineNumber: 573,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1496,7 +1501,7 @@ function Houses(param) {
                                                                 children: "Address *"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 582,
+                                                                lineNumber: 583,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1506,13 +1511,13 @@ function Houses(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 583,
+                                                                lineNumber: 584,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 581,
+                                                        lineNumber: 582,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1522,7 +1527,7 @@ function Houses(param) {
                                                                 children: "House Number"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 589,
+                                                                lineNumber: 590,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1530,19 +1535,19 @@ function Houses(param) {
                                                                 ...createForm.register('house_number')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 590,
+                                                                lineNumber: 591,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 588,
+                                                        lineNumber: 589,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 580,
+                                                lineNumber: 581,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1552,7 +1557,7 @@ function Houses(param) {
                                                         children: "NVP Point (Cabinet)"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 598,
+                                                        lineNumber: 599,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -1563,12 +1568,12 @@ function Houses(param) {
                                                                     placeholder: cabinetsLoading ? "Loading cabinets..." : "Select NVP point"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 601,
+                                                                    lineNumber: 602,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 600,
+                                                                lineNumber: 601,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1583,7 +1588,7 @@ function Houses(param) {
                                                                         ]
                                                                     }, cabinet.id, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 606,
+                                                                        lineNumber: 607,
                                                                         columnNumber: 27
                                                                     }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
                                                                     value: "none",
@@ -1591,18 +1596,18 @@ function Houses(param) {
                                                                     children: "No cabinets available"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 611,
+                                                                    lineNumber: 612,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 603,
+                                                                lineNumber: 604,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 599,
+                                                        lineNumber: 600,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1610,13 +1615,13 @@ function Houses(param) {
                                                         children: "Link this house to a network distribution point"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 615,
+                                                        lineNumber: 616,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 597,
+                                                lineNumber: 598,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1629,7 +1634,7 @@ function Houses(param) {
                                                                 children: "Number of Apartments"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 620,
+                                                                lineNumber: 621,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1642,13 +1647,13 @@ function Houses(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 621,
+                                                                lineNumber: 622,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 619,
+                                                        lineNumber: 620,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1658,7 +1663,7 @@ function Houses(param) {
                                                                 children: "Number of Floors"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 629,
+                                                                lineNumber: 630,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1671,19 +1676,19 @@ function Houses(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 630,
+                                                                lineNumber: 631,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 628,
+                                                        lineNumber: 629,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 618,
+                                                lineNumber: 619,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1696,7 +1701,7 @@ function Houses(param) {
                                                                 children: "Connection Type"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 641,
+                                                                lineNumber: 642,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -1707,12 +1712,12 @@ function Houses(param) {
                                                                             placeholder: "Select connection type"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 644,
+                                                                            lineNumber: 645,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 643,
+                                                                        lineNumber: 644,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1721,24 +1726,24 @@ function Houses(param) {
                                                                                 children: type.label
                                                                             }, type.value, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 648,
+                                                                                lineNumber: 649,
                                                                                 columnNumber: 27
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 646,
+                                                                        lineNumber: 647,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 642,
+                                                                lineNumber: 643,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 640,
+                                                        lineNumber: 641,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1748,7 +1753,7 @@ function Houses(param) {
                                                                 children: "Installation Method"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 656,
+                                                                lineNumber: 657,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -1759,12 +1764,12 @@ function Houses(param) {
                                                                             placeholder: "Select installation method"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 659,
+                                                                            lineNumber: 660,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 658,
+                                                                        lineNumber: 659,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1773,30 +1778,30 @@ function Houses(param) {
                                                                                 children: method.label
                                                                             }, method.value, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 663,
+                                                                                lineNumber: 664,
                                                                                 columnNumber: 27
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 661,
+                                                                        lineNumber: 662,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 657,
+                                                                lineNumber: 658,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 655,
+                                                        lineNumber: 656,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 639,
+                                                lineNumber: 640,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1809,7 +1814,7 @@ function Houses(param) {
                                                                 children: "Building Type"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 674,
+                                                                lineNumber: 675,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -1820,12 +1825,12 @@ function Houses(param) {
                                                                             placeholder: "Select building type"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 677,
+                                                                            lineNumber: 678,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 676,
+                                                                        lineNumber: 677,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1834,24 +1839,24 @@ function Houses(param) {
                                                                                 children: type.label
                                                                             }, type.value, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                lineNumber: 681,
+                                                                                lineNumber: 682,
                                                                                 columnNumber: 27
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 679,
+                                                                        lineNumber: 680,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 675,
+                                                                lineNumber: 676,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 673,
+                                                        lineNumber: 674,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1861,7 +1866,7 @@ function Houses(param) {
                                                                 children: "Planned Connection Date"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 689,
+                                                                lineNumber: 690,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1869,19 +1874,19 @@ function Houses(param) {
                                                                 ...createForm.register('planned_connection_date')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 690,
+                                                                lineNumber: 691,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 688,
+                                                        lineNumber: 689,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 672,
+                                                lineNumber: 673,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1894,7 +1899,7 @@ function Houses(param) {
                                                                 children: "Contact Person"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 699,
+                                                                lineNumber: 700,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1902,13 +1907,13 @@ function Houses(param) {
                                                                 ...createForm.register('contact_name')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 700,
+                                                                lineNumber: 701,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 698,
+                                                        lineNumber: 699,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1918,7 +1923,7 @@ function Houses(param) {
                                                                 children: "Phone"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 706,
+                                                                lineNumber: 707,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1926,19 +1931,19 @@ function Houses(param) {
                                                                 ...createForm.register('contact_phone')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 707,
+                                                                lineNumber: 708,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 705,
+                                                        lineNumber: 706,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 697,
+                                                lineNumber: 698,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1948,7 +1953,7 @@ function Houses(param) {
                                                         children: "Email"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 715,
+                                                        lineNumber: 716,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1957,13 +1962,13 @@ function Houses(param) {
                                                         ...createForm.register('contact_email')
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 716,
+                                                        lineNumber: 717,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 714,
+                                                lineNumber: 715,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1973,7 +1978,7 @@ function Houses(param) {
                                                         children: "Notes"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 724,
+                                                        lineNumber: 725,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1981,13 +1986,13 @@ function Houses(param) {
                                                         ...createForm.register('notes')
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 725,
+                                                        lineNumber: 726,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 723,
+                                                lineNumber: 724,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2000,14 +2005,14 @@ function Houses(param) {
                                                                 className: "w-5 h-5 mr-2"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 733,
+                                                                lineNumber: 734,
                                                                 columnNumber: 21
                                                             }, this),
                                                             "Connection Plan Document (Optional)"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 732,
+                                                        lineNumber: 733,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2026,7 +2031,7 @@ function Houses(param) {
                                                                         className: "flex-1"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 738,
+                                                                        lineNumber: 739,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     selectedDocumentFile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2038,18 +2043,18 @@ function Houses(param) {
                                                                             className: "w-4 h-4"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 751,
+                                                                            lineNumber: 752,
                                                                             columnNumber: 27
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 745,
+                                                                        lineNumber: 746,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 737,
+                                                                lineNumber: 738,
                                                                 columnNumber: 21
                                                             }, this),
                                                             selectedDocumentFile && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2059,7 +2064,7 @@ function Houses(param) {
                                                                         className: "w-4 h-4"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 757,
+                                                                        lineNumber: 758,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2071,13 +2076,13 @@ function Houses(param) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 758,
+                                                                        lineNumber: 759,
                                                                         columnNumber: 25
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 756,
+                                                                lineNumber: 757,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2085,19 +2090,19 @@ function Houses(param) {
                                                                 children: "Upload connection plans, permits, or other documents (max 10MB). PDF, images, or Office documents accepted."
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 761,
+                                                                lineNumber: 762,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 736,
+                                                        lineNumber: 737,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 731,
+                                                lineNumber: 732,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2107,29 +2112,29 @@ function Houses(param) {
                                                 children: createHouse.isPending ? 'Adding...' : 'Haus hinzufügen'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 767,
+                                                lineNumber: 768,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 579,
+                                        lineNumber: 580,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 578,
+                                    lineNumber: 579,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 571,
+                            lineNumber: 572,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                        lineNumber: 570,
+                        lineNumber: 571,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2142,20 +2147,20 @@ function Houses(param) {
                                             children: "Übersicht Anschlussstatus"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                            lineNumber: 783,
+                                            lineNumber: 784,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Connection status overview with statistics"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                            lineNumber: 784,
+                                            lineNumber: 785,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 782,
+                                    lineNumber: 783,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2177,7 +2182,7 @@ function Houses(param) {
                                                                     children: status.label
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 800,
+                                                                    lineNumber: 801,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2185,7 +2190,7 @@ function Houses(param) {
                                                                     children: count
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 803,
+                                                                    lineNumber: 804,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2196,24 +2201,24 @@ function Houses(param) {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 804,
+                                                                    lineNumber: 805,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                            lineNumber: 799,
+                                                            lineNumber: 800,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, status.value, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 798,
+                                                        lineNumber: 799,
                                                         columnNumber: 25
                                                     }, this);
                                                 })
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 792,
+                                                lineNumber: 793,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2224,7 +2229,7 @@ function Houses(param) {
                                                         children: "Connection Progress"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 813,
+                                                        lineNumber: 814,
                                                         columnNumber: 21
                                                     }, this),
                                                     CONNECTION_STATUSES.map((status)=>{
@@ -2242,7 +2247,7 @@ function Houses(param) {
                                                                             children: status.label
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 821,
+                                                                            lineNumber: 822,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2255,13 +2260,13 @@ function Houses(param) {
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 822,
+                                                                            lineNumber: 823,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 820,
+                                                                    lineNumber: 821,
                                                                     columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2273,31 +2278,31 @@ function Houses(param) {
                                                                         }
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 825,
+                                                                        lineNumber: 826,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 824,
+                                                                    lineNumber: 825,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, status.value, true, {
                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                            lineNumber: 819,
+                                                            lineNumber: 820,
                                                             columnNumber: 25
                                                         }, this);
                                                     })
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 812,
+                                                lineNumber: 813,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 790,
+                                        lineNumber: 791,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-center py-12",
@@ -2306,7 +2311,7 @@ function Houses(param) {
                                                 className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 837,
+                                                lineNumber: 838,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -2314,7 +2319,7 @@ function Houses(param) {
                                                 children: "No Status Data"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 838,
+                                                lineNumber: 839,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2322,29 +2327,29 @@ function Houses(param) {
                                                 children: "Add houses to view connection status statistics."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 839,
+                                                lineNumber: 840,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 836,
+                                        lineNumber: 837,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 788,
+                                    lineNumber: 789,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 781,
+                            lineNumber: 782,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                        lineNumber: 780,
+                        lineNumber: 781,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2357,20 +2362,20 @@ function Houses(param) {
                                             children: "📎 Verwaltung der Hausdokumente"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                            lineNumber: 850,
+                                            lineNumber: 851,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Manage documents for project houses"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                            lineNumber: 851,
+                                            lineNumber: 852,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 849,
+                                    lineNumber: 850,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2384,7 +2389,7 @@ function Houses(param) {
                                                         children: "Select House"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 859,
+                                                        lineNumber: 860,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -2395,12 +2400,12 @@ function Houses(param) {
                                                                     placeholder: "Select house for document management"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 862,
+                                                                    lineNumber: 863,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 861,
+                                                                lineNumber: 862,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -2413,24 +2418,24 @@ function Houses(param) {
                                                                         ]
                                                                     }, house.id, true, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 866,
+                                                                        lineNumber: 867,
                                                                         columnNumber: 27
                                                                     }, this))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 864,
+                                                                lineNumber: 865,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 860,
+                                                        lineNumber: 861,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 858,
+                                                lineNumber: 859,
                                                 columnNumber: 19
                                             }, this),
                                             selectedHouseForDocs && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2444,12 +2449,12 @@ function Houses(param) {
                                                                     children: "Upload Document"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 879,
+                                                                    lineNumber: 880,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 878,
+                                                                lineNumber: 879,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2463,7 +2468,7 @@ function Houses(param) {
                                                                                     children: "Document Type"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                    lineNumber: 884,
+                                                                                    lineNumber: 885,
                                                                                     columnNumber: 31
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -2473,12 +2478,12 @@ function Houses(param) {
                                                                                                 placeholder: "Select document type"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                                lineNumber: 887,
+                                                                                                lineNumber: 888,
                                                                                                 columnNumber: 35
                                                                                             }, this)
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 886,
+                                                                                            lineNumber: 887,
                                                                                             columnNumber: 33
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -2487,24 +2492,24 @@ function Houses(param) {
                                                                                                     children: type.label
                                                                                                 }, type.value, false, {
                                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                                    lineNumber: 891,
+                                                                                                    lineNumber: 892,
                                                                                                     columnNumber: 37
                                                                                                 }, this))
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 889,
+                                                                                            lineNumber: 890,
                                                                                             columnNumber: 33
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                    lineNumber: 885,
+                                                                                    lineNumber: 886,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 883,
+                                                                            lineNumber: 884,
                                                                             columnNumber: 29
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2514,7 +2519,7 @@ function Houses(param) {
                                                                                     children: "File"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                    lineNumber: 899,
+                                                                                    lineNumber: 900,
                                                                                     columnNumber: 31
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2525,7 +2530,7 @@ function Houses(param) {
                                                                                             accept: ".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 901,
+                                                                                            lineNumber: 902,
                                                                                             columnNumber: 33
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2536,43 +2541,43 @@ function Houses(param) {
                                                                                                     className: "w-4 h-4 mr-2"
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                                    lineNumber: 903,
+                                                                                                    lineNumber: 904,
                                                                                                     columnNumber: 35
                                                                                                 }, this),
                                                                                                 uploadDocument.isPending ? 'Uploading...' : 'Upload'
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 902,
+                                                                                            lineNumber: 903,
                                                                                             columnNumber: 33
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                    lineNumber: 900,
+                                                                                    lineNumber: 901,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 898,
+                                                                            lineNumber: 899,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 882,
+                                                                    lineNumber: 883,
                                                                     columnNumber: 27
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 881,
+                                                                lineNumber: 882,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 877,
+                                                        lineNumber: 878,
                                                         columnNumber: 23
                                                     }, this),
                                                     loadingDocs ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -2585,7 +2590,7 @@ function Houses(param) {
                                                                         className: "animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 917,
+                                                                        lineNumber: 918,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2593,23 +2598,23 @@ function Houses(param) {
                                                                         children: "Loading documents..."
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                        lineNumber: 918,
+                                                                        lineNumber: 919,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 916,
+                                                                lineNumber: 917,
                                                                 columnNumber: 29
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                            lineNumber: 915,
+                                                            lineNumber: 916,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 914,
+                                                        lineNumber: 915,
                                                         columnNumber: 25
                                                     }, this) : houseDocuments && houseDocuments.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
                                                         children: [
@@ -2623,12 +2628,12 @@ function Houses(param) {
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 925,
+                                                                    lineNumber: 926,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 924,
+                                                                lineNumber: 925,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2646,19 +2651,19 @@ function Houses(param) {
                                                                                             className: "w-5 h-5 text-blue-500"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 933,
+                                                                                            lineNumber: 934,
                                                                                             columnNumber: 39
                                                                                         }, this) : ((_doc_file_type1 = doc.file_type) === null || _doc_file_type1 === void 0 ? void 0 : _doc_file_type1.includes('pdf')) ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$file$2d$text$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FileText$3e$__["FileText"], {
                                                                                             className: "w-5 h-5 text-red-500"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 935,
+                                                                                            lineNumber: 936,
                                                                                             columnNumber: 39
                                                                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$paperclip$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Paperclip$3e$__["Paperclip"], {
                                                                                             className: "w-5 h-5 text-gray-500"
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 937,
+                                                                                            lineNumber: 938,
                                                                                             columnNumber: 39
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2669,7 +2674,7 @@ function Houses(param) {
                                                                                                     children: doc.filename
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                                    lineNumber: 940,
+                                                                                                    lineNumber: 941,
                                                                                                     columnNumber: 39
                                                                                                 }, this),
                                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2681,19 +2686,19 @@ function Houses(param) {
                                                                                                     ]
                                                                                                 }, void 0, true, {
                                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                                    lineNumber: 941,
+                                                                                                    lineNumber: 942,
                                                                                                     columnNumber: 39
                                                                                                 }, this)
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 939,
+                                                                                            lineNumber: 940,
                                                                                             columnNumber: 37
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                    lineNumber: 931,
+                                                                                    lineNumber: 932,
                                                                                     columnNumber: 35
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2709,14 +2714,14 @@ function Houses(param) {
                                                                                                     className: "w-4 h-4"
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                                    lineNumber: 955,
+                                                                                                    lineNumber: 956,
                                                                                                     columnNumber: 39
                                                                                                 }, this),
                                                                                                 "View"
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 949,
+                                                                                            lineNumber: 950,
                                                                                             columnNumber: 37
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2727,41 +2732,41 @@ function Houses(param) {
                                                                                                 className: "w-4 h-4"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                                lineNumber: 963,
+                                                                                                lineNumber: 964,
                                                                                                 columnNumber: 39
                                                                                             }, this)
                                                                                         }, void 0, false, {
                                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                            lineNumber: 958,
+                                                                                            lineNumber: 959,
                                                                                             columnNumber: 37
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                                    lineNumber: 948,
+                                                                                    lineNumber: 949,
                                                                                     columnNumber: 35
                                                                                 }, this)
                                                                             ]
                                                                         }, doc.id, true, {
                                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                            lineNumber: 930,
+                                                                            lineNumber: 931,
                                                                             columnNumber: 33
                                                                         }, this);
                                                                     })
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                    lineNumber: 928,
+                                                                    lineNumber: 929,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 927,
+                                                                lineNumber: 928,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 923,
+                                                        lineNumber: 924,
                                                         columnNumber: 25
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "text-center py-8 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50",
@@ -2770,7 +2775,7 @@ function Houses(param) {
                                                                 className: "mx-auto h-8 w-8 text-gray-400 mb-2"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 973,
+                                                                lineNumber: 974,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2778,7 +2783,7 @@ function Houses(param) {
                                                                 children: "No documents uploaded for this house"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 974,
+                                                                lineNumber: 975,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2786,25 +2791,25 @@ function Houses(param) {
                                                                 children: "Upload connection plans, photos, or permits above"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                                lineNumber: 975,
+                                                                lineNumber: 976,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 972,
+                                                        lineNumber: 973,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 875,
+                                                lineNumber: 876,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 857,
+                                        lineNumber: 858,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-center py-12",
@@ -2813,7 +2818,7 @@ function Houses(param) {
                                                 className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 983,
+                                                lineNumber: 984,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -2821,7 +2826,7 @@ function Houses(param) {
                                                 children: "No Houses Available"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 984,
+                                                lineNumber: 985,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2829,35 +2834,35 @@ function Houses(param) {
                                                 children: "Add houses to manage documents."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 985,
+                                                lineNumber: 986,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 982,
+                                        lineNumber: 983,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 855,
+                                    lineNumber: 856,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 848,
+                            lineNumber: 849,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                        lineNumber: 847,
+                        lineNumber: 848,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                lineNumber: 340,
+                lineNumber: 341,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -2876,7 +2881,7 @@ function Houses(param) {
                                             children: viewingDocument === null || viewingDocument === void 0 ? void 0 : viewingDocument.filename
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                            lineNumber: 998,
+                                            lineNumber: 999,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2895,14 +2900,14 @@ function Houses(param) {
                                                             className: "w-4 h-4 mr-2"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                            lineNumber: 1009,
+                                                            lineNumber: 1010,
                                                             columnNumber: 19
                                                         }, this),
                                                         "Download"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                    lineNumber: 1000,
+                                                    lineNumber: 1001,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2913,24 +2918,24 @@ function Houses(param) {
                                                         className: "w-4 h-4"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                        lineNumber: 1017,
+                                                        lineNumber: 1018,
                                                         columnNumber: 19
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                    lineNumber: 1012,
+                                                    lineNumber: 1013,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                            lineNumber: 999,
+                                            lineNumber: 1000,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 997,
+                                    lineNumber: 998,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogDescription"], {
@@ -2942,18 +2947,18 @@ function Houses(param) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 1023,
+                                        lineNumber: 1024,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 1021,
+                                    lineNumber: 1022,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 996,
+                            lineNumber: 997,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2964,7 +2969,7 @@ function Houses(param) {
                                 title: viewingDocument.filename
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 1032,
+                                lineNumber: 1033,
                                 columnNumber: 15
                             }, this) : (viewingDocument === null || viewingDocument === void 0 ? void 0 : (_viewingDocument_fileType1 = viewingDocument.fileType) === null || _viewingDocument_fileType1 === void 0 ? void 0 : _viewingDocument_fileType1.includes('image')) ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "w-full h-full flex items-center justify-center bg-gray-100 rounded-lg overflow-auto",
@@ -2974,12 +2979,12 @@ function Houses(param) {
                                     className: "max-w-full max-h-full object-contain"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                    lineNumber: 1039,
+                                    lineNumber: 1040,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 1038,
+                                lineNumber: 1039,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "w-full h-full flex flex-col items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed",
@@ -2988,7 +2993,7 @@ function Houses(param) {
                                         className: "w-16 h-16 text-gray-400 mb-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 1047,
+                                        lineNumber: 1048,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2996,7 +3001,7 @@ function Houses(param) {
                                         children: "Preview not available"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 1048,
+                                        lineNumber: 1049,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3004,7 +3009,7 @@ function Houses(param) {
                                         children: "This file type cannot be previewed in the browser"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 1051,
+                                        lineNumber: 1052,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -3019,42 +3024,42 @@ function Houses(param) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                                lineNumber: 1062,
+                                                lineNumber: 1063,
                                                 columnNumber: 19
                                             }, this),
                                             "Download to view"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                        lineNumber: 1054,
+                                        lineNumber: 1055,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                                lineNumber: 1046,
+                                lineNumber: 1047,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/houses.tsx",
-                            lineNumber: 1030,
+                            lineNumber: 1031,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/houses.tsx",
-                    lineNumber: 995,
+                    lineNumber: 996,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/houses.tsx",
-                lineNumber: 994,
+                lineNumber: 995,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/project-preparation/houses.tsx",
-        lineNumber: 280,
+        lineNumber: 281,
         columnNumber: 5
     }, this);
 }

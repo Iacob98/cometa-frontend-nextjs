@@ -75,9 +75,10 @@ const HOUSE_TYPES = [
 ];
 
 const CONNECTION_STATUSES = [
-  { value: 'pending', label: 'Ausstehend', color: 'bg-gray-100 text-gray-800' },
-  { value: 'in_progress', label: 'In Bearbeitung', color: 'bg-yellow-100 text-yellow-800' },
-  { value: 'completed', label: 'Abgeschlossen', color: 'bg-green-100 text-green-800' },
+  { value: 'created', label: 'Erstellt', color: 'bg-gray-100 text-gray-800' },
+  { value: 'planned', label: 'Geplant', color: 'bg-blue-100 text-blue-800' },
+  { value: 'started', label: 'Begonnen', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'finished', label: 'Fertiggestellt', color: 'bg-green-100 text-green-800' },
 ];
 
 const DOCUMENT_TYPES = [
@@ -272,8 +273,8 @@ export default function Houses({ projectId }: HousesProps) {
   };
 
   const totalHouses = housesData?.houses?.length || 0;
-  const connectedCount = housesData?.houses?.filter(h => h.status === 'connected')?.length || 0;
-  const assignedCount = housesData?.houses?.filter(h => h.status === 'assigned')?.length || 0;
+  const finishedCount = housesData?.houses?.filter(h => h.status === 'finished')?.length || 0;
+  const startedCount = housesData?.houses?.filter(h => h.status === 'started')?.length || 0;
   const totalApartments = housesData?.houses?.reduce((sum, h) => sum + (h.apartment_count || 1), 0) || 0;
 
   return (
@@ -304,8 +305,8 @@ export default function Houses({ projectId }: HousesProps) {
             <div className="flex items-center space-x-2">
               <Users className="w-5 h-5 text-green-500" />
               <div>
-                <p className="text-sm font-medium">Verbunden</p>
-                <p className="text-2xl font-bold">{connectedCount}</p>
+                <p className="text-sm font-medium">Fertiggestellt</p>
+                <p className="text-2xl font-bold">{finishedCount}</p>
               </div>
             </div>
           </CardContent>
@@ -316,8 +317,8 @@ export default function Houses({ projectId }: HousesProps) {
             <div className="flex items-center space-x-2">
               <Calendar className="w-5 h-5 text-orange-500" />
               <div>
-                <p className="text-sm font-medium">Zugewiesen</p>
-                <p className="text-2xl font-bold">{assignedCount}</p>
+                <p className="text-sm font-medium">Begonnen</p>
+                <p className="text-2xl font-bold">{startedCount}</p>
               </div>
             </div>
           </CardContent>

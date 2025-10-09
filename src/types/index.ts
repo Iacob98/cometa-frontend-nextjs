@@ -496,12 +496,10 @@ export type ConnectionType = "full" | "partial";
 export type ConnectionMethod = "trench" | "mole";
 
 export type HouseConnectionStatus =
-  | "not_assigned"
-  | "appointment_scheduled"
-  | "in_progress"
-  | "connected"
-  | "partial_only"
-  | "postponed";
+  | "created"
+  | "planned"
+  | "started"
+  | "finished";
 
 export type AppointmentStatus =
   | "scheduled"
