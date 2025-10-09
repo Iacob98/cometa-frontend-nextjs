@@ -1,4 +1,5 @@
 {
+  "/(dashboard)/dashboard/calendar/page": "app/(dashboard)/dashboard/calendar/page.js",
   "/(dashboard)/dashboard/equipment/page": "app/(dashboard)/dashboard/equipment/page.js",
   "/(dashboard)/dashboard/materials/[id]/page": "app/(dashboard)/dashboard/materials/[id]/page.js",
   "/(dashboard)/dashboard/materials/inventory/page": "app/(dashboard)/dashboard/materials/inventory/page.js",
@@ -11,14 +12,17 @@
   "/(dashboard)/dashboard/projects/page": "app/(dashboard)/dashboard/projects/page.js",
   "/(dashboard)/dashboard/teams/[id]/page": "app/(dashboard)/dashboard/teams/[id]/page.js",
   "/(dashboard)/dashboard/teams/page": "app/(dashboard)/dashboard/teams/page.js",
+  "/(dashboard)/dashboard/work-entries/page": "app/(dashboard)/dashboard/work-entries/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/api/activities/route": "app/api/activities/route.js",
+  "/api/calendar/events/route": "app/api/calendar/events/route.js",
   "/api/crews/[id]/route": "app/api/crews/[id]/route.js",
   "/api/crews/route": "app/api/crews/route.js",
   "/api/dashboard/stats/route": "app/api/dashboard/stats/route.js",
   "/api/equipment/analytics/route": "app/api/equipment/analytics/route.js",
   "/api/equipment/route": "app/api/equipment/route.js",
   "/api/houses/[id]/documents/route": "app/api/houses/[id]/documents/route.js",
+  "/api/houses/[id]/route": "app/api/houses/[id]/route.js",
   "/api/houses/route": "app/api/houses/route.js",
   "/api/housing-units/route": "app/api/housing-units/route.js",
   "/api/materials/[id]/route": "app/api/materials/[id]/route.js",
@@ -54,6 +58,7 @@
   "/api/teams/crews/[id]/route": "app/api/teams/crews/[id]/route.js",
   "/api/users/route": "app/api/users/route.js",
   "/api/vehicles/route": "app/api/vehicles/route.js",
+  "/api/work-entries/route": "app/api/work-entries/route.js",
   "/api/zone-layout/cabinets/route": "app/api/zone-layout/cabinets/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js"
 }

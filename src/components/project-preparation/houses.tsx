@@ -76,12 +76,8 @@ const HOUSE_TYPES = [
 
 const CONNECTION_STATUSES = [
   { value: 'pending', label: 'Ausstehend', color: 'bg-gray-100 text-gray-800' },
-  { value: 'scheduled', label: 'Geplant', color: 'bg-yellow-100 text-yellow-800' },
-  { value: 'in-progress', label: 'In Bearbeitung', color: 'bg-yellow-100 text-yellow-800' },
-  { value: 'assigned', label: 'Zugewiesen', color: 'bg-yellow-100 text-yellow-800' },
-  { value: 'connected', label: 'Verbunden', color: 'bg-green-100 text-green-800' },
+  { value: 'in_progress', label: 'In Bearbeitung', color: 'bg-yellow-100 text-yellow-800' },
   { value: 'completed', label: 'Abgeschlossen', color: 'bg-green-100 text-green-800' },
-  { value: 'cancelled', label: 'Storniert', color: 'bg-red-100 text-red-800' },
 ];
 
 const DOCUMENT_TYPES = [
