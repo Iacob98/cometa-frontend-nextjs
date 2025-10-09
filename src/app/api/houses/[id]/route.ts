@@ -263,23 +263,40 @@ export async function DELETE(
     }
 
     // Check if house has any dependencies before deletion
-    const { data: dependencies, error: depError } = await supabase
-      .from('facilities')
+    // Check housing_units (apartments)
+    const { data: housingUnits, error: housingUnitsError } = await supabase
+      .from('housing_units')
       .select('id')
       .eq('house_id', houseId)
       .limit(1);
 
-    if (depError) {
-      console.error('Dependency check error:', depError);
+    if (housingUnitsError) {
+      console.error('Housing units check error:', housingUnitsError);
+      // Continue with deletion even if check fails (table might not exist)
+    }
+
+    if (housingUnits && housingUnits.length > 0) {
       return NextResponse.json(
-        { error: 'Failed to check house dependencies' },
-        { status: 500 }
+        { error: 'Cannot delete house with existing housing units (apartments)' },
+        { status: 409 }
       );
     }
 
-    if (dependencies && dependencies.length > 0) {
+    // Check house_documents
+    const { data: documents, error: documentsError } = await supabase
+      .from('house_documents')
+      .select('id')
+      .eq('house_id', houseId)
+      .limit(1);
+
+    if (documentsError) {
+      console.error('Documents check error:', documentsError);
+      // Continue with deletion even if check fails
+    }
+
+    if (documents && documents.length > 0) {
       return NextResponse.json(
-        { error: 'Cannot delete house with existing facilities' },
+        { error: 'Cannot delete house with existing documents. Please delete documents first.' },
         { status: 409 }
       );
     }
