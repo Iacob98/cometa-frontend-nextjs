@@ -34,8 +34,7 @@ export async function GET(request: NextRequest, { params }: Context) {
               type,
               inventory_no,
               status,
-              purchase_date,
-              purchase_price_eur
+              purchase_date
             ),
             crew:crew_id (
               id,
