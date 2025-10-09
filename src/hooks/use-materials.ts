@@ -289,7 +289,10 @@ export function useConsumeMaterial() {
 export function useSuppliers() {
   return useQuery({
     queryKey: supplierKeys.lists(),
-    queryFn: () => suppliersApi.getSuppliers(),
+    queryFn: async () => {
+      const response = await suppliersApi.getSuppliers();
+      return response.items || [];
+    },
     staleTime: 10 * 60 * 1000, // 10 minutes - suppliers change less frequently
   });
 }

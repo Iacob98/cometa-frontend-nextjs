@@ -387,8 +387,8 @@ export class SuppliersApiClient extends BaseApiClient {
     super(`${getApiBaseUrl()}/api/suppliers`);
   }
 
-  async getSuppliers(): Promise<Supplier[]> {
-    return this.get<Supplier[]>("/");
+  async getSuppliers(): Promise<PaginatedResponse<Supplier>> {
+    return this.get<PaginatedResponse<Supplier>>("/");
   }
 
   async getSupplier(id: string): Promise<Supplier> {
