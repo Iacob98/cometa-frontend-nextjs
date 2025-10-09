@@ -33,6 +33,7 @@
   "/api/resources/rental-equipment/route": "app/api/resources/rental-equipment/route.js",
   "/api/resources/rental-vehicles/route": "app/api/resources/rental-vehicles/route.js",
   "/api/resources/vehicle-assignments/route": "app/api/resources/vehicle-assignments/route.js",
+  "/api/suppliers/[id]/materials/route": "app/api/suppliers/[id]/materials/route.js",
   "/api/suppliers/route": "app/api/suppliers/route.js",
   "/api/teams/crews/[id]/route": "app/api/teams/crews/[id]/route.js",
   "/api/users/route": "app/api/users/route.js",
