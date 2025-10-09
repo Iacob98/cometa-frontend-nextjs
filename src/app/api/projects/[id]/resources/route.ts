@@ -154,33 +154,72 @@ export async function GET(request: NextRequest, { params }: Context) {
       console.error('Material query error:', materialRes.error)
     }
 
-    // Merge and tag with assignment_source
+    // Merge and tag with assignment_source, flatten nested data
     const allEquipment = [
       ...(crewEquipmentRes.data || []).map(e => ({
-        ...e,
-        assignment_source: 'crew_based' as const
+        id: e.id,
+        ...e.equipment, // Flatten equipment data to top level
+        crew: e.crew,
+        from_ts: e.from_ts,
+        to_ts: e.to_ts,
+        is_permanent: e.is_permanent,
+        rental_cost_per_day: e.rental_cost_per_day,
+        is_active: e.is_active,
+        assignment_source: 'crew_based' as const,
+        owned: e.rental_cost_per_day === 0,
       })),
       ...(directEquipmentRes.data || []).map(e => ({
-        ...e,
-        assignment_source: 'direct' as const
+        id: e.id,
+        ...e.equipment, // Flatten equipment data to top level
+        from_ts: e.from_ts,
+        to_ts: e.to_ts,
+        is_permanent: e.is_permanent,
+        rental_cost_per_day: e.rental_cost_per_day,
+        is_active: e.is_active,
+        assignment_source: 'direct' as const,
+        owned: e.rental_cost_per_day === 0,
       }))
     ]
 
     const allVehicles = [
       ...(crewVehiclesRes.data || []).map(v => ({
-        ...v,
-        assignment_source: 'crew_based' as const
+        id: v.id,
+        ...v.vehicle, // Flatten vehicle data to top level
+        crew: v.crew,
+        from_ts: v.from_ts,
+        to_ts: v.to_ts,
+        is_permanent: v.is_permanent,
+        rental_cost_per_day: v.rental_cost_per_day,
+        is_active: v.is_active,
+        assignment_source: 'crew_based' as const,
+        owned: v.rental_cost_per_day === 0,
       })),
       ...(directVehiclesRes.data || []).map(v => ({
-        ...v,
-        assignment_source: 'direct' as const
+        id: v.id,
+        ...v.vehicle, // Flatten vehicle data to top level
+        from_ts: v.from_ts,
+        to_ts: v.to_ts,
+        is_permanent: v.is_permanent,
+        rental_cost_per_day: v.rental_cost_per_day,
+        is_active: v.is_active,
+        assignment_source: 'direct' as const,
+        owned: v.rental_cost_per_day === 0,
       }))
     ]
+
+    // Calculate summary statistics
+    const summary = {
+      total_resources: allEquipment.length + allVehicles.length,
+      total_vehicles: allVehicles.length,
+      total_equipment: allEquipment.length,
+      total_cost: 0 // TODO: Calculate from rental_cost_per_day
+    }
 
     const resources = {
       equipment: allEquipment,
       vehicles: allVehicles,
-      materials: materialRes.data || []
+      materials: materialRes.data || [],
+      summary
     }
 
     return NextResponse.json(resources)
