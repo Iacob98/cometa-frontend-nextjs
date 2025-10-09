@@ -38,6 +38,7 @@
   "/api/project-readiness/[id]/route": "app/api/project-readiness/[id]/route.js",
   "/api/projects/[id]/contacts/route": "app/api/projects/[id]/contacts/route.js",
   "/api/projects/[id]/documents/route": "app/api/projects/[id]/documents/route.js",
+  "/api/projects/[id]/recalculate-totals/route": "app/api/projects/[id]/recalculate-totals/route.js",
   "/api/projects/[id]/resources/route": "app/api/projects/[id]/resources/route.js",
   "/api/projects/[id]/route": "app/api/projects/[id]/route.js",
   "/api/projects/[id]/soil-types/route": "app/api/projects/[id]/soil-types/route.js",

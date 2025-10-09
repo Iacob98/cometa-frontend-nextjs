@@ -61,6 +61,17 @@ export default function ProjectDetailsPage() {
     enabled: !!projectId,
   });
 
+  // Fetch soil types to calculate real project value
+  const { data: soilTypesData } = useQuery({
+    queryKey: ['project-soil-types', projectId],
+    queryFn: async () => {
+      const response = await fetch(`/api/projects/${projectId}/soil-types`);
+      if (!response.ok) throw new Error('Failed to fetch soil types');
+      return response.json();
+    },
+    enabled: !!projectId,
+  });
+
   const getStatusBadgeVariant = (status: ProjectStatus) => {
     switch (status) {
       case "active":
@@ -89,6 +100,22 @@ export default function ProjectDetailsPage() {
       default:
         return status;
     }
+  };
+
+  // Calculate real project value from soil types or use simple calculation
+  const calculateProjectValue = () => {
+    // If soil types exist, use them for accurate calculation
+    if (soilTypesData && Array.isArray(soilTypesData) && soilTypesData.length > 0) {
+      const totalValue = soilTypesData.reduce((sum: number, soilType: any) => {
+        const quantity = parseFloat(soilType.quantity_meters || 0);
+        const price = parseFloat(soilType.price_per_meter || 0);
+        return sum + (quantity * price);
+      }, 0);
+      return totalValue;
+    }
+
+    // Fallback to simple calculation if no soil types
+    return project.total_length_m * project.base_rate_per_m;
   };
 
   if (isLoading) {
@@ -353,7 +380,7 @@ export default function ProjectDetailsPage() {
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Project Value</p>
                     <p className="text-sm font-mono font-semibold">
-                      €{(project.total_length_m * project.base_rate_per_m).toLocaleString('de-DE', {
+                      €{calculateProjectValue().toLocaleString('de-DE', {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
