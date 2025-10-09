@@ -46,7 +46,25 @@ export async function GET(request: NextRequest) {
       query = query.eq("type", type);
     }
 
-    if (status) {
+    if (status === "available") {
+      // For "available" status, get equipment that either:
+      // 1. Has status "available" OR
+      // 2. Does NOT have any active assignments (even if status is "issued_to_brigade")
+
+      // First, get all equipment IDs with active assignments
+      const { data: activeAssignments } = await supabase
+        .from("equipment_assignments")
+        .select("equipment_id")
+        .eq("is_active", true);
+
+      const assignedEquipmentIds = activeAssignments?.map(a => a.equipment_id) || [];
+
+      // Filter out equipment that has active assignments
+      if (assignedEquipmentIds.length > 0) {
+        query = query.not("id", "in", `(${assignedEquipmentIds.join(",")})`);
+      }
+    } else if (status) {
+      // For other statuses, use direct filtering
       query = query.eq("status", status);
     }
 

@@ -56,7 +56,23 @@ export async function GET(request: NextRequest) {
       .range(offset, offset + per_page - 1);
 
     // Apply filters
-    if (status) {
+    if (status === 'available' || available_only) {
+      // For "available" status, get vehicles that do NOT have any active assignments
+
+      // First, get all vehicle IDs with active assignments
+      const { data: activeAssignments } = await supabase
+        .from('vehicle_assignments')
+        .select('vehicle_id')
+        .eq('is_active', true);
+
+      const assignedVehicleIds = activeAssignments?.map(a => a.vehicle_id) || [];
+
+      // Filter out vehicles that have active assignments
+      if (assignedVehicleIds.length > 0) {
+        query = query.not('id', 'in', `(${assignedVehicleIds.join(',')})`);
+      }
+    } else if (status) {
+      // For other statuses, use direct filtering
       query = query.eq('status', status);
     }
 
@@ -66,10 +82,6 @@ export async function GET(request: NextRequest) {
 
     if (search) {
       query = query.or(`brand.ilike.%${search}%,model.ilike.%${search}%,plate_number.ilike.%${search}%`);
-    }
-
-    if (available_only) {
-      query = query.eq('status', 'available');
     }
 
     const { data: vehicles, error, count } = await query;
