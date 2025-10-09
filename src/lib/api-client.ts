@@ -75,10 +75,18 @@ import type {
 
 // API Configuration
 const getApiBaseUrl = () => {
+  // If NEXT_PUBLIC_API_URL is explicitly set, use it (for separate API domain)
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+
+  // Otherwise, in browser, use current origin (same domain)
   if (typeof window !== 'undefined') {
     return window.location.origin;
   }
-  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+
+  // Fallback for server-side rendering in development
+  return "http://localhost:3000";
 };
 
 export class ApiError extends Error {
@@ -696,9 +704,15 @@ export class WebSocketApiClient {
 
   connect(userId: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      const wsBaseUrl = typeof window !== 'undefined'
-        ? window.location.origin.replace(/^http/, 'ws')
-        : process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080";
+      // Priority: explicit NEXT_PUBLIC_WS_URL > auto-detect from current origin > localhost fallback
+      let wsBaseUrl: string;
+      if (process.env.NEXT_PUBLIC_WS_URL) {
+        wsBaseUrl = process.env.NEXT_PUBLIC_WS_URL;
+      } else if (typeof window !== 'undefined') {
+        wsBaseUrl = window.location.origin.replace(/^http/, 'ws');
+      } else {
+        wsBaseUrl = "ws://localhost:8080";
+      }
       const wsUrl = `${wsBaseUrl}/ws/${userId}`;
 
       this.ws = new WebSocket(wsUrl);
