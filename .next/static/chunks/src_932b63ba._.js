@@ -531,16 +531,37 @@ class HousesApiClient extends BaseApiClient {
         });
     }
     async getProjectHouses(projectId) {
-        // Use housing-units API instead of houses/project API
-        const response = await fetch("/api/housing-units?project_id=".concat(projectId));
-        if (!response.ok) {
-            throw new Error('Failed to fetch project houses');
-        }
-        const data = await response.json();
-        return data.items || [];
+        // Fetch houses for a specific project
+        const response = await this.get("/", {
+            project_id: projectId
+        });
+        return response.items || [];
     }
     async getTeamHouses(teamId) {
         return this.get("/team/".concat(teamId));
+    }
+    // Document methods
+    async getHouseDocuments(houseId) {
+        return this.get("/".concat(houseId, "/documents"));
+    }
+    async uploadHouseDocument(houseId, file) {
+        let documentType = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 'connection_plan', description = arguments.length > 3 ? arguments[3] : void 0, uploadedBy = arguments.length > 4 ? arguments[4] : void 0;
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('document_type', documentType);
+        if (description) formData.append('description', description);
+        if (uploadedBy) formData.append('uploaded_by', uploadedBy);
+        // Don't set Content-Type header for FormData - browser will set it automatically with boundary
+        return this.request("/".concat(houseId, "/documents"), {
+            method: 'POST',
+            body: formData
+        });
+    }
+    async getHouseDocument(houseId, documentId) {
+        return this.get("/".concat(houseId, "/documents/").concat(documentId));
+    }
+    async deleteHouseDocument(houseId, documentId) {
+        return this.delete("/".concat(houseId, "/documents/").concat(documentId));
     }
     constructor(){
         super("".concat(getApiBaseUrl(), "/api/houses"));

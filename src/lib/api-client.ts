@@ -544,17 +544,40 @@ export class HousesApiClient extends BaseApiClient {
   }
 
   async getProjectHouses(projectId: string): Promise<House[]> {
-    // Use housing-units API instead of houses/project API
-    const response = await fetch(`/api/housing-units?project_id=${projectId}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch project houses');
-    }
-    const data = await response.json();
-    return data.items || [];
+    // Fetch houses for a specific project
+    const response = await this.get<PaginatedResponse<House>>("/", { project_id: projectId });
+    return response.items || [];
   }
 
   async getTeamHouses(teamId: string): Promise<House[]> {
     return this.get<House[]>(`/team/${teamId}`);
+  }
+
+  // Document methods
+  async getHouseDocuments(houseId: string): Promise<{ items: any[]; total: number }> {
+    return this.get<{ items: any[]; total: number }>(`/${houseId}/documents`);
+  }
+
+  async uploadHouseDocument(houseId: string, file: File, documentType: string = 'connection_plan', description?: string, uploadedBy?: string): Promise<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('document_type', documentType);
+    if (description) formData.append('description', description);
+    if (uploadedBy) formData.append('uploaded_by', uploadedBy);
+
+    // Don't set Content-Type header for FormData - browser will set it automatically with boundary
+    return this.request<any>(`/${houseId}/documents`, {
+      method: 'POST',
+      body: formData,
+    });
+  }
+
+  async getHouseDocument(houseId: string, documentId: string): Promise<any> {
+    return this.get<any>(`/${houseId}/documents/${documentId}`);
+  }
+
+  async deleteHouseDocument(houseId: string, documentId: string): Promise<void> {
+    return this.delete<void>(`/${houseId}/documents/${documentId}`);
   }
 }
 

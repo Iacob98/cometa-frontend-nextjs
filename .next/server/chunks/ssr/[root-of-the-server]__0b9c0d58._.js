@@ -522,16 +522,36 @@ class HousesApiClient extends BaseApiClient {
         });
     }
     async getProjectHouses(projectId) {
-        // Use housing-units API instead of houses/project API
-        const response = await fetch(`/api/housing-units?project_id=${projectId}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch project houses');
-        }
-        const data = await response.json();
-        return data.items || [];
+        // Fetch houses for a specific project
+        const response = await this.get("/", {
+            project_id: projectId
+        });
+        return response.items || [];
     }
     async getTeamHouses(teamId) {
         return this.get(`/team/${teamId}`);
+    }
+    // Document methods
+    async getHouseDocuments(houseId) {
+        return this.get(`/${houseId}/documents`);
+    }
+    async uploadHouseDocument(houseId, file, documentType = 'connection_plan', description, uploadedBy) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('document_type', documentType);
+        if (description) formData.append('description', description);
+        if (uploadedBy) formData.append('uploaded_by', uploadedBy);
+        // Don't set Content-Type header for FormData - browser will set it automatically with boundary
+        return this.request(`/${houseId}/documents`, {
+            method: 'POST',
+            body: formData
+        });
+    }
+    async getHouseDocument(houseId, documentId) {
+        return this.get(`/${houseId}/documents/${documentId}`);
+    }
+    async deleteHouseDocument(houseId, documentId) {
+        return this.delete(`/${houseId}/documents/${documentId}`);
     }
 }
 class AppointmentsApiClient extends BaseApiClient {
