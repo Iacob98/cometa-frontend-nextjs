@@ -219,7 +219,7 @@ export function useAvailableEquipment() {
         throw new Error('Failed to fetch available equipment');
       }
       const data = await response.json();
-      return data.equipment || [];
+      return data.items || []; // API returns { items: [...], total, page, per_page }
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
   });
