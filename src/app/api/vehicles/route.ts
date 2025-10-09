@@ -125,11 +125,9 @@ export async function GET(request: NextRequest) {
         year_manufactured: vehicle.year_manufactured,
         description: vehicle.description || '',
         is_active: vehicle.is_active,
-        owned: true, // Default to owned until database is updated
-        purchase_price_eur: 0,
-        rental_price_per_day_eur: Number(vehicle.rental_cost_per_day) || 0,
-        rental_price_per_hour_eur: 0,
-        current_location: '',
+        owned: vehicle.owned !== undefined ? vehicle.owned : true,
+        rental_price_per_day_eur: Number(vehicle.rental_price_per_day_eur || vehicle.rental_cost_per_day) || 0,
+        current_location: vehicle.current_location || '',
         full_name: `${vehicle.brand || ''} ${vehicle.model || ''} (${vehicle.plate_number})`.trim(),
         age: vehicle.year_manufactured ? new Date().getFullYear() - vehicle.year_manufactured : null,
         current_assignment: currentAssignment ? {
@@ -343,12 +341,10 @@ export async function POST(request: NextRequest) {
       year_manufactured: newVehicle.year_manufactured,
       description: newVehicle.description || '',
       is_active: newVehicle.is_active,
-      owned: true, // Default to owned until database is updated
-      purchase_price_eur: 0,
-      rental_price_per_day_eur: Number(newVehicle.rental_cost_per_day) || 0,
-      rental_price_per_hour_eur: 0,
-      current_location: '',
-      fuel_consumption_l_100km: 0,
+      owned: newVehicle.owned !== undefined ? newVehicle.owned : true,
+      rental_price_per_day_eur: Number(newVehicle.rental_price_per_day_eur || newVehicle.rental_cost_per_day) || 0,
+      current_location: newVehicle.current_location || '',
+      fuel_consumption_l_100km: Number(newVehicle.fuel_consumption_l_100km) || 0,
       full_name: `${newVehicle.brand || ''} ${newVehicle.model || ''} (${newVehicle.plate_number})`.trim(),
       age: newVehicle.year_manufactured ? new Date().getFullYear() - newVehicle.year_manufactured : null,
       current_assignment: null,
@@ -383,9 +379,7 @@ export async function PUT(request: NextRequest) {
       year_manufactured,
       description,
       owned,
-      purchase_price_eur,
       rental_price_per_day_eur,
-      rental_price_per_hour_eur,
       current_location,
       fuel_consumption_l_100km
     } = body;
@@ -410,9 +404,7 @@ export async function PUT(request: NextRequest) {
     if (year_manufactured !== undefined) updateData.year_manufactured = year_manufactured ? parseInt(year_manufactured) : null;
     if (description !== undefined) updateData.description = description;
     if (owned !== undefined) updateData.owned = owned;
-    if (purchase_price_eur !== undefined) updateData.purchase_price_eur = Number(purchase_price_eur);
     if (rental_price_per_day_eur !== undefined) updateData.rental_price_per_day_eur = Number(rental_price_per_day_eur);
-    if (rental_price_per_hour_eur !== undefined) updateData.rental_price_per_hour_eur = Number(rental_price_per_hour_eur);
     if (current_location !== undefined) updateData.current_location = current_location;
     if (fuel_consumption_l_100km !== undefined) updateData.fuel_consumption_l_100km = Number(fuel_consumption_l_100km);
 
@@ -434,9 +426,7 @@ export async function PUT(request: NextRequest) {
         description,
         is_active,
         owned,
-        purchase_price_eur,
         rental_price_per_day_eur,
-        rental_price_per_hour_eur,
         current_location,
         fuel_consumption_l_100km,
         created_at,

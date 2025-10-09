@@ -141,10 +141,7 @@ export async function PUT(
       inventory_no,
       owned,
       status,
-      purchase_price_eur, // This will be ignored since it doesn't exist in the schema
       rental_price_per_day_eur,
-      rental_price_per_hour_eur, // This will be ignored since it doesn't exist in the schema
-      current_location, // This will be ignored since it doesn't exist in the schema
       description
     } = body;
 

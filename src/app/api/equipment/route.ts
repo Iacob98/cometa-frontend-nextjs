@@ -115,9 +115,6 @@ export async function POST(request: NextRequest) {
       rental_cost_per_day,
       description,
       owned = true,
-      purchase_price_eur,
-      rental_price_per_day_eur,
-      rental_price_per_hour_eur,
       current_location,
     } = body;
 
@@ -141,9 +138,6 @@ export async function POST(request: NextRequest) {
           rental_cost_per_day: rental_cost_per_day || null,
           description: description || null,
           owned: owned,
-          purchase_price_eur: purchase_price_eur || null,
-          rental_price_per_day_eur: rental_price_per_day_eur || null,
-          rental_price_per_hour_eur: rental_price_per_hour_eur || null,
           current_location: current_location || null,
         },
       ])
@@ -157,9 +151,6 @@ export async function POST(request: NextRequest) {
         rental_cost_per_day,
         description,
         owned,
-        purchase_price_eur,
-        rental_price_per_day_eur,
-        rental_price_per_hour_eur,
         current_location,
         created_at
       `
