@@ -262,43 +262,28 @@ export async function DELETE(
       );
     }
 
-    // Check if house has any dependencies before deletion
-    // Check housing_units (apartments)
-    const { data: housingUnits, error: housingUnitsError } = await supabase
+    // Delete all dependencies before deleting the house (cascade delete)
+
+    // Delete housing_units (apartments)
+    const { error: housingUnitsError } = await supabase
       .from('housing_units')
-      .select('id')
-      .eq('house_id', houseId)
-      .limit(1);
+      .delete()
+      .eq('house_id', houseId);
 
     if (housingUnitsError) {
-      console.error('Housing units check error:', housingUnitsError);
-      // Continue with deletion even if check fails (table might not exist)
+      console.error('Failed to delete housing units:', housingUnitsError);
+      // Continue anyway - table might not exist or no records
     }
 
-    if (housingUnits && housingUnits.length > 0) {
-      return NextResponse.json(
-        { error: 'Cannot delete house with existing housing units (apartments)' },
-        { status: 409 }
-      );
-    }
-
-    // Check house_documents
-    const { data: documents, error: documentsError } = await supabase
+    // Delete house_documents
+    const { error: documentsError } = await supabase
       .from('house_documents')
-      .select('id')
-      .eq('house_id', houseId)
-      .limit(1);
+      .delete()
+      .eq('house_id', houseId);
 
     if (documentsError) {
-      console.error('Documents check error:', documentsError);
-      // Continue with deletion even if check fails
-    }
-
-    if (documents && documents.length > 0) {
-      return NextResponse.json(
-        { error: 'Cannot delete house with existing documents. Please delete documents first.' },
-        { status: 409 }
-      );
+      console.error('Failed to delete house documents:', documentsError);
+      // Continue anyway - table might not exist or no records
     }
 
     // Delete house from database
