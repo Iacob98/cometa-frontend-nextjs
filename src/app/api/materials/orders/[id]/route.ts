@@ -35,7 +35,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         total_price,
         status,
         order_date,
-        delivery_date,
+        expected_delivery_date,
+        actual_delivery_date,
         supplier,
         notes,
         created_at,
@@ -123,7 +124,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     };
 
     if (status) updateData.status = status;
-    if (actual_delivery_date) updateData.delivery_date = actual_delivery_date;
+    if (actual_delivery_date) updateData.actual_delivery_date = actual_delivery_date;
     if (notes !== undefined) updateData.notes = notes;
 
     const { data: order, error } = await supabaseService
@@ -139,7 +140,8 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         total_price,
         status,
         order_date,
-        delivery_date,
+        expected_delivery_date,
+        actual_delivery_date,
         supplier,
         notes,
         created_at,
