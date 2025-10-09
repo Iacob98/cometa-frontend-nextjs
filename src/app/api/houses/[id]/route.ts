@@ -26,7 +26,9 @@ export async function GET(
       .select(`
         id,
         project_id,
-        address,
+        street,
+        city,
+        postal_code,
         house_number,
         apartment_count,
         floor_count,
@@ -36,11 +38,12 @@ export async function GET(
         status,
         planned_connection_date,
         actual_connection_date,
-        contact_name,
-        contact_phone,
+        owner_first_name,
+        owner_last_name,
+        owner_phone,
         contact_email,
-        coordinates_lat,
-        coordinates_lng,
+        latitude,
+        longitude,
         notes,
         created_at,
         updated_at,
@@ -93,10 +96,15 @@ export async function PUT(
       );
     }
 
+    // Parse address if it's a single string
+    let street = data.street || data.address || null;
+    let city = data.city || null;
+    let postal_code = data.postal_code || null;
+
     // Validate required fields
-    if (!data.address) {
+    if (!street) {
       return NextResponse.json(
-        { error: 'Address is required' },
+        { error: 'Street/Address is required' },
         { status: 400 }
       );
     }
@@ -106,7 +114,9 @@ export async function PUT(
       .from('houses')
       .update({
         project_id: data.project_id,
-        address: data.address,
+        street,
+        city,
+        postal_code,
         house_number: data.house_number || null,
         apartment_count: data.apartment_count || 1,
         floor_count: data.floor_count || 1,
@@ -116,18 +126,22 @@ export async function PUT(
         status: data.status || 'created',
         planned_connection_date: data.planned_connection_date || null,
         actual_connection_date: data.actual_connection_date || null,
-        contact_name: data.contact_name || null,
-        contact_phone: data.contact_phone || null,
+        owner_first_name: data.owner_first_name || null,
+        owner_last_name: data.owner_last_name || null,
+        owner_phone: data.owner_phone || data.contact_phone || null,
         contact_email: data.contact_email || null,
-        coordinates_lat: data.coordinates_lat || null,
-        coordinates_lng: data.coordinates_lng || null,
-        notes: data.notes || null
+        latitude: data.latitude || data.coordinates_lat || null,
+        longitude: data.longitude || data.coordinates_lng || null,
+        notes: data.notes || null,
+        updated_at: new Date().toISOString()
       })
       .eq('id', houseId)
       .select(`
         id,
         project_id,
-        address,
+        street,
+        city,
+        postal_code,
         house_number,
         apartment_count,
         floor_count,
@@ -137,11 +151,12 @@ export async function PUT(
         status,
         planned_connection_date,
         actual_connection_date,
-        contact_name,
-        contact_phone,
+        owner_first_name,
+        owner_last_name,
+        owner_phone,
         contact_email,
-        coordinates_lat,
-        coordinates_lng,
+        latitude,
+        longitude,
         notes,
         created_at,
         updated_at
