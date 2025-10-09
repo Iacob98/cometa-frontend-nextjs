@@ -222,6 +222,67 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
           } else {
             console.log(`Material transaction created for order ${id}`);
           }
+
+          // Create or update material allocation for the project
+          if (order.project_id) {
+            console.log(`Creating/updating material allocation for project ${order.project_id}`);
+
+            // Check if allocation already exists for this material and project
+            const { data: existingAllocation, error: allocationCheckError } = await supabaseService
+              .from('material_allocations')
+              .select('id, quantity_allocated, quantity_remaining')
+              .eq('project_id', order.project_id)
+              .eq('material_id', currentOrder.material_id)
+              .eq('status', 'allocated')
+              .maybeSingle();
+
+            if (allocationCheckError) {
+              console.error('Error checking existing allocation:', allocationCheckError);
+            } else if (existingAllocation) {
+              // Update existing allocation - add delivered quantity
+              const newAllocated = (existingAllocation.quantity_allocated || 0) + currentOrder.quantity;
+              const newRemaining = (existingAllocation.quantity_remaining || 0) + currentOrder.quantity;
+
+              const { error: updateAllocationError } = await supabaseService
+                .from('material_allocations')
+                .update({
+                  quantity_allocated: newAllocated,
+                  quantity_remaining: newRemaining,
+                  notes: `Updated from order ${id}. Supplier: ${order.supplier || 'Unknown'}`,
+                  updated_at: new Date().toISOString()
+                })
+                .eq('id', existingAllocation.id);
+
+              if (updateAllocationError) {
+                console.error('Error updating allocation:', updateAllocationError);
+              } else {
+                console.log(`Allocation ${existingAllocation.id} updated: +${currentOrder.quantity} (total: ${newAllocated})`);
+              }
+            } else {
+              // Create new allocation
+              const { error: createAllocationError } = await supabaseService
+                .from('material_allocations')
+                .insert([{
+                  project_id: order.project_id,
+                  material_id: currentOrder.material_id,
+                  quantity_allocated: currentOrder.quantity,
+                  quantity_remaining: currentOrder.quantity,
+                  quantity_used: 0,
+                  status: 'allocated',
+                  allocated_date: new Date().toISOString().split('T')[0],
+                  notes: `Received from order ${id}. Supplier: ${order.supplier || 'Unknown'}`,
+                  created_at: new Date().toISOString()
+                }]);
+
+              if (createAllocationError) {
+                console.error('Error creating allocation:', createAllocationError);
+              } else {
+                console.log(`New allocation created for project ${order.project_id}, material ${currentOrder.material_id}, quantity: ${currentOrder.quantity}`);
+              }
+            }
+          } else {
+            console.log('No project_id - material delivered to warehouse (no allocation created)');
+          }
         }
       } catch (stockUpdateError) {
         console.error('Error updating stock:', stockUpdateError);
