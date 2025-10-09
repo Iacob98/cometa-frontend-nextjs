@@ -543,10 +543,10 @@ export class HousesApiClient extends BaseApiClient {
     });
   }
 
-  async getProjectHouses(projectId: string): Promise<House[]> {
+  async getProjectHouses(projectId: string): Promise<{ houses: House[] }> {
     // Fetch houses for a specific project
     const response = await this.get<PaginatedResponse<House>>("/", { project_id: projectId });
-    return response.items || [];
+    return { houses: response.items || [] };
   }
 
   async getTeamHouses(teamId: string): Promise<House[]> {
