@@ -199,8 +199,11 @@ export function useAvailableVehicles() {
   return useQuery({
     queryKey: resourceKeys.availableVehicles(),
     queryFn: async (): Promise<Vehicle[]> => {
-      // TODO: Implement proper available vehicles API
-      return [];
+      const response = await fetch('/api/vehicles?status=available');
+      if (!response.ok) {
+        throw new Error('Failed to fetch available vehicles');
+      }
+      return response.json();
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
   });
@@ -210,8 +213,11 @@ export function useAvailableEquipment() {
   return useQuery({
     queryKey: resourceKeys.availableEquipment(),
     queryFn: async (): Promise<Equipment[]> => {
-      // TODO: Implement proper available equipment API
-      return [];
+      const response = await fetch('/api/equipment?status=available');
+      if (!response.ok) {
+        throw new Error('Failed to fetch available equipment');
+      }
+      return response.json();
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
   });
@@ -222,8 +228,28 @@ export function useCreateVehicleAssignment() {
 
   return useMutation({
     mutationFn: async (data: VehicleAssignmentData) => {
-      // TODO: Implement proper vehicle assignment API
-      throw new Error('Vehicle assignment feature is not yet implemented');
+      const response = await fetch('/api/resources/vehicle-assignments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          vehicle_id: data.vehicle_id,
+          crew_id: data.crew_id || null,
+          project_id: data.project_id,
+          from_ts: data.from_date,
+          to_ts: data.to_date || null,
+          is_permanent: data.is_permanent,
+          rental_cost_per_day: 0, // Will be calculated from vehicle data
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to assign vehicle');
+      }
+
+      return response.json();
     },
     onSuccess: (data, variables) => {
       // Invalidate and refetch project resources
@@ -249,8 +275,28 @@ export function useCreateEquipmentAssignment() {
 
   return useMutation({
     mutationFn: async (data: EquipmentAssignmentData) => {
-      // TODO: Implement proper equipment assignment API
-      throw new Error('Equipment assignment feature is not yet implemented');
+      const response = await fetch('/api/resources/equipment-assignments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          equipment_id: data.equipment_id,
+          crew_id: data.crew_id || null,
+          project_id: data.project_id,
+          from_ts: data.from_date,
+          to_ts: data.to_date || null,
+          is_permanent: data.is_permanent,
+          rental_cost_per_day: 0, // Will be calculated from equipment data
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to assign equipment');
+      }
+
+      return response.json();
     },
     onSuccess: (data, variables) => {
       // Invalidate and refetch project resources

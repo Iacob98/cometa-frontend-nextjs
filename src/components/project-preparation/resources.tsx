@@ -12,7 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { AlertCircle, Truck, Settings, Calendar, Euro, MapPin, User, Plus, Trash2, Edit, Users } from 'lucide-react';
-import { useProjectResources, useAvailableVehicles, useAvailableEquipment, useCreateVehicleAssignment, useCreateEquipmentAssignment, useCreateRentalVehicle, useCreateRentalEquipment, useRemoveResourceAssignment } from '@/hooks/use-resources';
+import { useProjectResources, useAvailableVehicles, useAvailableEquipment, useCreateVehicleAssignment, useCreateEquipmentAssignment, useCreateRentalVehicle, useCreateRentalEquipment, useRemoveResourceAssignment, useProjectCrews } from '@/hooks/use-resources';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -104,9 +104,11 @@ export default function Resources({ projectId }: ResourcesProps) {
     data: any;
   } | null>(null);
   const [showEditDialog, setShowEditDialog] = useState(false);
+  const [assignmentType, setAssignmentType] = useState<'crew' | 'project'>('project');
 
   const { data: availableVehicles, isLoading: isLoadingVehicles } = useAvailableVehicles();
   const { data: availableEquipment, isLoading: isLoadingEquipment } = useAvailableEquipment();
+  const { data: projectCrews, isLoading: isLoadingCrews } = useProjectCrews(projectId);
 
   // Fetch crew-based resources for this project (now includes both direct and crew-based assignments)
   const { data: projectResources, isLoading: isLoadingProjectResources, error: projectResourcesError } = useProjectResources(projectId);
@@ -158,6 +160,7 @@ export default function Resources({ projectId }: ResourcesProps) {
       await createVehicleAssignment.mutateAsync({
         ...data,
         project_id: projectId,
+        crew_id: assignmentType === 'project' ? null : data.crew_id,
       });
       vehicleForm.reset();
       setEditingResource(null); // Clear editing state
@@ -172,6 +175,7 @@ export default function Resources({ projectId }: ResourcesProps) {
       await createEquipmentAssignment.mutateAsync({
         ...data,
         project_id: projectId,
+        crew_id: assignmentType === 'project' ? null : data.crew_id,
       });
       equipmentForm.reset();
       setEditingResource(null); // Clear editing state
@@ -400,9 +404,19 @@ export default function Resources({ projectId }: ResourcesProps) {
                                     <Badge variant={vehicle.owned ? 'default' : 'destructive'}>
                                       {vehicle.owned ? 'Owned' : 'Rental'}
                                     </Badge>
-                                    {vehicle.assignment_source && (
-                                      <Badge variant={vehicle.assignment_source === 'crew_based' ? 'outline' : 'default'}>
-                                        {vehicle.assignment_source === 'crew_based' ? 'Via Crew' : 'Direct'}
+                                    {vehicle.assignment_source === 'crew_based' && vehicle.crew ? (
+                                      <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-300">
+                                        <Users className="w-3 h-3 mr-1" />
+                                        Via Crew: {vehicle.crew.name}
+                                      </Badge>
+                                    ) : (
+                                      <Badge variant="default" className="bg-green-50 text-green-700 border-green-300">
+                                        Direct Assignment
+                                      </Badge>
+                                    )}
+                                    {vehicle.to_ts && new Date(vehicle.to_ts) < new Date() && (
+                                      <Badge variant="secondary" className="bg-gray-100 text-gray-500">
+                                        Expired
                                       </Badge>
                                     )}
                                   </div>
@@ -474,9 +488,19 @@ export default function Resources({ projectId }: ResourcesProps) {
                                     <Badge variant={equipment.owned ? 'default' : 'destructive'}>
                                       {equipment.owned ? 'Owned' : 'Rental'}
                                     </Badge>
-                                    {equipment.assignment_source && (
-                                      <Badge variant={equipment.assignment_source === 'crew_based' ? 'outline' : 'default'}>
-                                        {equipment.assignment_source === 'crew_based' ? 'Via Crew' : 'Direct'}
+                                    {equipment.assignment_source === 'crew_based' && equipment.crew ? (
+                                      <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-300">
+                                        <Users className="w-3 h-3 mr-1" />
+                                        Via Crew: {equipment.crew.name}
+                                      </Badge>
+                                    ) : (
+                                      <Badge variant="default" className="bg-green-50 text-green-700 border-green-300">
+                                        Direct Assignment
+                                      </Badge>
+                                    )}
+                                    {equipment.to_ts && new Date(equipment.to_ts) < new Date() && (
+                                      <Badge variant="secondary" className="bg-gray-100 text-gray-500">
+                                        Expired
                                       </Badge>
                                     )}
                                   </div>
@@ -561,6 +585,19 @@ export default function Resources({ projectId }: ResourcesProps) {
             </CardHeader>
             <CardContent>
               <form onSubmit={vehicleForm.handleSubmit(handleVehicleAssignment)} className="space-y-4">
+                <div>
+                  <Label>Assignment Type</Label>
+                  <Select value={assignmentType} onValueChange={(value: 'crew' | 'project') => setAssignmentType(value)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="project">Direct to Project</SelectItem>
+                      <SelectItem value="crew">Assign to Crew</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="vehicle_id">Vehicle</Label>
@@ -578,13 +615,38 @@ export default function Resources({ projectId }: ResourcesProps) {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div>
-                    <Label htmlFor="driver_name">Driver (Optional)</Label>
-                    <Input
-                      placeholder="Driver name"
-                      {...vehicleForm.register('driver_name')}
-                    />
-                  </div>
+
+                  {assignmentType === 'crew' ? (
+                    <div>
+                      <Label htmlFor="crew_id">Select Crew *</Label>
+                      <Select onValueChange={(value) => vehicleForm.setValue('crew_id', value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select crew" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {isLoadingCrews ? (
+                            <SelectItem value="loading" disabled>Loading crews...</SelectItem>
+                          ) : projectCrews && projectCrews.length > 0 ? (
+                            projectCrews.map((crew) => (
+                              <SelectItem key={crew.id} value={crew.id}>
+                                {crew.name}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem value="none" disabled>No crews assigned to project</SelectItem>
+                          )}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  ) : (
+                    <div>
+                      <Label htmlFor="driver_name">Driver (Optional)</Label>
+                      <Input
+                        placeholder="Driver name"
+                        {...vehicleForm.register('driver_name')}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -661,6 +723,19 @@ export default function Resources({ projectId }: ResourcesProps) {
             </CardHeader>
             <CardContent>
               <form onSubmit={equipmentForm.handleSubmit(handleEquipmentAssignment)} className="space-y-4">
+                <div>
+                  <Label>Assignment Type</Label>
+                  <Select value={assignmentType} onValueChange={(value: 'crew' | 'project') => setAssignmentType(value)}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="project">Direct to Project</SelectItem>
+                      <SelectItem value="crew">Assign to Crew</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="equipment_id">Equipment</Label>
@@ -678,13 +753,38 @@ export default function Resources({ projectId }: ResourcesProps) {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div>
-                    <Label htmlFor="operator_name">Operator (Optional)</Label>
-                    <Input
-                      placeholder="Operator name"
-                      {...equipmentForm.register('operator_name')}
-                    />
-                  </div>
+
+                  {assignmentType === 'crew' ? (
+                    <div>
+                      <Label htmlFor="crew_id">Select Crew *</Label>
+                      <Select onValueChange={(value) => equipmentForm.setValue('crew_id', value)}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select crew" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {isLoadingCrews ? (
+                            <SelectItem value="loading" disabled>Loading crews...</SelectItem>
+                          ) : projectCrews && projectCrews.length > 0 ? (
+                            projectCrews.map((crew) => (
+                              <SelectItem key={crew.id} value={crew.id}>
+                                {crew.name}
+                              </SelectItem>
+                            ))
+                          ) : (
+                            <SelectItem value="none" disabled>No crews assigned to project</SelectItem>
+                          )}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  ) : (
+                    <div>
+                      <Label htmlFor="operator_name">Operator (Optional)</Label>
+                      <Input
+                        placeholder="Operator name"
+                        {...equipmentForm.register('operator_name')}
+                      />
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
