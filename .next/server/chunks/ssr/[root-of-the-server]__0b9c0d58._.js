@@ -526,7 +526,9 @@ class HousesApiClient extends BaseApiClient {
         const response = await this.get("/", {
             project_id: projectId
         });
-        return response.items || [];
+        return {
+            houses: response.items || []
+        };
     }
     async getTeamHouses(teamId) {
         return this.get(`/team/${teamId}`);

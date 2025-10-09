@@ -15,6 +15,8 @@
   "/api/crews/route": "app/api/crews/route.js",
   "/api/equipment/analytics/route": "app/api/equipment/analytics/route.js",
   "/api/equipment/route": "app/api/equipment/route.js",
+  "/api/houses/[id]/documents/route": "app/api/houses/[id]/documents/route.js",
+  "/api/houses/route": "app/api/houses/route.js",
   "/api/housing-units/route": "app/api/housing-units/route.js",
   "/api/materials/[id]/route": "app/api/materials/[id]/route.js",
   "/api/materials/[id]/transactions/route": "app/api/materials/[id]/transactions/route.js",
@@ -46,5 +48,6 @@
   "/api/teams/crews/[id]/route": "app/api/teams/crews/[id]/route.js",
   "/api/users/route": "app/api/users/route.js",
   "/api/vehicles/route": "app/api/vehicles/route.js",
+  "/api/zone-layout/cabinets/route": "app/api/zone-layout/cabinets/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js"
 }

@@ -12,6 +12,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle, Home, MapPin, Calendar, Phone, Mail, FileText, Upload, Edit, Trash2, Plus, BarChart3, PieChart, Users, Building, CloudRain, Construction, CheckCircle, ClipboardList, Camera, Paperclip } from 'lucide-react';
 import { useProjectHouses, useCreateHouse, useUpdateHouse, useDeleteHouse } from '@/hooks/use-houses';
+import { useCabinets } from '@/hooks/use-zone-layout';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -22,6 +23,7 @@ interface HousesProps {
 interface CreateHouseForm {
   address: string;
   house_number?: string;
+  cabinet_id?: string;
   apartment_count: number;
   floor_count: number;
   connection_type: string;
@@ -43,6 +45,8 @@ interface EditHouseForm {
   method: string;
   status: string;
   planned_connection_date?: string;
+  work_started_at?: string;
+  work_completed_at?: string;
   contact_name?: string;
   contact_phone?: string;
   notes?: string;
@@ -70,8 +74,10 @@ const HOUSE_TYPES = [
 ];
 
 const CONNECTION_STATUSES = [
-  { value: 'not_assigned', label: 'Nicht zugewiesen', color: 'bg-gray-100 text-gray-800' },
-  { value: 'assigned', label: 'Zugewiesen', color: 'bg-blue-100 text-blue-800' },
+  { value: 'pending', label: 'Ausstehend', color: 'bg-gray-100 text-gray-800' },
+  { value: 'scheduled', label: 'Geplant', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'in-progress', label: 'In Bearbeitung', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'assigned', label: 'Zugewiesen', color: 'bg-yellow-100 text-yellow-800' },
   { value: 'connected', label: 'Verbunden', color: 'bg-green-100 text-green-800' },
   { value: 'completed', label: 'Abgeschlossen', color: 'bg-green-100 text-green-800' },
   { value: 'cancelled', label: 'Storniert', color: 'bg-red-100 text-red-800' },
@@ -91,8 +97,10 @@ export default function Houses({ projectId }: HousesProps) {
   const [activeTab, setActiveTab] = useState('houses');
   const [editingHouse, setEditingHouse] = useState<string | null>(null);
   const [selectedHouseForDocs, setSelectedHouseForDocs] = useState<string | null>(null);
+  const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
 
   const { data: housesData, isLoading, error, refetch } = useProjectHouses(projectId);
+  const { data: cabinets, isLoading: cabinetsLoading } = useCabinets(projectId);
   const houseDocuments = []; // TODO: Implement useHouseDocuments hook
   const createHouse = useCreateHouse();
   const updateHouse = useUpdateHouse();
@@ -134,14 +142,42 @@ export default function Houses({ projectId }: HousesProps) {
 
   const handleCreateHouse = async (data: CreateHouseForm) => {
     try {
-      await createHouse.mutateAsync({
+      const result = await createHouse.mutateAsync({
         ...data,
         project_id: projectId,
       });
+
+      // Upload document if one was selected
+      if (selectedDocumentFile && result.id) {
+        try {
+          const formData = new FormData();
+          formData.append('file', selectedDocumentFile);
+          formData.append('document_type', 'connection_plan');
+          formData.append('description', 'Connection plan uploaded during house creation');
+
+          const response = await fetch(`/api/houses/${result.id}/documents`, {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error('Document upload failed');
+          }
+
+          toast.success('House and document added successfully');
+        } catch (docError) {
+          console.error('Document upload error:', docError);
+          toast.warning('House added but document upload failed');
+        }
+      } else {
+        toast.success('House added successfully');
+      }
+
       createForm.reset();
+      setSelectedDocumentFile(null);
       refetch();
-      toast.success('House added successfully');
     } catch (error) {
+      console.error('Create house error:', error);
       toast.error('Failed to add house');
     }
   };
@@ -340,6 +376,27 @@ export default function Houses({ projectId }: HousesProps) {
                               </div>
                             </div>
 
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <Label htmlFor="work_started_at">Work Start Time</Label>
+                                <Input
+                                  type="datetime-local"
+                                  defaultValue={house.work_started_at ? new Date(house.work_started_at).toISOString().slice(0, 16) : ''}
+                                  {...editForm.register('work_started_at')}
+                                />
+                                <p className="text-xs text-gray-500 mt-1">When work began on this connection</p>
+                              </div>
+                              <div>
+                                <Label htmlFor="work_completed_at">Work Completion Time</Label>
+                                <Input
+                                  type="datetime-local"
+                                  defaultValue={house.work_completed_at ? new Date(house.work_completed_at).toISOString().slice(0, 16) : ''}
+                                  {...editForm.register('work_completed_at')}
+                                />
+                                <p className="text-xs text-gray-500 mt-1">When work was completed</p>
+                              </div>
+                            </div>
+
                             <div>
                               <Label htmlFor="notes">Notes</Label>
                               <Textarea
@@ -475,6 +532,27 @@ export default function Houses({ projectId }: HousesProps) {
                   </div>
                 </div>
 
+                <div>
+                  <Label htmlFor="cabinet_id">NVP Point (Cabinet)</Label>
+                  <Select onValueChange={(value) => createForm.setValue('cabinet_id', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={cabinetsLoading ? "Loading cabinets..." : "Select NVP point"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {cabinets && cabinets.length > 0 ? (
+                        cabinets.map((cabinet: any) => (
+                          <SelectItem key={cabinet.id} value={cabinet.id}>
+                            {cabinet.code} - {cabinet.name} {cabinet.address ? `(${cabinet.address})` : ''}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="none" disabled>No cabinets available</SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-gray-500 mt-1">Link this house to a network distribution point</p>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="apartment_count">Number of Apartments</Label>
@@ -586,6 +664,42 @@ export default function Houses({ projectId }: HousesProps) {
                     placeholder="Besonderheiten beim Anschluss, Zugangshinweise..."
                     {...createForm.register('notes')}
                   />
+                </div>
+
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 bg-gray-50">
+                  <Label className="text-base font-semibold flex items-center mb-3">
+                    <Paperclip className="w-5 h-5 mr-2" />
+                    Connection Plan Document (Optional)
+                  </Label>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
+                        onChange={(e) => setSelectedDocumentFile(e.target.files?.[0] || null)}
+                        className="flex-1"
+                      />
+                      {selectedDocumentFile && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setSelectedDocumentFile(null)}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      )}
+                    </div>
+                    {selectedDocumentFile && (
+                      <div className="flex items-center gap-2 text-sm text-green-600">
+                        <CheckCircle className="w-4 h-4" />
+                        <span>{selectedDocumentFile.name} ({(selectedDocumentFile.size / 1024 / 1024).toFixed(2)} MB)</span>
+                      </div>
+                    )}
+                    <p className="text-xs text-gray-500">
+                      Upload connection plans, permits, or other documents (max 10MB). PDF, images, or Office documents accepted.
+                    </p>
+                  </div>
                 </div>
 
                 <Button

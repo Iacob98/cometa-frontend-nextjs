@@ -44,6 +44,12 @@ export async function GET(request: NextRequest) {
         project:projects(
           id,
           name
+        ),
+        cabinet:cabinets(
+          id,
+          code,
+          name,
+          address
         )
       `, { count: 'exact' })
       .order('created_at', { ascending: false })
@@ -210,7 +216,13 @@ export async function POST(request: NextRequest) {
         owner_phone,
         notes,
         created_at,
-        updated_at
+        updated_at,
+        cabinet:cabinets(
+          id,
+          code,
+          name,
+          address
+        )
       `)
       .single();
 
