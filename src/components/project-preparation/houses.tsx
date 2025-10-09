@@ -10,7 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, Home, MapPin, Calendar, Phone, Mail, FileText, Upload, Edit, Trash2, Plus, BarChart3, PieChart, Users, Building, CloudRain, Construction, CheckCircle, ClipboardList, Camera, Paperclip } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { AlertCircle, Home, MapPin, Calendar, Phone, Mail, FileText, Upload, Edit, Trash2, Plus, BarChart3, PieChart, Users, Building, CloudRain, Construction, CheckCircle, ClipboardList, Camera, Paperclip, Eye, Download, X } from 'lucide-react';
 import { useProjectHouses, useCreateHouse, useUpdateHouse, useDeleteHouse } from '@/hooks/use-houses';
 import { useCabinets } from '@/hooks/use-zone-layout';
 import { useForm } from 'react-hook-form';
@@ -98,10 +99,16 @@ export default function Houses({ projectId }: HousesProps) {
   const [editingHouse, setEditingHouse] = useState<string | null>(null);
   const [selectedHouseForDocs, setSelectedHouseForDocs] = useState<string | null>(null);
   const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
+  const [viewingDocument, setViewingDocument] = useState<{
+    url: string;
+    filename: string;
+    fileType: string;
+  } | null>(null);
+  const [houseDocuments, setHouseDocuments] = useState<any[]>([]);
+  const [loadingDocs, setLoadingDocs] = useState(false);
 
   const { data: housesData, isLoading, error, refetch } = useProjectHouses(projectId);
   const { data: cabinets, isLoading: cabinetsLoading } = useCabinets(projectId);
-  const houseDocuments = []; // TODO: Implement useHouseDocuments hook
   const createHouse = useCreateHouse();
   const updateHouse = useUpdateHouse();
   const deleteHouse = useDeleteHouse();
@@ -109,6 +116,65 @@ export default function Houses({ projectId }: HousesProps) {
 
   const createForm = useForm<CreateHouseForm>();
   const editForm = useForm<EditHouseForm>();
+
+  // Load documents when house is selected
+  const loadHouseDocuments = async (houseId: string) => {
+    setLoadingDocs(true);
+    try {
+      const response = await fetch(`/api/houses/${houseId}/documents`);
+      if (response.ok) {
+        const data = await response.json();
+        setHouseDocuments(data.items || []);
+      } else {
+        setHouseDocuments([]);
+        toast.error('Failed to load documents');
+      }
+    } catch (error) {
+      console.error('Error loading documents:', error);
+      setHouseDocuments([]);
+      toast.error('Error loading documents');
+    } finally {
+      setLoadingDocs(false);
+    }
+  };
+
+  // Load documents when house selection changes
+  const handleHouseSelectForDocs = (houseId: string) => {
+    setSelectedHouseForDocs(houseId);
+    loadHouseDocuments(houseId);
+  };
+
+  // View document handler
+  const handleViewDocument = (doc: any) => {
+    setViewingDocument({
+      url: doc.download_url,
+      filename: doc.filename,
+      fileType: doc.file_type,
+    });
+  };
+
+  // Delete document handler
+  const handleDeleteDocument = async (documentId: string) => {
+    if (!selectedHouseForDocs) return;
+
+    if (!window.confirm('Are you sure you want to delete this document?')) return;
+
+    try {
+      const response = await fetch(`/api/houses/${selectedHouseForDocs}/documents/${documentId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        toast.success('Document deleted successfully');
+        loadHouseDocuments(selectedHouseForDocs);
+      } else {
+        toast.error('Failed to delete document');
+      }
+    } catch (error) {
+      console.error('Error deleting document:', error);
+      toast.error('Error deleting document');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -795,7 +861,7 @@ export default function Houses({ projectId }: HousesProps) {
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="house_select">Select House</Label>
-                    <Select onValueChange={setSelectedHouseForDocs}>
+                    <Select onValueChange={handleHouseSelectForDocs}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select house for document management" />
                       </SelectTrigger>
@@ -848,30 +914,56 @@ export default function Houses({ projectId }: HousesProps) {
                       </Card>
 
                       {/* Existing Documents */}
-                      {houseDocuments && houseDocuments.length > 0 ? (
+                      {loadingDocs ? (
+                        <Card>
+                          <CardContent className="p-6">
+                            <div className="flex items-center justify-center">
+                              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                              <span className="ml-3">Loading documents...</span>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ) : houseDocuments && houseDocuments.length > 0 ? (
                         <Card>
                           <CardHeader>
-                            <CardTitle className="text-lg">Existing Documents</CardTitle>
+                            <CardTitle className="text-lg">Existing Documents ({houseDocuments.length})</CardTitle>
                           </CardHeader>
                           <CardContent>
                             <div className="space-y-2">
                               {houseDocuments.map((doc) => (
-                                <div key={doc.id} className="flex items-center justify-between p-3 border rounded-lg">
-                                  <div className="flex items-center space-x-3">
-                                    <FileText className="w-5 h-5 text-gray-500" />
-                                    <div>
-                                      <p className="font-medium">{doc.filename}</p>
+                                <div key={doc.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
+                                  <div className="flex items-center space-x-3 flex-1">
+                                    {doc.file_type?.includes('image') ? (
+                                      <Camera className="w-5 h-5 text-blue-500" />
+                                    ) : doc.file_type?.includes('pdf') ? (
+                                      <FileText className="w-5 h-5 text-red-500" />
+                                    ) : (
+                                      <Paperclip className="w-5 h-5 text-gray-500" />
+                                    )}
+                                    <div className="flex-1 min-w-0">
+                                      <p className="font-medium truncate">{doc.filename}</p>
                                       <p className="text-sm text-gray-600">
-                                        {DOCUMENT_TYPES.find(t => t.value === doc.doc_type)?.label || doc.doc_type} •
-                                        Uploaded {doc.upload_date}
+                                        {DOCUMENT_TYPES.find(t => t.value === doc.document_type)?.label || doc.document_type}
+                                        {doc.file_size && ` • ${(doc.file_size / 1024).toFixed(1)} KB`}
+                                        {doc.upload_date && ` • ${new Date(doc.upload_date).toLocaleDateString()}`}
                                       </p>
                                     </div>
                                   </div>
                                   <div className="flex space-x-2">
-                                    <Button size="sm" variant="outline">
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => handleViewDocument(doc)}
+                                      className="gap-1"
+                                    >
+                                      <Eye className="w-4 h-4" />
                                       View
                                     </Button>
-                                    <Button size="sm" variant="destructive">
+                                    <Button
+                                      size="sm"
+                                      variant="destructive"
+                                      onClick={() => handleDeleteDocument(doc.id)}
+                                    >
                                       <Trash2 className="w-4 h-4" />
                                     </Button>
                                   </div>
@@ -881,9 +973,10 @@ export default function Houses({ projectId }: HousesProps) {
                           </CardContent>
                         </Card>
                       ) : (
-                        <div className="text-center py-8">
+                        <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
                           <FileText className="mx-auto h-8 w-8 text-gray-400 mb-2" />
                           <p className="text-gray-600">No documents uploaded for this house</p>
+                          <p className="text-sm text-gray-500 mt-1">Upload connection plans, photos, or permits above</p>
                         </div>
                       )}
                     </div>
@@ -900,6 +993,84 @@ export default function Houses({ projectId }: HousesProps) {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Document Viewer Dialog */}
+      <Dialog open={!!viewingDocument} onOpenChange={(open) => !open && setViewingDocument(null)}>
+        <DialogContent className="max-w-4xl h-[80vh] flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center justify-between">
+              <span className="truncate flex-1">{viewingDocument?.filename}</span>
+              <div className="flex gap-2 ml-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    if (viewingDocument?.url) {
+                      window.open(viewingDocument.url, '_blank');
+                    }
+                  }}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setViewingDocument(null)}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            </DialogTitle>
+            <DialogDescription>
+              {viewingDocument?.fileType && (
+                <span className="text-sm text-gray-500">
+                  Type: {viewingDocument.fileType}
+                </span>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex-1 overflow-hidden">
+            {viewingDocument?.fileType?.includes('pdf') ? (
+              <iframe
+                src={viewingDocument.url}
+                className="w-full h-full border-0 rounded-lg"
+                title={viewingDocument.filename}
+              />
+            ) : viewingDocument?.fileType?.includes('image') ? (
+              <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg overflow-auto">
+                <img
+                  src={viewingDocument.url}
+                  alt={viewingDocument.filename}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed">
+                <FileText className="w-16 h-16 text-gray-400 mb-4" />
+                <p className="text-lg font-medium text-gray-700 mb-2">
+                  Preview not available
+                </p>
+                <p className="text-sm text-gray-500 mb-4">
+                  This file type cannot be previewed in the browser
+                </p>
+                <Button
+                  onClick={() => {
+                    if (viewingDocument?.url) {
+                      window.open(viewingDocument.url, '_blank');
+                    }
+                  }}
+                  className="gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Download to view
+                </Button>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
