@@ -113,7 +113,7 @@ export async function PUT(
         connection_type: data.connection_type || 'full',
         method: data.method || 'trench',
         house_type: data.house_type || 'residential',
-        status: data.status || 'not_assigned',
+        status: data.status || 'created',
         planned_connection_date: data.planned_connection_date || null,
         actual_connection_date: data.actual_connection_date || null,
         contact_name: data.contact_name || null,

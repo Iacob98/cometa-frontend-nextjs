@@ -494,7 +494,7 @@ export class HousesApiClient extends BaseApiClient {
   }
 
   async updateHouse(id: string, data: UpdateHouseRequest): Promise<House> {
-    return this.patch<House>(`/${id}`, data);
+    return this.put<House>(`/${id}`, data);
   }
 
   async deleteHouse(id: string): Promise<void> {

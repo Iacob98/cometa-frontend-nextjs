@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
       connection_type,
       method,
       house_type: house_type || null,
-      status: 'pending',
+      status: 'created',
       planned_connection_date: planned_connection_date || null,
       actual_connection_date: null,
       contact_email: contact_email || null,

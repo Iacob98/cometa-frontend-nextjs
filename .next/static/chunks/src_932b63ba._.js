@@ -488,7 +488,7 @@ class HousesApiClient extends BaseApiClient {
         return this.post("/", data);
     }
     async updateHouse(id, data) {
-        return this.patch("/".concat(id), data);
+        return this.put("/".concat(id), data);
     }
     async deleteHouse(id) {
         return this.delete("/".concat(id));
