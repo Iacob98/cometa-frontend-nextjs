@@ -130,7 +130,19 @@ export function useUnifiedProjectMaterials(projectId: string) {
         throw new Error('Failed to fetch project materials');
       }
       const data = await response.json();
-      return { materials: data.materials || [], summary: data.allocation_summary };
+
+      // Transform API response to match ProjectMaterial interface
+      const materials = (data.materials || []).map((m: any) => ({
+        ...m,
+        total_cost: m.total_cost_eur || 0, // Map total_cost_eur to total_cost
+        allocated_qty: m.quantity_allocated || 0,
+        allocation_date: m.allocated_date || '',
+        name: m.material?.name || '',
+        unit_price: m.material?.unit_price_eur || 0,
+        unit: m.material?.unit || '',
+      }));
+
+      return { materials, summary: data.allocation_summary };
     },
     enabled: !!projectId,
     staleTime: 1 * 60 * 1000, // 1 minute
