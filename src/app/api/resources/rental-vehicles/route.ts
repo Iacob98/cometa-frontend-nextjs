@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
         model,
         plate_number,
         type,
-        status: 'in_use',
+        status: crew_id ? 'issued_to_brigade' : 'assigned_to_project', // Use valid status based on crew assignment
         owned: false,
         rental_cost_per_day: daily_rate,
         rental_price_per_day_eur: daily_rate,
