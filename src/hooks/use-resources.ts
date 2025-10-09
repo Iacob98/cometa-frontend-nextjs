@@ -16,6 +16,14 @@ export interface ProjectResource {
   daily_rate?: number;
   total_cost?: number;
   owned: boolean;
+  assignment_source?: 'crew_based' | 'direct';
+  crew?: {
+    id: string;
+    name: string;
+  };
+  is_active?: boolean;
+  from_ts?: string;
+  to_ts?: string;
 }
 
 export interface Vehicle {
@@ -35,6 +43,14 @@ export interface Vehicle {
   days?: number;
   daily_rate?: number;
   total_cost?: number;
+  assignment_source?: 'crew_based' | 'direct';
+  crew?: {
+    id: string;
+    name: string;
+  };
+  is_active?: boolean;
+  from_ts?: string;
+  to_ts?: string;
 }
 
 export interface Equipment {
@@ -53,6 +69,14 @@ export interface Equipment {
   days?: number;
   daily_rate?: number;
   total_cost?: number;
+  assignment_source?: 'crew_based' | 'direct';
+  crew?: {
+    id: string;
+    name: string;
+  };
+  is_active?: boolean;
+  from_ts?: string;
+  to_ts?: string;
 }
 
 export interface ProjectResourcesResponse {
@@ -69,6 +93,7 @@ export interface ProjectResourcesResponse {
 export interface VehicleAssignmentData {
   project_id: string;
   vehicle_id: string;
+  crew_id?: string | null;
   from_date: string;
   to_date?: string;
   driver_name?: string;
@@ -80,6 +105,7 @@ export interface VehicleAssignmentData {
 export interface EquipmentAssignmentData {
   project_id: string;
   equipment_id: string;
+  crew_id?: string | null;
   from_date: string;
   to_date?: string;
   operator_name?: string;
@@ -122,10 +148,18 @@ export interface RentalEquipmentData {
   contract_notes?: string;
 }
 
+export interface Crew {
+  id: string;
+  name: string;
+  status: string;
+  project_id: string;
+}
+
 // Query keys
 export const resourceKeys = {
   all: ["resources"] as const,
   projectResources: (projectId: string) => [...resourceKeys.all, "project", projectId] as const,
+  projectCrews: (projectId: string) => [...resourceKeys.all, "project-crews", projectId] as const,
   availableVehicles: () => [...resourceKeys.all, "available-vehicles"] as const,
   availableEquipment: () => [...resourceKeys.all, "available-equipment"] as const,
 };
@@ -138,6 +172,21 @@ export function useProjectResources(projectId: string) {
       const response = await fetch(`/api/projects/${projectId}/resources`);
       if (!response.ok) {
         throw new Error('Failed to fetch project resources');
+      }
+      return response.json();
+    },
+    enabled: !!projectId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+}
+
+export function useProjectCrews(projectId: string) {
+  return useQuery({
+    queryKey: resourceKeys.projectCrews(projectId),
+    queryFn: async (): Promise<Crew[]> => {
+      const response = await fetch(`/api/crews?project_id=${projectId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch project crews');
       }
       return response.json();
     },

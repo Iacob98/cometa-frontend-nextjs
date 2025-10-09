@@ -74,18 +74,63 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    // Validate required fields
-    if (!body.equipment_id || !body.crew_id) {
+    // Validate required fields - crew_id is now optional
+    if (!body.equipment_id || !body.project_id) {
       return NextResponse.json(
-        { error: "Equipment ID and Crew ID are required" },
+        { error: "Equipment ID and Project ID are required" },
         { status: 400 }
       );
     }
 
+    // If crew_id is provided, validate it belongs to the project
+    if (body.crew_id) {
+      const { data: crew, error: crewError } = await supabase
+        .from("crews")
+        .select("id, project_id")
+        .eq("id", body.crew_id)
+        .eq("project_id", body.project_id)
+        .single();
+
+      if (crewError || !crew) {
+        return NextResponse.json(
+          { error: "Crew not found or not assigned to this project" },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Check for concurrent assignments - prevent same equipment on multiple active crews
+    if (body.crew_id) {
+      const { data: existingAssignments, error: checkError } = await supabase
+        .from("equipment_assignments")
+        .select("id, crew_id, crew:crews(name)")
+        .eq("equipment_id", body.equipment_id)
+        .eq("is_active", true)
+        .not("crew_id", "is", null);
+
+      if (checkError) {
+        console.error("Error checking equipment assignments:", checkError);
+        return NextResponse.json(
+          { error: "Failed to check equipment availability" },
+          { status: 500 }
+        );
+      }
+
+      if (existingAssignments && existingAssignments.length > 0) {
+        const assignedCrew = existingAssignments[0].crew as any;
+        return NextResponse.json(
+          {
+            error: `Equipment is already assigned to crew "${assignedCrew?.name}". End the existing assignment first.`
+          },
+          { status: 400 }
+        );
+      }
+    }
+
     const assignmentData = {
       equipment_id: body.equipment_id,
-      crew_id: body.crew_id,
-      project_id: body.project_id || null,
+      crew_id: body.crew_id || null,
+      project_id: body.project_id,
       from_ts: body.from_ts,
       to_ts: body.to_ts || null,
       is_permanent: body.is_permanent || false,
@@ -111,7 +156,9 @@ export async function POST(request: NextRequest) {
       {
         success: true,
         assignment_id: assignment.id,
-        message: "Equipment assignment created successfully",
+        message: body.crew_id
+          ? "Equipment assigned to crew successfully"
+          : "Equipment assigned to project successfully",
       },
       { status: 201 }
     );
