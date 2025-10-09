@@ -3,9 +3,6 @@
     "[project]/src/app/(dashboard)/dashboard/equipment/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/src/app/(dashboard)/dashboard/page": [
-      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
-    ],
     "[project]/src/app/(dashboard)/dashboard/projects/[id]/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
@@ -15,10 +12,10 @@
     "[project]/src/app/(dashboard)/dashboard/projects/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/src/app/(dashboard)/dashboard/vehicles/page": [
+    "[project]/src/app/(dashboard)/dashboard/teams/[id]/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/src/app/page": [
+    "[project]/src/app/(dashboard)/dashboard/teams/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ]
   },

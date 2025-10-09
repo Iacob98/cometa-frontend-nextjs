@@ -154,65 +154,122 @@ export async function GET(request: NextRequest, { params }: Context) {
       console.error('Material query error:', materialRes.error)
     }
 
-    // Merge and tag with assignment_source, flatten nested data
+    // Helper function to calculate days and total cost for a resource
+    const calculateResourceCosts = (resource: any) => {
+      const dailyRate = Number(resource.rental_cost_per_day) || 0
+      let days = 0
+      let totalCost = 0
+      let period = ''
+
+      if (resource.to_ts) {
+        // Calculate days between from_ts and to_ts
+        const fromDate = new Date(resource.from_ts)
+        const toDate = new Date(resource.to_ts)
+        days = Math.ceil((toDate.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24))
+        totalCost = days * dailyRate
+        period = `${fromDate.toLocaleDateString('de-DE')} - ${toDate.toLocaleDateString('de-DE')}`
+      } else if (resource.is_permanent) {
+        // Permanent assignment - show daily rate but no total (ongoing cost)
+        period = 'Permanent'
+        days = 0
+        totalCost = 0 // Don't calculate total for permanent assignments
+      } else {
+        // Active assignment without end date - calculate from start to now
+        const fromDate = new Date(resource.from_ts)
+        const now = new Date()
+        days = Math.ceil((now.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24))
+        totalCost = days * dailyRate
+        period = `Since ${fromDate.toLocaleDateString('de-DE')}`
+      }
+
+      return {
+        days,
+        daily_rate: dailyRate,
+        total_cost: Math.round(totalCost * 100) / 100,
+        period
+      }
+    }
+
+    // Merge and tag with assignment_source, flatten nested data, add calculated costs
     const allEquipment = [
-      ...(crewEquipmentRes.data || []).map(e => ({
-        id: e.id,
-        ...e.equipment, // Flatten equipment data to top level
-        crew: e.crew,
-        from_ts: e.from_ts,
-        to_ts: e.to_ts,
-        is_permanent: e.is_permanent,
-        rental_cost_per_day: e.rental_cost_per_day,
-        is_active: e.is_active,
-        assignment_source: 'crew_based' as const,
-        owned: e.rental_cost_per_day === 0,
-      })),
-      ...(directEquipmentRes.data || []).map(e => ({
-        id: e.id,
-        ...e.equipment, // Flatten equipment data to top level
-        from_ts: e.from_ts,
-        to_ts: e.to_ts,
-        is_permanent: e.is_permanent,
-        rental_cost_per_day: e.rental_cost_per_day,
-        is_active: e.is_active,
-        assignment_source: 'direct' as const,
-        owned: e.rental_cost_per_day === 0,
-      }))
+      ...(crewEquipmentRes.data || []).map(e => {
+        const costs = calculateResourceCosts(e)
+        return {
+          id: e.id,
+          ...e.equipment, // Flatten equipment data to top level
+          crew: e.crew,
+          from_ts: e.from_ts,
+          to_ts: e.to_ts,
+          is_permanent: e.is_permanent,
+          rental_cost_per_day: e.rental_cost_per_day,
+          is_active: e.is_active,
+          assignment_source: 'crew_based' as const,
+          owned: e.rental_cost_per_day === 0,
+          ...costs // Add days, daily_rate, total_cost, period
+        }
+      }),
+      ...(directEquipmentRes.data || []).map(e => {
+        const costs = calculateResourceCosts(e)
+        return {
+          id: e.id,
+          ...e.equipment, // Flatten equipment data to top level
+          from_ts: e.from_ts,
+          to_ts: e.to_ts,
+          is_permanent: e.is_permanent,
+          rental_cost_per_day: e.rental_cost_per_day,
+          is_active: e.is_active,
+          assignment_source: 'direct' as const,
+          owned: e.rental_cost_per_day === 0,
+          ...costs // Add days, daily_rate, total_cost, period
+        }
+      })
     ]
 
     const allVehicles = [
-      ...(crewVehiclesRes.data || []).map(v => ({
-        id: v.id,
-        ...v.vehicle, // Flatten vehicle data to top level
-        crew: v.crew,
-        from_ts: v.from_ts,
-        to_ts: v.to_ts,
-        is_permanent: v.is_permanent,
-        rental_cost_per_day: v.rental_cost_per_day,
-        is_active: v.is_active,
-        assignment_source: 'crew_based' as const,
-        owned: v.rental_cost_per_day === 0,
-      })),
-      ...(directVehiclesRes.data || []).map(v => ({
-        id: v.id,
-        ...v.vehicle, // Flatten vehicle data to top level
-        from_ts: v.from_ts,
-        to_ts: v.to_ts,
-        is_permanent: v.is_permanent,
-        rental_cost_per_day: v.rental_cost_per_day,
-        is_active: v.is_active,
-        assignment_source: 'direct' as const,
-        owned: v.rental_cost_per_day === 0,
-      }))
+      ...(crewVehiclesRes.data || []).map(v => {
+        const costs = calculateResourceCosts(v)
+        return {
+          id: v.id,
+          ...v.vehicle, // Flatten vehicle data to top level
+          crew: v.crew,
+          from_ts: v.from_ts,
+          to_ts: v.to_ts,
+          is_permanent: v.is_permanent,
+          rental_cost_per_day: v.rental_cost_per_day,
+          is_active: v.is_active,
+          assignment_source: 'crew_based' as const,
+          owned: v.rental_cost_per_day === 0,
+          ...costs // Add days, daily_rate, total_cost, period
+        }
+      }),
+      ...(directVehiclesRes.data || []).map(v => {
+        const costs = calculateResourceCosts(v)
+        return {
+          id: v.id,
+          ...v.vehicle, // Flatten vehicle data to top level
+          from_ts: v.from_ts,
+          to_ts: v.to_ts,
+          is_permanent: v.is_permanent,
+          rental_cost_per_day: v.rental_cost_per_day,
+          is_active: v.is_active,
+          assignment_source: 'direct' as const,
+          owned: v.rental_cost_per_day === 0,
+          ...costs // Add days, daily_rate, total_cost, period
+        }
+      })
     ]
 
     // Calculate summary statistics
+    const totalDailyCost = [
+      ...allEquipment.map(e => Number(e.rental_cost_per_day) || 0),
+      ...allVehicles.map(v => Number(v.rental_cost_per_day) || 0)
+    ].reduce((sum, cost) => sum + cost, 0)
+
     const summary = {
       total_resources: allEquipment.length + allVehicles.length,
       total_vehicles: allVehicles.length,
       total_equipment: allEquipment.length,
-      total_cost: 0 // TODO: Calculate from rental_cost_per_day
+      total_cost: Math.round(totalDailyCost * 100) / 100 // Daily rental cost in EUR
     }
 
     const resources = {

@@ -1446,6 +1446,11 @@ img, video {
   border-color: rgba(187, 247, 208, var(--tw-border-opacity, 1));
 }
 
+.border-green-300 {
+  --tw-border-opacity: 1;
+  border-color: rgba(134, 239, 172, var(--tw-border-opacity, 1));
+}
+
 .border-green-600 {
   --tw-border-opacity: 1;
   border-color: rgba(22, 163, 74, var(--tw-border-opacity, 1));
@@ -1478,6 +1483,11 @@ img, video {
   border-color: rgba(233, 213, 255, var(--tw-border-opacity, 1));
 }
 
+.border-purple-300 {
+  --tw-border-opacity: 1;
+  border-color: rgba(216, 180, 254, var(--tw-border-opacity, 1));
+}
+
 .border-red-200 {
   --tw-border-opacity: 1;
   border-color: rgba(254, 202, 202, var(--tw-border-opacity, 1));
@@ -1500,16 +1510,6 @@ img, video {
 .border-yellow-200 {
   --tw-border-opacity: 1;
   border-color: rgba(254, 240, 138, var(--tw-border-opacity, 1));
-}
-
-.border-green-300 {
-  --tw-border-opacity: 1;
-  border-color: rgba(134, 239, 172, var(--tw-border-opacity, 1));
-}
-
-.border-purple-300 {
-  --tw-border-opacity: 1;
-  border-color: rgba(216, 180, 254, var(--tw-border-opacity, 1));
 }
 
 .border-l-blue-500 {
@@ -1757,6 +1757,11 @@ img, video {
   background-color: rgba(243, 232, 255, var(--tw-bg-opacity, 1));
 }
 
+.bg-purple-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(250, 245, 255, var(--tw-bg-opacity, 1));
+}
+
 .bg-purple-500 {
   --tw-bg-opacity: 1;
   background-color: rgba(168, 85, 247, var(--tw-bg-opacity, 1));
@@ -1848,11 +1853,6 @@ img, video {
 .bg-zinc-100 {
   --tw-bg-opacity: 1;
   background-color: rgba(244, 244, 245, var(--tw-bg-opacity, 1));
-}
-
-.bg-purple-50 {
-  --tw-bg-opacity: 1;
-  background-color: rgba(250, 245, 255, var(--tw-bg-opacity, 1));
 }
 
 .bg-gradient-to-br {
@@ -2359,6 +2359,11 @@ img, video {
   color: rgba(147, 51, 234, var(--tw-text-opacity, 1));
 }
 
+.text-purple-700 {
+  --tw-text-opacity: 1;
+  color: rgba(126, 34, 206, var(--tw-text-opacity, 1));
+}
+
 .text-purple-800 {
   --tw-text-opacity: 1;
   color: rgba(107, 33, 168, var(--tw-text-opacity, 1));
@@ -2451,11 +2456,6 @@ img, video {
 .text-zinc-800 {
   --tw-text-opacity: 1;
   color: rgba(39, 39, 42, var(--tw-text-opacity, 1));
-}
-
-.text-purple-700 {
-  --tw-text-opacity: 1;
-  color: rgba(126, 34, 206, var(--tw-text-opacity, 1));
 }
 
 .underline-offset-4 {
