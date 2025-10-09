@@ -417,8 +417,8 @@ function Houses(param) {
     const handleUpdateHouse = async (houseId, data)=>{
         try {
             await updateHouse.mutateAsync({
-                house_id: houseId,
-                ...data
+                id: houseId,
+                data: data
             });
             editForm.reset();
             setEditingHouse(null);

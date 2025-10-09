@@ -248,8 +248,8 @@ export default function Houses({ projectId }: HousesProps) {
   const handleUpdateHouse = async (houseId: string, data: EditHouseForm) => {
     try {
       await updateHouse.mutateAsync({
-        house_id: houseId,
-        ...data,
+        id: houseId,
+        data: data,
       });
       editForm.reset();
       setEditingHouse(null);
