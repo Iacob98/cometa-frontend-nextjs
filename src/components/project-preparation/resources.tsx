@@ -22,6 +22,7 @@ interface ResourcesProps {
 
 interface VehicleAssignmentForm {
   vehicle_id: string;
+  crew_id?: string | null;
   from_date: string;
   to_date?: string;
   driver_name?: string;
@@ -32,6 +33,7 @@ interface VehicleAssignmentForm {
 
 interface EquipmentAssignmentForm {
   equipment_id: string;
+  crew_id?: string | null;
   from_date: string;
   to_date?: string;
   operator_name?: string;
@@ -506,12 +508,6 @@ export default function Resources({ projectId }: ResourcesProps) {
                                   </div>
                                   <h5 className="font-semibold">{equipment.name}</h5>
                                   <p className="text-sm text-gray-600">Inventory: {equipment.inventory_no}</p>
-                                  {equipment.crew_name && (
-                                    <p className="text-sm text-purple-600 flex items-center">
-                                      <Users className="w-4 h-4 mr-1" />
-                                      Assigned to: {equipment.crew_name}
-                                    </p>
-                                  )}
                                   <div className="flex items-center space-x-4 mt-2 text-sm">
                                     <span className="flex items-center">
                                       <Calendar className="w-4 h-4 mr-1" />

@@ -199,11 +199,12 @@ export function useAvailableVehicles() {
   return useQuery({
     queryKey: resourceKeys.availableVehicles(),
     queryFn: async (): Promise<Vehicle[]> => {
-      const response = await fetch('/api/vehicles?status=available');
+      const response = await fetch('/api/vehicles?status=available&per_page=1000');
       if (!response.ok) {
         throw new Error('Failed to fetch available vehicles');
       }
-      return response.json();
+      const data = await response.json();
+      return data.vehicles || [];
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
   });
@@ -213,11 +214,12 @@ export function useAvailableEquipment() {
   return useQuery({
     queryKey: resourceKeys.availableEquipment(),
     queryFn: async (): Promise<Equipment[]> => {
-      const response = await fetch('/api/equipment?status=available');
+      const response = await fetch('/api/equipment?status=available&per_page=1000');
       if (!response.ok) {
         throw new Error('Failed to fetch available equipment');
       }
-      return response.json();
+      const data = await response.json();
+      return data.equipment || [];
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
   });

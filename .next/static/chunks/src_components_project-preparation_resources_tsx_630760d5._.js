@@ -113,8 +113,10 @@ function Resources(param) {
     const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('assigned');
     const [editingResource, setEditingResource] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [showEditDialog, setShowEditDialog] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [assignmentType, setAssignmentType] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])('project');
     const { data: availableVehicles, isLoading: isLoadingVehicles } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAvailableVehicles"])();
     const { data: availableEquipment, isLoading: isLoadingEquipment } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAvailableEquipment"])();
+    const { data: projectCrews, isLoading: isLoadingCrews } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useProjectCrews"])(projectId);
     // Fetch crew-based resources for this project (now includes both direct and crew-based assignments)
     const { data: projectResources, isLoading: isLoadingProjectResources, error: projectResourcesError } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useProjectResources"])(projectId);
     const createVehicleAssignment = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCreateVehicleAssignment"])();
@@ -135,7 +137,7 @@ function Resources(param) {
                     className: "h-8 w-1/3"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                    lineNumber: 128,
+                    lineNumber: 132,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -145,47 +147,47 @@ function Resources(param) {
                             className: "h-24"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 130,
+                            lineNumber: 134,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                             className: "h-24"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 131,
+                            lineNumber: 135,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                             className: "h-24"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 132,
+                            lineNumber: 136,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                             className: "h-24"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 133,
+                            lineNumber: 137,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                    lineNumber: 129,
+                    lineNumber: 133,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                     className: "h-96"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                    lineNumber: 135,
+                    lineNumber: 139,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/project-preparation/resources.tsx",
-            lineNumber: 127,
+            lineNumber: 131,
             columnNumber: 7
         }, this);
     }
@@ -201,7 +203,7 @@ function Resources(param) {
                             className: "mx-auto h-12 w-12 text-red-500 mb-4"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 146,
+                            lineNumber: 150,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -209,7 +211,7 @@ function Resources(param) {
                             children: "Error Loading Resources"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 147,
+                            lineNumber: 151,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -217,7 +219,7 @@ function Resources(param) {
                             children: errorMessage
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 148,
+                            lineNumber: 152,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -225,23 +227,23 @@ function Resources(param) {
                             children: "Try Again"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 149,
+                            lineNumber: 153,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                    lineNumber: 145,
+                    lineNumber: 149,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                lineNumber: 144,
+                lineNumber: 148,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/project-preparation/resources.tsx",
-            lineNumber: 143,
+            lineNumber: 147,
             columnNumber: 7
         }, this);
     }
@@ -249,7 +251,8 @@ function Resources(param) {
         try {
             await createVehicleAssignment.mutateAsync({
                 ...data,
-                project_id: projectId
+                project_id: projectId,
+                crew_id: assignmentType === 'project' ? null : data.crew_id
             });
             vehicleForm.reset();
             setEditingResource(null); // Clear editing state
@@ -262,7 +265,8 @@ function Resources(param) {
         try {
             await createEquipmentAssignment.mutateAsync({
                 ...data,
-                project_id: projectId
+                project_id: projectId,
+                crew_id: assignmentType === 'project' ? null : data.crew_id
             });
             equipmentForm.reset();
             setEditingResource(null); // Clear editing state
@@ -369,7 +373,7 @@ function Resources(param) {
                             children: "Resource Management"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 289,
+                            lineNumber: 295,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -377,18 +381,18 @@ function Resources(param) {
                             children: "Available vehicles and equipment for project assignment"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 290,
+                            lineNumber: 296,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                    lineNumber: 288,
+                    lineNumber: 294,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                lineNumber: 287,
+                lineNumber: 293,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -404,7 +408,7 @@ function Resources(param) {
                                         className: "w-5 h-5 text-blue-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 299,
+                                        lineNumber: 305,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -414,21 +418,21 @@ function Resources(param) {
                                                 children: "Available Resources"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 301,
+                                                lineNumber: 307,
                                                 columnNumber: 17
                                             }, this),
                                             isLoadingAvailable ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                                                 className: "h-8 w-12 mb-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 303,
+                                                lineNumber: 309,
                                                 columnNumber: 19
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-2xl font-bold",
                                                 children: availableResourcesCount
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 305,
+                                                lineNumber: 311,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -439,29 +443,29 @@ function Resources(param) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 307,
+                                                lineNumber: 313,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 300,
+                                        lineNumber: 306,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                lineNumber: 298,
+                                lineNumber: 304,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 297,
+                            lineNumber: 303,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                        lineNumber: 296,
+                        lineNumber: 302,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -474,7 +478,7 @@ function Resources(param) {
                                         className: "w-5 h-5 text-green-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 316,
+                                        lineNumber: 322,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -484,21 +488,21 @@ function Resources(param) {
                                                 children: "Available Vehicles"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 318,
+                                                lineNumber: 324,
                                                 columnNumber: 17
                                             }, this),
                                             isLoadingVehicles ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                                                 className: "h-8 w-12 mb-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 320,
+                                                lineNumber: 326,
                                                 columnNumber: 19
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-2xl font-bold",
                                                 children: availableVehiclesCount
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 322,
+                                                lineNumber: 328,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -509,29 +513,29 @@ function Resources(param) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 324,
+                                                lineNumber: 330,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 317,
+                                        lineNumber: 323,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                lineNumber: 315,
+                                lineNumber: 321,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 314,
+                            lineNumber: 320,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                        lineNumber: 313,
+                        lineNumber: 319,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -544,7 +548,7 @@ function Resources(param) {
                                         className: "w-5 h-5 text-purple-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 333,
+                                        lineNumber: 339,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -554,21 +558,21 @@ function Resources(param) {
                                                 children: "Available Equipment"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 335,
+                                                lineNumber: 341,
                                                 columnNumber: 17
                                             }, this),
                                             isLoadingEquipment ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Skeleton"], {
                                                 className: "h-8 w-12 mb-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 337,
+                                                lineNumber: 343,
                                                 columnNumber: 19
                                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                 className: "text-2xl font-bold",
                                                 children: availableEquipmentCount
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 339,
+                                                lineNumber: 345,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -579,29 +583,29 @@ function Resources(param) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 341,
+                                                lineNumber: 347,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 334,
+                                        lineNumber: 340,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                lineNumber: 332,
+                                lineNumber: 338,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 331,
+                            lineNumber: 337,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                        lineNumber: 330,
+                        lineNumber: 336,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Card"], {
@@ -614,7 +618,7 @@ function Resources(param) {
                                         className: "w-5 h-5 text-orange-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 350,
+                                        lineNumber: 356,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -624,7 +628,7 @@ function Resources(param) {
                                                 children: "Project Cost"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 352,
+                                                lineNumber: 358,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -635,7 +639,7 @@ function Resources(param) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 353,
+                                                lineNumber: 359,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -643,35 +647,35 @@ function Resources(param) {
                                                 children: "Daily assignment costs"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 354,
+                                                lineNumber: 360,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 351,
+                                        lineNumber: 357,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                lineNumber: 349,
+                                lineNumber: 355,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 348,
+                            lineNumber: 354,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                        lineNumber: 347,
+                        lineNumber: 353,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                lineNumber: 295,
+                lineNumber: 301,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Tabs"], {
@@ -686,7 +690,7 @@ function Resources(param) {
                                 children: "Assigned Resources"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                lineNumber: 364,
+                                lineNumber: 370,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -694,7 +698,7 @@ function Resources(param) {
                                 children: "Assign Vehicle"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                lineNumber: 365,
+                                lineNumber: 371,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -702,7 +706,7 @@ function Resources(param) {
                                 children: "Assign Equipment"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                lineNumber: 366,
+                                lineNumber: 372,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -710,7 +714,7 @@ function Resources(param) {
                                 children: "Rent Vehicle"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                lineNumber: 367,
+                                lineNumber: 373,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -718,13 +722,13 @@ function Resources(param) {
                                 children: "Rent Equipment"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                lineNumber: 368,
+                                lineNumber: 374,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                        lineNumber: 363,
+                        lineNumber: 369,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -738,20 +742,20 @@ function Resources(param) {
                                             children: "Project Resources"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 375,
+                                            lineNumber: 381,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Vehicles and equipment assigned directly to project or via crews working on this project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 376,
+                                            lineNumber: 382,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 374,
+                                    lineNumber: 380,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -767,7 +771,7 @@ function Resources(param) {
                                                                 className: "w-5 h-5 mr-2"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 387,
+                                                                lineNumber: 393,
                                                                 columnNumber: 25
                                                             }, this),
                                                             "Vehicles (",
@@ -776,7 +780,7 @@ function Resources(param) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 386,
+                                                        lineNumber: 392,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -801,7 +805,7 @@ function Resources(param) {
                                                                                                 children: vehicle.type.toUpperCase()
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 397,
+                                                                                                lineNumber: 403,
                                                                                                 columnNumber: 37
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
@@ -809,21 +813,49 @@ function Resources(param) {
                                                                                                 children: vehicle.owned ? 'Owned' : 'Rental'
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 400,
+                                                                                                lineNumber: 406,
                                                                                                 columnNumber: 37
                                                                                             }, this),
-                                                                                            vehicle.assignment_source && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
-                                                                                                variant: vehicle.assignment_source === 'crew_based' ? 'outline' : 'default',
-                                                                                                children: vehicle.assignment_source === 'crew_based' ? 'Via Crew' : 'Direct'
+                                                                                            vehicle.assignment_source === 'crew_based' && vehicle.crew ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                                variant: "outline",
+                                                                                                className: "bg-blue-50 text-blue-700 border-blue-300",
+                                                                                                children: [
+                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"], {
+                                                                                                        className: "w-3 h-3 mr-1"
+                                                                                                    }, void 0, false, {
+                                                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                                                        lineNumber: 411,
+                                                                                                        columnNumber: 41
+                                                                                                    }, this),
+                                                                                                    "Via Crew: ",
+                                                                                                    vehicle.crew.name
+                                                                                                ]
+                                                                                            }, void 0, true, {
+                                                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                                                lineNumber: 410,
+                                                                                                columnNumber: 39
+                                                                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                                variant: "default",
+                                                                                                className: "bg-green-50 text-green-700 border-green-300",
+                                                                                                children: "Direct Assignment"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 404,
+                                                                                                lineNumber: 415,
+                                                                                                columnNumber: 39
+                                                                                            }, this),
+                                                                                            vehicle.to_ts && new Date(vehicle.to_ts) < new Date() && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                                variant: "secondary",
+                                                                                                className: "bg-gray-100 text-gray-500",
+                                                                                                children: "Expired"
+                                                                                            }, void 0, false, {
+                                                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                                                lineNumber: 420,
                                                                                                 columnNumber: 39
                                                                                             }, this)
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 396,
+                                                                                        lineNumber: 402,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
@@ -835,7 +867,7 @@ function Resources(param) {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 409,
+                                                                                        lineNumber: 425,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -846,7 +878,7 @@ function Resources(param) {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 410,
+                                                                                        lineNumber: 426,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     vehicle.crew_name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -856,7 +888,7 @@ function Resources(param) {
                                                                                                 className: "w-4 h-4 mr-1"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 413,
+                                                                                                lineNumber: 429,
                                                                                                 columnNumber: 39
                                                                                             }, this),
                                                                                             "Assigned to: ",
@@ -864,7 +896,7 @@ function Resources(param) {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 412,
+                                                                                        lineNumber: 428,
                                                                                         columnNumber: 37
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -877,14 +909,14 @@ function Resources(param) {
                                                                                                         className: "w-4 h-4 mr-1"
                                                                                                     }, void 0, false, {
                                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                        lineNumber: 419,
+                                                                                                        lineNumber: 435,
                                                                                                         columnNumber: 39
                                                                                                     }, this),
                                                                                                     vehicle.period
                                                                                                 ]
                                                                                             }, void 0, true, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 418,
+                                                                                                lineNumber: 434,
                                                                                                 columnNumber: 37
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -894,26 +926,26 @@ function Resources(param) {
                                                                                                         className: "w-4 h-4 mr-1"
                                                                                                     }, void 0, false, {
                                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                        lineNumber: 423,
+                                                                                                        lineNumber: 439,
                                                                                                         columnNumber: 39
                                                                                                     }, this),
                                                                                                     vehicle.daily_rate ? "€".concat(vehicle.daily_rate, "/day") : 'Owned'
                                                                                                 ]
                                                                                             }, void 0, true, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 422,
+                                                                                                lineNumber: 438,
                                                                                                 columnNumber: 37
                                                                                             }, this)
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 417,
+                                                                                        lineNumber: 433,
                                                                                         columnNumber: 35
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                lineNumber: 395,
+                                                                                lineNumber: 401,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -927,7 +959,7 @@ function Resources(param) {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 429,
+                                                                                        lineNumber: 445,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -938,7 +970,7 @@ function Resources(param) {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 430,
+                                                                                        lineNumber: 446,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -952,12 +984,12 @@ function Resources(param) {
                                                                                                     className: "w-4 h-4"
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                    lineNumber: 437,
+                                                                                                    lineNumber: 453,
                                                                                                     columnNumber: 39
                                                                                                 }, this)
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 432,
+                                                                                                lineNumber: 448,
                                                                                                 columnNumber: 37
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -969,52 +1001,52 @@ function Resources(param) {
                                                                                                     className: "w-4 h-4"
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                    lineNumber: 445,
+                                                                                                    lineNumber: 461,
                                                                                                     columnNumber: 39
                                                                                                 }, this)
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 439,
+                                                                                                lineNumber: 455,
                                                                                                 columnNumber: 37
                                                                                             }, this)
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 431,
+                                                                                        lineNumber: 447,
                                                                                         columnNumber: 35
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                lineNumber: 428,
+                                                                                lineNumber: 444,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                        lineNumber: 394,
+                                                                        lineNumber: 400,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                    lineNumber: 393,
+                                                                    lineNumber: 399,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, vehicle.id, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 392,
+                                                                lineNumber: 398,
                                                                 columnNumber: 27
                                                             }, this);
                                                         })
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 390,
+                                                        lineNumber: 396,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 385,
+                                                lineNumber: 391,
                                                 columnNumber: 21
                                             }, this),
                                             (projectResources === null || projectResources === void 0 ? void 0 : projectResources.equipment) && projectResources.equipment.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1026,7 +1058,7 @@ function Resources(param) {
                                                                 className: "w-5 h-5 mr-2"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 461,
+                                                                lineNumber: 477,
                                                                 columnNumber: 25
                                                             }, this),
                                                             "Equipment (",
@@ -1035,7 +1067,7 @@ function Resources(param) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 460,
+                                                        lineNumber: 476,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1060,7 +1092,7 @@ function Resources(param) {
                                                                                                 children: equipment.type.toUpperCase()
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 471,
+                                                                                                lineNumber: 487,
                                                                                                 columnNumber: 37
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
@@ -1068,21 +1100,49 @@ function Resources(param) {
                                                                                                 children: equipment.owned ? 'Owned' : 'Rental'
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 474,
+                                                                                                lineNumber: 490,
                                                                                                 columnNumber: 37
                                                                                             }, this),
-                                                                                            equipment.assignment_source && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
-                                                                                                variant: equipment.assignment_source === 'crew_based' ? 'outline' : 'default',
-                                                                                                children: equipment.assignment_source === 'crew_based' ? 'Via Crew' : 'Direct'
+                                                                                            equipment.assignment_source === 'crew_based' && equipment.crew ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                                variant: "outline",
+                                                                                                className: "bg-purple-50 text-purple-700 border-purple-300",
+                                                                                                children: [
+                                                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"], {
+                                                                                                        className: "w-3 h-3 mr-1"
+                                                                                                    }, void 0, false, {
+                                                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                                                        lineNumber: 495,
+                                                                                                        columnNumber: 41
+                                                                                                    }, this),
+                                                                                                    "Via Crew: ",
+                                                                                                    equipment.crew.name
+                                                                                                ]
+                                                                                            }, void 0, true, {
+                                                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                                                lineNumber: 494,
+                                                                                                columnNumber: 39
+                                                                                            }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                                variant: "default",
+                                                                                                className: "bg-green-50 text-green-700 border-green-300",
+                                                                                                children: "Direct Assignment"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 478,
+                                                                                                lineNumber: 499,
+                                                                                                columnNumber: 39
+                                                                                            }, this),
+                                                                                            equipment.to_ts && new Date(equipment.to_ts) < new Date() && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Badge"], {
+                                                                                                variant: "secondary",
+                                                                                                className: "bg-gray-100 text-gray-500",
+                                                                                                children: "Expired"
+                                                                                            }, void 0, false, {
+                                                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                                                lineNumber: 504,
                                                                                                 columnNumber: 39
                                                                                             }, this)
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 470,
+                                                                                        lineNumber: 486,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
@@ -1090,7 +1150,7 @@ function Resources(param) {
                                                                                         children: equipment.name
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 483,
+                                                                                        lineNumber: 509,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1101,26 +1161,8 @@ function Resources(param) {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 484,
+                                                                                        lineNumber: 510,
                                                                                         columnNumber: 35
-                                                                                    }, this),
-                                                                                    equipment.crew_name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                                        className: "text-sm text-purple-600 flex items-center",
-                                                                                        children: [
-                                                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__["Users"], {
-                                                                                                className: "w-4 h-4 mr-1"
-                                                                                            }, void 0, false, {
-                                                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 487,
-                                                                                                columnNumber: 39
-                                                                                            }, this),
-                                                                                            "Assigned to: ",
-                                                                                            equipment.crew_name
-                                                                                        ]
-                                                                                    }, void 0, true, {
-                                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 486,
-                                                                                        columnNumber: 37
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                                                         className: "flex items-center space-x-4 mt-2 text-sm",
@@ -1132,14 +1174,14 @@ function Resources(param) {
                                                                                                         className: "w-4 h-4 mr-1"
                                                                                                     }, void 0, false, {
                                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                        lineNumber: 493,
+                                                                                                        lineNumber: 513,
                                                                                                         columnNumber: 39
                                                                                                     }, this),
                                                                                                     equipment.period
                                                                                                 ]
                                                                                             }, void 0, true, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 492,
+                                                                                                lineNumber: 512,
                                                                                                 columnNumber: 37
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1149,26 +1191,26 @@ function Resources(param) {
                                                                                                         className: "w-4 h-4 mr-1"
                                                                                                     }, void 0, false, {
                                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                        lineNumber: 497,
+                                                                                                        lineNumber: 517,
                                                                                                         columnNumber: 39
                                                                                                     }, this),
                                                                                                     equipment.daily_rate ? "€".concat(equipment.daily_rate, "/day") : 'Owned'
                                                                                                 ]
                                                                                             }, void 0, true, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 496,
+                                                                                                lineNumber: 516,
                                                                                                 columnNumber: 37
                                                                                             }, this)
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 491,
+                                                                                        lineNumber: 511,
                                                                                         columnNumber: 35
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                lineNumber: 469,
+                                                                                lineNumber: 485,
                                                                                 columnNumber: 33
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1182,7 +1224,7 @@ function Resources(param) {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 503,
+                                                                                        lineNumber: 523,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1193,7 +1235,7 @@ function Resources(param) {
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 504,
+                                                                                        lineNumber: 524,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1207,12 +1249,12 @@ function Resources(param) {
                                                                                                     className: "w-4 h-4"
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                    lineNumber: 511,
+                                                                                                    lineNumber: 531,
                                                                                                     columnNumber: 39
                                                                                                 }, this)
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 506,
+                                                                                                lineNumber: 526,
                                                                                                 columnNumber: 37
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1224,58 +1266,58 @@ function Resources(param) {
                                                                                                     className: "w-4 h-4"
                                                                                                 }, void 0, false, {
                                                                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                    lineNumber: 519,
+                                                                                                    lineNumber: 539,
                                                                                                     columnNumber: 39
                                                                                                 }, this)
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                                lineNumber: 513,
+                                                                                                lineNumber: 533,
                                                                                                 columnNumber: 37
                                                                                             }, this)
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                        lineNumber: 505,
+                                                                                        lineNumber: 525,
                                                                                         columnNumber: 35
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                lineNumber: 502,
+                                                                                lineNumber: 522,
                                                                                 columnNumber: 33
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                        lineNumber: 468,
+                                                                        lineNumber: 484,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                    lineNumber: 467,
+                                                                    lineNumber: 483,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             }, equipment.id, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 466,
+                                                                lineNumber: 482,
                                                                 columnNumber: 27
                                                             }, this);
                                                         })
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 464,
+                                                        lineNumber: 480,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 459,
+                                                lineNumber: 475,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 382,
+                                        lineNumber: 388,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-center py-12",
@@ -1284,7 +1326,7 @@ function Resources(param) {
                                                 className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 533,
+                                                lineNumber: 553,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1292,7 +1334,7 @@ function Resources(param) {
                                                 children: "No Resources Available"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 534,
+                                                lineNumber: 554,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1300,7 +1342,7 @@ function Resources(param) {
                                                 children: "Resources will automatically appear when crews with assigned vehicles and equipment are added to this project."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 535,
+                                                lineNumber: 555,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1310,49 +1352,49 @@ function Resources(param) {
                                                         children: "• Direct resource assignment to project"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 539,
+                                                        lineNumber: 559,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         children: "• Automatic crew-based resource assignment"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 540,
+                                                        lineNumber: 560,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                         children: "• Rental and cost planning"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 541,
+                                                        lineNumber: 561,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 538,
+                                                lineNumber: 558,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 532,
+                                        lineNumber: 552,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 380,
+                                    lineNumber: 386,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 373,
+                            lineNumber: 379,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                        lineNumber: 372,
+                        lineNumber: 378,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1365,20 +1407,20 @@ function Resources(param) {
                                             children: (editingResource === null || editingResource === void 0 ? void 0 : editingResource.type) === 'vehicle' ? 'Edit Vehicle Assignment' : 'Assign Vehicle'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 553,
+                                            lineNumber: 573,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: (editingResource === null || editingResource === void 0 ? void 0 : editingResource.type) === 'vehicle' ? 'Update the vehicle assignment details' : 'Assign an existing vehicle to this project'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 556,
+                                            lineNumber: 576,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 552,
+                                    lineNumber: 572,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1386,6 +1428,66 @@ function Resources(param) {
                                         onSubmit: vehicleForm.handleSubmit(handleVehicleAssignment),
                                         className: "space-y-4",
                                         children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                        children: "Assignment Type"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                        lineNumber: 585,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
+                                                        value: assignmentType,
+                                                        onValueChange: (value)=>setAssignmentType(value),
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                    lineNumber: 588,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                lineNumber: 587,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                        value: "project",
+                                                                        children: "Direct to Project"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                        lineNumber: 591,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                        value: "crew",
+                                                                        children: "Assign to Crew"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                        lineNumber: 592,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                lineNumber: 590,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                        lineNumber: 586,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                lineNumber: 584,
+                                                columnNumber: 17
+                                            }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "grid grid-cols-2 gap-4",
                                                 children: [
@@ -1396,7 +1498,7 @@ function Resources(param) {
                                                                 children: "Vehicle"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 566,
+                                                                lineNumber: 599,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -1407,12 +1509,12 @@ function Resources(param) {
                                                                             placeholder: "Select vehicle"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                            lineNumber: 569,
+                                                                            lineNumber: 602,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                        lineNumber: 568,
+                                                                        lineNumber: 601,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1429,54 +1531,121 @@ function Resources(param) {
                                                                                 ]
                                                                             }, vehicle.id, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                lineNumber: 573,
+                                                                                lineNumber: 606,
                                                                                 columnNumber: 27
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                        lineNumber: 571,
+                                                                        lineNumber: 604,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 567,
+                                                                lineNumber: 600,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 565,
+                                                        lineNumber: 598,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    assignmentType === 'crew' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                                htmlFor: "crew_id",
+                                                                children: "Select Crew *"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                lineNumber: 617,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
+                                                                onValueChange: (value)=>vehicleForm.setValue('crew_id', value),
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                                            placeholder: "Select crew"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                            lineNumber: 620,
+                                                                            columnNumber: 27
+                                                                        }, this)
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                        lineNumber: 619,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                                        children: isLoadingCrews ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                            value: "loading",
+                                                                            disabled: true,
+                                                                            children: "Loading crews..."
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                            lineNumber: 624,
+                                                                            columnNumber: 29
+                                                                        }, this) : projectCrews && projectCrews.length > 0 ? projectCrews.map((crew)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                                value: crew.id,
+                                                                                children: crew.name
+                                                                            }, crew.id, false, {
+                                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                                lineNumber: 627,
+                                                                                columnNumber: 31
+                                                                            }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                            value: "none",
+                                                                            disabled: true,
+                                                                            children: "No crews assigned to project"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                            lineNumber: 632,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                        lineNumber: 622,
+                                                                        columnNumber: 25
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                lineNumber: 618,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                        lineNumber: 616,
+                                                        columnNumber: 21
+                                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                 htmlFor: "driver_name",
                                                                 children: "Driver (Optional)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 582,
-                                                                columnNumber: 21
+                                                                lineNumber: 639,
+                                                                columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                 placeholder: "Driver name",
                                                                 ...vehicleForm.register('driver_name')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 583,
-                                                                columnNumber: 21
+                                                                lineNumber: 640,
+                                                                columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 581,
-                                                        columnNumber: 19
+                                                        lineNumber: 638,
+                                                        columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 564,
+                                                lineNumber: 597,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1489,7 +1658,7 @@ function Resources(param) {
                                                                 children: "Start Date"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 592,
+                                                                lineNumber: 650,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1499,13 +1668,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 593,
+                                                                lineNumber: 651,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 591,
+                                                        lineNumber: 649,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1515,7 +1684,7 @@ function Resources(param) {
                                                                 children: "End Date (Optional)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 599,
+                                                                lineNumber: 657,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1523,19 +1692,19 @@ function Resources(param) {
                                                                 ...vehicleForm.register('to_date')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 600,
+                                                                lineNumber: 658,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 598,
+                                                        lineNumber: 656,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 590,
+                                                lineNumber: 648,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1545,7 +1714,7 @@ function Resources(param) {
                                                         children: "Purpose"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 608,
+                                                        lineNumber: 666,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1553,13 +1722,13 @@ function Resources(param) {
                                                         ...vehicleForm.register('purpose')
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 609,
+                                                        lineNumber: 667,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 607,
+                                                lineNumber: 665,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1569,7 +1738,7 @@ function Resources(param) {
                                                         children: "Notes"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 616,
+                                                        lineNumber: 674,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1577,13 +1746,13 @@ function Resources(param) {
                                                         ...vehicleForm.register('notes')
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 617,
+                                                        lineNumber: 675,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 615,
+                                                lineNumber: 673,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1596,7 +1765,7 @@ function Resources(param) {
                                                         children: createVehicleAssignment.isPending ? (editingResource === null || editingResource === void 0 ? void 0 : editingResource.type) === 'vehicle' ? 'Updating...' : 'Assigning...' : (editingResource === null || editingResource === void 0 ? void 0 : editingResource.type) === 'vehicle' ? 'Update Assignment' : 'Assign Vehicle'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 624,
+                                                        lineNumber: 682,
                                                         columnNumber: 19
                                                     }, this),
                                                     (editingResource === null || editingResource === void 0 ? void 0 : editingResource.type) === 'vehicle' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1607,35 +1776,35 @@ function Resources(param) {
                                                         children: "Cancel"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 634,
+                                                        lineNumber: 692,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 623,
+                                                lineNumber: 681,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 563,
+                                        lineNumber: 583,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 562,
+                                    lineNumber: 582,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 551,
+                            lineNumber: 571,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                        lineNumber: 550,
+                        lineNumber: 570,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1648,20 +1817,20 @@ function Resources(param) {
                                             children: (editingResource === null || editingResource === void 0 ? void 0 : editingResource.type) === 'equipment' ? 'Edit Equipment Assignment' : 'Assign Equipment'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 653,
+                                            lineNumber: 711,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: (editingResource === null || editingResource === void 0 ? void 0 : editingResource.type) === 'equipment' ? 'Update the equipment assignment details' : 'Assign existing equipment to this project'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 656,
+                                            lineNumber: 714,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 652,
+                                    lineNumber: 710,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1669,6 +1838,66 @@ function Resources(param) {
                                         onSubmit: equipmentForm.handleSubmit(handleEquipmentAssignment),
                                         className: "space-y-4",
                                         children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                        children: "Assignment Type"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                        lineNumber: 723,
+                                                        columnNumber: 19
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
+                                                        value: assignmentType,
+                                                        onValueChange: (value)=>setAssignmentType(value),
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
+                                                                    fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                    lineNumber: 726,
+                                                                    columnNumber: 23
+                                                                }, this)
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                lineNumber: 725,
+                                                                columnNumber: 21
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                        value: "project",
+                                                                        children: "Direct to Project"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                        lineNumber: 729,
+                                                                        columnNumber: 23
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                        value: "crew",
+                                                                        children: "Assign to Crew"
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                        lineNumber: 730,
+                                                                        columnNumber: 23
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                lineNumber: 728,
+                                                                columnNumber: 21
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                        lineNumber: 724,
+                                                        columnNumber: 19
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                lineNumber: 722,
+                                                columnNumber: 17
+                                            }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "grid grid-cols-2 gap-4",
                                                 children: [
@@ -1679,7 +1908,7 @@ function Resources(param) {
                                                                 children: "Equipment"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 666,
+                                                                lineNumber: 737,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -1690,12 +1919,12 @@ function Resources(param) {
                                                                             placeholder: "Select equipment"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                            lineNumber: 669,
+                                                                            lineNumber: 740,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                        lineNumber: 668,
+                                                                        lineNumber: 739,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -1710,54 +1939,121 @@ function Resources(param) {
                                                                                 ]
                                                                             }, equipment.id, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                lineNumber: 673,
+                                                                                lineNumber: 744,
                                                                                 columnNumber: 27
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                        lineNumber: 671,
+                                                                        lineNumber: 742,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 667,
+                                                                lineNumber: 738,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 665,
+                                                        lineNumber: 736,
                                                         columnNumber: 19
                                                     }, this),
-                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                    assignmentType === 'crew' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: [
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
+                                                                htmlFor: "crew_id",
+                                                                children: "Select Crew *"
+                                                            }, void 0, false, {
+                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                lineNumber: 755,
+                                                                columnNumber: 23
+                                                            }, this),
+                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
+                                                                onValueChange: (value)=>equipmentForm.setValue('crew_id', value),
+                                                                children: [
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectTrigger"], {
+                                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectValue"], {
+                                                                            placeholder: "Select crew"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                            lineNumber: 758,
+                                                                            columnNumber: 27
+                                                                        }, this)
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                        lineNumber: 757,
+                                                                        columnNumber: 25
+                                                                    }, this),
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
+                                                                        children: isLoadingCrews ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                            value: "loading",
+                                                                            disabled: true,
+                                                                            children: "Loading crews..."
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                            lineNumber: 762,
+                                                                            columnNumber: 29
+                                                                        }, this) : projectCrews && projectCrews.length > 0 ? projectCrews.map((crew)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                                value: crew.id,
+                                                                                children: crew.name
+                                                                            }, crew.id, false, {
+                                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                                lineNumber: 765,
+                                                                                columnNumber: 31
+                                                                            }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectItem"], {
+                                                                            value: "none",
+                                                                            disabled: true,
+                                                                            children: "No crews assigned to project"
+                                                                        }, void 0, false, {
+                                                                            fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                            lineNumber: 770,
+                                                                            columnNumber: 29
+                                                                        }, this)
+                                                                    }, void 0, false, {
+                                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                        lineNumber: 760,
+                                                                        columnNumber: 25
+                                                                    }, this)
+                                                                ]
+                                                            }, void 0, true, {
+                                                                fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                                lineNumber: 756,
+                                                                columnNumber: 23
+                                                            }, this)
+                                                        ]
+                                                    }, void 0, true, {
+                                                        fileName: "[project]/src/components/project-preparation/resources.tsx",
+                                                        lineNumber: 754,
+                                                        columnNumber: 21
+                                                    }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         children: [
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Label"], {
                                                                 htmlFor: "operator_name",
                                                                 children: "Operator (Optional)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 682,
-                                                                columnNumber: 21
+                                                                lineNumber: 777,
+                                                                columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
                                                                 placeholder: "Operator name",
                                                                 ...equipmentForm.register('operator_name')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 683,
-                                                                columnNumber: 21
+                                                                lineNumber: 778,
+                                                                columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 681,
-                                                        columnNumber: 19
+                                                        lineNumber: 776,
+                                                        columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 664,
+                                                lineNumber: 735,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1770,7 +2066,7 @@ function Resources(param) {
                                                                 children: "Start Date"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 692,
+                                                                lineNumber: 788,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1780,13 +2076,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 693,
+                                                                lineNumber: 789,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 691,
+                                                        lineNumber: 787,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1796,7 +2092,7 @@ function Resources(param) {
                                                                 children: "End Date (Optional)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 699,
+                                                                lineNumber: 795,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1804,19 +2100,19 @@ function Resources(param) {
                                                                 ...equipmentForm.register('to_date')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 700,
+                                                                lineNumber: 796,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 698,
+                                                        lineNumber: 794,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 690,
+                                                lineNumber: 786,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1826,7 +2122,7 @@ function Resources(param) {
                                                         children: "Purpose"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 708,
+                                                        lineNumber: 804,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1834,13 +2130,13 @@ function Resources(param) {
                                                         ...equipmentForm.register('purpose')
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 709,
+                                                        lineNumber: 805,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 707,
+                                                lineNumber: 803,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1850,7 +2146,7 @@ function Resources(param) {
                                                         children: "Notes"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 716,
+                                                        lineNumber: 812,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1858,13 +2154,13 @@ function Resources(param) {
                                                         ...equipmentForm.register('notes')
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 717,
+                                                        lineNumber: 813,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 715,
+                                                lineNumber: 811,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1877,7 +2173,7 @@ function Resources(param) {
                                                         children: createEquipmentAssignment.isPending ? (editingResource === null || editingResource === void 0 ? void 0 : editingResource.type) === 'equipment' ? 'Updating...' : 'Assigning...' : (editingResource === null || editingResource === void 0 ? void 0 : editingResource.type) === 'equipment' ? 'Update Assignment' : 'Assign Equipment'
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 724,
+                                                        lineNumber: 820,
                                                         columnNumber: 19
                                                     }, this),
                                                     (editingResource === null || editingResource === void 0 ? void 0 : editingResource.type) === 'equipment' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -1888,35 +2184,35 @@ function Resources(param) {
                                                         children: "Cancel"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 734,
+                                                        lineNumber: 830,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 723,
+                                                lineNumber: 819,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 663,
+                                        lineNumber: 721,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 662,
+                                    lineNumber: 720,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 651,
+                            lineNumber: 709,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                        lineNumber: 650,
+                        lineNumber: 708,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1929,20 +2225,20 @@ function Resources(param) {
                                             children: "Create Rental Vehicle"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 753,
+                                            lineNumber: 849,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Add a new rental vehicle and assign it to the project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 754,
+                                            lineNumber: 850,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 752,
+                                    lineNumber: 848,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1960,7 +2256,7 @@ function Resources(param) {
                                                                 children: "Brand"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 762,
+                                                                lineNumber: 858,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1970,13 +2266,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 763,
+                                                                lineNumber: 859,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 761,
+                                                        lineNumber: 857,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1986,7 +2282,7 @@ function Resources(param) {
                                                                 children: "Model"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 769,
+                                                                lineNumber: 865,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -1996,19 +2292,19 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 770,
+                                                                lineNumber: 866,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 768,
+                                                        lineNumber: 864,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 760,
+                                                lineNumber: 856,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2021,7 +2317,7 @@ function Resources(param) {
                                                                 children: "License Plate"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 779,
+                                                                lineNumber: 875,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2031,13 +2327,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 780,
+                                                                lineNumber: 876,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 778,
+                                                        lineNumber: 874,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2047,7 +2343,7 @@ function Resources(param) {
                                                                 children: "Vehicle Type"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 786,
+                                                                lineNumber: 882,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -2058,12 +2354,12 @@ function Resources(param) {
                                                                             placeholder: "Select type"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                            lineNumber: 789,
+                                                                            lineNumber: 885,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                        lineNumber: 788,
+                                                                        lineNumber: 884,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -2072,30 +2368,30 @@ function Resources(param) {
                                                                                 children: type.label
                                                                             }, type.value, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                lineNumber: 793,
+                                                                                lineNumber: 889,
                                                                                 columnNumber: 27
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                        lineNumber: 791,
+                                                                        lineNumber: 887,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 787,
+                                                                lineNumber: 883,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 785,
+                                                        lineNumber: 881,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 777,
+                                                lineNumber: 873,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2108,7 +2404,7 @@ function Resources(param) {
                                                                 children: "Rental Company"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 804,
+                                                                lineNumber: 900,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2118,13 +2414,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 805,
+                                                                lineNumber: 901,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 803,
+                                                        lineNumber: 899,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2134,7 +2430,7 @@ function Resources(param) {
                                                                 children: "Daily Rate (€)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 811,
+                                                                lineNumber: 907,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2147,19 +2443,19 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 812,
+                                                                lineNumber: 908,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 810,
+                                                        lineNumber: 906,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 802,
+                                                lineNumber: 898,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2172,7 +2468,7 @@ function Resources(param) {
                                                                 children: "Hourly Rate (€) - Optional"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 823,
+                                                                lineNumber: 919,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2184,13 +2480,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 824,
+                                                                lineNumber: 920,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 822,
+                                                        lineNumber: 918,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2200,7 +2496,7 @@ function Resources(param) {
                                                                 children: "Fuel Consumption (l/100km)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 832,
+                                                                lineNumber: 928,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2213,19 +2509,19 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 833,
+                                                                lineNumber: 929,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 831,
+                                                        lineNumber: 927,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 821,
+                                                lineNumber: 917,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2238,7 +2534,7 @@ function Resources(param) {
                                                                 children: "Rental Start"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 844,
+                                                                lineNumber: 940,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2248,13 +2544,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 845,
+                                                                lineNumber: 941,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 843,
+                                                        lineNumber: 939,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2264,7 +2560,7 @@ function Resources(param) {
                                                                 children: "Rental End (Optional)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 851,
+                                                                lineNumber: 947,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2272,19 +2568,19 @@ function Resources(param) {
                                                                 ...rentalVehicleForm.register('rental_end')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 852,
+                                                                lineNumber: 948,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 850,
+                                                        lineNumber: 946,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 842,
+                                                lineNumber: 938,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2297,7 +2593,7 @@ function Resources(param) {
                                                                 children: "Driver (Optional)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 861,
+                                                                lineNumber: 957,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2305,13 +2601,13 @@ function Resources(param) {
                                                                 ...rentalVehicleForm.register('driver_name')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 862,
+                                                                lineNumber: 958,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 860,
+                                                        lineNumber: 956,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2321,7 +2617,7 @@ function Resources(param) {
                                                                 children: "Purpose"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 868,
+                                                                lineNumber: 964,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2329,19 +2625,19 @@ function Resources(param) {
                                                                 ...rentalVehicleForm.register('purpose')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 869,
+                                                                lineNumber: 965,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 867,
+                                                        lineNumber: 963,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 859,
+                                                lineNumber: 955,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2351,7 +2647,7 @@ function Resources(param) {
                                                         children: "Contract Details"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 877,
+                                                        lineNumber: 973,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -2359,13 +2655,13 @@ function Resources(param) {
                                                         ...rentalVehicleForm.register('contract_notes')
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 878,
+                                                        lineNumber: 974,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 876,
+                                                lineNumber: 972,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2375,29 +2671,29 @@ function Resources(param) {
                                                 children: createRentalVehicle.isPending ? 'Creating...' : 'Create Rental Vehicle'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 884,
+                                                lineNumber: 980,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 759,
+                                        lineNumber: 855,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 758,
+                                    lineNumber: 854,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 751,
+                            lineNumber: 847,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                        lineNumber: 750,
+                        lineNumber: 846,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -2410,20 +2706,20 @@ function Resources(param) {
                                             children: "Create Rental Equipment"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 900,
+                                            lineNumber: 996,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Add new rental equipment and assign it to the project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 901,
+                                            lineNumber: 997,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 899,
+                                    lineNumber: 995,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -2441,7 +2737,7 @@ function Resources(param) {
                                                                 children: "Equipment Name"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 909,
+                                                                lineNumber: 1005,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2451,13 +2747,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 910,
+                                                                lineNumber: 1006,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 908,
+                                                        lineNumber: 1004,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2467,7 +2763,7 @@ function Resources(param) {
                                                                 children: "Equipment Type"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 916,
+                                                                lineNumber: 1012,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Select"], {
@@ -2478,12 +2774,12 @@ function Resources(param) {
                                                                             placeholder: "Select type"
                                                                         }, void 0, false, {
                                                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                            lineNumber: 919,
+                                                                            lineNumber: 1015,
                                                                             columnNumber: 25
                                                                         }, this)
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                        lineNumber: 918,
+                                                                        lineNumber: 1014,
                                                                         columnNumber: 23
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -2492,30 +2788,30 @@ function Resources(param) {
                                                                                 children: type.label
                                                                             }, type.value, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                                lineNumber: 923,
+                                                                                lineNumber: 1019,
                                                                                 columnNumber: 27
                                                                             }, this))
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                        lineNumber: 921,
+                                                                        lineNumber: 1017,
                                                                         columnNumber: 23
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 917,
+                                                                lineNumber: 1013,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 915,
+                                                        lineNumber: 1011,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 907,
+                                                lineNumber: 1003,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2528,7 +2824,7 @@ function Resources(param) {
                                                                 children: "Inventory Number"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 934,
+                                                                lineNumber: 1030,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2538,13 +2834,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 935,
+                                                                lineNumber: 1031,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 933,
+                                                        lineNumber: 1029,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2554,7 +2850,7 @@ function Resources(param) {
                                                                 children: "Rental Company"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 941,
+                                                                lineNumber: 1037,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2564,19 +2860,19 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 942,
+                                                                lineNumber: 1038,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 940,
+                                                        lineNumber: 1036,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 932,
+                                                lineNumber: 1028,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2589,7 +2885,7 @@ function Resources(param) {
                                                                 children: "Daily Rate (€)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 951,
+                                                                lineNumber: 1047,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2602,13 +2898,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 952,
+                                                                lineNumber: 1048,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 950,
+                                                        lineNumber: 1046,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2618,7 +2914,7 @@ function Resources(param) {
                                                                 children: "Hourly Rate (€) - Optional"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 960,
+                                                                lineNumber: 1056,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2630,19 +2926,19 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 961,
+                                                                lineNumber: 1057,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 959,
+                                                        lineNumber: 1055,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 949,
+                                                lineNumber: 1045,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2655,7 +2951,7 @@ function Resources(param) {
                                                                 children: "Rental Start"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 972,
+                                                                lineNumber: 1068,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2665,13 +2961,13 @@ function Resources(param) {
                                                                 })
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 973,
+                                                                lineNumber: 1069,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 971,
+                                                        lineNumber: 1067,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2681,7 +2977,7 @@ function Resources(param) {
                                                                 children: "Rental End (Optional)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 979,
+                                                                lineNumber: 1075,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2689,19 +2985,19 @@ function Resources(param) {
                                                                 ...rentalEquipmentForm.register('rental_end')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 980,
+                                                                lineNumber: 1076,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 978,
+                                                        lineNumber: 1074,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 970,
+                                                lineNumber: 1066,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2714,7 +3010,7 @@ function Resources(param) {
                                                                 children: "Operator (Optional)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 989,
+                                                                lineNumber: 1085,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2722,13 +3018,13 @@ function Resources(param) {
                                                                 ...rentalEquipmentForm.register('operator_name')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 990,
+                                                                lineNumber: 1086,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 988,
+                                                        lineNumber: 1084,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2738,7 +3034,7 @@ function Resources(param) {
                                                                 children: "Purpose"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 996,
+                                                                lineNumber: 1092,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2746,19 +3042,19 @@ function Resources(param) {
                                                                 ...rentalEquipmentForm.register('purpose')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                                lineNumber: 997,
+                                                                lineNumber: 1093,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 995,
+                                                        lineNumber: 1091,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 987,
+                                                lineNumber: 1083,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2768,7 +3064,7 @@ function Resources(param) {
                                                         children: "Contract Details"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 1005,
+                                                        lineNumber: 1101,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -2776,13 +3072,13 @@ function Resources(param) {
                                                         ...rentalEquipmentForm.register('contract_notes')
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 1006,
+                                                        lineNumber: 1102,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 1004,
+                                                lineNumber: 1100,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -2792,35 +3088,35 @@ function Resources(param) {
                                                 children: createRentalEquipment.isPending ? 'Creating...' : 'Create Rental Equipment'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                lineNumber: 1012,
+                                                lineNumber: 1108,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                        lineNumber: 906,
+                                        lineNumber: 1002,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 905,
+                                    lineNumber: 1001,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 898,
+                            lineNumber: 994,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                        lineNumber: 897,
+                        lineNumber: 993,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                lineNumber: 362,
+                lineNumber: 368,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -2838,20 +3134,20 @@ function Resources(param) {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 1029,
+                                    lineNumber: 1125,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DialogDescription"], {
                                     children: "Update resource details and assignment information"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 1032,
+                                    lineNumber: 1128,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 1028,
+                            lineNumber: 1124,
                             columnNumber: 11
                         }, this),
                         editingResource && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -2866,7 +3162,7 @@ function Resources(param) {
                                             children: editingResource.type === 'vehicle' ? "".concat(editingResource.data.brand, " ").concat(editingResource.data.model) : editingResource.data.name
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 1041,
+                                            lineNumber: 1137,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2880,7 +3176,7 @@ function Resources(param) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 1050,
+                                                        lineNumber: 1146,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2890,7 +3186,7 @@ function Resources(param) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 1051,
+                                                        lineNumber: 1147,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2900,7 +3196,7 @@ function Resources(param) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 1052,
+                                                        lineNumber: 1148,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
@@ -2913,7 +3209,7 @@ function Resources(param) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 1056,
+                                                        lineNumber: 1152,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2923,7 +3219,7 @@ function Resources(param) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 1057,
+                                                        lineNumber: 1153,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2933,20 +3229,20 @@ function Resources(param) {
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                        lineNumber: 1058,
+                                                        lineNumber: 1154,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 1047,
+                                            lineNumber: 1143,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 1040,
+                                    lineNumber: 1136,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2959,7 +3255,7 @@ function Resources(param) {
                                                     children: "Assignment Period"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                    lineNumber: 1067,
+                                                    lineNumber: 1163,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2968,13 +3264,13 @@ function Resources(param) {
                                                     ...editForm.register('period')
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                    lineNumber: 1068,
+                                                    lineNumber: 1164,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 1066,
+                                            lineNumber: 1162,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2984,7 +3280,7 @@ function Resources(param) {
                                                     children: editingResource.type === 'vehicle' ? 'Driver Name' : 'Operator Name'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                    lineNumber: 1076,
+                                                    lineNumber: 1172,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -2993,13 +3289,13 @@ function Resources(param) {
                                                     ...editForm.register('operator_name')
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                    lineNumber: 1079,
+                                                    lineNumber: 1175,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 1075,
+                                            lineNumber: 1171,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3009,7 +3305,7 @@ function Resources(param) {
                                                     children: "Purpose"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                    lineNumber: 1087,
+                                                    lineNumber: 1183,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -3018,13 +3314,13 @@ function Resources(param) {
                                                     ...editForm.register('purpose')
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                    lineNumber: 1088,
+                                                    lineNumber: 1184,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 1086,
+                                            lineNumber: 1182,
                                             columnNumber: 17
                                         }, this),
                                         editingResource.data.rental_company && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3034,7 +3330,7 @@ function Resources(param) {
                                                     children: "Daily Rate (€)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                    lineNumber: 1097,
+                                                    lineNumber: 1193,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Input"], {
@@ -3046,13 +3342,13 @@ function Resources(param) {
                                                     })
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                    lineNumber: 1098,
+                                                    lineNumber: 1194,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 1096,
+                                            lineNumber: 1192,
                                             columnNumber: 19
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3062,7 +3358,7 @@ function Resources(param) {
                                                     children: "Notes"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                    lineNumber: 1108,
+                                                    lineNumber: 1204,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -3071,19 +3367,19 @@ function Resources(param) {
                                                     ...editForm.register('notes')
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                                    lineNumber: 1109,
+                                                    lineNumber: 1205,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 1107,
+                                            lineNumber: 1203,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 1065,
+                                    lineNumber: 1161,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3095,7 +3391,7 @@ function Resources(param) {
                                             children: "Update"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 1118,
+                                            lineNumber: 1214,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -3106,43 +3402,44 @@ function Resources(param) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                            lineNumber: 1124,
+                                            lineNumber: 1220,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                                    lineNumber: 1117,
+                                    lineNumber: 1213,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/resources.tsx",
-                            lineNumber: 1038,
+                            lineNumber: 1134,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/resources.tsx",
-                    lineNumber: 1027,
+                    lineNumber: 1123,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/resources.tsx",
-                lineNumber: 1026,
+                lineNumber: 1122,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/project-preparation/resources.tsx",
-        lineNumber: 286,
+        lineNumber: 292,
         columnNumber: 5
     }, this);
 }
-_s(Resources, "yzmyIoYErIDLPSq2Y+JyMXabcds=", false, function() {
+_s(Resources, "0qDAVpCl0L6dex96Z8eq+6oUT/A=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAvailableVehicles"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAvailableEquipment"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useProjectCrews"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useProjectResources"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCreateVehicleAssignment"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$use$2d$resources$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCreateEquipmentAssignment"],
