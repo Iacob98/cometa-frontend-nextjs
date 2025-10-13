@@ -1,0 +1,84 @@
+VEHICLE FORM UPDATES - IMPLEMENTATION PLAN SUMMARY
+===================================================
+
+Plan Location: .claude/implementation-plans/vehicle-form-updates.md
+
+CRITICAL FINDINGS BEFORE IMPLEMENTATION:
+========================================
+
+1. MAJOR SCHEMA INCONSISTENCIES DISCOVERED:
+   - Database constraint has: ['van', 'truck', 'trailer', 'excavator', 'other']
+   - API validates: ['car', 'truck', 'van', 'trailer'] (only 4 types!)
+   - Frontend uses: ['van', 'truck', 'trailer', 'excavator', 'other', 'car'] (6 types!)
+   - types/index.ts has: ['truck', 'van', 'car', 'trailer', 'special'] (completely different!)
+
+2. MISSING DATABASE COLUMNS (used by API but not in schema):
+   - description (used everywhere in frontend/API)
+   - is_active (used in API filtering)
+   - fuel_type (used in API)
+   - created_at, updated_at (returned by API)
+
+3. NAMING MISMATCHES:
+   - Database has: rental_price_per_day_eur
+   - API uses: rental_cost_per_day
+   - These need to be reconciled
+
+SCOPE OF CHANGES:
+=================
+
+Database:
+- Add 7 missing columns
+- Migrate vehicle types: car→pkw, van→transporter, truck→lkw, trailer→anhänger, excavator→lkw
+- Add new columns: tipper_type, max_weight_kg
+- Update constraints to German types
+
+API (2 files):
+- /src/app/api/vehicles/route.ts
+- /src/app/api/vehicles/[id]/route.ts
+
+Frontend (5 files):
+- /src/hooks/use-vehicles.ts (TypeScript interfaces)
+- /src/types/index.ts (Global types)
+- /src/app/(dashboard)/dashboard/vehicles/new/page.tsx (Create form)
+- /src/app/(dashboard)/dashboard/vehicles/[id]/edit/page.tsx (Edit form)
+- /src/app/(dashboard)/dashboard/vehicles/page.tsx (List view - optional)
+
+QUESTIONS REQUIRING ANSWERS:
+============================
+
+1. Vehicle Type Mapping:
+   - How to map 'excavator' and 'other' to German types?
+   - Suggested: excavator→lkw, other→other (keep as is)
+
+2. Max Weight Field:
+   - Required or optional? (Suggested: optional)
+   - Validation range? (Suggested: 100-50,000 kg)
+   - Type-specific validation? (e.g., PKW max 3500kg)
+
+3. Tipper Type Field:
+   - Apply to all types or only trucks? (Suggested: all types, default "kein Kipper")
+   - Should we hide/disable for PKW?
+
+4. Backward Compatibility:
+   - Hard migration or transition period? (Suggested: hard migration with backup)
+   - Support both old and new types temporarily?
+
+5. Display Language:
+   - German-only labels or i18n? (Current UI is English)
+   - Should we translate all form labels to German?
+
+ESTIMATED TIME: 6.5-8 hours (1 full work day)
+
+RISK LEVEL: MEDIUM
+- Breaking changes in API contract
+- Data migration required
+- Multiple files across stack
+- Type consistency critical
+
+NEXT STEPS:
+===========
+1. Read full plan: .claude/implementation-plans/vehicle-form-updates.md
+2. Answer the 5 questions above
+3. Review plan with team
+4. Create feature branch: feature/vehicle-german-types-tipper-weight
+5. Start Phase 1: Database Migration

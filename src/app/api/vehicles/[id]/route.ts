@@ -28,6 +28,9 @@ export async function GET(
         year_manufactured,
         description,
         is_active,
+        tipper_type,
+        max_weight_kg,
+        comment,
         created_at,
         updated_at,
         vehicle_assignments(
@@ -80,13 +83,16 @@ export async function GET(
       brand: vehicle.brand || '',
       model: vehicle.model || '',
       plate_number: vehicle.plate_number,
-      type: vehicle.type || 'truck',
+      type: vehicle.type || 'transporter',
       status: vehicle.status || 'available',
       rental_cost_per_day: Number(vehicle.rental_cost_per_day) || 0,
       fuel_type: vehicle.fuel_type || 'diesel',
       year_manufactured: vehicle.year_manufactured,
       description: vehicle.description || '',
       is_active: vehicle.is_active,
+      tipper_type: vehicle.tipper_type || 'kein Kipper',
+      max_weight_kg: vehicle.max_weight_kg ? Number(vehicle.max_weight_kg) : null,
+      comment: vehicle.comment || null,
       full_name: `${vehicle.brand || ''} ${vehicle.model || ''} (${vehicle.plate_number})`.trim(),
       age: vehicle.year_manufactured ? new Date().getFullYear() - vehicle.year_manufactured : null,
       current_assignment: currentAssignment ? {
@@ -144,12 +150,49 @@ export async function PUT(
     const {
       brand,
       model,
+      type,
       status,
       rental_cost_per_day,
       fuel_type,
       year_manufactured,
-      description
+      description,
+      tipper_type,
+      max_weight_kg,
+      comment
     } = body;
+
+    // Validate tipper_type if provided
+    if (tipper_type !== undefined) {
+      const validTipperTypes = ['Kipper', 'kein Kipper'];
+      if (!validTipperTypes.includes(tipper_type)) {
+        return NextResponse.json(
+          { error: `Invalid tipper type. Must be one of: ${validTipperTypes.join(', ')}` },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validate type if provided
+    if (type !== undefined) {
+      const validTypes = ['pkw', 'lkw', 'transporter', 'pritsche', 'anhänger', 'excavator', 'other'];
+      if (!validTypes.includes(type)) {
+        return NextResponse.json(
+          { error: `Invalid type. Must be one of: ${validTypes.join(', ')}` },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validate max_weight_kg if provided
+    if (max_weight_kg !== undefined && max_weight_kg !== null) {
+      const weight = Number(max_weight_kg);
+      if (isNaN(weight) || weight < 0 || weight > 100000) {
+        return NextResponse.json(
+          { error: 'Invalid max weight. Must be between 0 and 100,000 kg' },
+          { status: 400 }
+        );
+      }
+    }
 
     // Prepare update data
     const updateData: any = {
@@ -158,11 +201,15 @@ export async function PUT(
 
     if (brand !== undefined) updateData.brand = brand;
     if (model !== undefined) updateData.model = model;
+    if (type !== undefined) updateData.type = type;
     if (status !== undefined) updateData.status = status;
     if (rental_cost_per_day !== undefined) updateData.rental_cost_per_day = Number(rental_cost_per_day);
     if (fuel_type !== undefined) updateData.fuel_type = fuel_type;
     if (year_manufactured !== undefined) updateData.year_manufactured = year_manufactured ? parseInt(year_manufactured) : null;
     if (description !== undefined) updateData.description = description;
+    if (tipper_type !== undefined) updateData.tipper_type = tipper_type;
+    if (max_weight_kg !== undefined) updateData.max_weight_kg = max_weight_kg ? Number(max_weight_kg) : null;
+    if (comment !== undefined) updateData.comment = comment;
 
     // Update vehicle
     const { data: updatedVehicle, error: updateError } = await supabase
@@ -181,6 +228,9 @@ export async function PUT(
         year_manufactured,
         description,
         is_active,
+        tipper_type,
+        max_weight_kg,
+        comment,
         created_at,
         updated_at
       `)

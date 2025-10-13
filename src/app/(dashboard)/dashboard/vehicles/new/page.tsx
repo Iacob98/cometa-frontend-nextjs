@@ -24,7 +24,7 @@ const vehicleFormSchema = z.object({
     .min(1, "Plate number is required")
     .max(20, "Plate number must be less than 20 characters")
     .regex(/^[A-Z0-9\-\s]+$/i, "Plate number can only contain letters, numbers, hyphens, and spaces"),
-  type: z.enum(["van", "truck", "trailer", "excavator", "other"], {
+  type: z.enum(["pkw", "lkw", "transporter", "pritsche", "anhänger", "excavator", "other"], {
     required_error: "Vehicle type is required",
   }),
   status: z.enum(["available", "in_use", "maintenance", "broken"], {
@@ -36,14 +36,21 @@ const vehicleFormSchema = z.object({
   fuel_consumption_l_100km: z.number().min(0, "Fuel consumption must be 0 or greater").default(0),
   current_location: z.string().max(200, "Location must be less than 200 characters").default("Main Depot"),
   purchase_price_eur: z.number().min(0, "Purchase price must be 0 or greater").default(0),
+  tipper_type: z.enum(["Kipper", "kein Kipper"], {
+    required_error: "Tipper type is required",
+  }).default("kein Kipper"),
+  max_weight_kg: z.number().min(0, "Max weight must be 0 or greater").max(100000, "Max weight must be less than 100,000 kg").optional().nullable(),
+  comment: z.string().max(500, "Comment must be less than 500 characters").optional().nullable(),
 });
 
 type VehicleFormValues = z.infer<typeof vehicleFormSchema>;
 
 const vehicleTypes = [
-  { value: "van", label: "Van" },
-  { value: "truck", label: "Truck" },
-  { value: "trailer", label: "Trailer" },
+  { value: "pkw", label: "PKW (Passenger car)" },
+  { value: "lkw", label: "LKW (Truck)" },
+  { value: "transporter", label: "Transporter (Van)" },
+  { value: "pritsche", label: "Pritsche (Flatbed)" },
+  { value: "anhänger", label: "Anhänger (Trailer)" },
   { value: "excavator", label: "Excavator" },
   { value: "other", label: "Other" },
 ];
@@ -66,7 +73,7 @@ export default function NewVehiclePage() {
       brand: "",
       model: "",
       plate_number: "",
-      type: "van",
+      type: "transporter",
       status: "available",
       owned: true,
       rental_price_per_day_eur: 0,
@@ -74,6 +81,9 @@ export default function NewVehiclePage() {
       fuel_consumption_l_100km: 0,
       current_location: "Main Depot",
       purchase_price_eur: 0,
+      tipper_type: "kein Kipper",
+      max_weight_kg: null,
+      comment: null,
       year_of_manufacture: undefined,
       mileage_km: undefined,
     },
@@ -315,6 +325,70 @@ export default function NewVehiclePage() {
                     <FormDescription>
                       Fuel consumption in liters per 100 kilometers
                     </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="tipper_type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tipper Type *</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select tipper type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Kipper">Kipper</SelectItem>
+                          <SelectItem value="kein Kipper">kein Kipper</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="max_weight_kg"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Max Weight (kg)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="e.g., 3500"
+                          value={field.value || ''}
+                          onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : null)}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Maximum weight capacity in kilograms
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="comment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Comment</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Additional notes or comments"
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(e.target.value || null)}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

@@ -82,9 +82,11 @@ interface EditResourceForm {
 }
 
 const VEHICLE_TYPES = [
-  { value: 'van', label: 'Lieferwagen', icon: '' },
-  { value: 'truck', label: 'LKW', icon: '' },
-  { value: 'trailer', label: 'Anhänger', icon: '' },
+  { value: 'pkw', label: 'PKW', icon: '' },
+  { value: 'lkw', label: 'LKW', icon: '' },
+  { value: 'transporter', label: 'Transporter', icon: '' },
+  { value: 'pritsche', label: 'Pritsche', icon: '' },
+  { value: 'anhänger', label: 'Anhänger', icon: '' },
   { value: 'excavator', label: 'Bagger', icon: '' },
   { value: 'other', label: 'Sonstiges', icon: '' },
 ];
@@ -424,8 +426,21 @@ export default function Resources({ projectId }: ResourcesProps) {
                                   </div>
                                   <h5 className="font-semibold">{vehicle.brand} {vehicle.model}</h5>
                                   <p className="text-sm text-gray-600">Plate: {vehicle.plate_number}</p>
+                                  <div className="flex items-center space-x-2 text-sm text-gray-600 mt-1">
+                                    {vehicle.tipper_type && (
+                                      <Badge variant="outline" className={vehicle.tipper_type === 'Kipper' ? 'bg-orange-100 text-orange-800 border-orange-200' : 'bg-gray-100 text-gray-800 border-gray-200'}>
+                                        {vehicle.tipper_type}
+                                      </Badge>
+                                    )}
+                                    {vehicle.max_weight_kg && (
+                                      <span className="text-xs">Max: {vehicle.max_weight_kg} kg</span>
+                                    )}
+                                  </div>
+                                  {vehicle.comment && (
+                                    <p className="text-xs text-gray-500 italic mt-1">{vehicle.comment}</p>
+                                  )}
                                   {vehicle.crew_name && (
-                                    <p className="text-sm text-blue-600 flex items-center">
+                                    <p className="text-sm text-blue-600 flex items-center mt-1">
                                       <Users className="w-4 h-4 mr-1" />
                                       Assigned to: {vehicle.crew_name}
                                     </p>
@@ -604,8 +619,15 @@ export default function Resources({ projectId }: ResourcesProps) {
                       <SelectContent>
                         {availableVehicles?.map((vehicle) => (
                           <SelectItem key={vehicle.id} value={vehicle.id}>
-                            {vehicle.brand} {vehicle.model} ({vehicle.plate_number})
-                            {vehicle.rental_price_per_day_eur && ` - €${vehicle.rental_price_per_day_eur}/day`}
+                            <div className="flex flex-col">
+                              <span>{vehicle.brand} {vehicle.model} ({vehicle.plate_number})</span>
+                              <span className="text-xs text-gray-500">
+                                {vehicle.type && `${vehicle.type.toUpperCase()} • `}
+                                {vehicle.tipper_type && `${vehicle.tipper_type} • `}
+                                {vehicle.max_weight_kg && `${vehicle.max_weight_kg}kg • `}
+                                {vehicle.rental_price_per_day_eur && `€${vehicle.rental_price_per_day_eur}/day`}
+                              </span>
+                            </div>
                           </SelectItem>
                         ))}
                       </SelectContent>

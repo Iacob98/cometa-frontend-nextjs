@@ -49,22 +49,30 @@ const vehicleFormSchema = z.object({
   }).max(20, {
     message: "Plate number must not exceed 20 characters.",
   }),
-  type: z.enum(['van', 'truck', 'trailer', 'excavator', 'other', 'car']),
+  type: z.enum(["pkw", "lkw", "transporter", "pritsche", "anhänger", "excavator", "other"], {
+    required_error: "Vehicle type is required",
+  }),
   status: z.enum(['available', 'in_use', 'maintenance', 'broken']).default('available'),
   rental_cost_per_day: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
   fuel_type: z.enum(['diesel', 'petrol', 'electric', 'hybrid']).default('diesel'),
   year_manufactured: z.string().optional().transform((val) => val ? parseInt(val) : undefined),
   description: z.string().optional(),
+  tipper_type: z.enum(["Kipper", "kein Kipper"], {
+    required_error: "Tipper type is required",
+  }).default("kein Kipper"),
+  max_weight_kg: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
+  comment: z.string().max(500).optional(),
 })
 
 type VehicleFormValues = z.infer<typeof vehicleFormSchema>
 
 // Vehicle type options
 const vehicleTypeOptions = [
-  { value: 'car', label: 'Car', icon: <Car className="h-4 w-4" /> },
-  { value: 'van', label: 'Van', icon: <Car className="h-4 w-4" /> },
-  { value: 'truck', label: 'Truck', icon: <Car className="h-4 w-4" /> },
-  { value: 'trailer', label: 'Trailer', icon: <Car className="h-4 w-4" /> },
+  { value: 'pkw', label: 'PKW (Passenger car)', icon: <Car className="h-4 w-4" /> },
+  { value: 'lkw', label: 'LKW (Truck)', icon: <Car className="h-4 w-4" /> },
+  { value: 'transporter', label: 'Transporter (Van)', icon: <Car className="h-4 w-4" /> },
+  { value: 'pritsche', label: 'Pritsche (Flatbed)', icon: <Car className="h-4 w-4" /> },
+  { value: 'anhänger', label: 'Anhänger (Trailer)', icon: <Car className="h-4 w-4" /> },
   { value: 'excavator', label: 'Excavator', icon: <Car className="h-4 w-4" /> },
   { value: 'other', label: 'Other', icon: <Car className="h-4 w-4" /> },
 ]
@@ -99,10 +107,13 @@ export default function EditVehiclePage() {
       brand: "",
       model: "",
       plate_number: "",
-      type: "truck",
+      type: "transporter",
       status: "available",
       fuel_type: "diesel",
       description: "",
+      tipper_type: "kein Kipper",
+      max_weight_kg: "",
+      comment: "",
     },
   })
 
@@ -145,12 +156,15 @@ export default function EditVehiclePage() {
           brand: vehicleData.brand || "",
           model: vehicleData.model || "",
           plate_number: vehicleData.plate_number || "",
-          type: vehicleData.type || "truck",
+          type: vehicleData.type || "transporter",
           status: vehicleData.status || "available",
           rental_cost_per_day: vehicleData.rental_cost_per_day?.toString() || "",
           fuel_type: vehicleData.fuel_type || "diesel",
           year_manufactured: vehicleData.year_manufactured?.toString() || "",
           description: vehicleData.description || "",
+          tipper_type: vehicleData.tipper_type || "kein Kipper",
+          max_weight_kg: vehicleData.max_weight_kg?.toString() || "",
+          comment: vehicleData.comment || "",
         })
 
         console.log('🚗 Form populated successfully')
@@ -183,6 +197,9 @@ export default function EditVehiclePage() {
         fuel_type: values.fuel_type,
         year_manufactured: values.year_manufactured,
         description: values.description || undefined,
+        tipper_type: values.tipper_type,
+        max_weight_kg: values.max_weight_kg,
+        comment: values.comment || undefined,
       }
 
       console.log('🚗 Sending vehicle data to API:', vehicleData)
@@ -485,7 +502,79 @@ export default function EditVehiclePage() {
                           </FormItem>
                         )}
                       />
+
+                      {/* Tipper Type */}
+                      <FormField
+                        control={form.control}
+                        name="tipper_type"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Tipper Type *</FormLabel>
+                            <Select onValueChange={field.onChange} value={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select tipper type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="Kipper">Kipper</SelectItem>
+                                <SelectItem value="kein Kipper">kein Kipper</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormDescription>
+                              Select if vehicle has tipper functionality
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Max Weight */}
+                      <FormField
+                        control={form.control}
+                        name="max_weight_kg"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Max Weight (kg)</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                step="0.01"
+                                min="0"
+                                max="100000"
+                                placeholder="e.g. 3500"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Maximum weight capacity in kilograms
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
+
+                    {/* Comment */}
+                    <FormField
+                      control={form.control}
+                      name="comment"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Comment</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Additional notes or comments"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Optional comments about the vehicle (max 500 characters)
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
                     {/* Description */}
                     <FormField

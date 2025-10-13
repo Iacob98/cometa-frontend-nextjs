@@ -6,13 +6,16 @@ export interface Vehicle {
   brand: string;
   model: string;
   plate_number: string;
-  type: 'van' | 'truck' | 'trailer' | 'excavator' | 'other' | 'car';
+  type: 'pkw' | 'lkw' | 'transporter' | 'pritsche' | 'anhänger' | 'excavator' | 'other';
   status: 'available' | 'in_use' | 'maintenance' | 'broken';
   rental_cost_per_day: number;
   fuel_type?: string;
   year_manufactured?: number;
   description?: string;
   is_active: boolean;
+  tipper_type: 'Kipper' | 'kein Kipper';
+  max_weight_kg?: number | null;
+  comment?: string | null;
   full_name?: string;
   age?: number;
   current_assignment?: any;
@@ -51,6 +54,9 @@ export interface CreateVehicleData {
   fuel_type?: string;
   year_manufactured?: number;
   description?: string;
+  tipper_type: 'Kipper' | 'kein Kipper';
+  max_weight_kg?: number | null;
+  comment?: string | null;
 }
 
 export interface CreateVehicleAssignmentData {

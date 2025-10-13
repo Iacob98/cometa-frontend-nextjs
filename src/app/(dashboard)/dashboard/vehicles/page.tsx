@@ -48,20 +48,22 @@ const statusIcons = {
 };
 
 const typeColors = {
-  van: "bg-blue-100 text-blue-800 border-blue-200",
-  truck: "bg-indigo-100 text-indigo-800 border-indigo-200",
-  trailer: "bg-gray-100 text-gray-800 border-gray-200",
+  pkw: "bg-green-100 text-green-800 border-green-200",
+  lkw: "bg-indigo-100 text-indigo-800 border-indigo-200",
+  transporter: "bg-blue-100 text-blue-800 border-blue-200",
+  pritsche: "bg-purple-100 text-purple-800 border-purple-200",
+  anhänger: "bg-gray-100 text-gray-800 border-gray-200",
   excavator: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  car: "bg-green-100 text-green-800 border-green-200",
   other: "bg-slate-100 text-slate-800 border-slate-200",
 } as const;
 
 const typeLabels = {
-  van: "Van",
-  truck: "Truck",
-  trailer: "Trailer",
+  pkw: "PKW",
+  lkw: "LKW",
+  transporter: "Transporter",
+  pritsche: "Pritsche",
+  anhänger: "Anhänger",
   excavator: "Excavator",
-  car: "Car",
   other: "Other",
 } as const;
 
@@ -270,10 +272,11 @@ export default function VehiclesPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="van">Van</SelectItem>
-                <SelectItem value="truck">Truck</SelectItem>
-                <SelectItem value="car">Car</SelectItem>
-                <SelectItem value="trailer">Trailer</SelectItem>
+                <SelectItem value="pkw">PKW</SelectItem>
+                <SelectItem value="lkw">LKW</SelectItem>
+                <SelectItem value="transporter">Transporter</SelectItem>
+                <SelectItem value="pritsche">Pritsche</SelectItem>
+                <SelectItem value="anhänger">Anhänger</SelectItem>
                 <SelectItem value="excavator">Excavator</SelectItem>
                 <SelectItem value="other">Other</SelectItem>
               </SelectContent>
@@ -300,6 +303,8 @@ export default function VehiclesPage() {
                   <TableHead>Vehicle</TableHead>
                   <TableHead>Type</TableHead>
                   <TableHead>Plate Number</TableHead>
+                  <TableHead>Tipper</TableHead>
+                  <TableHead>Max Weight</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Daily Rate</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -308,7 +313,7 @@ export default function VehiclesPage() {
               <TableBody>
                 {filteredVehicles.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
+                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                       {filters.search || filters.type || filters.status
                         ? "No vehicles found matching your filters"
                         : "No vehicles added yet. Click 'Add Vehicle' to get started."}
@@ -329,6 +334,11 @@ export default function VehiclesPage() {
                                   {vehicle.year_manufactured}
                                 </div>
                               )}
+                              {vehicle.comment && (
+                                <div className="text-xs text-muted-foreground italic">
+                                  {vehicle.comment}
+                                </div>
+                              )}
                             </div>
                           </div>
                         </TableCell>
@@ -338,6 +348,14 @@ export default function VehiclesPage() {
                           </Badge>
                         </TableCell>
                         <TableCell className="font-mono text-sm">{vehicle.plate_number}</TableCell>
+                        <TableCell>
+                          <Badge variant="outline" className={vehicle.tipper_type === 'Kipper' ? 'bg-orange-100 text-orange-800 border-orange-200' : 'bg-gray-100 text-gray-800 border-gray-200'}>
+                            {vehicle.tipper_type || 'kein Kipper'}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          {vehicle.max_weight_kg ? `${vehicle.max_weight_kg} kg` : '-'}
+                        </TableCell>
                         <TableCell>
                           <Badge variant="outline" className={statusColors[vehicle.status as keyof typeof statusColors] || "bg-gray-100 text-gray-800 border-gray-200"}>
                             {StatusIcon && <StatusIcon className="h-3 w-3 mr-1" />}

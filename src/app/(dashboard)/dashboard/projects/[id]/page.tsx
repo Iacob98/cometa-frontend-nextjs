@@ -842,6 +842,21 @@ export default function ProjectDetailsPage() {
                               <div className="text-xs text-muted-foreground">
                                 {vehicle.plate_number} • {vehicle.type} • {vehicle.crew_name}
                               </div>
+                              {vehicle.tipper_type && (
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                  <Badge variant="outline" className={vehicle.tipper_type === 'Kipper' ? 'bg-orange-100 text-orange-800 border-orange-200 text-xs' : 'bg-gray-100 text-gray-800 border-gray-200 text-xs'}>
+                                    {vehicle.tipper_type}
+                                  </Badge>
+                                  {vehicle.max_weight_kg && (
+                                    <span>• Max: {vehicle.max_weight_kg} kg</span>
+                                  )}
+                                </div>
+                              )}
+                              {vehicle.comment && (
+                                <div className="text-xs text-muted-foreground italic">
+                                  {vehicle.comment}
+                                </div>
+                              )}
                               <div className="text-xs text-muted-foreground">
                                 {vehicle.period}
                               </div>

@@ -617,7 +617,22 @@ export default function TeamDetailsPage() {
                             </div>
                             {assignment.vehicle?.plate_number && (
                               <div className="text-sm text-muted-foreground">
-                                🚗 {assignment.vehicle.plate_number}
+                                🚗 {assignment.vehicle.plate_number} • {assignment.vehicle.type}
+                              </div>
+                            )}
+                            {assignment.vehicle?.tipper_type && (
+                              <div className="flex items-center gap-1 text-xs text-muted-foreground mt-1">
+                                <Badge variant="outline" className={assignment.vehicle.tipper_type === 'Kipper' ? 'bg-orange-100 text-orange-800 border-orange-200 text-xs' : 'bg-gray-100 text-gray-800 border-gray-200 text-xs'}>
+                                  {assignment.vehicle.tipper_type}
+                                </Badge>
+                                {assignment.vehicle.max_weight_kg && (
+                                  <span>• Max: {assignment.vehicle.max_weight_kg} kg</span>
+                                )}
+                              </div>
+                            )}
+                            {assignment.vehicle?.comment && (
+                              <div className="text-xs text-muted-foreground italic mt-1">
+                                {assignment.vehicle.comment}
                               </div>
                             )}
                           </div>
