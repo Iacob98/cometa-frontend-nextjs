@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const {
       email,
-      pin_code,
+      pin_code: provided_pin_code,
       first_name,
       last_name,
       role = 'worker',
@@ -95,13 +95,16 @@ export async function POST(request: NextRequest) {
       is_active = true
     } = body;
 
-    // Validation
-    if (!email || !pin_code) {
+    // Validation - either email or phone required
+    if (!email && !phone) {
       return NextResponse.json(
-        { error: 'Email and PIN code are required' },
+        { error: 'Either email or phone number is required' },
         { status: 400 }
       );
     }
+
+    // Generate PIN code if not provided (4 digits)
+    const pin_code = provided_pin_code || Math.floor(1000 + Math.random() * 9000).toString();
 
     // Validate PIN code format (4-6 digits)
     if (!/^\d{4,6}$/.test(pin_code)) {
@@ -131,9 +134,15 @@ export async function POST(request: NextRequest) {
       console.error('Supabase users creation error:', error);
 
       // Handle unique constraint violations
-      if (error.code === '23505' && error.constraint === 'users_email_key') {
+      if (error.code === '23505') {
+        if (error.message?.includes('users_email_key') || error.details?.includes('email')) {
+          return NextResponse.json(
+            { error: 'User with this email already exists' },
+            { status: 409 }
+          );
+        }
         return NextResponse.json(
-          { error: 'User with this email already exists' },
+          { error: 'User with these details already exists' },
           { status: 409 }
         );
       }
