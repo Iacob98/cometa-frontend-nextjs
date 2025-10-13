@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
         min_stock_threshold,
         created_at,
         updated_at,
-        supplier_materials!inner(
+        supplier_materials(
           supplier:suppliers(
             id,
             name,
