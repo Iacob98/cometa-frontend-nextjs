@@ -91,6 +91,7 @@ export async function POST(request: NextRequest) {
       last_name,
       role = 'worker',
       phone,
+      skills = [],
       language_preference = 'de',
       is_active = true
     } = body;
@@ -124,6 +125,7 @@ export async function POST(request: NextRequest) {
         last_name,
         role,
         phone,
+        skills,
         language_preference,
         is_active
       }])
