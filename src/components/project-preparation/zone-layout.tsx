@@ -37,6 +37,16 @@ import {
   useDeleteConstraint,
 } from '@/hooks/use-constraints';
 import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface ZoneLayoutProps {
   projectId: string;
@@ -93,6 +103,8 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
   const [selectedCabinetId, setSelectedCabinetId] = useState<string | null>(null);
   const [uploadingFile, setUploadingFile] = useState(false);
   const [cabinetFiles, setCabinetFiles] = useState<any[]>([]);
+  const [deletingFileIndex, setDeletingFileIndex] = useState<number | null>(null);
+  const [fileToDelete, setFileToDelete] = useState<{index: number, file: any} | null>(null);
 
   // Auto-select first cabinet when cabinets load
   React.useEffect(() => {
@@ -152,6 +164,38 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
       console.error('Upload error:', error);
     } finally {
       setUploadingFile(false);
+    }
+  };
+
+  const handleDeleteFile = async (fileIndex: number, file: any) => {
+    if (!selectedCabinetId) return;
+
+    setDeletingFileIndex(fileIndex);
+
+    try {
+      const response = await fetch(
+        `/api/zone-layout/cabinets/${selectedCabinetId}/upload?file_path=${encodeURIComponent(file.file_path)}`,
+        {
+          method: 'DELETE',
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        toast.success(`File "${file.file_name}" deleted successfully`);
+
+        // Refresh file list
+        await fetchCabinetFiles(selectedCabinetId);
+      } else {
+        const error = await response.json();
+        toast.error(`Failed to delete file: ${error.error}`);
+      }
+    } catch (error) {
+      toast.error('Failed to delete file');
+      console.error('Delete error:', error);
+    } finally {
+      setDeletingFileIndex(null);
+      setFileToDelete(null); // Close dialog
     }
   };
 
@@ -1010,12 +1054,54 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
                             >
                               <Download className="w-4 h-4" />
                             </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setFileToDelete({ index, file })}
+                              disabled={deletingFileIndex === index}
+                              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                            >
+                              {deletingFileIndex === index ? (
+                                <span className="animate-spin">⏳</span>
+                              ) : (
+                                <Trash2 className="w-4 h-4" />
+                              )}
+                            </Button>
                           </div>
                         </div>
                       ))
                     )}
                   </div>
                 </div>
+
+                {/* Delete Confirmation Dialog */}
+                <AlertDialog
+                  open={fileToDelete !== null}
+                  onOpenChange={(open) => !open && setFileToDelete(null)}
+                >
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Delete Installation Plan?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete "{fileToDelete?.file.file_name}"?
+                        This action cannot be undone and the file will be permanently removed from storage.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => {
+                          if (fileToDelete) {
+                            handleDeleteFile(fileToDelete.index, fileToDelete.file);
+                          }
+                        }}
+                        className="bg-red-600 hover:bg-red-700"
+                      >
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
               </CardContent>
             </Card>

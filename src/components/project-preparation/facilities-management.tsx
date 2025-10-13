@@ -98,7 +98,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
   ];
 
   // Find selected supplier for displaying details
-  const selectedSupplier = suppliers?.find(supplier => supplier.id === facilityForm.supplier_id);
+  const selectedSupplier = suppliers?.find((supplier: any) => supplier.id === facilityForm.supplier_id);
 
   // Fetch materials for selected supplier
   const { data: supplierMaterials } = useQuery({
@@ -293,6 +293,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
   const handleEditFacility = (facility: any) => {
     setFacilityForm({
       type: facility.type,
+      supplier_id: facility.supplier_id || '',
       rent_daily_eur: facility.rent_daily_eur.toString(),
       rent_period: 'daily',
       service_freq: facility.service_freq || '',
@@ -468,7 +469,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                           <SelectValue placeholder="Select supplier (optional)" />
                         </SelectTrigger>
                         <SelectContent>
-                          {suppliers?.map((supplier) => (
+                          {suppliers?.map((supplier: any) => (
                             <SelectItem key={supplier.id} value={supplier.id}>
                               <div className="flex flex-col">
                                 <span className="font-medium">{supplier.name}</span>
@@ -1029,6 +1030,8 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                       <TableHead>Beds</TableHead>
                       <TableHead>Occupancy</TableHead>
                       <TableHead>Daily Rent</TableHead>
+                      <TableHead>Check-in Date</TableHead>
+                      <TableHead>Check-out Date</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Actions</TableHead>
                     </TableRow>
@@ -1071,6 +1074,26 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                         </TableCell>
                         <TableCell>
                           €{housing.rent_daily_eur ? housing.rent_daily_eur.toLocaleString() : '0'}/day
+                        </TableCell>
+                        <TableCell>
+                          {housing.check_in_date ? (
+                            <div className="flex items-center gap-1 text-sm">
+                              <Calendar className="w-4 h-4 text-gray-400" />
+                              {new Date(housing.check_in_date).toLocaleDateString('de-DE')}
+                            </div>
+                          ) : (
+                            <span className="text-gray-400 text-sm">-</span>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {housing.check_out_date ? (
+                            <div className="flex items-center gap-1 text-sm">
+                              <Calendar className="w-4 h-4 text-gray-400" />
+                              {new Date(housing.check_out_date).toLocaleDateString('de-DE')}
+                            </div>
+                          ) : (
+                            <span className="text-gray-400 text-sm">-</span>
+                          )}
                         </TableCell>
                         <TableCell>
                           <Badge className={getStatusColor(housing.status)}>
