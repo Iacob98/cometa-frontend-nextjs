@@ -19,7 +19,8 @@ import {
   Clock,
   Calendar,
   User,
-  Truck
+  Truck,
+  Trash2
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -31,13 +32,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { useMaterials } from "@/hooks/materials";
+import { useMaterials, useDeleteMaterial } from "@/hooks/materials";
 import { useQuery } from "@tanstack/react-query";
 import { useMaterialOrders } from "@/hooks/use-material-orders";
 import { useAllocations } from "@/hooks/materials/use-material-allocations";
@@ -66,6 +68,8 @@ export default function InventoryManagementPage() {
   });
   const [selectedMaterial, setSelectedMaterial] = useState<any>(null);
   const [adjustmentDialogOpen, setAdjustmentDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [materialToDelete, setMaterialToDelete] = useState<any>(null);
 
   const { data: materialsData, isLoading } = useMaterials({
     search: filters.search,
@@ -96,6 +100,9 @@ export default function InventoryManagementPage() {
 
   // Order status update mutation
   const updateOrderStatus = useUpdateOrderStatus();
+
+  // Delete material mutation
+  const deleteMaterial = useDeleteMaterial();
 
   // Create a simple stock adjustment handler
   const adjustStock = {
@@ -208,6 +215,18 @@ export default function InventoryManagementPage() {
       form.reset();
     } catch (error) {
       console.error("Failed to adjust stock:", error);
+    }
+  };
+
+  const handleDeleteMaterial = async () => {
+    if (!materialToDelete) return;
+
+    try {
+      await deleteMaterial.mutateAsync(materialToDelete.id);
+      setDeleteDialogOpen(false);
+      setMaterialToDelete(null);
+    } catch (error) {
+      console.error("Failed to delete material:", error);
     }
   };
 
@@ -549,16 +568,17 @@ export default function InventoryManagementPage() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <Dialog open={adjustmentDialogOpen && selectedMaterial?.id === material.id} onOpenChange={setAdjustmentDialogOpen}>
-                            <DialogTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => setSelectedMaterial(material)}
-                              >
-                                Adjust
-                              </Button>
-                            </DialogTrigger>
+                          <div className="flex items-center gap-2">
+                            <Dialog open={adjustmentDialogOpen && selectedMaterial?.id === material.id} onOpenChange={setAdjustmentDialogOpen}>
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => setSelectedMaterial(material)}
+                                >
+                                  Adjust
+                                </Button>
+                              </DialogTrigger>
                             <DialogContent>
                               <DialogHeader>
                                 <DialogTitle>Adjust Stock Level</DialogTitle>
@@ -650,6 +670,18 @@ export default function InventoryManagementPage() {
                               </Form>
                             </DialogContent>
                           </Dialog>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                              setMaterialToDelete(material);
+                              setDeleteDialogOpen(true);
+                            }}
+                            className="text-destructive hover:text-destructive"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                         </TableCell>
                       </TableRow>
                     );
@@ -1011,6 +1043,32 @@ export default function InventoryManagementPage() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Delete Material Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Material</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete <strong>{materialToDelete?.name}</strong>?
+              This will mark the material as inactive and it will no longer appear in the inventory list.
+              This action can be undone by an administrator.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setMaterialToDelete(null)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteMaterial}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              disabled={deleteMaterial.isPending}
+            >
+              {deleteMaterial.isPending ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
