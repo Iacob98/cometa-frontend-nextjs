@@ -12,6 +12,7 @@ export interface HousingUnit {
   area_sqm?: number;
   contact_person?: string;
   contact_phone?: string;
+  owner_salutation?: string;
   owner_first_name?: string;
   owner_last_name?: string;
   owner_phone?: string;
@@ -49,6 +50,7 @@ export interface CreateHousingUnitData {
   advance_payment?: number;
   check_in_date?: string;
   check_out_date?: string;
+  owner_salutation?: string;
   owner_first_name?: string;
   owner_last_name?: string;
   owner_phone?: string;
@@ -65,6 +67,7 @@ export interface UpdateHousingUnitData {
   advance_payment?: number;
   check_in_date?: string;
   check_out_date?: string;
+  owner_salutation?: string;
   owner_first_name?: string;
   owner_last_name?: string;
   owner_phone?: string;
