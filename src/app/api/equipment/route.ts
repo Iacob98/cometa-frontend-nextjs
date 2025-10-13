@@ -38,6 +38,7 @@ export async function GET(request: NextRequest) {
       `,
         { count: "exact" }
       )
+      .eq("is_active", true)
       .order("name", { ascending: true })
       .range(offset, offset + per_page - 1);
 
