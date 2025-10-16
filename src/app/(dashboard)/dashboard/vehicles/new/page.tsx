@@ -22,8 +22,7 @@ const vehicleFormSchema = z.object({
   model: z.string().min(1, "Model is required").max(100, "Model must be less than 100 characters"),
   plate_number: z.string()
     .min(1, "Plate number is required")
-    .max(20, "Plate number must be less than 20 characters")
-    .regex(/^[A-Z0-9\-\s]+$/i, "Plate number can only contain letters, numbers, hyphens, and spaces"),
+    .max(20, "Plate number must be less than 20 characters"),
   type: z.enum(["pkw", "lkw", "transporter", "pritsche", "anhänger", "excavator", "other"], {
     required_error: "Vehicle type is required",
   }),
