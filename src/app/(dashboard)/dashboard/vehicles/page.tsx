@@ -305,7 +305,7 @@ export default function VehiclesPage() {
                   <TableHead>Plate Number</TableHead>
                   <TableHead>Tipper</TableHead>
                   <TableHead>Max Weight</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>Assigned to</TableHead>
                   <TableHead>Daily Rate</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
@@ -321,7 +321,6 @@ export default function VehiclesPage() {
                   </TableRow>
                 ) : (
                   filteredVehicles.map((vehicle) => {
-                    const StatusIcon = statusIcons[vehicle.status as keyof typeof statusIcons] || Activity;
                     return (
                       <TableRow key={vehicle.id}>
                         <TableCell className="font-medium">
@@ -357,10 +356,13 @@ export default function VehiclesPage() {
                           {vehicle.max_weight_kg ? `${vehicle.max_weight_kg} kg` : '-'}
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline" className={statusColors[vehicle.status as keyof typeof statusColors] || "bg-gray-100 text-gray-800 border-gray-200"}>
-                            {StatusIcon && <StatusIcon className="h-3 w-3 mr-1" />}
-                            {statusLabels[vehicle.status as keyof typeof statusLabels] || vehicle.status}
-                          </Badge>
+                          {vehicle.current_assignment?.crew?.name ? (
+                            <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">
+                              {vehicle.current_assignment.crew.name}
+                            </Badge>
+                          ) : (
+                            <span className="text-sm text-muted-foreground">Not assigned</span>
+                          )}
                         </TableCell>
                         <TableCell>
                           {vehicle.rental_cost_per_day ? `€${vehicle.rental_cost_per_day}/day` : '-'}
