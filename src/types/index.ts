@@ -9,6 +9,7 @@ export interface User {
   id: UUID;
   first_name: string;
   last_name: string;
+  full_name: string; // Computed from first_name + last_name
   phone?: string;
   email?: string;
   lang_pref: Language;

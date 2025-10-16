@@ -59,10 +59,12 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Parse skills from JSONB string to array
+    // Parse skills from JSONB string to array, add full_name, and map database fields to frontend field names
     const parsedUsers = (users || []).map(user => ({
       ...user,
-      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || [])
+      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || []),
+      full_name: `${user.first_name || ''} ${user.last_name || ''}`.trim() || user.email || 'Unknown',
+      lang_pref: user.language_preference || 'de' // Map language_preference to lang_pref
     }));
 
     return NextResponse.json({
@@ -92,7 +94,7 @@ export async function POST(request: NextRequest) {
       role = 'worker',
       phone,
       skills = [],
-      language_preference = 'de',
+      lang_pref = 'de', // Frontend uses lang_pref
       is_active = true
     } = body;
 
@@ -115,7 +117,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create user in Supabase
+    // Create user in Supabase (map lang_pref to language_preference)
     const { data: user, error } = await supabase
       .from('users')
       .insert([{
@@ -126,7 +128,7 @@ export async function POST(request: NextRequest) {
         role,
         phone,
         skills,
-        language_preference,
+        language_preference: lang_pref, // Map to database field name
         is_active
       }])
       .select()
@@ -155,7 +157,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(user, { status: 201 });
+    // Format user with full_name and lang_pref for frontend
+    const formattedUser = {
+      ...user,
+      full_name: `${user.first_name || ''} ${user.last_name || ''}`.trim() || user.email || 'Unknown',
+      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || []),
+      lang_pref: user.language_preference || 'de' // Map language_preference to lang_pref
+    };
+
+    return NextResponse.json(formattedUser, { status: 201 });
   } catch (error) {
     console.error('Users POST API error:', error);
     return NextResponse.json(

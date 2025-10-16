@@ -42,11 +42,12 @@ export async function GET(
       );
     }
 
-    // Format user for frontend
+    // Format user for frontend (map database fields to frontend field names)
     const formattedUser = {
       ...user,
       full_name: `${user.first_name} ${user.last_name}`.trim(),
-      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || [])
+      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || []),
+      lang_pref: user.language_preference || 'de' // Map language_preference to lang_pref
     };
 
     return NextResponse.json(formattedUser);
@@ -74,13 +75,27 @@ export async function PUT(
       );
     }
 
+    // Map frontend field names to database column names
+    const updateData: any = {};
+
+    if (body.first_name !== undefined) updateData.first_name = body.first_name;
+    if (body.last_name !== undefined) updateData.last_name = body.last_name;
+    if (body.email !== undefined) updateData.email = body.email;
+    if (body.phone !== undefined) updateData.phone = body.phone;
+    if (body.pin_code !== undefined) updateData.pin_code = body.pin_code;
+    if (body.role !== undefined) updateData.role = body.role;
+    if (body.skills !== undefined) updateData.skills = body.skills;
+    if (body.is_active !== undefined) updateData.is_active = body.is_active;
+
+    // Map lang_pref to language_preference for database
+    if (body.lang_pref !== undefined) updateData.language_preference = body.lang_pref;
+
+    updateData.updated_at = new Date().toISOString();
+
     // Update user
     const { data: user, error } = await supabase
       .from('users')
-      .update({
-        ...body,
-        updated_at: new Date().toISOString()
-      })
+      .update(updateData)
       .eq('id', id)
       .select('*')
       .single();
@@ -99,11 +114,12 @@ export async function PUT(
       );
     }
 
-    // Format user for frontend
+    // Format user for frontend (map database fields to frontend field names)
     const formattedUser = {
       ...user,
       full_name: `${user.first_name} ${user.last_name}`.trim(),
-      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || [])
+      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || []),
+      lang_pref: user.language_preference || 'de' // Map language_preference to lang_pref
     };
 
     return NextResponse.json({

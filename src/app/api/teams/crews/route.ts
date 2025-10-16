@@ -80,9 +80,26 @@ export async function GET(request: NextRequest) {
     // Calculate pagination info
     const total_pages = Math.ceil((count || 0) / per_page);
 
+    // Format crews with full_name for all users
+    const formattedCrews = (crews || []).map((crew: any) => ({
+      ...crew,
+      foreman: crew.leader ? {
+        ...crew.leader,
+        full_name: `${crew.leader.first_name || ''} ${crew.leader.last_name || ''}`.trim() || crew.leader.email || 'Unknown'
+      } : null,
+      members: (crew.crew_members || []).map((member: any) => ({
+        ...member,
+        user: member.user ? {
+          ...member.user,
+          full_name: `${member.user.first_name || ''} ${member.user.last_name || ''}`.trim() || member.user.email || 'Unknown'
+        } : null
+      })),
+      member_count: crew.crew_members?.length || 0
+    }));
+
     // Format response to match expected structure
     const response = {
-      crews: crews || [],
+      crews: formattedCrews,
       pagination: {
         total: count || 0,
         page,
@@ -172,11 +189,20 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Format crew with full_name before returning
+    const formattedCrew = {
+      ...crew,
+      foreman: crew.leader ? {
+        ...crew.leader,
+        full_name: `${crew.leader.first_name || ''} ${crew.leader.last_name || ''}`.trim() || crew.leader.email || 'Unknown'
+      } : null
+    };
+
     // Return the created crew with success status
     return NextResponse.json(
       {
         message: "Crew created successfully",
-        crew,
+        crew: formattedCrew,
       },
       { status: 201 }
     );
