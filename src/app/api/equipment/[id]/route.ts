@@ -27,6 +27,8 @@ export async function GET(
         purchase_date,
         warranty_until,
         description,
+        notes,
+        current_location,
         is_active,
         created_at,
         updated_at,
@@ -81,13 +83,15 @@ export async function GET(
       owned: equipment.owned,
       status: equipment.status || 'available',
       purchase_price_eur: 0, // Not available in current schema, set to 0
+      rental_cost_per_day: Number(equipment.rental_cost_per_day) || 0,
       rental_price_per_day_eur: Number(equipment.rental_cost_per_day) || 0,
       rental_price_per_hour_eur: 0, // Not available in current schema, set to 0
-      current_location: '', // Not available in current schema, set to empty
+      current_location: equipment.current_location || '',
       quantity: 1, // Default to 1 for backward compatibility
       purchase_date: equipment.purchase_date,
       warranty_until: equipment.warranty_until,
       description: equipment.description || '',
+      notes: equipment.notes || '',
       is_active: equipment.is_active,
       current_assignment: currentAssignment ? {
         id: currentAssignment.id,
@@ -141,8 +145,11 @@ export async function PUT(
       inventory_no,
       owned,
       status,
+      rental_cost_per_day,
       rental_price_per_day_eur,
-      description
+      description,
+      notes,
+      current_location
     } = body;
 
     // Prepare update data
@@ -155,8 +162,11 @@ export async function PUT(
     if (inventory_no !== undefined) updateData.inventory_no = inventory_no;
     if (owned !== undefined) updateData.owned = owned;
     if (status !== undefined) updateData.status = status;
+    if (rental_cost_per_day !== undefined) updateData.rental_cost_per_day = Number(rental_cost_per_day);
     if (rental_price_per_day_eur !== undefined) updateData.rental_cost_per_day = Number(rental_price_per_day_eur);
     if (description !== undefined) updateData.description = description;
+    if (notes !== undefined) updateData.notes = notes;
+    if (current_location !== undefined) updateData.current_location = current_location;
 
     // Update equipment
     const { data: updatedEquipment, error: updateError } = await supabase
@@ -174,6 +184,8 @@ export async function PUT(
         purchase_date,
         warranty_until,
         description,
+        notes,
+        current_location,
         is_active,
         created_at,
         updated_at

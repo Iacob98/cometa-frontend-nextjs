@@ -49,6 +49,9 @@ import { usePermissions } from "@/hooks/use-auth";
 import { useCrewEquipmentAssignments } from "@/hooks/use-equipment";
 import { useCrewVehicleAssignments } from "@/hooks/use-vehicles";
 import WorkerDocumentsDialog from "@/components/documents/worker-documents-dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@/components/ui/visually-hidden";
+import CreateUserForm from "@/components/features/user-management/create-user-form";
 
 // Validation schema for editing teams
 const editTeamSchema = z.object({
@@ -65,8 +68,10 @@ export default function TeamDetailsPage() {
   const { canManageTeams } = usePermissions();
 
   const [isEditing, setIsEditing] = useState(false);
+  const [editingUser, setEditingUser] = useState<any>(null);
+
   const teamId = params.id as string;
-  const { data: crew, isLoading: crewLoading, error } = useCrew(teamId);
+  const { data: crew, isLoading: crewLoading, error, refetch: refetchCrew } = useCrew(teamId);
   const updateCrew = useUpdateCrew();
   const deleteCrew = useDeleteCrew();
 
@@ -133,6 +138,15 @@ export default function TeamDetailsPage() {
     } catch (error) {
       console.error("Failed to delete team:", error);
     }
+  };
+
+  const handleEditUser = (user: any) => {
+    setEditingUser(user);
+  };
+
+  const handleUserUpdateSuccess = () => {
+    setEditingUser(null);
+    refetchCrew();
   };
 
 
@@ -491,6 +505,14 @@ export default function TeamDetailsPage() {
                       <Badge variant="outline">
                         {member.role_in_crew}
                       </Badge>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEditUser(member.user)}
+                      >
+                        <Edit className="h-4 w-4 mr-1" />
+                        Edit
+                      </Button>
                       <WorkerDocumentsDialog
                         userId={member.user.id}
                         userName={member.user.full_name}
@@ -655,6 +677,23 @@ export default function TeamDetailsPage() {
             </div>
           </CardContent>
         </Card>
+
+      {/* Edit User Dialog */}
+      <Dialog open={!!editingUser} onOpenChange={() => setEditingUser(null)}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <VisuallyHidden>
+            <DialogTitle>Edit User</DialogTitle>
+          </VisuallyHidden>
+          {editingUser && (
+            <CreateUserForm
+              editMode={true}
+              initialData={editingUser}
+              onSuccess={handleUserUpdateSuccess}
+              onCancel={() => setEditingUser(null)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

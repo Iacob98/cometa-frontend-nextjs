@@ -16,6 +16,12 @@ export interface Vehicle {
   tipper_type: 'Kipper' | 'kein Kipper';
   max_weight_kg?: number | null;
   comment?: string | null;
+  // NEW FIELDS
+  number_of_seats?: number | null;
+  fuel_consumption_per_100km?: number | null;
+  has_first_aid_kit?: boolean;
+  first_aid_kit_expiry_date?: string | null;
+  // END NEW FIELDS
   full_name?: string;
   age?: number;
   current_assignment?: any;
@@ -57,6 +63,11 @@ export interface CreateVehicleData {
   tipper_type: 'Kipper' | 'kein Kipper';
   max_weight_kg?: number | null;
   comment?: string | null;
+  // NEW FIELDS
+  number_of_seats?: number | null;
+  fuel_consumption_per_100km?: number | null;
+  has_first_aid_kit?: boolean;
+  first_aid_kit_expiry_date?: string | null;
 }
 
 export interface CreateVehicleAssignmentData {

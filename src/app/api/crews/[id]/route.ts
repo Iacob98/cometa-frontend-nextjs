@@ -32,14 +32,14 @@ export async function GET(
         project_id,
         created_at,
         updated_at,
-        leader:users!crews_leader_user_id_fkey(id, first_name, last_name, email, phone, role),
+        leader:users!crews_leader_user_id_fkey(id, first_name, last_name, email, phone, role, skills, language_preference, pin_code),
         crew_members(
           id,
           user_id,
           role,
           is_active,
           joined_at,
-          user:users(id, first_name, last_name, email, phone, role)
+          user:users(id, first_name, last_name, email, phone, role, skills, language_preference, pin_code)
         )
       `)
       .eq('id', id)
@@ -76,9 +76,13 @@ export async function GET(
           id: crew.leader.id,
           first_name: crew.leader.first_name,
           last_name: crew.leader.last_name,
+          full_name: `${crew.leader.first_name || ''} ${crew.leader.last_name || ''}`.trim(),
           email: crew.leader.email,
           phone: crew.leader.phone,
-          role: crew.leader.role
+          role: crew.leader.role,
+          skills: crew.leader.skills || [],
+          lang_pref: crew.leader.language_preference || 'de',
+          pin_code: crew.leader.pin_code
         }
       }] : []),
       // Add regular members
@@ -90,7 +94,12 @@ export async function GET(
         is_active: member.is_active,
         joined_at: member.joined_at,
         full_name: member.user ? `${member.user.first_name} ${member.user.last_name}` : '',
-        user: member.user
+        user: member.user ? {
+          ...member.user,
+          full_name: `${member.user.first_name || ''} ${member.user.last_name || ''}`.trim(),
+          skills: member.user.skills || [],
+          lang_pref: member.user.language_preference || 'de'
+        } : null
       }))
     ];
 
@@ -100,6 +109,8 @@ export async function GET(
       leader: crew.leader ? {
         ...crew.leader,
         full_name: `${crew.leader.first_name || ''} ${crew.leader.last_name || ''}`.trim(),
+        skills: crew.leader.skills || [],
+        lang_pref: crew.leader.language_preference || 'de'
       } : null,
       members: formattedMembers,
       member_count: (crew.crew_members?.length || 0) + (crew.leader_user_id ? 1 : 0)

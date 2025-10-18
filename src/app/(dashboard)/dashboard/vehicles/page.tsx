@@ -364,6 +364,8 @@ export default function VehiclesPage() {
                   <TableHead>Plate Number</TableHead>
                   <TableHead>Tipper</TableHead>
                   <TableHead>Max Weight</TableHead>
+                  <TableHead>Seats</TableHead>
+                  <TableHead>First Aid Kit</TableHead>
                   <TableHead>Assigned to</TableHead>
                   <TableHead>Daily Rate</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -372,7 +374,7 @@ export default function VehiclesPage() {
               <TableBody>
                 {filteredVehicles.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
+                    <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
                       {filters.search || filters.type || filters.status
                         ? "No vehicles found matching your filters"
                         : "No vehicles added yet. Click 'Add Vehicle' to get started."}
@@ -413,6 +415,28 @@ export default function VehiclesPage() {
                         </TableCell>
                         <TableCell>
                           {vehicle.max_weight_kg ? `${vehicle.max_weight_kg} kg` : '-'}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-1">
+                            {(vehicle as any).number_of_seats ? (
+                              <span className="text-sm">{(vehicle as any).number_of_seats}</span>
+                            ) : (
+                              <span className="text-sm text-muted-foreground">-</span>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {(vehicle as any).has_first_aid_kit ? (
+                            <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                              Yes
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="bg-gray-100 text-gray-800 border-gray-200">
+                              <XCircle className="h-3 w-3 mr-1" />
+                              No
+                            </Badge>
+                          )}
                         </TableCell>
                         <TableCell>
                           {vehicle.current_assignment?.crew?.name ? (

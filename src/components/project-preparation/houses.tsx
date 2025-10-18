@@ -95,7 +95,10 @@ export default function Houses({ projectId }: HousesProps) {
   const [activeTab, setActiveTab] = useState('houses');
   const [editingHouse, setEditingHouse] = useState<string | null>(null);
   const [selectedHouseForDocs, setSelectedHouseForDocs] = useState<string | null>(null);
-  const [selectedDocumentFile, setSelectedDocumentFile] = useState<File | null>(null);
+  const [selectedDocumentFiles, setSelectedDocumentFiles] = useState<File[]>([]);
+  const [uploadDocumentFiles, setUploadDocumentFiles] = useState<File[]>([]);
+  const [selectedDocumentType, setSelectedDocumentType] = useState<string>('');
+  const [isUploadingDocs, setIsUploadingDocs] = useState(false);
   const [viewingDocument, setViewingDocument] = useState<{
     url: string;
     filename: string;
@@ -109,10 +112,58 @@ export default function Houses({ projectId }: HousesProps) {
   const createHouse = useCreateHouse();
   const updateHouse = useUpdateHouse();
   const deleteHouse = useDeleteHouse();
-  const uploadDocument = { mutate: () => {}, isPending: false }; // TODO: Implement useUploadHouseDocument hook
 
   const createForm = useForm<CreateHouseForm>();
   const editForm = useForm<EditHouseForm>();
+
+  // Handle document upload for existing houses
+  const handleUploadDocuments = async () => {
+    if (!selectedHouseForDocs || uploadDocumentFiles.length === 0 || !selectedDocumentType) {
+      toast.error('Please select document type and at least one file');
+      return;
+    }
+
+    setIsUploadingDocs(true);
+    let successCount = 0;
+    let failCount = 0;
+
+    for (const file of uploadDocumentFiles) {
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('document_type', selectedDocumentType);
+        formData.append('description', `${DOCUMENT_TYPES.find(t => t.value === selectedDocumentType)?.label || 'Document'}: ${file.name}`);
+
+        const response = await fetch(`/api/houses/${selectedHouseForDocs}/documents`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Document upload failed');
+        }
+        successCount++;
+      } catch (docError) {
+        console.error('Document upload error:', docError);
+        failCount++;
+      }
+    }
+
+    setIsUploadingDocs(false);
+
+    if (failCount === 0) {
+      toast.success(`${successCount} document(s) uploaded successfully`);
+    } else if (successCount > 0) {
+      toast.warning(`${successCount} document(s) uploaded, ${failCount} failed`);
+    } else {
+      toast.error('All document uploads failed');
+    }
+
+    // Reset form and reload documents
+    setUploadDocumentFiles([]);
+    setSelectedDocumentType('');
+    loadHouseDocuments(selectedHouseForDocs);
+  };
 
   // Load documents when house is selected
   const loadHouseDocuments = async (houseId: string) => {
@@ -210,34 +261,46 @@ export default function Houses({ projectId }: HousesProps) {
         project_id: projectId,
       });
 
-      // Upload document if one was selected
-      if (selectedDocumentFile && result.id) {
-        try {
-          const formData = new FormData();
-          formData.append('file', selectedDocumentFile);
-          formData.append('document_type', 'connection_plan');
-          formData.append('description', 'Connection plan uploaded during house creation');
+      // Upload documents if any were selected
+      if (selectedDocumentFiles.length > 0 && result.id) {
+        let successCount = 0;
+        let failCount = 0;
 
-          const response = await fetch(`/api/houses/${result.id}/documents`, {
-            method: 'POST',
-            body: formData,
-          });
+        for (const file of selectedDocumentFiles) {
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('document_type', 'connection_plan');
+            formData.append('description', `Connection plan uploaded during house creation: ${file.name}`);
 
-          if (!response.ok) {
-            throw new Error('Document upload failed');
+            const response = await fetch(`/api/houses/${result.id}/documents`, {
+              method: 'POST',
+              body: formData,
+            });
+
+            if (!response.ok) {
+              throw new Error('Document upload failed');
+            }
+            successCount++;
+          } catch (docError) {
+            console.error('Document upload error:', docError);
+            failCount++;
           }
+        }
 
-          toast.success('House and document added successfully');
-        } catch (docError) {
-          console.error('Document upload error:', docError);
-          toast.warning('House added but document upload failed');
+        if (failCount === 0) {
+          toast.success(`House and ${successCount} document(s) added successfully`);
+        } else if (successCount > 0) {
+          toast.warning(`House added. ${successCount} document(s) uploaded, ${failCount} failed`);
+        } else {
+          toast.warning('House added but all document uploads failed');
         }
       } else {
         toast.success('House added successfully');
       }
 
       createForm.reset();
-      setSelectedDocumentFile(null);
+      setSelectedDocumentFiles([]);
       refetch();
     } catch (error) {
       console.error('Create house error:', error);
@@ -732,35 +795,61 @@ export default function Houses({ projectId }: HousesProps) {
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 bg-gray-50">
                   <Label className="text-base font-semibold flex items-center mb-3">
                     <Paperclip className="w-5 h-5 mr-2" />
-                    Connection Plan Document (Optional)
+                    Connection Plan Documents (Optional)
                   </Label>
                   <div className="space-y-3">
                     <div className="flex items-center gap-2">
+                      <label htmlFor="house-doc-input" className="cursor-pointer">
+                        <div className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm font-medium">
+                          <Upload className="w-4 h-4" />
+                          <span>Add Files</span>
+                        </div>
+                      </label>
                       <Input
+                        id="house-doc-input"
                         type="file"
                         accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
-                        onChange={(e) => setSelectedDocumentFile(e.target.files?.[0] || null)}
-                        className="flex-1"
+                        multiple
+                        onChange={(e) => {
+                          const newFiles = Array.from(e.target.files || []);
+                          if (newFiles.length > 0) {
+                            setSelectedDocumentFiles(prev => [...prev, ...newFiles]);
+                          }
+                          e.target.value = '';
+                        }}
+                        className="hidden"
                       />
-                      {selectedDocumentFile && (
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setSelectedDocumentFile(null)}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      )}
+                      <span className="text-sm text-gray-500">
+                        Click "Add Files" to select files
+                      </span>
                     </div>
-                    {selectedDocumentFile && (
-                      <div className="flex items-center gap-2 text-sm text-green-600">
-                        <CheckCircle className="w-4 h-4" />
-                        <span>{selectedDocumentFile.name} ({(selectedDocumentFile.size / 1024 / 1024).toFixed(2)} MB)</span>
+                    {selectedDocumentFiles.length > 0 && (
+                      <div className="space-y-2">
+                        {selectedDocumentFiles.map((file, index) => (
+                          <div key={index} className="flex items-center justify-between gap-2 text-sm bg-green-50 p-2 rounded border border-green-200">
+                            <div className="flex items-center gap-2 text-green-700">
+                              <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                              <span className="truncate">{file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                            </div>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                setSelectedDocumentFiles(prev => prev.filter((_, i) => i !== index));
+                              }}
+                            >
+                              <X className="w-4 h-4 text-red-500" />
+                            </Button>
+                          </div>
+                        ))}
+                        <p className="text-xs text-green-600 font-medium">
+                          {selectedDocumentFiles.length} file(s) selected - You can add more files
+                        </p>
                       </div>
                     )}
                     <p className="text-xs text-gray-500">
-                      Upload connection plans, permits, or other documents (max 10MB). PDF, images, or Office documents accepted.
+                      PDF, images, or Office documents accepted. Click "Add Files" multiple times to add more files.
                     </p>
                   </div>
                 </div>
@@ -877,13 +966,14 @@ export default function Houses({ projectId }: HousesProps) {
                       {/* Document Upload */}
                       <Card>
                         <CardHeader>
-                          <CardTitle className="text-lg">Upload Document</CardTitle>
+                          <CardTitle className="text-lg">Upload Documents</CardTitle>
+                          <CardDescription>Upload multiple documents at once</CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-4">
                             <div>
-                              <Label htmlFor="doc_type">Document Type</Label>
-                              <Select>
+                              <Label htmlFor="doc_type">Document Type *</Label>
+                              <Select value={selectedDocumentType} onValueChange={setSelectedDocumentType}>
                                 <SelectTrigger>
                                   <SelectValue placeholder="Select document type" />
                                 </SelectTrigger>
@@ -897,13 +987,70 @@ export default function Houses({ projectId }: HousesProps) {
                               </Select>
                             </div>
                             <div>
-                              <Label htmlFor="file">File</Label>
-                              <div className="flex items-center space-x-2">
-                                <Input type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx" />
-                                <Button type="button" disabled={uploadDocument.isPending}>
+                              <Label htmlFor="file">Files *</Label>
+                              <div className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                  <label htmlFor="upload-doc-input" className="cursor-pointer">
+                                    <div className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm font-medium">
+                                      <Upload className="w-4 h-4" />
+                                      <span>Add Files</span>
+                                    </div>
+                                  </label>
+                                  <Input
+                                    id="upload-doc-input"
+                                    type="file"
+                                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx"
+                                    multiple
+                                    onChange={(e) => {
+                                      const newFiles = Array.from(e.target.files || []);
+                                      if (newFiles.length > 0) {
+                                        setUploadDocumentFiles(prev => [...prev, ...newFiles]);
+                                      }
+                                      e.target.value = '';
+                                    }}
+                                    className="hidden"
+                                  />
+                                  <span className="text-sm text-gray-500">
+                                    Click "Add Files" to select files
+                                  </span>
+                                </div>
+                                {uploadDocumentFiles.length > 0 && (
+                                  <div className="space-y-2">
+                                    {uploadDocumentFiles.map((file, index) => (
+                                      <div key={index} className="flex items-center justify-between gap-2 text-sm bg-blue-50 p-2 rounded border border-blue-200">
+                                        <div className="flex items-center gap-2 text-blue-700">
+                                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                                          <span className="truncate">{file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                                        </div>
+                                        <Button
+                                          type="button"
+                                          variant="ghost"
+                                          size="sm"
+                                          onClick={() => {
+                                            setUploadDocumentFiles(prev => prev.filter((_, i) => i !== index));
+                                          }}
+                                        >
+                                          <X className="w-4 h-4 text-red-500" />
+                                        </Button>
+                                      </div>
+                                    ))}
+                                    <p className="text-xs text-blue-600 font-medium">
+                                      {uploadDocumentFiles.length} file(s) selected - You can add more files
+                                    </p>
+                                  </div>
+                                )}
+                                <Button
+                                  type="button"
+                                  onClick={handleUploadDocuments}
+                                  disabled={isUploadingDocs || uploadDocumentFiles.length === 0 || !selectedDocumentType}
+                                  className="w-full"
+                                >
                                   <Upload className="w-4 h-4 mr-2" />
-                                  {uploadDocument.isPending ? 'Uploading...' : 'Upload'}
+                                  {isUploadingDocs ? 'Uploading...' : `Upload ${uploadDocumentFiles.length > 0 ? uploadDocumentFiles.length : ''} Document${uploadDocumentFiles.length !== 1 ? 's' : ''}`}
                                 </Button>
+                                <p className="text-xs text-gray-500">
+                                  PDF, images, or Office documents accepted. Click "Add Files" multiple times to add more files.
+                                </p>
                               </div>
                             </div>
                           </div>

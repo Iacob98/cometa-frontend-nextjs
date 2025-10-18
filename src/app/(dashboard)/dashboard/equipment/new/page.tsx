@@ -46,6 +46,8 @@ const equipmentFormSchema = z.object({
   status: z.enum(['available', 'in_use', 'maintenance', 'broken']).default('available'),
   current_location: z.string().max(200, "Location must be less than 200 characters").optional(),
   rental_cost_per_day: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
+  description: z.string().max(1000, "Description must be less than 1000 characters").optional(),
+  notes: z.string().max(1000, "Notes must be less than 1000 characters").optional(),
 })
 
 type EquipmentFormValues = z.infer<typeof equipmentFormSchema>
@@ -79,6 +81,8 @@ export default function NewEquipmentPage() {
       owned: true,
       status: "available",
       current_location: "",
+      description: "",
+      notes: "",
     },
   })
 
@@ -96,6 +100,8 @@ export default function NewEquipmentPage() {
         status: values.status,
         current_location: values.current_location || undefined,
         rental_cost_per_day: values.rental_cost_per_day,
+        description: values.description || undefined,
+        notes: values.notes || undefined,
       }
 
       // Submit to API
@@ -316,6 +322,50 @@ export default function NewEquipmentPage() {
                         )}
                       />
                     </div>
+
+                    {/* Description */}
+                    <FormField
+                      control={form.control}
+                      name="description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Description</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Equipment specifications, technical details, capabilities..."
+                              className="min-h-[100px]"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Technical specifications and static details about the equipment
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Notes */}
+                    <FormField
+                      control={form.control}
+                      name="notes"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Notes</FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder="Operational notes, maintenance reminders, usage notes..."
+                              className="min-h-[100px]"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Operational notes, maintenance schedules, or usage reminders
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
                   </CardContent>
                 </Card>

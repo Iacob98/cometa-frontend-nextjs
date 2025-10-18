@@ -12,7 +12,8 @@ import {
   Download,
   Eye,
   X,
-  Plus
+  Plus,
+  Edit
 } from "lucide-react";
 
 import {
@@ -27,6 +28,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { DocumentUpload } from "./document-upload";
 
 import type { DocumentsResponse, WorkerDocument, DocumentStatus } from "@/types";
@@ -110,6 +114,16 @@ function DocumentCard({ document }: { document: WorkerDocument }) {
   const statusText = getStatusText(document.status);
   const queryClient = useQueryClient();
 
+  const [showEditDialog, setShowEditDialog] = useState(false);
+  const [editForm, setEditForm] = useState({
+    document_number: document.document_number || '',
+    issuing_authority: document.issuing_authority || '',
+    issue_date: document.issue_date || '',
+    expiry_date: document.expiry_date || '',
+    notes: document.notes || ''
+  });
+  const [isUpdating, setIsUpdating] = useState(false);
+
   const handleView = () => {
     // Open document in new tab for viewing (not downloading)
     const viewUrl = `/api/users/${document.user_id}/documents/${document.id}/view`;
@@ -145,6 +159,53 @@ function DocumentCard({ document }: { document: WorkerDocument }) {
     } catch (error) {
       console.error('Download failed:', error);
       alert('Ошибка при скачивании документа');
+    }
+  };
+
+  const handleEdit = () => {
+    // Reset form with current document data
+    setEditForm({
+      document_number: document.document_number || '',
+      issuing_authority: document.issuing_authority || '',
+      issue_date: document.issue_date || '',
+      expiry_date: document.expiry_date || '',
+      notes: document.notes || ''
+    });
+    setShowEditDialog(true);
+  };
+
+  const handleUpdate = async () => {
+    setIsUpdating(true);
+    try {
+      console.log(`✏️ Обновляю документ "${document.file_name}" для работника ID: ${document.user_id}`);
+
+      const response = await fetch(`/api/users/${document.user_id}/documents/${document.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editForm),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update document');
+      }
+
+      console.log(`✅ Документ "${document.file_name}" успешно обновлен`);
+
+      // Refresh the documents list
+      queryClient.invalidateQueries({
+        queryKey: ['worker-documents', document.user_id]
+      });
+
+      setShowEditDialog(false);
+      alert('Документ успешно обновлен');
+
+    } catch (error) {
+      console.error('Update failed:', error);
+      alert('Ошибка при обновлении документа');
+    } finally {
+      setIsUpdating(false);
     }
   };
 
@@ -260,6 +321,10 @@ function DocumentCard({ document }: { document: WorkerDocument }) {
               <Download className="h-4 w-4 mr-1" />
               Скачать
             </Button>
+            <Button variant="outline" size="sm" onClick={handleEdit}>
+              <Edit className="h-4 w-4 mr-1" />
+              Редактировать
+            </Button>
             <Button variant="outline" size="sm" onClick={handleDelete} className="text-red-600 hover:text-red-700">
               <X className="h-4 w-4 mr-1" />
               Удалить
@@ -267,6 +332,85 @@ function DocumentCard({ document }: { document: WorkerDocument }) {
           </div>
         </div>
       </CardContent>
+
+      {/* Edit Dialog */}
+      <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Редактировать документ</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="document_number">Номер документа <span className="text-muted-foreground text-xs">(Optional)</span></Label>
+              <Input
+                id="document_number"
+                value={editForm.document_number}
+                onChange={(e) => setEditForm({ ...editForm, document_number: e.target.value })}
+                placeholder="Введите номер документа..."
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="issuing_authority">Выдающий орган <span className="text-muted-foreground text-xs">(Optional)</span></Label>
+              <Input
+                id="issuing_authority"
+                value={editForm.issuing_authority}
+                onChange={(e) => setEditForm({ ...editForm, issuing_authority: e.target.value })}
+                placeholder="Введите выдающий орган..."
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="issue_date">Дата выдачи <span className="text-muted-foreground text-xs">(Optional)</span></Label>
+                <Input
+                  id="issue_date"
+                  type="date"
+                  value={editForm.issue_date}
+                  onChange={(e) => setEditForm({ ...editForm, issue_date: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="expiry_date">Дата истечения <span className="text-muted-foreground text-xs">(Optional)</span></Label>
+                <Input
+                  id="expiry_date"
+                  type="date"
+                  value={editForm.expiry_date}
+                  onChange={(e) => setEditForm({ ...editForm, expiry_date: e.target.value })}
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="notes">Примечания <span className="text-muted-foreground text-xs">(Optional)</span></Label>
+              <Textarea
+                id="notes"
+                value={editForm.notes}
+                onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })}
+                placeholder="Введите примечания..."
+                rows={3}
+              />
+            </div>
+
+            <div className="flex justify-end gap-2 pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setShowEditDialog(false)}
+                disabled={isUpdating}
+              >
+                Отмена
+              </Button>
+              <Button
+                onClick={handleUpdate}
+                disabled={isUpdating}
+              >
+                {isUpdating ? 'Сохранение...' : 'Сохранить'}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }

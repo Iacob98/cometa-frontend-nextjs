@@ -73,7 +73,7 @@ export default function UtilityContacts({ projectId }: UtilityContactsProps) {
     title: '',
     description: '',
     plan_type: '',
-    file: null as File | null,
+    files: [] as File[],
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -168,29 +168,48 @@ export default function UtilityContacts({ projectId }: UtilityContactsProps) {
   const handlePlanSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!planFormData.title || !planFormData.plan_type || !planFormData.file) {
-      toast.error('Please fill in all required fields and select a file');
+    if (!planFormData.title || !planFormData.plan_type || planFormData.files.length === 0) {
+      toast.error('Please fill in all required fields and select at least one file');
       return;
     }
 
     try {
-      // Use the hook to create plan entry with file upload
-      await createPlanMutation.mutateAsync({
-        project_id: projectId,
-        title: planFormData.title,
-        description: planFormData.description,
-        plan_type: planFormData.plan_type,
-        file: planFormData.file,
-      });
+      let successCount = 0;
+      let failCount = 0;
+
+      // Upload each file separately
+      for (const file of planFormData.files) {
+        try {
+          await createPlanMutation.mutateAsync({
+            project_id: projectId,
+            title: `${planFormData.title}${planFormData.files.length > 1 ? ` - ${file.name}` : ''}`,
+            description: planFormData.description,
+            plan_type: planFormData.plan_type,
+            file: file,
+          });
+          successCount++;
+        } catch (error) {
+          console.error('Plan upload error:', error);
+          failCount++;
+        }
+      }
 
       // Reset form
       setPlanFormData({
         title: '',
         description: '',
         plan_type: '',
-        file: null,
+        files: [],
       });
       setShowPlanUpload(false);
+
+      if (failCount === 0) {
+        toast.success(`${successCount} plan(s) uploaded successfully`);
+      } else if (successCount > 0) {
+        toast.warning(`${successCount} plan(s) uploaded, ${failCount} failed`);
+      } else {
+        toast.error('All plan uploads failed');
+      }
 
     } catch (error) {
       console.error('Plan upload error:', error);
@@ -199,23 +218,33 @@ export default function UtilityContacts({ projectId }: UtilityContactsProps) {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Validate file type
-      const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/gif', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+    const newFiles = Array.from(e.target.files || []);
+    if (newFiles.length === 0) return;
+
+    // Validate file types
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/gif', 'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+    const validFiles = newFiles.filter(file => {
       if (!allowedTypes.includes(file.type)) {
-        toast.error('Only PDF, image files, and Excel files are allowed');
-        return;
+        toast.error(`File "${file.name}" is not supported. Only PDF, image files, and Excel files are allowed`);
+        return false;
       }
+      return true;
+    });
 
-      // Validate file size (max 10MB)
-      if (file.size > 10 * 1024 * 1024) {
-        toast.error('File size must be less than 10MB');
-        return;
-      }
-
-      setPlanFormData(prev => ({ ...prev, file }));
+    if (validFiles.length > 0) {
+      // ADD new files to existing files instead of replacing
+      setPlanFormData(prev => ({ ...prev, files: [...prev.files, ...validFiles] }));
     }
+
+    // Reset input to allow selecting the same file again
+    e.target.value = '';
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setPlanFormData(prev => ({
+      ...prev,
+      files: prev.files.filter((_, i) => i !== index)
+    }));
   };
 
   const handleDeletePlan = async (planId: string, planTitle: string) => {
@@ -325,24 +354,55 @@ export default function UtilityContacts({ projectId }: UtilityContactsProps) {
                 </div>
 
                 <div>
-                  <Label htmlFor="plan-file">File *</Label>
-                  <Input
-                    id="plan-file"
-                    type="file"
-                    onChange={handleFileChange}
-                    accept=".pdf,.jpg,.jpeg,.png,.gif,.xls,.xlsx"
-                    required
-                  />
-                  <p className="text-sm text-gray-500 mt-1">
-                    Supported formats: PDF, Images (JPG, PNG, GIF), Excel files. Max size: 10MB
-                  </p>
-                  {planFormData.file && (
-                    <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded">
-                      <p className="text-sm text-green-700">
-                        Selected: {planFormData.file.name} ({formatFileSize(planFormData.file.size)})
-                      </p>
+                  <Label htmlFor="plan-file">Files *</Label>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="plan-file-input" className="cursor-pointer">
+                        <div className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm font-medium">
+                          <Upload className="w-4 h-4" />
+                          <span>Add Files</span>
+                        </div>
+                      </label>
+                      <Input
+                        id="plan-file-input"
+                        type="file"
+                        onChange={handleFileChange}
+                        accept=".pdf,.jpg,.jpeg,.png,.gif,.xls,.xlsx"
+                        className="hidden"
+                        multiple
+                      />
+                      <span className="text-sm text-gray-500">
+                        Click "Add Files" to select one or more files
+                      </span>
                     </div>
-                  )}
+
+                    {planFormData.files.length > 0 && (
+                      <div className="space-y-2">
+                        {planFormData.files.map((file, index) => (
+                          <div key={index} className="flex items-center justify-between gap-2 p-2 bg-green-50 border border-green-200 rounded">
+                            <div className="flex items-center gap-2 text-sm text-green-700">
+                              <FileText className="w-4 h-4 flex-shrink-0" />
+                              <span className="truncate">{file.name} ({formatFileSize(file.size)})</span>
+                            </div>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleRemoveFile(index)}
+                            >
+                              <X className="w-4 h-4 text-red-500" />
+                            </Button>
+                          </div>
+                        ))}
+                        <p className="text-xs text-green-600 font-medium">
+                          {planFormData.files.length} file(s) selected - You can add more files
+                        </p>
+                      </div>
+                    )}
+                    <p className="text-sm text-gray-500">
+                      Supported formats: PDF, Images (JPG, PNG, GIF), Excel files
+                    </p>
+                  </div>
                 </div>
 
                 <div className="flex gap-2">
@@ -355,7 +415,7 @@ export default function UtilityContacts({ projectId }: UtilityContactsProps) {
                     variant="outline"
                     onClick={() => {
                       setShowPlanUpload(false);
-                      setPlanFormData({ title: '', description: '', plan_type: '', file: null });
+                      setPlanFormData({ title: '', description: '', plan_type: '', files: [] });
                     }}
                   >
                     Cancel

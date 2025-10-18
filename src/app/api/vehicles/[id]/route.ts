@@ -31,6 +31,9 @@ export async function GET(
         tipper_type,
         max_weight_kg,
         comment,
+        number_of_seats,
+        has_first_aid_kit,
+        first_aid_kit_expiry_date,
         created_at,
         updated_at,
         vehicle_assignments(
@@ -93,6 +96,9 @@ export async function GET(
       tipper_type: vehicle.tipper_type || 'kein Kipper',
       max_weight_kg: vehicle.max_weight_kg ? Number(vehicle.max_weight_kg) : null,
       comment: vehicle.comment || null,
+      number_of_seats: vehicle.number_of_seats ? Number(vehicle.number_of_seats) : null,
+      has_first_aid_kit: vehicle.has_first_aid_kit || false,
+      first_aid_kit_expiry_date: vehicle.first_aid_kit_expiry_date || null,
       full_name: `${vehicle.brand || ''} ${vehicle.model || ''} (${vehicle.plate_number})`.trim(),
       age: vehicle.year_manufactured ? new Date().getFullYear() - vehicle.year_manufactured : null,
       current_assignment: currentAssignment ? {
@@ -158,7 +164,10 @@ export async function PUT(
       description,
       tipper_type,
       max_weight_kg,
-      comment
+      comment,
+      number_of_seats,
+      has_first_aid_kit,
+      first_aid_kit_expiry_date
     } = body;
 
     // Validate tipper_type if provided
@@ -210,6 +219,9 @@ export async function PUT(
     if (tipper_type !== undefined) updateData.tipper_type = tipper_type;
     if (max_weight_kg !== undefined) updateData.max_weight_kg = max_weight_kg ? Number(max_weight_kg) : null;
     if (comment !== undefined) updateData.comment = comment;
+    if (number_of_seats !== undefined) updateData.number_of_seats = number_of_seats ? Number(number_of_seats) : null;
+    if (has_first_aid_kit !== undefined) updateData.has_first_aid_kit = Boolean(has_first_aid_kit);
+    if (first_aid_kit_expiry_date !== undefined) updateData.first_aid_kit_expiry_date = first_aid_kit_expiry_date || null;
 
     // Update vehicle
     const { data: updatedVehicle, error: updateError } = await supabase
@@ -231,6 +243,9 @@ export async function PUT(
         tipper_type,
         max_weight_kg,
         comment,
+        number_of_seats,
+        has_first_aid_kit,
+        first_aid_kit_expiry_date,
         created_at,
         updated_at
       `)

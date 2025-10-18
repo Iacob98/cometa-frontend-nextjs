@@ -31,6 +31,7 @@ import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
+import { Checkbox } from "@/components/ui/checkbox"
 
 // Vehicle form validation schema
 const vehicleFormSchema = z.object({
@@ -62,6 +63,10 @@ const vehicleFormSchema = z.object({
   }).default("kein Kipper"),
   max_weight_kg: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
   comment: z.string().max(500).optional(),
+  // NEW FIELDS - Safety and Capacity
+  number_of_seats: z.string().optional().transform((val) => val ? parseInt(val) : undefined),
+  has_first_aid_kit: z.boolean().default(false),
+  first_aid_kit_expiry_date: z.string().optional(),
 })
 
 type VehicleFormValues = z.infer<typeof vehicleFormSchema>
@@ -114,6 +119,9 @@ export default function EditVehiclePage() {
       tipper_type: "kein Kipper",
       max_weight_kg: "",
       comment: "",
+      number_of_seats: "",
+      has_first_aid_kit: false,
+      first_aid_kit_expiry_date: "",
     },
   })
 
@@ -165,6 +173,9 @@ export default function EditVehiclePage() {
           tipper_type: vehicleData.tipper_type || "kein Kipper",
           max_weight_kg: vehicleData.max_weight_kg?.toString() || "",
           comment: vehicleData.comment || "",
+          number_of_seats: vehicleData.number_of_seats?.toString() || "",
+          has_first_aid_kit: vehicleData.has_first_aid_kit || false,
+          first_aid_kit_expiry_date: vehicleData.first_aid_kit_expiry_date || "",
         })
 
         console.log('🚗 Form populated successfully')
@@ -200,6 +211,9 @@ export default function EditVehiclePage() {
         tipper_type: values.tipper_type,
         max_weight_kg: values.max_weight_kg,
         comment: values.comment || undefined,
+        number_of_seats: values.number_of_seats,
+        has_first_aid_kit: values.has_first_aid_kit,
+        first_aid_kit_expiry_date: values.first_aid_kit_expiry_date || undefined,
       }
 
       console.log('🚗 Sending vehicle data to API:', vehicleData)
@@ -575,6 +589,84 @@ export default function EditVehiclePage() {
                         </FormItem>
                       )}
                     />
+
+                    <Separator />
+
+                    {/* Safety and Capacity Section */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Number of Seats */}
+                      <FormField
+                        control={form.control}
+                        name="number_of_seats"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Number of Seats</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                min="0"
+                                max="100"
+                                placeholder="e.g., 5"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Passenger capacity of the vehicle
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Has First Aid Kit */}
+                      <FormField
+                        control={form.control}
+                        name="has_first_aid_kit"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 pt-8">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>
+                                Has First Aid Kit
+                              </FormLabel>
+                              <FormDescription>
+                                Check if this vehicle has a first aid kit
+                              </FormDescription>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {/* First Aid Kit Expiry Date - Only show if has_first_aid_kit is true */}
+                    {form.watch("has_first_aid_kit") && (
+                      <FormField
+                        control={form.control}
+                        name="first_aid_kit_expiry_date"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>First Aid Kit Expiry Date</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="date"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Expiration date of the first aid kit
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    )}
+
+                    <Separator />
 
                     {/* Description */}
                     <FormField

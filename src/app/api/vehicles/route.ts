@@ -36,6 +36,10 @@ export async function GET(request: NextRequest) {
         tipper_type,
         max_weight_kg,
         comment,
+        number_of_seats,
+        fuel_consumption_per_100km,
+        has_first_aid_kit,
+        first_aid_kit_expiry_date,
         created_at,
         updated_at,
         vehicle_assignments(
@@ -171,6 +175,10 @@ export async function GET(request: NextRequest) {
         tipper_type: vehicle.tipper_type || 'kein Kipper',
         max_weight_kg: vehicle.max_weight_kg ? Number(vehicle.max_weight_kg) : null,
         comment: vehicle.comment || null,
+        number_of_seats: vehicle.number_of_seats ? Number(vehicle.number_of_seats) : null,
+        fuel_consumption_per_100km: vehicle.fuel_consumption_per_100km ? Number(vehicle.fuel_consumption_per_100km) : null,
+        has_first_aid_kit: vehicle.has_first_aid_kit || false,
+        first_aid_kit_expiry_date: vehicle.first_aid_kit_expiry_date || null,
         full_name: `${vehicle.brand || ''} ${vehicle.model || ''} (${vehicle.plate_number})`.trim(),
         age: vehicle.year_manufactured ? new Date().getFullYear() - vehicle.year_manufactured : null,
         current_assignment: currentAssignment ? {
@@ -286,7 +294,11 @@ export async function POST(request: NextRequest) {
       description = '',
       tipper_type = 'kein Kipper',
       max_weight_kg,
-      comment
+      comment,
+      number_of_seats,
+      fuel_consumption_per_100km,
+      has_first_aid_kit = false,
+      first_aid_kit_expiry_date
     } = body;
 
     // Validate required fields
@@ -349,6 +361,28 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Validate number_of_seats if provided
+    if (number_of_seats !== undefined && number_of_seats !== null) {
+      const seats = Number(number_of_seats);
+      if (isNaN(seats) || seats < 0 || seats > 100 || !Number.isInteger(seats)) {
+        return NextResponse.json(
+          { error: 'Invalid number of seats. Must be an integer between 0 and 100' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validate fuel_consumption_per_100km if provided
+    if (fuel_consumption_per_100km !== undefined && fuel_consumption_per_100km !== null) {
+      const consumption = Number(fuel_consumption_per_100km);
+      if (isNaN(consumption) || consumption < 0) {
+        return NextResponse.json(
+          { error: 'Invalid fuel consumption. Must be 0 or greater' },
+          { status: 400 }
+        );
+      }
+    }
+
     // Check for duplicate plate number
     const { data: existingVehicle } = await supabase
       .from('vehicles')
@@ -379,7 +413,11 @@ export async function POST(request: NextRequest) {
         is_active: true,
         tipper_type,
         max_weight_kg: max_weight_kg ? Number(max_weight_kg) : null,
-        comment: comment || null
+        comment: comment || null,
+        number_of_seats: number_of_seats ? parseInt(number_of_seats) : null,
+        fuel_consumption_per_100km: fuel_consumption_per_100km ? Number(fuel_consumption_per_100km) : null,
+        has_first_aid_kit: has_first_aid_kit || false,
+        first_aid_kit_expiry_date: first_aid_kit_expiry_date || null
       })
       .select(`
         id,
@@ -396,6 +434,10 @@ export async function POST(request: NextRequest) {
         tipper_type,
         max_weight_kg,
         comment,
+        number_of_seats,
+        fuel_consumption_per_100km,
+        has_first_aid_kit,
+        first_aid_kit_expiry_date,
         created_at,
         updated_at
       `)
@@ -425,10 +467,13 @@ export async function POST(request: NextRequest) {
       tipper_type: newVehicle.tipper_type,
       max_weight_kg: newVehicle.max_weight_kg ? Number(newVehicle.max_weight_kg) : null,
       comment: newVehicle.comment || null,
+      number_of_seats: newVehicle.number_of_seats ? Number(newVehicle.number_of_seats) : null,
+      fuel_consumption_per_100km: newVehicle.fuel_consumption_per_100km ? Number(newVehicle.fuel_consumption_per_100km) : null,
+      has_first_aid_kit: newVehicle.has_first_aid_kit || false,
+      first_aid_kit_expiry_date: newVehicle.first_aid_kit_expiry_date || null,
       owned: newVehicle.owned !== undefined ? newVehicle.owned : true,
       rental_price_per_day_eur: Number(newVehicle.rental_price_per_day_eur || newVehicle.rental_cost_per_day) || 0,
       current_location: newVehicle.current_location || '',
-      fuel_consumption_l_100km: Number(newVehicle.fuel_consumption_l_100km) || 0,
       full_name: `${newVehicle.brand || ''} ${newVehicle.model || ''} (${newVehicle.plate_number})`.trim(),
       age: newVehicle.year_manufactured ? new Date().getFullYear() - newVehicle.year_manufactured : null,
       current_assignment: null,
@@ -466,10 +511,13 @@ export async function PUT(request: NextRequest) {
       owned,
       rental_price_per_day_eur,
       current_location,
-      fuel_consumption_l_100km,
+      fuel_consumption_per_100km,
       tipper_type,
       max_weight_kg,
-      comment
+      comment,
+      number_of_seats,
+      has_first_aid_kit,
+      first_aid_kit_expiry_date
     } = body;
 
     if (!id) {
@@ -528,10 +576,13 @@ export async function PUT(request: NextRequest) {
     if (owned !== undefined) updateData.owned = owned;
     if (rental_price_per_day_eur !== undefined) updateData.rental_price_per_day_eur = Number(rental_price_per_day_eur);
     if (current_location !== undefined) updateData.current_location = current_location;
-    if (fuel_consumption_l_100km !== undefined) updateData.fuel_consumption_l_100km = Number(fuel_consumption_l_100km);
+    if (fuel_consumption_per_100km !== undefined) updateData.fuel_consumption_per_100km = fuel_consumption_per_100km ? Number(fuel_consumption_per_100km) : null;
     if (tipper_type !== undefined) updateData.tipper_type = tipper_type;
     if (max_weight_kg !== undefined) updateData.max_weight_kg = max_weight_kg ? Number(max_weight_kg) : null;
     if (comment !== undefined) updateData.comment = comment;
+    if (number_of_seats !== undefined) updateData.number_of_seats = number_of_seats ? parseInt(number_of_seats) : null;
+    if (has_first_aid_kit !== undefined) updateData.has_first_aid_kit = has_first_aid_kit;
+    if (first_aid_kit_expiry_date !== undefined) updateData.first_aid_kit_expiry_date = first_aid_kit_expiry_date;
 
     // Update vehicle
     const { data: updatedVehicle, error: updateError } = await supabase
@@ -553,10 +604,13 @@ export async function PUT(request: NextRequest) {
         owned,
         rental_price_per_day_eur,
         current_location,
-        fuel_consumption_l_100km,
+        fuel_consumption_per_100km,
         tipper_type,
         max_weight_kg,
         comment,
+        number_of_seats,
+        has_first_aid_kit,
+        first_aid_kit_expiry_date,
         created_at,
         updated_at
       `)
