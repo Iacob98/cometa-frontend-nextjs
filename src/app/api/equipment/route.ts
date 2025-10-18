@@ -31,7 +31,9 @@ export async function GET(request: NextRequest) {
         purchase_date,
         warranty_until,
         description,
+        notes,
         owned,
+        current_location,
         is_active,
         created_at,
         updated_at
@@ -75,7 +77,7 @@ export async function GET(request: NextRequest) {
 
     if (search) {
       query = query.or(
-        `name.ilike.%${search}%,inventory_no.ilike.%${search}%,type.ilike.%${search}%,description.ilike.%${search}%`
+        `name.ilike.%${search}%,inventory_no.ilike.%${search}%,type.ilike.%${search}%,description.ilike.%${search}%,notes.ilike.%${search}%,current_location.ilike.%${search}%`
       );
     }
 
@@ -115,6 +117,7 @@ export async function POST(request: NextRequest) {
       status = "available",
       rental_cost_per_day,
       description,
+      notes,
       owned = true,
       current_location,
     } = body;
@@ -138,6 +141,7 @@ export async function POST(request: NextRequest) {
           status: status || "available",
           rental_cost_per_day: rental_cost_per_day || null,
           description: description || null,
+          notes: notes || null,
           owned: owned,
           current_location: current_location || null,
         },
@@ -151,6 +155,7 @@ export async function POST(request: NextRequest) {
         status,
         rental_cost_per_day,
         description,
+        notes,
         owned,
         current_location,
         created_at
