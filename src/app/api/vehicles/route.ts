@@ -97,6 +97,40 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Fetch document statistics for all vehicles
+    const vehicleIds = (vehicles || []).map((v: any) => v.id);
+    let documentStats: Record<string, { count: number; expired: number; expiring: number }> = {};
+
+    if (vehicleIds.length > 0) {
+      const { data: documents } = await supabase
+        .from('vehicle_documents')
+        .select('vehicle_id, expiry_date')
+        .in('vehicle_id', vehicleIds);
+
+      // Group by vehicle_id and calculate stats
+      documents?.forEach((doc: any) => {
+        if (!documentStats[doc.vehicle_id]) {
+          documentStats[doc.vehicle_id] = { count: 0, expired: 0, expiring: 0 };
+        }
+        documentStats[doc.vehicle_id].count++;
+
+        // Calculate expiry status from expiry_date
+        if (doc.expiry_date) {
+          const now = new Date();
+          const expiry = new Date(doc.expiry_date);
+          const daysUntilExpiry = Math.floor(
+            (expiry.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+          );
+
+          if (daysUntilExpiry < 0) {
+            documentStats[doc.vehicle_id].expired++;
+          } else if (daysUntilExpiry <= 60) {
+            documentStats[doc.vehicle_id].expiring++;
+          }
+        }
+      });
+    }
+
     // Format response to ensure proper structure for frontend
     const formattedVehicles = (vehicles || []).map((vehicle: any) => {
       // Filter current assignments (active assignments)
@@ -115,6 +149,9 @@ export async function GET(request: NextRequest) {
       if (project_id && (!currentAssignment || currentAssignment.project_id !== project_id)) {
         return null;
       }
+
+      // Get document statistics for this vehicle
+      const vehicleDocStats = documentStats[vehicle.id] || { count: 0, expired: 0, expiring: 0 };
 
       return {
         id: vehicle.id,
@@ -164,6 +201,9 @@ export async function GET(request: NextRequest) {
             Math.ceil((new Date(currentAssignment.to_ts).getTime() - new Date(currentAssignment.from_ts).getTime()) / (1000 * 60 * 60 * 24)) : null
         } : null,
         assignments_count: vehicle.vehicle_assignments?.length || 0,
+        documents_count: vehicleDocStats.count,
+        documents_expired: vehicleDocStats.expired,
+        documents_expiring_soon: vehicleDocStats.expiring,
         created_at: vehicle.created_at,
         updated_at: vehicle.updated_at
       };

@@ -15,6 +15,8 @@ import {
   Activity,
   Edit,
   Trash2,
+  FileText,
+  AlertTriangle,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -28,6 +30,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { useVehicles, useDeleteVehicle, useVehicleAssignments } from "@/hooks/use-vehicles";
 import { useDeleteAssignment } from "@/hooks/use-equipment";
+import { VehicleDocumentsDialog } from "@/components/vehicles/vehicle-documents-dialog";
 
 const statusColors = {
   available: "bg-green-100 text-green-800 border-green-200",
@@ -424,7 +427,49 @@ export default function VehiclesPage() {
                           {vehicle.rental_cost_per_day ? `€${vehicle.rental_cost_per_day}/day` : '-'}
                         </TableCell>
                         <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
+                          <div className="flex justify-end gap-2 items-center">
+                            {/* Document count and warnings */}
+                            <div className="flex items-center gap-1">
+                              {(vehicle as any).documents_expired > 0 && (
+                                <Badge
+                                  variant="outline"
+                                  className="bg-red-100 text-red-800 border-red-200 text-xs px-1.5 py-0"
+                                >
+                                  <AlertTriangle className="h-3 w-3 mr-1" />
+                                  {(vehicle as any).documents_expired}
+                                </Badge>
+                              )}
+                              {(vehicle as any).documents_expiring_soon > 0 && (
+                                <Badge
+                                  variant="outline"
+                                  className="bg-orange-100 text-orange-800 border-orange-200 text-xs px-1.5 py-0"
+                                >
+                                  <Clock className="h-3 w-3 mr-1" />
+                                  {(vehicle as any).documents_expiring_soon}
+                                </Badge>
+                              )}
+                            </div>
+
+                            <VehicleDocumentsDialog
+                              vehicleId={vehicle.id}
+                              vehicleName={`${vehicle.brand} ${vehicle.model}`}
+                              trigger={
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="relative"
+                                >
+                                  <FileText className="h-4 w-4 mr-1" />
+                                  <span className="text-xs">
+                                    {(vehicle as any).documents_count || 0}
+                                  </span>
+                                  {((vehicle as any).documents_expired > 0 ||
+                                    (vehicle as any).documents_expiring_soon > 0) && (
+                                    <span className="absolute -top-1 -right-1 h-2 w-2 bg-red-500 rounded-full" />
+                                  )}
+                                </Button>
+                              }
+                            />
                             <Button
                               variant="ghost"
                               size="sm"
