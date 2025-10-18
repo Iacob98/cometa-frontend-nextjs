@@ -2,180 +2,54 @@
 
 import * as React from "react"
 import { useState } from "react"
-import { format, isToday, isSameDay, startOfMonth, endOfMonth, eachDayOfInterval, parseISO } from "date-fns"
-import { Calendar as CalendarIcon, Plus, Filter, Users, Briefcase, Clock, MapPin } from "lucide-react"
-import { useQuery } from "@tanstack/react-query"
+import { format, isToday, isSameDay, startOfMonth, endOfMonth } from "date-fns"
+import { Calendar as CalendarIcon, Plus, Filter, Users, Briefcase, Clock, MapPin, Package, Home } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { useAuth } from "@/hooks/use-auth"
-
+import { useCalendarEvents } from "@/hooks/use-calendar"
+import { useQuery } from "@tanstack/react-query"
 import type {
-  WorkEntry,
-  Project,
-  HouseAppointment,
-  MaintenanceRecord,
-  PaymentSchedule,
-  WorkEntryFilters,
-  UUID
-} from "@/types"
-
-// Calendar event types
-type CalendarEventType = 'work_entry' | 'project_deadline' | 'appointment' | 'maintenance' | 'payment_due'
-
-interface CalendarEvent {
-  id: string
-  title: string
-  date: Date
-  type: CalendarEventType
-  description?: string
-  project?: Project
-  workEntry?: WorkEntry
-  appointment?: HouseAppointment
-  maintenance?: MaintenanceRecord
-  payment?: PaymentSchedule
-  priority: 'low' | 'medium' | 'high'
-  status: 'pending' | 'in_progress' | 'completed' | 'cancelled'
-}
-
-interface CalendarFilters {
-  projects: UUID[]
-  eventTypes: CalendarEventType[]
-  crews: UUID[]
-  dateRange: 'week' | 'month' | 'quarter'
-}
+  CalendarEvent,
+  CalendarEventType,
+  EVENT_TYPE_COLORS,
+  EVENT_TYPE_LABELS,
+} from "@/types/calendar"
+import type { Project } from "@/types"
 
 export default function CalendarPage() {
-  const { user } = useAuth()
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
-  const [view, setView] = useState<'month' | 'week' | 'day'>('month')
-  const [filters, setFilters] = useState<CalendarFilters>({
-    projects: [],
-    eventTypes: ['work_entry', 'project_deadline', 'appointment', 'maintenance', 'payment_due'],
-    crews: [],
-    dateRange: 'month'
+  const [filters, setFilters] = useState<{
+    eventTypes: CalendarEventType[]
+    projectId?: string
+  }>({
+    eventTypes: ['project_start', 'project_deadline', 'material_delivery', 'house_connection', 'meeting', 'work_entry'],
   })
   const [showFilters, setShowFilters] = useState(false)
 
-  // Fetch calendar events from multiple sources
-  const { data: events = [], isLoading } = useQuery({
-    queryKey: ['calendar-events', filters, selectedDate],
-    queryFn: async (): Promise<CalendarEvent[]> => {
-      const currentDate = selectedDate || new Date()
-      const startDate = format(startOfMonth(currentDate), 'yyyy-MM-dd')
-      const endDate = format(endOfMonth(currentDate), 'yyyy-MM-dd')
+  // Calculate date range for current month
+  const currentDate = selectedDate || new Date()
+  const startDate = format(startOfMonth(currentDate), 'yyyy-MM-dd')
+  const endDate = format(endOfMonth(currentDate), 'yyyy-MM-dd')
 
-      const allEvents: CalendarEvent[] = []
-
-      try {
-        // Fetch work entries
-        if (filters.eventTypes.includes('work_entry')) {
-          const workEntriesResponse = await fetch(`/api/work-entries?date_from=${startDate}&date_to=${endDate}&page=1&per_page=100`)
-          if (workEntriesResponse.ok) {
-            const workEntriesData = await workEntriesResponse.json()
-            const workEntryEvents: CalendarEvent[] = workEntriesData.items?.map((entry: WorkEntry) => ({
-              id: `work_${entry.id}`,
-              title: `${entry.stage_code?.replace('stage_', 'Stage ').replace('_', ' ') || 'Work Entry'} - ${entry.meters_done_m || 0}m`,
-              date: entry.date ? parseISO(entry.date) : new Date(),
-              type: 'work_entry' as CalendarEventType,
-              description: `${entry.notes || 'Work entry'} - ${entry.user?.first_name || ''} ${entry.user?.last_name || ''}`,
-              workEntry: entry,
-              priority: entry.approved_by ? 'low' : 'medium',
-              status: entry.approved_by ? 'completed' : 'pending'
-            })) || []
-            allEvents.push(...workEntryEvents)
-          }
-        }
-
-        // Fetch project deadlines
-        if (filters.eventTypes.includes('project_deadline')) {
-          const projectsResponse = await fetch('/api/projects?page=1&per_page=100')
-          if (projectsResponse.ok) {
-            const projectsData = await projectsResponse.json()
-            const projectDeadlines: CalendarEvent[] = projectsData.projects?.filter((project: Project) =>
-              project.end_date_plan &&
-              parseISO(project.end_date_plan) >= parseISO(startDate) &&
-              parseISO(project.end_date_plan) <= parseISO(endDate)
-            ).map((project: Project) => ({
-              id: `project_${project.id}`,
-              title: `${project.name} Deadline`,
-              date: parseISO(project.end_date_plan!),
-              type: 'project_deadline' as CalendarEventType,
-              description: `Project completion deadline - ${project.customer}`,
-              project,
-              priority: project.status === 'active' ? 'high' : 'medium',
-              status: project.status === 'closed' ? 'completed' : 'pending'
-            })) || []
-            allEvents.push(...projectDeadlines)
-          }
-        }
-
-        // Add mock events for other types (since these APIs might not exist yet)
-        if (filters.eventTypes.includes('appointment')) {
-          allEvents.push({
-            id: 'appointment_1',
-            title: 'House Connection - Schmidt',
-            date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
-            type: 'appointment',
-            description: 'Customer: Schmidt, 14:00-16:00',
-            priority: 'medium',
-            status: 'pending'
-          })
-        }
-
-        if (filters.eventTypes.includes('maintenance')) {
-          allEvents.push({
-            id: 'maintenance_1',
-            title: 'Equipment Maintenance',
-            date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
-            type: 'maintenance',
-            description: 'Excavator service due',
-            priority: 'medium',
-            status: 'pending'
-          })
-        }
-
-        if (filters.eventTypes.includes('payment_due')) {
-          allEvents.push({
-            id: 'payment_1',
-            title: 'Invoice Payment Due',
-            date: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-            type: 'payment_due',
-            description: 'Project Alpha invoice payment',
-            priority: 'high',
-            status: 'pending'
-          })
-        }
-
-      } catch (error) {
-        console.error('Error fetching calendar events:', error)
-        // Return fallback mock events
-        return [
-          {
-            id: 'fallback_1',
-            title: 'Sample Work Entry',
-            date: new Date(),
-            type: 'work_entry',
-            description: 'Fallback data - check API connection',
-            priority: 'medium',
-            status: 'pending'
-          }
-        ]
-      }
-
-      return allEvents.sort((a, b) => a.date.getTime() - b.date.getTime())
-    }
+  // Fetch calendar events using new hook
+  const { data, isLoading } = useCalendarEvents({
+    start_date: startDate,
+    end_date: endDate,
+    event_types: filters.eventTypes.length > 0 ? filters.eventTypes : undefined,
+    project_id: filters.projectId,
   })
 
+  const events = data?.events || []
+
   // Fetch projects for filter
-  const { data: projects = [] } = useQuery({
+  const { data: projectsData } = useQuery({
     queryKey: ['projects-list'],
     queryFn: async (): Promise<Project[]> => {
       const response = await fetch('/api/projects')
@@ -185,19 +59,21 @@ export default function CalendarPage() {
     }
   })
 
+  const projects = projectsData || []
+
   // Get events for a specific date
   const getEventsForDate = (date: Date): CalendarEvent[] => {
-    return events.filter(event => isSameDay(event.date, date))
+    return events.filter(event => isSameDay(new Date(event.date), date))
   }
 
   // Get selected date events
   const selectedDateEvents = selectedDate ? getEventsForDate(selectedDate) : []
 
-  // Event type configuration
+  // Event type configuration with new types
   const eventTypeConfig = {
-    work_entry: {
-      label: 'Work Entries',
-      color: 'bg-blue-500',
+    project_start: {
+      label: 'Project Starts',
+      color: 'bg-green-500',
       icon: Briefcase
     },
     project_deadline: {
@@ -205,60 +81,65 @@ export default function CalendarPage() {
       color: 'bg-red-500',
       icon: Clock
     },
-    appointment: {
-      label: 'Appointments',
-      color: 'bg-green-500',
+    material_delivery: {
+      label: 'Material Deliveries',
+      color: 'bg-amber-500',
+      icon: Package
+    },
+    house_connection: {
+      label: 'House Connections',
+      color: 'bg-blue-500',
+      icon: Home
+    },
+    meeting: {
+      label: 'Meetings',
+      color: 'bg-purple-500',
       icon: Users
     },
-    maintenance: {
-      label: 'Maintenance',
-      color: 'bg-yellow-500',
+    work_entry: {
+      label: 'Work Entries',
+      color: 'bg-indigo-500',
       icon: MapPin
-    },
-    payment_due: {
-      label: 'Payments Due',
-      color: 'bg-purple-500',
-      icon: CalendarIcon
     }
-  }
-
-  // Priority colors
-  const priorityColors = {
-    low: 'border-gray-300',
-    medium: 'border-yellow-400',
-    high: 'border-red-500'
-  }
-
-  // Status colors
-  const statusColors = {
-    pending: 'bg-gray-100 text-gray-700',
-    in_progress: 'bg-blue-100 text-blue-700',
-    completed: 'bg-green-100 text-green-700',
-    cancelled: 'bg-red-100 text-red-700'
   }
 
   const renderEventCard = (event: CalendarEvent) => {
     const config = eventTypeConfig[event.type]
-    const IconComponent = config.icon
+    const IconComponent = config?.icon || CalendarIcon
 
     return (
-      <Card key={event.id} className={cn("mb-2 cursor-pointer hover:shadow-md transition-shadow", priorityColors[event.priority])}>
+      <Card key={event.id} className="mb-2 cursor-pointer hover:shadow-md transition-shadow">
         <CardContent className="p-3">
           <div className="flex items-start gap-2">
-            <div className={cn("w-3 h-3 rounded-full mt-1", config.color)} />
+            <div className={cn("w-3 h-3 rounded-full mt-1", config?.color || "bg-gray-500")} />
             <div className="flex-1">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <IconComponent className="h-4 w-4 text-muted-foreground" />
                 <span className="font-medium text-sm">{event.title}</span>
-                <Badge variant="secondary" className={statusColors[event.status]}>
-                  {event.status.replace('_', ' ')}
-                </Badge>
+                {event.type === 'material_delivery' && event.type === event.type && 'is_delivered' in event && (
+                  <Badge variant={event.is_delivered ? "default" : "secondary"}>
+                    {event.is_delivered ? 'Delivered' : 'Scheduled'}
+                  </Badge>
+                )}
+                {event.type === 'house_connection' && event.type === event.type && 'is_completed' in event && (
+                  <Badge variant={event.is_completed ? "default" : "secondary"}>
+                    {event.is_completed ? 'Completed' : 'Planned'}
+                  </Badge>
+                )}
+                {event.type === 'meeting' && event.type === event.type && 'meeting_status' in event && (
+                  <Badge variant="secondary">
+                    {event.meeting_status.replace('_', ' ')}
+                  </Badge>
+                )}
               </div>
               {event.description && (
                 <p className="text-xs text-muted-foreground mt-1">{event.description}</p>
               )}
-              <p className="text-xs text-muted-foreground">
-                {format(event.date, 'MMM d, HH:mm')}
+              {event.project_name && (
+                <p className="text-xs text-blue-600 mt-1">📁 {event.project_name}</p>
+              )}
+              <p className="text-xs text-muted-foreground mt-1">
+                {event.time ? `${format(new Date(event.date), 'MMM d')} at ${event.time}` : format(new Date(event.date), 'MMM d, yyyy')}
               </p>
             </div>
           </div>
@@ -274,7 +155,7 @@ export default function CalendarPage() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Calendar</h1>
           <p className="text-muted-foreground">
-            Manage work schedules, deadlines, and appointments
+            Track projects, deliveries, connections, meetings, and work entries
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -296,7 +177,7 @@ export default function CalendarPage() {
             <CardTitle className="text-lg">Filters</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Event Types */}
               <div>
                 <label className="text-sm font-medium mb-2 block">Event Types</label>
@@ -320,7 +201,7 @@ export default function CalendarPage() {
                           }
                         }}
                       />
-                      <label htmlFor={type} className="text-sm flex items-center gap-2">
+                      <label htmlFor={type} className="text-sm flex items-center gap-2 cursor-pointer">
                         <div className={cn("w-3 h-3 rounded-full", config.color)} />
                         {config.label}
                       </label>
@@ -331,8 +212,14 @@ export default function CalendarPage() {
 
               {/* Projects */}
               <div>
-                <label className="text-sm font-medium mb-2 block">Projects</label>
-                <Select>
+                <label className="text-sm font-medium mb-2 block">Filter by Project</label>
+                <Select
+                  value={filters.projectId || "all"}
+                  onValueChange={(value) => setFilters(prev => ({
+                    ...prev,
+                    projectId: value === "all" ? undefined : value
+                  }))}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="All projects" />
                   </SelectTrigger>
@@ -346,21 +233,6 @@ export default function CalendarPage() {
                   </SelectContent>
                 </Select>
               </div>
-
-              {/* Date Range */}
-              <div>
-                <label className="text-sm font-medium mb-2 block">View</label>
-                <Select value={view} onValueChange={(value: 'month' | 'week' | 'day') => setView(value)}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="day">Day View</SelectItem>
-                    <SelectItem value="week">Week View</SelectItem>
-                    <SelectItem value="month">Month View</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
           </CardContent>
         </Card>
@@ -368,8 +240,6 @@ export default function CalendarPage() {
 
       {/* Main Content */}
       <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6">
-        {/* Mobile/Tablet: Stack layout, Desktop: Grid layout */}
-
         {/* Calendar */}
         <Card className="lg:col-span-2 order-1 lg:order-1">
           <CardHeader>
@@ -378,23 +248,12 @@ export default function CalendarPage() {
                 <CalendarIcon className="h-5 w-5" />
                 {selectedDate ? format(selectedDate, 'MMMM yyyy') : 'Calendar'}
               </CardTitle>
-              {/* Mobile view selector */}
-              <div className="sm:hidden">
-                <Select value={view} onValueChange={(value: 'month' | 'week' | 'day') => setView(value)}>
-                  <SelectTrigger className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="day">Day</SelectItem>
-                    <SelectItem value="week">Week</SelectItem>
-                    <SelectItem value="month">Month</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Badge variant="secondary">
+                {events.length} events this month
+              </Badge>
             </div>
           </CardHeader>
           <CardContent>
-            {/* Responsive calendar container */}
             <div className="w-full overflow-hidden">
               <Calendar
                 mode="single"
@@ -408,7 +267,8 @@ export default function CalendarPage() {
                 modifiersStyles={{
                   hasEvents: {
                     backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    border: '1px solid rgba(59, 130, 246, 0.3)'
+                    border: '1px solid rgba(59, 130, 246, 0.3)',
+                    fontWeight: 'bold'
                   }
                 }}
               />
@@ -470,17 +330,21 @@ export default function CalendarPage() {
       {/* Recent Events */}
       <Card>
         <CardHeader>
-          <CardTitle>Upcoming Events</CardTitle>
-          <CardDescription>Next 7 days</CardDescription>
+          <CardTitle>All Events This Month</CardTitle>
+          <CardDescription>
+            Showing {events.length} events in {format(currentDate, 'MMMM yyyy')}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="all" className="w-full">
-            <TabsList className="grid w-full grid-cols-5">
+            <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7">
               <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="work_entry">Work</TabsTrigger>
-              <TabsTrigger value="appointment">Appointments</TabsTrigger>
+              <TabsTrigger value="meeting">Meetings</TabsTrigger>
               <TabsTrigger value="project_deadline">Deadlines</TabsTrigger>
-              <TabsTrigger value="maintenance">Maintenance</TabsTrigger>
+              <TabsTrigger value="material_delivery" className="hidden lg:block">Deliveries</TabsTrigger>
+              <TabsTrigger value="house_connection" className="hidden lg:block">Connections</TabsTrigger>
+              <TabsTrigger value="work_entry" className="hidden lg:block">Work</TabsTrigger>
+              <TabsTrigger value="project_start" className="hidden lg:block">Starts</TabsTrigger>
             </TabsList>
 
             {Object.entries(eventTypeConfig).map(([type, config]) => (
@@ -488,15 +352,25 @@ export default function CalendarPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {events
                     .filter(event => event.type === type)
-                    .slice(0, 6)
+                    .slice(0, 9)
                     .map(renderEventCard)}
+                  {events.filter(event => event.type === type).length === 0 && (
+                    <div className="col-span-full text-center py-8 text-muted-foreground">
+                      <p>No {config.label.toLowerCase()} this month</p>
+                    </div>
+                  )}
                 </div>
               </TabsContent>
             ))}
 
             <TabsContent value="all" className="mt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {events.slice(0, 9).map(renderEventCard)}
+                {events.slice(0, 12).map(renderEventCard)}
+                {events.length === 0 && (
+                  <div className="col-span-full text-center py-8 text-muted-foreground">
+                    <p>No events this month</p>
+                  </div>
+                )}
               </div>
             </TabsContent>
           </Tabs>

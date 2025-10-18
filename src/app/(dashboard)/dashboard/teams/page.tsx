@@ -119,6 +119,18 @@ export default function TeamsPage() {
     );
   };
 
+  // Helper function to get user's team name
+  const getUserTeamName = (userId: string): string | null => {
+    if (!crews) return null;
+
+    const userCrew = crews.find(crew =>
+      crew.foreman?.id === userId ||
+      crew.members?.some(member => member.user_id === userId)
+    );
+
+    return userCrew?.name || null;
+  };
+
   // Filter workers: only show those not assigned to any team
   const availableWorkers = users.filter(user =>
     ["crew", "worker", "foreman"].includes(user.role) &&
@@ -126,13 +138,22 @@ export default function TeamsPage() {
   );
 
   // Filter users based on search query for the "All Users" tab
-  const filteredUsers = users.filter(user =>
-    !searchQuery ||
-    user.full_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    user.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    user.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    user.skills?.some(skill => skill.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const filteredUsers = users.filter(user => {
+    if (!searchQuery) return true;
+
+    const query = searchQuery.toLowerCase();
+    const teamName = getUserTeamName(user.id);
+
+    return (
+      user.full_name.toLowerCase().includes(query) ||
+      user.first_name?.toLowerCase().includes(query) ||
+      user.last_name?.toLowerCase().includes(query) ||
+      user.email?.toLowerCase().includes(query) ||
+      user.role.toLowerCase().includes(query) ||
+      user.skills?.some(skill => skill.toLowerCase().includes(query)) ||
+      (teamName && teamName.toLowerCase().includes(query))
+    );
+  });
 
   const handleDeleteCrew = async (crewId: string, crewName: string) => {
     if (confirm(`Are you sure you want to delete "${crewName}"? This action cannot be undone.`)) {
@@ -738,11 +759,32 @@ export default function TeamsPage() {
         </TabsContent>
 
         <TabsContent value="all-users" className="space-y-6">
+          {/* Search */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Filter Users</CardTitle>
+              <CardDescription>
+                Search users by name, email, role, skills, or team
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search by name, email, role, skills, or team..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-8"
+                />
+              </div>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
-                All Users ({users.length})
+                All Users ({filteredUsers.length} {searchQuery && `of ${users.length}`})
               </CardTitle>
               <CardDescription>
                 Complete user directory with all roles and management capabilities

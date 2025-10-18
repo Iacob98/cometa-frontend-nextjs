@@ -326,7 +326,7 @@ export function useCompleteAppointment() {
 // Specialized hooks for common use cases
 export function usePendingConnections() {
   return useHouses({
-    status: "not_assigned",
+    status: "created",
     page: 1,
     per_page: 50,
   });
@@ -342,7 +342,7 @@ export function useScheduledAppointments() {
 
 export function useInProgressConnections() {
   return useHouses({
-    status: "in_progress",
+    status: "started",
     page: 1,
     per_page: 20,
   });
@@ -350,7 +350,7 @@ export function useInProgressConnections() {
 
 export function useCompletedConnections() {
   return useHouses({
-    status: "connected",
+    status: "finished",
     page: 1,
     per_page: 20,
   });
@@ -401,8 +401,8 @@ export interface ProjectHousesResponse {
   houses: ProjectHouse[];
   summary: {
     total_houses: number;
-    connected_count: number;
-    assigned_count: number;
+    finished_count: number;
+    started_count: number;
     total_apartments: number;
   };
 }

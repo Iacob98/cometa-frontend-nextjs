@@ -47,6 +47,9 @@ export function useCreateCrew() {
       // Invalidate and refetch crews list
       queryClient.invalidateQueries({ queryKey: teamKeys.crews() });
 
+      // Invalidate users query to update Available Workers tab
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+
       // Add the new crew to the cache
       queryClient.setQueryData(teamKeys.crew(newCrew.id), newCrew);
 
@@ -90,6 +93,10 @@ export function useUpdateCrew() {
     onSuccess: () => {
       // Invalidate and refetch crews list
       queryClient.invalidateQueries({ queryKey: teamKeys.crews() });
+
+      // Invalidate users query to update Available Workers tab
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+
       toast.success("Team updated successfully");
     },
     onSettled: (data, error, { id }) => {
@@ -110,6 +117,9 @@ export function useDeleteCrew() {
 
       // Invalidate crews list
       queryClient.invalidateQueries({ queryKey: teamKeys.crews() });
+
+      // Invalidate users query to update Available Workers tab
+      queryClient.invalidateQueries({ queryKey: ['users'] });
 
       toast.success("Team deleted successfully");
     },
@@ -255,6 +265,10 @@ export function useCreateTeam() {
       }
       queryClient.invalidateQueries({ queryKey: ['global-teams'] });
       queryClient.invalidateQueries({ queryKey: teamKeys.crews() });
+
+      // Invalidate users query to update Available Workers tab
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+
       toast.success(data.message || 'Team created successfully');
     },
     onError: (error: Error) => {
@@ -313,6 +327,10 @@ export function useUpdateTeam() {
       queryClient.invalidateQueries({ queryKey: ['global-teams'] });
       queryClient.invalidateQueries({ queryKey: teamKeys.crews() });
       queryClient.invalidateQueries({ queryKey: ['project-preparation'] });
+
+      // Invalidate users query to update Available Workers tab
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+
       toast.success(data.message || 'Team updated successfully');
     },
     onError: (error: Error) => {
@@ -342,6 +360,10 @@ export function useDeleteTeam() {
       queryClient.invalidateQueries({ queryKey: ['global-teams'] });
       queryClient.invalidateQueries({ queryKey: teamKeys.crews() });
       queryClient.invalidateQueries({ queryKey: ['project-preparation'] });
+
+      // Invalidate users query to update Available Workers tab
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+
       toast.success(data.message || 'Team deleted successfully');
     },
     onError: (error: Error) => {

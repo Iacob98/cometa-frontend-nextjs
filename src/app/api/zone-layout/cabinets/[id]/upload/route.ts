@@ -204,6 +204,7 @@ export async function GET(
         cabinet_id: cabinetId,
         installation_type: installationType,
         file_name: file.name,
+        file_path: filePath, // Added for deletion functionality
         file_url: publicUrl,
         file_size: file.metadata?.size || 0,
         file_type: file.metadata?.mimetype || 'application/octet-stream',
@@ -216,6 +217,88 @@ export async function GET(
     console.error("Cabinet files fetch error:", error);
     return NextResponse.json(
       { error: "Failed to fetch files" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id: cabinetId } = await params;
+    const { searchParams } = new URL(request.url);
+    const filePath = searchParams.get('file_path');
+
+    if (!cabinetId) {
+      return NextResponse.json(
+        { error: "Cabinet ID is required" },
+        { status: 400 }
+      );
+    }
+
+    if (!filePath) {
+      return NextResponse.json(
+        { error: "File path is required" },
+        { status: 400 }
+      );
+    }
+
+    // Verify cabinet exists
+    const { data: cabinet, error: cabinetError } = await supabase
+      .from('cabinets')
+      .select('id, project_id, code')
+      .eq('id', cabinetId)
+      .single();
+
+    if (cabinetError || !cabinet) {
+      return NextResponse.json(
+        { error: 'Cabinet not found' },
+        { status: 404 }
+      );
+    }
+
+    // Verify file path belongs to this cabinet's project
+    const expectedPathPrefix = `projects/${cabinet.project_id}/cabinets/${cabinetId}/`;
+    if (!filePath.startsWith(expectedPathPrefix)) {
+      return NextResponse.json(
+        { error: 'Invalid file path for this cabinet' },
+        { status: 403 }
+      );
+    }
+
+    console.log('Attempting to delete file:', {
+      filePath,
+      cabinetId,
+      cabinetCode: cabinet.code
+    });
+
+    // Delete file from Supabase Storage
+    const { data: deleteData, error: deleteError } = await supabase.storage
+      .from('project-documents')
+      .remove([filePath]);
+
+    if (deleteError) {
+      console.error('Supabase storage deletion error:', deleteError);
+      return NextResponse.json(
+        { error: 'Failed to delete file from storage' },
+        { status: 500 }
+      );
+    }
+
+    console.log('File deleted successfully:', filePath);
+
+    return NextResponse.json({
+      success: true,
+      message: `Installation file deleted successfully from cabinet ${cabinet.code}`,
+      deleted_file: filePath
+    });
+
+  } catch (error) {
+    console.error("Cabinet file deletion error:", error);
+    return NextResponse.json(
+      { error: "Failed to delete file" },
       { status: 500 }
     );
   }

@@ -66,7 +66,7 @@ export default function OrderMaterialsPage() {
   const { data: supplierMaterials = [] } = useSupplierMaterials(selectedSupplierId);
 
   const projects = projectsResponse?.items || [];
-  const suppliers = suppliersResponse?.items || [];
+  const suppliers = suppliersResponse || [];
 
   const form = useForm<CreateOrderFormData>({
     resolver: zodResolver(createOrderSchema),

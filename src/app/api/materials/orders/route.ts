@@ -35,7 +35,8 @@ export async function GET(request: NextRequest) {
         total_price,
         status,
         order_date,
-        delivery_date,
+        expected_delivery_date,
+        actual_delivery_date,
         supplier,
         notes,
         created_at,
@@ -168,7 +169,7 @@ export async function POST(request: NextRequest) {
       total_price: (quantity || 0) * (unit_price || 0),
       status,
       order_date: new Date().toISOString(),
-      delivery_date: expected_delivery_date || null,
+      expected_delivery_date: expected_delivery_date || null,
       supplier: supplier || null,
       notes: notes || null
     };

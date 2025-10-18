@@ -28,6 +28,23 @@ node_modules/
 # OS specific
 .DS_Store
 ._*
+**/._.DS_Store
+**/._*
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+*.pem
+.vercel
+.turbo
 
 # Task files
 # tasks.json

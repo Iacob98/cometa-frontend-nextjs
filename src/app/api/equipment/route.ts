@@ -31,13 +31,16 @@ export async function GET(request: NextRequest) {
         purchase_date,
         warranty_until,
         description,
+        notes,
         owned,
+        current_location,
         is_active,
         created_at,
         updated_at
       `,
         { count: "exact" }
       )
+      .eq("is_active", true)
       .order("name", { ascending: true })
       .range(offset, offset + per_page - 1);
 
@@ -46,7 +49,25 @@ export async function GET(request: NextRequest) {
       query = query.eq("type", type);
     }
 
-    if (status) {
+    if (status === "available") {
+      // For "available" status, get equipment that either:
+      // 1. Has status "available" OR
+      // 2. Does NOT have any active assignments (even if status is "issued_to_brigade")
+
+      // First, get all equipment IDs with active assignments
+      const { data: activeAssignments } = await supabase
+        .from("equipment_assignments")
+        .select("equipment_id")
+        .eq("is_active", true);
+
+      const assignedEquipmentIds = activeAssignments?.map(a => a.equipment_id) || [];
+
+      // Filter out equipment that has active assignments
+      if (assignedEquipmentIds.length > 0) {
+        query = query.not("id", "in", `(${assignedEquipmentIds.join(",")})`);
+      }
+    } else if (status) {
+      // For other statuses, use direct filtering
       query = query.eq("status", status);
     }
 
@@ -56,7 +77,7 @@ export async function GET(request: NextRequest) {
 
     if (search) {
       query = query.or(
-        `name.ilike.%${search}%,inventory_no.ilike.%${search}%,type.ilike.%${search}%,description.ilike.%${search}%`
+        `name.ilike.%${search}%,inventory_no.ilike.%${search}%,type.ilike.%${search}%,description.ilike.%${search}%,notes.ilike.%${search}%,current_location.ilike.%${search}%`
       );
     }
 
@@ -96,10 +117,8 @@ export async function POST(request: NextRequest) {
       status = "available",
       rental_cost_per_day,
       description,
+      notes,
       owned = true,
-      purchase_price_eur,
-      rental_price_per_day_eur,
-      rental_price_per_hour_eur,
       current_location,
     } = body;
 
@@ -122,10 +141,8 @@ export async function POST(request: NextRequest) {
           status: status || "available",
           rental_cost_per_day: rental_cost_per_day || null,
           description: description || null,
+          notes: notes || null,
           owned: owned,
-          purchase_price_eur: purchase_price_eur || null,
-          rental_price_per_day_eur: rental_price_per_day_eur || null,
-          rental_price_per_hour_eur: rental_price_per_hour_eur || null,
           current_location: current_location || null,
         },
       ])
@@ -138,10 +155,8 @@ export async function POST(request: NextRequest) {
         status,
         rental_cost_per_day,
         description,
+        notes,
         owned,
-        purchase_price_eur,
-        rental_price_per_day_eur,
-        rental_price_per_hour_eur,
         current_location,
         created_at
       `

@@ -180,30 +180,57 @@ async function GET(request) {
                     email: crew.leader.email,
                     role: crew.leader.role
                 } : null,
-                members: (crew.crew_members || []).map((member)=>({
-                        id: member.id,
-                        user_id: member.user_id,
-                        role: member.role,
-                        role_in_crew: member.role,
-                        is_active: member.is_active,
-                        joined_at: member.joined_at,
-                        active_from: member.joined_at,
-                        // Flatten user data to member level for frontend compatibility
-                        first_name: member.user?.first_name || '',
-                        last_name: member.user?.last_name || '',
-                        full_name: member.user ? `${member.user.first_name} ${member.user.last_name}` : '',
-                        email: member.user?.email || '',
-                        // Keep nested user object for backward compatibility
-                        user: member.user ? {
-                            id: member.user.id,
-                            first_name: member.user.first_name,
-                            last_name: member.user.last_name,
-                            full_name: `${member.user.first_name} ${member.user.last_name}`,
-                            email: member.user.email,
-                            role: member.user.role
-                        } : null
-                    })),
-                member_count: crew.crew_members?.length || 0,
+                members: [
+                    // Add leader as first member if exists
+                    ...crew.leader ? [
+                        {
+                            id: `leader-${crew.leader.id}`,
+                            user_id: crew.leader.id,
+                            role: 'leader',
+                            role_in_crew: 'leader',
+                            is_active: true,
+                            joined_at: crew.created_at,
+                            active_from: crew.created_at,
+                            first_name: crew.leader.first_name,
+                            last_name: crew.leader.last_name,
+                            full_name: `${crew.leader.first_name} ${crew.leader.last_name}`,
+                            email: crew.leader.email,
+                            user: {
+                                id: crew.leader.id,
+                                first_name: crew.leader.first_name,
+                                last_name: crew.leader.last_name,
+                                full_name: `${crew.leader.first_name} ${crew.leader.last_name}`,
+                                email: crew.leader.email,
+                                role: crew.leader.role
+                            }
+                        }
+                    ] : [],
+                    // Add regular members
+                    ...(crew.crew_members || []).map((member)=>({
+                            id: member.id,
+                            user_id: member.user_id,
+                            role: member.role,
+                            role_in_crew: member.role,
+                            is_active: member.is_active,
+                            joined_at: member.joined_at,
+                            active_from: member.joined_at,
+                            // Flatten user data to member level for frontend compatibility
+                            first_name: member.user?.first_name || '',
+                            last_name: member.user?.last_name || '',
+                            full_name: member.user ? `${member.user.first_name} ${member.user.last_name}` : '',
+                            email: member.user?.email || '',
+                            // Keep nested user object for backward compatibility
+                            user: member.user ? {
+                                id: member.user.id,
+                                first_name: member.user.first_name,
+                                last_name: member.user.last_name,
+                                full_name: `${member.user.first_name} ${member.user.last_name}`,
+                                email: member.user.email,
+                                role: member.user.role
+                            } : null
+                        }))
+                ],
+                member_count: (crew.crew_members?.length || 0) + (crew.leader_user_id ? 1 : 0),
                 created_at: crew.created_at,
                 updated_at: crew.updated_at
             }));

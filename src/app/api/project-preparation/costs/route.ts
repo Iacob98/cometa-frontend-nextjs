@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
+
+// Use service role key to bypass RLS policies for cost calculations
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 export async function GET(request: NextRequest) {
   try {
@@ -15,14 +21,28 @@ export async function GET(request: NextRequest) {
 
     // Get project costs from various sources
     const [
+      projectRes,
       facilitiesRes,
+      housingRes,
       equipmentRes,
       materialRes,
       laborRes
     ] = await Promise.all([
+      // Project information
+      supabase
+        .from('projects')
+        .select('id, name')
+        .eq('id', projectId)
+        .single(),
       // Facilities costs
       supabase
         .from('facilities')
+        .select('*')
+        .eq('project_id', projectId),
+
+      // Housing units costs
+      supabase
+        .from('housing_units')
         .select('*')
         .eq('project_id', projectId),
 
@@ -61,8 +81,16 @@ export async function GET(request: NextRequest) {
         .eq('project_id', projectId)
     ])
 
+    if (projectRes.error) {
+      console.error('Project query error:', projectRes.error)
+    }
+
     if (facilitiesRes.error) {
       console.error('Facilities costs query error:', facilitiesRes.error)
+    }
+
+    if (housingRes.error) {
+      console.error('Housing costs query error:', housingRes.error)
     }
 
     if (equipmentRes.error) {
@@ -86,6 +114,14 @@ export async function GET(request: NextRequest) {
       return total + (dailyRate * days)
     }, 0)
 
+    const housingCosts = (housingRes.data || []).reduce((total, housing) => {
+      const dailyRate = parseFloat(housing.rent_daily_eur || 0)
+      const days = housing.check_in_date && housing.check_out_date
+        ? Math.ceil((new Date(housing.check_out_date).getTime() - new Date(housing.check_in_date).getTime()) / (1000 * 60 * 60 * 24))
+        : 0
+      return total + (dailyRate * days)
+    }, 0)
+
     const equipmentCosts = (equipmentRes.data || []).reduce((total, assignment) => {
       const dailyRate = parseFloat(assignment.equipment?.daily_rate || 0)
       const days = assignment.assigned_at && assignment.returned_at
@@ -104,10 +140,26 @@ export async function GET(request: NextRequest) {
       return total + parseFloat(entry.labor_cost || 0)
     }, 0)
 
+    const totalCosts = facilityCosts + housingCosts + equipmentCosts + materialCosts + laborCosts
+    const projectBudget = parseFloat(projectRes.data?.budget || 0)
+    const remainingBudget = projectBudget - totalCosts
+    const budgetUtilized = projectBudget > 0 ? (totalCosts / projectBudget) * 100 : 0
+
     const costs = {
+      project: {
+        id: projectRes.data?.id,
+        name: projectRes.data?.name,
+        budget: projectBudget,
+        remaining_budget: remainingBudget,
+        budget_utilized_percentage: budgetUtilized
+      },
       facilities: {
         items: facilitiesRes.data || [],
         total: facilityCosts
+      },
+      housing: {
+        items: housingRes.data || [],
+        total: housingCosts
       },
       equipment: {
         items: equipmentRes.data || [],
@@ -123,10 +175,11 @@ export async function GET(request: NextRequest) {
       },
       summary: {
         facilities: facilityCosts,
+        housing: housingCosts,
         equipment: equipmentCosts,
         materials: materialCosts,
         labor: laborCosts,
-        total: facilityCosts + equipmentCosts + materialCosts + laborCosts
+        total: totalCosts
       }
     }
 

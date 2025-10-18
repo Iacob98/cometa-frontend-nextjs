@@ -108,12 +108,26 @@ function Materials({ projectId }) {
                     className: "h-8 w-1/3"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 87,
+                    lineNumber: 85,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "grid grid-cols-1 md:grid-cols-4 gap-4",
                     children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Skeleton"], {
+                            className: "h-24"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/project-preparation/materials.tsx",
+                            lineNumber: 87,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Skeleton"], {
+                            className: "h-24"
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/project-preparation/materials.tsx",
+                            lineNumber: 88,
+                            columnNumber: 11
+                        }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Skeleton"], {
                             className: "h-24"
                         }, void 0, false, {
@@ -127,38 +141,24 @@ function Materials({ projectId }) {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
                             lineNumber: 90,
                             columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Skeleton"], {
-                            className: "h-24"
-                        }, void 0, false, {
-                            fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 91,
-                            columnNumber: 11
-                        }, this),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Skeleton"], {
-                            className: "h-24"
-                        }, void 0, false, {
-                            fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 92,
-                            columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 88,
+                    lineNumber: 86,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Skeleton"], {
                     className: "h-96"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 94,
+                    lineNumber: 92,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/project-preparation/materials.tsx",
-            lineNumber: 86,
+            lineNumber: 84,
             columnNumber: 7
         }, this);
     }
@@ -173,7 +173,7 @@ function Materials({ projectId }) {
                             className: "mx-auto h-12 w-12 text-red-500 mb-4"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 104,
+                            lineNumber: 102,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -181,7 +181,7 @@ function Materials({ projectId }) {
                             children: "Error Loading Materials"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 105,
+                            lineNumber: 103,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -189,7 +189,7 @@ function Materials({ projectId }) {
                             children: projectError.message
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 106,
+                            lineNumber: 104,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -197,23 +197,23 @@ function Materials({ projectId }) {
                             children: "Try Again"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 107,
+                            lineNumber: 105,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 103,
+                    lineNumber: 101,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                lineNumber: 102,
+                lineNumber: 100,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/components/project-preparation/materials.tsx",
-            lineNumber: 101,
+            lineNumber: 99,
             columnNumber: 7
         }, this);
     }
@@ -280,6 +280,10 @@ function Materials({ projectId }) {
             }
         }
     };
+    // DEBUG: Log project materials data
+    console.log('DEBUG - projectMaterials:', projectMaterials);
+    console.log('DEBUG - projectMaterials.materials length:', projectMaterials?.materials?.length);
+    console.log('DEBUG - projectMaterials.materials:', projectMaterials?.materials);
     const totalMaterials = projectMaterials?.materials?.length || 0;
     const pendingCount = projectMaterials?.materials?.filter((m)=>m.status === 'allocated')?.length || 0;
     const usedCount = projectMaterials?.materials?.filter((m)=>m.status === 'used')?.length || 0;
@@ -296,7 +300,7 @@ function Materials({ projectId }) {
                             children: "Materials Management"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 193,
+                            lineNumber: 196,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -304,18 +308,18 @@ function Materials({ projectId }) {
                             children: "Material allocation and ordering for projects"
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 194,
+                            lineNumber: 197,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 192,
+                    lineNumber: 195,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                lineNumber: 191,
+                lineNumber: 194,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -331,7 +335,7 @@ function Materials({ projectId }) {
                                         className: "w-5 h-5 text-blue-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 203,
+                                        lineNumber: 206,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -341,7 +345,7 @@ function Materials({ projectId }) {
                                                 children: "Total Materials"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 205,
+                                                lineNumber: 208,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -349,29 +353,29 @@ function Materials({ projectId }) {
                                                 children: totalMaterials
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 206,
+                                                lineNumber: 209,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 204,
+                                        lineNumber: 207,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 202,
+                                lineNumber: 205,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 201,
+                            lineNumber: 204,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 200,
+                        lineNumber: 203,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -384,7 +388,7 @@ function Materials({ projectId }) {
                                         className: "w-5 h-5 text-orange-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 215,
+                                        lineNumber: 218,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -394,7 +398,7 @@ function Materials({ projectId }) {
                                                 children: "Pending"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 217,
+                                                lineNumber: 220,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -402,29 +406,29 @@ function Materials({ projectId }) {
                                                 children: pendingCount
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 218,
+                                                lineNumber: 221,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 216,
+                                        lineNumber: 219,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 214,
+                                lineNumber: 217,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 213,
+                            lineNumber: 216,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 212,
+                        lineNumber: 215,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -437,7 +441,7 @@ function Materials({ projectId }) {
                                         className: "w-5 h-5 text-green-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 227,
+                                        lineNumber: 230,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -447,7 +451,7 @@ function Materials({ projectId }) {
                                                 children: "Used"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 229,
+                                                lineNumber: 232,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -455,29 +459,29 @@ function Materials({ projectId }) {
                                                 children: usedCount
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 230,
+                                                lineNumber: 233,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 228,
+                                        lineNumber: 231,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 226,
+                                lineNumber: 229,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 225,
+                            lineNumber: 228,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 224,
+                        lineNumber: 227,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Card"], {
@@ -490,7 +494,7 @@ function Materials({ projectId }) {
                                         className: "w-5 h-5 text-purple-500"
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 239,
+                                        lineNumber: 242,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -500,7 +504,7 @@ function Materials({ projectId }) {
                                                 children: "Total Cost"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 241,
+                                                lineNumber: 244,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -511,35 +515,35 @@ function Materials({ projectId }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 242,
+                                                lineNumber: 245,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 240,
+                                        lineNumber: 243,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 238,
+                                lineNumber: 241,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 237,
+                            lineNumber: 240,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 236,
+                        lineNumber: 239,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                lineNumber: 199,
+                lineNumber: 202,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Tabs"], {
@@ -554,7 +558,7 @@ function Materials({ projectId }) {
                                 children: "Assigned Materials"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 252,
+                                lineNumber: 255,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -562,7 +566,7 @@ function Materials({ projectId }) {
                                 children: "Assign Materials"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 253,
+                                lineNumber: 256,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsTrigger"], {
@@ -570,13 +574,13 @@ function Materials({ projectId }) {
                                 children: "Order Materials"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 254,
+                                lineNumber: 257,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 251,
+                        lineNumber: 254,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -590,20 +594,20 @@ function Materials({ projectId }) {
                                             children: "Project Materials"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 261,
+                                            lineNumber: 264,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Materials currently assigned to this project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 262,
+                                            lineNumber: 265,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 260,
+                                    lineNumber: 263,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -627,7 +631,7 @@ function Materials({ projectId }) {
                                                                                 children: STATUS_CONFIG[material.status]?.label || material.status
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                lineNumber: 275,
+                                                                                lineNumber: 278,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -635,13 +639,13 @@ function Materials({ projectId }) {
                                                                                 children: material.material?.sku || material.sku || 'No SKU'
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                lineNumber: 278,
+                                                                                lineNumber: 281,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 274,
+                                                                        lineNumber: 277,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h5", {
@@ -649,20 +653,20 @@ function Materials({ projectId }) {
                                                                         children: material.material?.name || material.name || 'Unknown Material'
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 280,
+                                                                        lineNumber: 283,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                         className: "text-sm text-gray-600",
                                                                         children: [
                                                                             "Quantity: ",
-                                                                            material.allocated_qty,
+                                                                            material.quantity_allocated || material.allocated_qty,
                                                                             " ",
                                                                             material.material?.unit || material.unit
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 281,
+                                                                        lineNumber: 284,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -675,15 +679,15 @@ function Materials({ projectId }) {
                                                                                         className: "w-4 h-4 mr-1"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                        lineNumber: 286,
+                                                                                        lineNumber: 289,
                                                                                         columnNumber: 33
                                                                                     }, this),
-                                                                                    material.allocation_date,
+                                                                                    material.allocated_date || material.allocation_date,
                                                                                     material.return_date && ` - ${material.return_date}`
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                lineNumber: 285,
+                                                                                lineNumber: 288,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -693,22 +697,22 @@ function Materials({ projectId }) {
                                                                                         className: "w-4 h-4 mr-1"
                                                                                     }, void 0, false, {
                                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                        lineNumber: 291,
+                                                                                        lineNumber: 294,
                                                                                         columnNumber: 33
                                                                                     }, this),
                                                                                     "€",
-                                                                                    material.material?.price || material.unit_price || 0,
+                                                                                    material.material?.unit_price_eur || material.material?.price || material.unit_price || 0,
                                                                                     "/unit"
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                lineNumber: 290,
+                                                                                lineNumber: 293,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 284,
+                                                                        lineNumber: 287,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     material.notes && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -719,7 +723,7 @@ function Materials({ projectId }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 296,
+                                                                        lineNumber: 299,
                                                                         columnNumber: 31
                                                                     }, this),
                                                                     material.allocated_by_name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -730,13 +734,13 @@ function Materials({ projectId }) {
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 299,
+                                                                        lineNumber: 302,
                                                                         columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 273,
+                                                                lineNumber: 276,
                                                                 columnNumber: 27
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -746,11 +750,11 @@ function Materials({ projectId }) {
                                                                         className: "font-semibold",
                                                                         children: [
                                                                             "€",
-                                                                            material.total_cost?.toFixed(2) || '0.00'
+                                                                            ((material.quantity_allocated || material.allocated_qty || 0) * (material.material?.unit_price_eur || material.material?.price || material.unit_price || 0)).toFixed(2)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 303,
+                                                                        lineNumber: 306,
                                                                         columnNumber: 29
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -764,12 +768,12 @@ function Materials({ projectId }) {
                                                                                     className: "w-4 h-4"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                    lineNumber: 310,
+                                                                                    lineNumber: 313,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                lineNumber: 305,
+                                                                                lineNumber: 308,
                                                                                 columnNumber: 31
                                                                             }, this),
                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -781,45 +785,45 @@ function Materials({ projectId }) {
                                                                                     className: "w-4 h-4"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                    lineNumber: 318,
+                                                                                    lineNumber: 321,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             }, void 0, false, {
                                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                lineNumber: 312,
+                                                                                lineNumber: 315,
                                                                                 columnNumber: 31
                                                                             }, this)
                                                                         ]
                                                                     }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 304,
+                                                                        lineNumber: 307,
                                                                         columnNumber: 29
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 302,
+                                                                lineNumber: 305,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 272,
+                                                        lineNumber: 275,
                                                         columnNumber: 25
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 271,
+                                                    lineNumber: 274,
                                                     columnNumber: 23
                                                 }, this)
                                             }, material.id, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 270,
+                                                lineNumber: 273,
                                                 columnNumber: 21
                                             }, this))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 268,
+                                        lineNumber: 271,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-center py-12",
@@ -828,7 +832,7 @@ function Materials({ projectId }) {
                                                 className: "mx-auto h-12 w-12 text-gray-400 mb-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 329,
+                                                lineNumber: 332,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -836,7 +840,7 @@ function Materials({ projectId }) {
                                                 children: "No Materials Assigned"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 330,
+                                                lineNumber: 333,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -844,7 +848,7 @@ function Materials({ projectId }) {
                                                 children: "Assign materials to start tracking inventory for this project."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 331,
+                                                lineNumber: 334,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -854,36 +858,36 @@ function Materials({ projectId }) {
                                                         className: "w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 335,
+                                                        lineNumber: 338,
                                                         columnNumber: 21
                                                     }, this),
                                                     "Assign Materials"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 334,
+                                                lineNumber: 337,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 328,
+                                        lineNumber: 331,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 266,
+                                    lineNumber: 269,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 259,
+                            lineNumber: 262,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 258,
+                        lineNumber: 261,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -896,20 +900,20 @@ function Materials({ projectId }) {
                                             children: "Assign Materials to Project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 348,
+                                            lineNumber: 351,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Select materials from warehouse inventory to assign to this project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 349,
+                                            lineNumber: 352,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 347,
+                                    lineNumber: 350,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -920,20 +924,20 @@ function Materials({ projectId }) {
                                                 className: "h-12"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 356,
+                                                lineNumber: 359,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$skeleton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Skeleton"], {
                                                 className: "h-32"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 357,
+                                                lineNumber: 360,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 355,
+                                        lineNumber: 358,
                                         columnNumber: 17
                                     }, this) : warehouseError ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-center py-8",
@@ -942,7 +946,7 @@ function Materials({ projectId }) {
                                                 className: "mx-auto h-8 w-8 text-red-500 mb-2"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 361,
+                                                lineNumber: 364,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -950,13 +954,13 @@ function Materials({ projectId }) {
                                                 children: "Failed to load warehouse materials"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 362,
+                                                lineNumber: 365,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 360,
+                                        lineNumber: 363,
                                         columnNumber: 17
                                     }, this) : warehouseMaterials && warehouseMaterials.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
                                         onSubmit: assignForm.handleSubmit(handleAssignMaterial),
@@ -969,7 +973,7 @@ function Materials({ projectId }) {
                                                         children: "Select Material"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 367,
+                                                        lineNumber: 370,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
@@ -980,12 +984,12 @@ function Materials({ projectId }) {
                                                                     placeholder: "Select material from warehouse"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                    lineNumber: 370,
+                                                                    lineNumber: 373,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 369,
+                                                                lineNumber: 372,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -998,7 +1002,7 @@ function Materials({ projectId }) {
                                                                                     children: material.name
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                    lineNumber: 376,
+                                                                                    lineNumber: 379,
                                                                                     columnNumber: 31
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1014,35 +1018,35 @@ function Materials({ projectId }) {
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                    lineNumber: 377,
+                                                                                    lineNumber: 380,
                                                                                     columnNumber: 31
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                            lineNumber: 375,
+                                                                            lineNumber: 378,
                                                                             columnNumber: 29
                                                                         }, this)
                                                                     }, material.id, false, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 374,
+                                                                        lineNumber: 377,
                                                                         columnNumber: 27
                                                                     }, this))
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 372,
+                                                                lineNumber: 375,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 368,
+                                                        lineNumber: 371,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 366,
+                                                lineNumber: 369,
                                                 columnNumber: 19
                                             }, this),
                                             assignForm.watch('material_id') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -1058,7 +1062,7 @@ function Materials({ projectId }) {
                                                                     children: "Material Details"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                    lineNumber: 395,
+                                                                    lineNumber: 398,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1071,7 +1075,7 @@ function Materials({ projectId }) {
                                                                                     children: "Current Stock"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                    lineNumber: 398,
+                                                                                    lineNumber: 401,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1087,7 +1091,7 @@ function Materials({ projectId }) {
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                            lineNumber: 400,
+                                                                                            lineNumber: 403,
                                                                                             columnNumber: 35
                                                                                         }, this),
                                                                                         selectedMaterial.is_over_allocated && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1101,7 +1105,7 @@ function Materials({ projectId }) {
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                            lineNumber: 404,
+                                                                                            lineNumber: 407,
                                                                                             columnNumber: 37
                                                                                         }, this),
                                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1114,19 +1118,19 @@ function Materials({ projectId }) {
                                                                                             ]
                                                                                         }, void 0, true, {
                                                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                            lineNumber: 408,
+                                                                                            lineNumber: 411,
                                                                                             columnNumber: 35
                                                                                         }, this)
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                    lineNumber: 399,
+                                                                                    lineNumber: 402,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                            lineNumber: 397,
+                                                                            lineNumber: 400,
                                                                             columnNumber: 31
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1136,7 +1140,7 @@ function Materials({ projectId }) {
                                                                                     children: "Unit Price"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                    lineNumber: 414,
+                                                                                    lineNumber: 417,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1146,13 +1150,13 @@ function Materials({ projectId }) {
                                                                                     ]
                                                                                 }, void 0, true, {
                                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                    lineNumber: 415,
+                                                                                    lineNumber: 418,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                            lineNumber: 413,
+                                                                            lineNumber: 416,
                                                                             columnNumber: 31
                                                                         }, this),
                                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1162,7 +1166,7 @@ function Materials({ projectId }) {
                                                                                     children: "Description"
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                    lineNumber: 418,
+                                                                                    lineNumber: 421,
                                                                                     columnNumber: 33
                                                                                 }, this),
                                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1170,25 +1174,25 @@ function Materials({ projectId }) {
                                                                                     children: selectedMaterial.description || 'No description'
                                                                                 }, void 0, false, {
                                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                    lineNumber: 419,
+                                                                                    lineNumber: 422,
                                                                                     columnNumber: 33
                                                                                 }, this)
                                                                             ]
                                                                         }, void 0, true, {
                                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                            lineNumber: 417,
+                                                                            lineNumber: 420,
                                                                             columnNumber: 31
                                                                         }, this)
                                                                     ]
                                                                 }, void 0, true, {
                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                    lineNumber: 396,
+                                                                    lineNumber: 399,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 394,
+                                                            lineNumber: 397,
                                                             columnNumber: 27
                                                         }, this);
                                                     })(),
@@ -1202,7 +1206,7 @@ function Materials({ projectId }) {
                                                                         children: "Quantity"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 428,
+                                                                        lineNumber: 431,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1217,7 +1221,7 @@ function Materials({ projectId }) {
                                                                         })
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 429,
+                                                                        lineNumber: 432,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     assignForm.watch('quantity') && (()=>{
@@ -1235,7 +1239,7 @@ function Materials({ projectId }) {
                                                                                                 className: "w-4 h-4"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                                lineNumber: 445,
+                                                                                                lineNumber: 448,
                                                                                                 columnNumber: 37
                                                                                             }, this),
                                                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1243,13 +1247,13 @@ function Materials({ projectId }) {
                                                                                                 children: "Over-allocation Warning"
                                                                                             }, void 0, false, {
                                                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                                lineNumber: 446,
+                                                                                                lineNumber: 449,
                                                                                                 columnNumber: 37
                                                                                             }, this)
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                        lineNumber: 444,
+                                                                                        lineNumber: 447,
                                                                                         columnNumber: 35
                                                                                     }, this),
                                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1262,20 +1266,20 @@ function Materials({ projectId }) {
                                                                                             " ",
                                                                                             selectedMaterial.unit,
                                                                                             " available. This will create an over-allocation of ",
-                                                                                            overAmount.toFixed(1),
+                                                                                            (Number(overAmount) || 0).toFixed(1),
                                                                                             " ",
                                                                                             selectedMaterial.unit,
                                                                                             "."
                                                                                         ]
                                                                                     }, void 0, true, {
                                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                        lineNumber: 448,
+                                                                                        lineNumber: 451,
                                                                                         columnNumber: 35
                                                                                     }, this)
                                                                                 ]
                                                                             }, void 0, true, {
                                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                                lineNumber: 443,
+                                                                                lineNumber: 446,
                                                                                 columnNumber: 33
                                                                             }, this);
                                                                         }
@@ -1284,7 +1288,7 @@ function Materials({ projectId }) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 427,
+                                                                lineNumber: 430,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1294,7 +1298,7 @@ function Materials({ projectId }) {
                                                                         children: "Start Date"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 459,
+                                                                        lineNumber: 462,
                                                                         columnNumber: 27
                                                                     }, this),
                                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1304,86 +1308,59 @@ function Materials({ projectId }) {
                                                                         })
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 460,
+                                                                        lineNumber: 463,
                                                                         columnNumber: 27
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 458,
+                                                                lineNumber: 461,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 426,
+                                                        lineNumber: 429,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                        className: "grid grid-cols-2 gap-4",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                            children: assignForm.watch('quantity') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                                className: "p-3 bg-blue-50 rounded-lg",
                                                                 children: [
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
-                                                                        htmlFor: "to_date",
-                                                                        children: "End Date (Optional)"
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        className: "text-sm font-medium",
+                                                                        children: "Estimated Cost"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 469,
-                                                                        columnNumber: 27
+                                                                        lineNumber: 474,
+                                                                        columnNumber: 31
                                                                     }, this),
-                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
-                                                                        type: "date",
-                                                                        ...assignForm.register('to_date')
-                                                                    }, void 0, false, {
+                                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                                                        className: "text-lg font-bold text-blue-600",
+                                                                        children: [
+                                                                            "€",
+                                                                            ((Number(assignForm.watch('quantity')) || 0) * (Number(warehouseMaterials.find((m)=>m.id === assignForm.watch('material_id'))?.unit_price_eur || warehouseMaterials.find((m)=>m.id === assignForm.watch('material_id'))?.price) || 0)).toFixed(2)
+                                                                        ]
+                                                                    }, void 0, true, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 470,
-                                                                        columnNumber: 27
+                                                                        lineNumber: 475,
+                                                                        columnNumber: 31
                                                                     }, this)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 468,
-                                                                columnNumber: 25
-                                                            }, this),
-                                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                children: assignForm.watch('quantity') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                                    className: "p-3 bg-blue-50 rounded-lg",
-                                                                    children: [
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                            className: "text-sm font-medium",
-                                                                            children: "Estimated Cost"
-                                                                        }, void 0, false, {
-                                                                            fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                            lineNumber: 478,
-                                                                            columnNumber: 31
-                                                                        }, this),
-                                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                                                                            className: "text-lg font-bold text-blue-600",
-                                                                            children: [
-                                                                                "€",
-                                                                                ((assignForm.watch('quantity') || 0) * (warehouseMaterials.find((m)=>m.id === assignForm.watch('material_id'))?.price || 0)).toFixed(2)
-                                                                            ]
-                                                                        }, void 0, true, {
-                                                                            fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                            lineNumber: 479,
-                                                                            columnNumber: 31
-                                                                        }, this)
-                                                                    ]
-                                                                }, void 0, true, {
-                                                                    fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                    lineNumber: 477,
-                                                                    columnNumber: 29
-                                                                }, this)
-                                                            }, void 0, false, {
-                                                                fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 475,
-                                                                columnNumber: 25
+                                                                lineNumber: 473,
+                                                                columnNumber: 29
                                                             }, this)
-                                                        ]
-                                                    }, void 0, true, {
+                                                        }, void 0, false, {
+                                                            fileName: "[project]/src/components/project-preparation/materials.tsx",
+                                                            lineNumber: 471,
+                                                            columnNumber: 25
+                                                        }, this)
+                                                    }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 467,
+                                                        lineNumber: 470,
                                                         columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1393,7 +1370,7 @@ function Materials({ projectId }) {
                                                                 children: "Notes (Optional)"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 491,
+                                                                lineNumber: 487,
                                                                 columnNumber: 25
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1401,13 +1378,13 @@ function Materials({ projectId }) {
                                                                 ...assignForm.register('notes')
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 492,
+                                                                lineNumber: 488,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 490,
+                                                        lineNumber: 486,
                                                         columnNumber: 23
                                                     }, this)
                                                 ]
@@ -1419,13 +1396,13 @@ function Materials({ projectId }) {
                                                 children: assignMaterial.isPending ? 'Assigning...' : 'Assign Material'
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 500,
+                                                lineNumber: 496,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 365,
+                                        lineNumber: 368,
                                         columnNumber: 17
                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         className: "text-center py-12",
@@ -1434,7 +1411,7 @@ function Materials({ projectId }) {
                                                 className: "mx-auto h-12 w-12 text-orange-400 mb-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 510,
+                                                lineNumber: 506,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
@@ -1442,7 +1419,7 @@ function Materials({ projectId }) {
                                                 children: "No Available Materials"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 511,
+                                                lineNumber: 507,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1450,7 +1427,7 @@ function Materials({ projectId }) {
                                                 children: "No materials are currently available in the warehouse."
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 512,
+                                                lineNumber: 508,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1460,36 +1437,36 @@ function Materials({ projectId }) {
                                                         className: "w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 516,
+                                                        lineNumber: 512,
                                                         columnNumber: 21
                                                     }, this),
                                                     "Add Materials to Warehouse"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 515,
+                                                lineNumber: 511,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 509,
+                                        lineNumber: 505,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 353,
+                                    lineNumber: 356,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 346,
+                            lineNumber: 349,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 345,
+                        lineNumber: 348,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$tabs$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TabsContent"], {
@@ -1505,33 +1482,33 @@ function Materials({ projectId }) {
                                                     className: "w-5 h-5"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 530,
+                                                    lineNumber: 526,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                     children: "Order Materials"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 531,
+                                                    lineNumber: 527,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 529,
+                                            lineNumber: 525,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardDescription"], {
                                             children: "Order materials from suppliers for this project"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 533,
+                                            lineNumber: 529,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 528,
+                                    lineNumber: 524,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$card$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardContent"], {
@@ -1550,7 +1527,7 @@ function Materials({ projectId }) {
                                                                     children: "Need to place a complex order?"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                    lineNumber: 543,
+                                                                    lineNumber: 539,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1558,13 +1535,13 @@ function Materials({ projectId }) {
                                                                     children: "Use the full materials ordering interface for multiple items and advanced options"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                    lineNumber: 544,
+                                                                    lineNumber: 540,
                                                                     columnNumber: 23
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 542,
+                                                            lineNumber: 538,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1576,25 +1553,25 @@ function Materials({ projectId }) {
                                                                     className: "w-4 h-4 mr-2"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                    lineNumber: 553,
+                                                                    lineNumber: 549,
                                                                     columnNumber: 23
                                                                 }, this),
                                                                 "Full Order Interface"
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 548,
+                                                            lineNumber: 544,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 541,
+                                                    lineNumber: 537,
                                                     columnNumber: 19
                                                 }, this)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 540,
+                                                lineNumber: 536,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1604,7 +1581,7 @@ function Materials({ projectId }) {
                                                         children: "Recent Orders for this Project"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 561,
+                                                        lineNumber: 557,
                                                         columnNumber: 19
                                                     }, this),
                                                     materialOrders && materialOrders.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1614,7 +1591,7 @@ function Materials({ projectId }) {
                                                                     order: order
                                                                 }, order.id, false, {
                                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                    lineNumber: 565,
+                                                                    lineNumber: 561,
                                                                     columnNumber: 25
                                                                 }, this)),
                                                             materialOrders.length > 5 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1628,13 +1605,13 @@ function Materials({ projectId }) {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 569,
+                                                                lineNumber: 565,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 563,
+                                                        lineNumber: 559,
                                                         columnNumber: 21
                                                     }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "text-center py-8 text-gray-500",
@@ -1643,14 +1620,14 @@ function Materials({ projectId }) {
                                                                 className: "w-8 h-8 mx-auto mb-2 opacity-50"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 580,
+                                                                lineNumber: 576,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                                                 children: "No material orders for this project yet"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 581,
+                                                                lineNumber: 577,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -1661,61 +1638,61 @@ function Materials({ projectId }) {
                                                                         className: "w-4 h-4 mr-2"
                                                                     }, void 0, false, {
                                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                        lineNumber: 586,
+                                                                        lineNumber: 582,
                                                                         columnNumber: 25
                                                                     }, this),
                                                                     "Create First Order"
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                                lineNumber: 582,
+                                                                lineNumber: 578,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 579,
+                                                        lineNumber: 575,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 560,
+                                                lineNumber: 556,
                                                 columnNumber: 17
                                             }, this),
                                             materialOrders && materialOrders.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(OrderSummaryStats, {
                                                 orders: materialOrders
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 595,
+                                                lineNumber: 591,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 538,
+                                        lineNumber: 534,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 537,
+                                    lineNumber: 533,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 527,
+                            lineNumber: 523,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 526,
+                        lineNumber: 522,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                lineNumber: 250,
+                lineNumber: 253,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -1730,20 +1707,20 @@ function Materials({ projectId }) {
                                     children: "Edit Material Assignment"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 607,
+                                    lineNumber: 603,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DialogDescription"], {
                                     children: "Update material assignment details"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 608,
+                                    lineNumber: 604,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 606,
+                            lineNumber: 602,
                             columnNumber: 11
                         }, this),
                         editingMaterial && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -1758,7 +1735,7 @@ function Materials({ projectId }) {
                                             children: editingMaterial.material?.name || editingMaterial.name || 'Unknown Material'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 617,
+                                            lineNumber: 613,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1771,7 +1748,7 @@ function Materials({ projectId }) {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 619,
+                                                    lineNumber: 615,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1781,7 +1758,7 @@ function Materials({ projectId }) {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 620,
+                                                    lineNumber: 616,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1791,19 +1768,19 @@ function Materials({ projectId }) {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 621,
+                                                    lineNumber: 617,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 618,
+                                            lineNumber: 614,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 616,
+                                    lineNumber: 612,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1816,7 +1793,7 @@ function Materials({ projectId }) {
                                                     children: "Quantity"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 628,
+                                                    lineNumber: 624,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1830,7 +1807,7 @@ function Materials({ projectId }) {
                                                     })
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 629,
+                                                    lineNumber: 625,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1841,13 +1818,13 @@ function Materials({ projectId }) {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 636,
+                                                    lineNumber: 632,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 627,
+                                            lineNumber: 623,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1857,7 +1834,7 @@ function Materials({ projectId }) {
                                                     children: "Unit Price (€)"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 640,
+                                                    lineNumber: 636,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -1871,74 +1848,46 @@ function Materials({ projectId }) {
                                                     })
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 641,
+                                                    lineNumber: 637,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 639,
+                                            lineNumber: 635,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                            className: "grid grid-cols-2 gap-4",
-                                            children: [
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
-                                                            htmlFor: "edit-from-date",
-                                                            children: "Start Date"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 652,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
-                                                            id: "edit-from-date",
-                                                            type: "date",
-                                                            ...editForm.register('from_date', {
-                                                                required: true
-                                                            })
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 653,
-                                                            columnNumber: 21
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 651,
-                                                    columnNumber: 19
-                                                }, this),
-                                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                    children: [
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
-                                                            htmlFor: "edit-to-date",
-                                                            children: "End Date"
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 660,
-                                                            columnNumber: 21
-                                                        }, this),
-                                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
-                                                            id: "edit-to-date",
-                                                            type: "date",
-                                                            ...editForm.register('to_date')
-                                                        }, void 0, false, {
-                                                            fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 661,
-                                                            columnNumber: 21
-                                                        }, this)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 659,
-                                                    columnNumber: 19
-                                                }, this)
-                                            ]
-                                        }, void 0, true, {
+                                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                                children: [
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$label$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Label"], {
+                                                        htmlFor: "edit-from-date",
+                                                        children: "Start Date"
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/project-preparation/materials.tsx",
+                                                        lineNumber: 648,
+                                                        columnNumber: 21
+                                                    }, this),
+                                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
+                                                        id: "edit-from-date",
+                                                        type: "date",
+                                                        ...editForm.register('from_date', {
+                                                            required: true
+                                                        })
+                                                    }, void 0, false, {
+                                                        fileName: "[project]/src/components/project-preparation/materials.tsx",
+                                                        lineNumber: 649,
+                                                        columnNumber: 21
+                                                    }, this)
+                                                ]
+                                            }, void 0, true, {
+                                                fileName: "[project]/src/components/project-preparation/materials.tsx",
+                                                lineNumber: 647,
+                                                columnNumber: 19
+                                            }, this)
+                                        }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 650,
+                                            lineNumber: 646,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1948,7 +1897,7 @@ function Materials({ projectId }) {
                                                     children: "Notes"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 670,
+                                                    lineNumber: 658,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -1957,13 +1906,13 @@ function Materials({ projectId }) {
                                                     ...editForm.register('notes')
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 671,
+                                                    lineNumber: 659,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 669,
+                                            lineNumber: 657,
                                             columnNumber: 17
                                         }, this),
                                         editForm.watch('quantity') && editForm.watch('unit_price') && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1974,7 +1923,7 @@ function Materials({ projectId }) {
                                                     children: "Total Cost"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 680,
+                                                    lineNumber: 668,
                                                     columnNumber: 21
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1985,19 +1934,19 @@ function Materials({ projectId }) {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 681,
+                                                    lineNumber: 669,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 679,
+                                            lineNumber: 667,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 626,
+                                    lineNumber: 622,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2010,7 +1959,7 @@ function Materials({ projectId }) {
                                             children: updateMaterial.isPending ? 'Updating...' : 'Update'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 689,
+                                            lineNumber: 677,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2021,42 +1970,42 @@ function Materials({ projectId }) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 696,
+                                            lineNumber: 684,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 688,
+                                    lineNumber: 676,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 614,
+                            lineNumber: 610,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 605,
+                    lineNumber: 601,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                lineNumber: 604,
+                lineNumber: 600,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/project-preparation/materials.tsx",
-        lineNumber: 190,
+        lineNumber: 193,
         columnNumber: 5
     }, this);
 }
 // OrderSummaryStats component
 function OrderSummaryStats({ orders }) {
-    const totalValue = orders.reduce((sum, order)=>sum + order.total_cost_eur, 0);
+    const totalValue = orders.reduce((sum, order)=>sum + (order.total_price || order.total_cost_eur || 0), 0);
     const pendingOrdered = orders.filter((order)=>order.status === 'pending' || order.status === 'ordered').length;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "grid grid-cols-3 gap-4 pt-4 border-t",
@@ -2069,7 +2018,7 @@ function OrderSummaryStats({ orders }) {
                         children: orders.length
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 721,
+                        lineNumber: 709,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2077,13 +2026,13 @@ function OrderSummaryStats({ orders }) {
                         children: "Total Orders"
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 724,
+                        lineNumber: 712,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                lineNumber: 720,
+                lineNumber: 708,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2097,7 +2046,7 @@ function OrderSummaryStats({ orders }) {
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 727,
+                        lineNumber: 715,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2105,7 +2054,7 @@ function OrderSummaryStats({ orders }) {
                         children: "Total Value"
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 730,
+                        lineNumber: 718,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2113,13 +2062,13 @@ function OrderSummaryStats({ orders }) {
                         children: "Budget Impact"
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 731,
+                        lineNumber: 719,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                lineNumber: 726,
+                lineNumber: 714,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2130,7 +2079,7 @@ function OrderSummaryStats({ orders }) {
                         children: pendingOrdered
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 734,
+                        lineNumber: 722,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2138,19 +2087,19 @@ function OrderSummaryStats({ orders }) {
                         children: "Pending/Ordered"
                     }, void 0, false, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 737,
+                        lineNumber: 725,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                lineNumber: 733,
+                lineNumber: 721,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/project-preparation/materials.tsx",
-        lineNumber: 719,
+        lineNumber: 707,
         columnNumber: 5
     }, this);
 }
@@ -2202,7 +2151,7 @@ function OrderCard({ order }) {
                     className: "w-4 h-4"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 793,
+                    lineNumber: 781,
                     columnNumber: 16
                 }, this);
             case 'ordered':
@@ -2210,7 +2159,7 @@ function OrderCard({ order }) {
                     className: "w-4 h-4"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 795,
+                    lineNumber: 783,
                     columnNumber: 16
                 }, this);
             case 'pending':
@@ -2218,7 +2167,7 @@ function OrderCard({ order }) {
                     className: "w-4 h-4"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 797,
+                    lineNumber: 785,
                     columnNumber: 16
                 }, this);
             case 'cancelled':
@@ -2226,7 +2175,7 @@ function OrderCard({ order }) {
                     className: "w-4 h-4"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 799,
+                    lineNumber: 787,
                     columnNumber: 16
                 }, this);
             default:
@@ -2234,7 +2183,7 @@ function OrderCard({ order }) {
                     className: "w-4 h-4"
                 }, void 0, false, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 801,
+                    lineNumber: 789,
                     columnNumber: 16
                 }, this);
         }
@@ -2259,7 +2208,7 @@ function OrderCard({ order }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 810,
+                                        lineNumber: 798,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -2271,13 +2220,13 @@ function OrderCard({ order }) {
                                                 children: order.status
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 813,
+                                                lineNumber: 801,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 811,
+                                        lineNumber: 799,
                                         columnNumber: 13
                                     }, this),
                                     budgetImpact?.has_budget_impact && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$badge$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Badge"], {
@@ -2288,20 +2237,20 @@ function OrderCard({ order }) {
                                                 className: "w-3 h-3 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 817,
+                                                lineNumber: 805,
                                                 columnNumber: 17
                                             }, this),
                                             "Budget Applied"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 816,
+                                        lineNumber: 804,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 809,
+                                lineNumber: 797,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2317,7 +2266,7 @@ function OrderCard({ order }) {
                                                         className: "w-4 h-4 mr-1"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 826,
+                                                        lineNumber: 814,
                                                         columnNumber: 17
                                                     }, this),
                                                     "Ordered: ",
@@ -2325,7 +2274,7 @@ function OrderCard({ order }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 825,
+                                                lineNumber: 813,
                                                 columnNumber: 15
                                             }, this),
                                             order.expected_delivery_date && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -2335,7 +2284,7 @@ function OrderCard({ order }) {
                                                         className: "w-4 h-4 mr-1"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 831,
+                                                        lineNumber: 819,
                                                         columnNumber: 19
                                                     }, this),
                                                     "Expected: ",
@@ -2343,13 +2292,13 @@ function OrderCard({ order }) {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 830,
+                                                lineNumber: 818,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 824,
+                                        lineNumber: 812,
                                         columnNumber: 13
                                     }, this),
                                     order.actual_delivery_date && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2359,7 +2308,7 @@ function OrderCard({ order }) {
                                                 className: "w-4 h-4 mr-1"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 839,
+                                                lineNumber: 827,
                                                 columnNumber: 17
                                             }, this),
                                             "Delivered: ",
@@ -2367,7 +2316,7 @@ function OrderCard({ order }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 838,
+                                        lineNumber: 826,
                                         columnNumber: 15
                                     }, this),
                                     order.supplier_name && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2377,7 +2326,7 @@ function OrderCard({ order }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 845,
+                                        lineNumber: 833,
                                         columnNumber: 15
                                     }, this),
                                     order.material_type && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2387,7 +2336,7 @@ function OrderCard({ order }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 849,
+                                        lineNumber: 837,
                                         columnNumber: 15
                                     }, this),
                                     budgetImpact?.has_budget_impact && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2399,7 +2348,7 @@ function OrderCard({ order }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 853,
+                                        lineNumber: 841,
                                         columnNumber: 15
                                     }, this),
                                     order.notes && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2410,19 +2359,19 @@ function OrderCard({ order }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 859,
+                                        lineNumber: 847,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 823,
+                                lineNumber: 811,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 808,
+                        lineNumber: 796,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2435,11 +2384,11 @@ function OrderCard({ order }) {
                                         className: "font-semibold",
                                         children: [
                                             "€",
-                                            order.total_cost_eur.toFixed(2)
+                                            (order.total_price || order.total_cost_eur || 0).toFixed(2)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 866,
+                                        lineNumber: 854,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2450,25 +2399,25 @@ function OrderCard({ order }) {
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 867,
+                                        lineNumber: 855,
                                         columnNumber: 13
                                     }, this),
-                                    order.unit_price_eur && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                    (order.unit_price || order.unit_price_eur) && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                         className: "text-xs text-gray-500",
                                         children: [
                                             "€",
-                                            order.unit_price_eur,
+                                            order.unit_price || order.unit_price_eur,
                                             "/unit"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 869,
+                                        lineNumber: 857,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 865,
+                                lineNumber: 853,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenu"], {
@@ -2482,17 +2431,17 @@ function OrderCard({ order }) {
                                                 className: "w-4 h-4"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 876,
+                                                lineNumber: 864,
                                                 columnNumber: 17
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 875,
+                                            lineNumber: 863,
                                             columnNumber: 15
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 874,
+                                        lineNumber: 862,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuContent"], {
@@ -2502,12 +2451,12 @@ function OrderCard({ order }) {
                                                 children: "Order Actions"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 880,
+                                                lineNumber: 868,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuSeparator"], {}, void 0, false, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 881,
+                                                lineNumber: 869,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -2517,14 +2466,14 @@ function OrderCard({ order }) {
                                                         className: "w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 883,
+                                                        lineNumber: 871,
                                                         columnNumber: 17
                                                     }, this),
                                                     "Update Status"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 882,
+                                                lineNumber: 870,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -2534,38 +2483,38 @@ function OrderCard({ order }) {
                                                         className: "w-4 h-4 mr-2"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 887,
+                                                        lineNumber: 875,
                                                         columnNumber: 17
                                                     }, this),
                                                     "View Details"
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                lineNumber: 886,
+                                                lineNumber: 874,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                        lineNumber: 879,
+                                        lineNumber: 867,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                lineNumber: 873,
+                                lineNumber: 861,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                        lineNumber: 864,
+                        lineNumber: 852,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                lineNumber: 807,
+                lineNumber: 795,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -2580,7 +2529,7 @@ function OrderCard({ order }) {
                                     children: "Update Order Status"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 899,
+                                    lineNumber: 887,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DialogDescription"], {
@@ -2590,13 +2539,13 @@ function OrderCard({ order }) {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 900,
+                                    lineNumber: 888,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 898,
+                            lineNumber: 886,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2609,7 +2558,7 @@ function OrderCard({ order }) {
                                             children: "Order Status"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 907,
+                                            lineNumber: 895,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Select"], {
@@ -2619,12 +2568,12 @@ function OrderCard({ order }) {
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectTrigger"], {
                                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectValue"], {}, void 0, false, {
                                                         fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                        lineNumber: 910,
+                                                        lineNumber: 898,
                                                         columnNumber: 19
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 909,
+                                                    lineNumber: 897,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectContent"], {
@@ -2634,7 +2583,7 @@ function OrderCard({ order }) {
                                                             children: "Pending"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 913,
+                                                            lineNumber: 901,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -2642,7 +2591,7 @@ function OrderCard({ order }) {
                                                             children: "Ordered"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 914,
+                                                            lineNumber: 902,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -2650,7 +2599,7 @@ function OrderCard({ order }) {
                                                             children: "Delivered"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 915,
+                                                            lineNumber: 903,
                                                             columnNumber: 19
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$select$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["SelectItem"], {
@@ -2658,25 +2607,25 @@ function OrderCard({ order }) {
                                                             children: "Cancelled"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                            lineNumber: 916,
+                                                            lineNumber: 904,
                                                             columnNumber: 19
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                                    lineNumber: 912,
+                                                    lineNumber: 900,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 908,
+                                            lineNumber: 896,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 906,
+                                    lineNumber: 894,
                                     columnNumber: 13
                                 }, this),
                                 newStatus === 'delivered' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2686,7 +2635,7 @@ function OrderCard({ order }) {
                                             children: "Actual Delivery Date"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 923,
+                                            lineNumber: 911,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$input$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Input"], {
@@ -2696,13 +2645,13 @@ function OrderCard({ order }) {
                                             onChange: (e)=>setActualDeliveryDate(e.target.value)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 924,
+                                            lineNumber: 912,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 922,
+                                    lineNumber: 910,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2712,7 +2661,7 @@ function OrderCard({ order }) {
                                             children: "Notes (Optional)"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 934,
+                                            lineNumber: 922,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$textarea$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Textarea"], {
@@ -2723,13 +2672,13 @@ function OrderCard({ order }) {
                                             rows: 3
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 935,
+                                            lineNumber: 923,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 933,
+                                    lineNumber: 921,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2742,7 +2691,7 @@ function OrderCard({ order }) {
                                             children: updateOrder.isPending ? 'Updating...' : 'Update Order'
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 945,
+                                            lineNumber: 933,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Button"], {
@@ -2752,36 +2701,36 @@ function OrderCard({ order }) {
                                             children: "Cancel"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                            lineNumber: 952,
+                                            lineNumber: 940,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                                    lineNumber: 944,
+                                    lineNumber: 932,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/project-preparation/materials.tsx",
-                            lineNumber: 905,
+                            lineNumber: 893,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/project-preparation/materials.tsx",
-                    lineNumber: 897,
+                    lineNumber: 885,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/project-preparation/materials.tsx",
-                lineNumber: 896,
+                lineNumber: 884,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/project-preparation/materials.tsx",
-        lineNumber: 806,
+        lineNumber: 794,
         columnNumber: 5
     }, this);
 }

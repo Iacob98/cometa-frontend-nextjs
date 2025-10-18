@@ -121,7 +121,6 @@ export async function GET(request: NextRequest) {
           quantity_used,
           quantity_remaining,
           allocated_date,
-          return_date,
           status,
           notes,
           allocated_by,
@@ -151,8 +150,20 @@ export async function GET(request: NextRequest) {
         );
       }
 
+      // Add total_cost_eur calculation for each allocation
+      const materialsWithCost = (allocations || []).map((allocation: any) => {
+        const quantity = Number(allocation.quantity_allocated) || 0;
+        const unitPrice = Number(allocation.material?.unit_price_eur) || 0;
+        const totalCost = quantity * unitPrice;
+
+        return {
+          ...allocation,
+          total_cost_eur: Math.round(totalCost * 100) / 100
+        };
+      });
+
       return NextResponse.json({
-        materials: allocations || [],
+        materials: materialsWithCost,
         total: count || 0,
         page,
         per_page,

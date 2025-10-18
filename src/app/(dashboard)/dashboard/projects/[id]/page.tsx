@@ -14,6 +14,8 @@ import { usePermissions } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
 import { useProjectPreparation } from "@/hooks/use-project-preparation";
 import ProjectPreparationTab from "@/components/project-preparation/project-preparation-tab";
+import ProjectSoilTypesCard from "@/components/project-soil-types-card";
+import ProjectContactsCard from "@/components/project-contacts-card";
 import type { ProjectStatus } from "@/types";
 
 export default function ProjectDetailsPage() {
@@ -59,6 +61,17 @@ export default function ProjectDetailsPage() {
     enabled: !!projectId,
   });
 
+  // Fetch soil types to calculate real project value
+  const { data: soilTypesData } = useQuery({
+    queryKey: ['project-soil-types', projectId],
+    queryFn: async () => {
+      const response = await fetch(`/api/projects/${projectId}/soil-types`);
+      if (!response.ok) throw new Error('Failed to fetch soil types');
+      return response.json();
+    },
+    enabled: !!projectId,
+  });
+
   const getStatusBadgeVariant = (status: ProjectStatus) => {
     switch (status) {
       case "active":
@@ -87,6 +100,22 @@ export default function ProjectDetailsPage() {
       default:
         return status;
     }
+  };
+
+  // Calculate real project value from soil types or use simple calculation
+  const calculateProjectValue = () => {
+    // If soil types exist, use them for accurate calculation
+    if (soilTypesData && Array.isArray(soilTypesData) && soilTypesData.length > 0) {
+      const totalValue = soilTypesData.reduce((sum: number, soilType: any) => {
+        const quantity = parseFloat(soilType.quantity_meters || 0);
+        const price = parseFloat(soilType.price_per_meter || 0);
+        return sum + (quantity * price);
+      }, 0);
+      return totalValue;
+    }
+
+    // Fallback to simple calculation if no soil types
+    return project.total_length_m * project.base_rate_per_m;
   };
 
   if (isLoading) {
@@ -351,7 +380,7 @@ export default function ProjectDetailsPage() {
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Project Value</p>
                     <p className="text-sm font-mono font-semibold">
-                      €{(project.total_length_m * project.base_rate_per_m).toLocaleString('de-DE', {
+                      €{calculateProjectValue().toLocaleString('de-DE', {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })}
@@ -442,6 +471,12 @@ export default function ProjectDetailsPage() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Soil Types Section */}
+          <ProjectSoilTypesCard projectId={projectId} />
+
+          {/* Project Contacts Section */}
+          <ProjectContactsCard projectId={projectId} />
         </TabsContent>
 
         <TabsContent value="preparation" className="space-y-6">
@@ -807,6 +842,21 @@ export default function ProjectDetailsPage() {
                               <div className="text-xs text-muted-foreground">
                                 {vehicle.plate_number} • {vehicle.type} • {vehicle.crew_name}
                               </div>
+                              {vehicle.tipper_type && (
+                                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                  <Badge variant="outline" className={vehicle.tipper_type === 'Kipper' ? 'bg-orange-100 text-orange-800 border-orange-200 text-xs' : 'bg-gray-100 text-gray-800 border-gray-200 text-xs'}>
+                                    {vehicle.tipper_type}
+                                  </Badge>
+                                  {vehicle.max_weight_kg && (
+                                    <span>• Max: {vehicle.max_weight_kg} kg</span>
+                                  )}
+                                </div>
+                              )}
+                              {vehicle.comment && (
+                                <div className="text-xs text-muted-foreground italic">
+                                  {vehicle.comment}
+                                </div>
+                              )}
                               <div className="text-xs text-muted-foreground">
                                 {vehicle.period}
                               </div>

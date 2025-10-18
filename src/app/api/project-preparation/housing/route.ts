@@ -18,12 +18,23 @@ const CreateHousingUnitSchema = z.object({
   advance_payment: z.number().optional(),
   check_in_date: z.string().optional(),
   check_out_date: z.string().optional(),
+  owner_salutation: z.enum(['Herr', 'Frau']).optional(),
   owner_first_name: z.string().optional(),
   owner_last_name: z.string().optional(),
   owner_phone: z.string().optional(),
 }).refine((data) => data.occupied_beds <= data.beds_total, {
   message: "Occupied beds cannot exceed total beds",
   path: ["occupied_beds"],
+}).refine((data) => {
+  // Conditional validation: If any owner info is provided, salutation is required
+  const hasOwnerInfo = data.owner_first_name || data.owner_last_name || data.owner_phone;
+  if (hasOwnerInfo && !data.owner_salutation) {
+    return false;
+  }
+  return true;
+}, {
+  message: "Owner salutation is required when owner contact information is provided",
+  path: ["owner_salutation"],
 });
 
 export async function GET(request: NextRequest) {
@@ -53,6 +64,7 @@ export async function GET(request: NextRequest) {
         check_in_date,
         check_out_date,
         status,
+        owner_salutation,
         owner_first_name,
         owner_last_name,
         owner_phone,
@@ -126,6 +138,7 @@ export async function POST(request: NextRequest) {
       advance_payment: validatedData.advance_payment,
       check_in_date: validatedData.check_in_date,
       check_out_date: validatedData.check_out_date,
+      owner_salutation: validatedData.owner_salutation,
       owner_first_name: validatedData.owner_first_name,
       owner_last_name: validatedData.owner_last_name,
       owner_phone: validatedData.owner_phone,
@@ -147,6 +160,7 @@ export async function POST(request: NextRequest) {
         check_in_date,
         check_out_date,
         status,
+        owner_salutation,
         owner_first_name,
         owner_last_name,
         owner_phone,

@@ -10,8 +10,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, Home, MapPin, Calendar, Phone, Mail, FileText, Upload, Edit, Trash2, Plus, BarChart3, PieChart, Users, Building, CloudRain, Construction, CheckCircle, ClipboardList, Camera, Paperclip } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { AlertCircle, Home, MapPin, Calendar, Phone, Mail, FileText, Upload, Edit, Trash2, Plus, BarChart3, PieChart, Users, Building, CloudRain, Construction, CheckCircle, ClipboardList, Camera, Paperclip, Eye, Download, X } from 'lucide-react';
 import { useProjectHouses, useCreateHouse, useUpdateHouse, useDeleteHouse } from '@/hooks/use-houses';
+import { useCabinets } from '@/hooks/use-zone-layout';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -22,6 +24,7 @@ interface HousesProps {
 interface CreateHouseForm {
   address: string;
   house_number?: string;
+  cabinet_id?: string;
   apartment_count: number;
   floor_count: number;
   connection_type: string;
@@ -43,6 +46,8 @@ interface EditHouseForm {
   method: string;
   status: string;
   planned_connection_date?: string;
+  work_started_at?: string;
+  work_completed_at?: string;
   contact_name?: string;
   contact_phone?: string;
   notes?: string;
@@ -70,11 +75,10 @@ const HOUSE_TYPES = [
 ];
 
 const CONNECTION_STATUSES = [
-  { value: 'not_assigned', label: 'Nicht zugewiesen', color: 'bg-gray-100 text-gray-800' },
-  { value: 'assigned', label: 'Zugewiesen', color: 'bg-blue-100 text-blue-800' },
-  { value: 'connected', label: 'Verbunden', color: 'bg-green-100 text-green-800' },
-  { value: 'completed', label: 'Abgeschlossen', color: 'bg-green-100 text-green-800' },
-  { value: 'cancelled', label: 'Storniert', color: 'bg-red-100 text-red-800' },
+  { value: 'created', label: 'Erstellt', color: 'bg-gray-100 text-gray-800' },
+  { value: 'planned', label: 'Geplant', color: 'bg-blue-100 text-blue-800' },
+  { value: 'started', label: 'Begonnen', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'finished', label: 'Fertiggestellt', color: 'bg-green-100 text-green-800' },
 ];
 
 const DOCUMENT_TYPES = [
@@ -91,16 +95,134 @@ export default function Houses({ projectId }: HousesProps) {
   const [activeTab, setActiveTab] = useState('houses');
   const [editingHouse, setEditingHouse] = useState<string | null>(null);
   const [selectedHouseForDocs, setSelectedHouseForDocs] = useState<string | null>(null);
+  const [selectedDocumentFiles, setSelectedDocumentFiles] = useState<File[]>([]);
+  const [uploadDocumentFiles, setUploadDocumentFiles] = useState<File[]>([]);
+  const [selectedDocumentType, setSelectedDocumentType] = useState<string>('');
+  const [isUploadingDocs, setIsUploadingDocs] = useState(false);
+  const [viewingDocument, setViewingDocument] = useState<{
+    url: string;
+    filename: string;
+    fileType: string;
+  } | null>(null);
+  const [houseDocuments, setHouseDocuments] = useState<any[]>([]);
+  const [loadingDocs, setLoadingDocs] = useState(false);
 
   const { data: housesData, isLoading, error, refetch } = useProjectHouses(projectId);
-  const houseDocuments = []; // TODO: Implement useHouseDocuments hook
+  const { data: cabinets, isLoading: cabinetsLoading } = useCabinets(projectId);
   const createHouse = useCreateHouse();
   const updateHouse = useUpdateHouse();
   const deleteHouse = useDeleteHouse();
-  const uploadDocument = { mutate: () => {}, isPending: false }; // TODO: Implement useUploadHouseDocument hook
 
   const createForm = useForm<CreateHouseForm>();
   const editForm = useForm<EditHouseForm>();
+
+  // Handle document upload for existing houses
+  const handleUploadDocuments = async () => {
+    if (!selectedHouseForDocs || uploadDocumentFiles.length === 0 || !selectedDocumentType) {
+      toast.error('Please select document type and at least one file');
+      return;
+    }
+
+    setIsUploadingDocs(true);
+    let successCount = 0;
+    let failCount = 0;
+
+    for (const file of uploadDocumentFiles) {
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('document_type', selectedDocumentType);
+        formData.append('description', `${DOCUMENT_TYPES.find(t => t.value === selectedDocumentType)?.label || 'Document'}: ${file.name}`);
+
+        const response = await fetch(`/api/houses/${selectedHouseForDocs}/documents`, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Document upload failed');
+        }
+        successCount++;
+      } catch (docError) {
+        console.error('Document upload error:', docError);
+        failCount++;
+      }
+    }
+
+    setIsUploadingDocs(false);
+
+    if (failCount === 0) {
+      toast.success(`${successCount} document(s) uploaded successfully`);
+    } else if (successCount > 0) {
+      toast.warning(`${successCount} document(s) uploaded, ${failCount} failed`);
+    } else {
+      toast.error('All document uploads failed');
+    }
+
+    // Reset form and reload documents
+    setUploadDocumentFiles([]);
+    setSelectedDocumentType('');
+    loadHouseDocuments(selectedHouseForDocs);
+  };
+
+  // Load documents when house is selected
+  const loadHouseDocuments = async (houseId: string) => {
+    setLoadingDocs(true);
+    try {
+      const response = await fetch(`/api/houses/${houseId}/documents`);
+      if (response.ok) {
+        const data = await response.json();
+        setHouseDocuments(data.items || []);
+      } else {
+        setHouseDocuments([]);
+        toast.error('Failed to load documents');
+      }
+    } catch (error) {
+      console.error('Error loading documents:', error);
+      setHouseDocuments([]);
+      toast.error('Error loading documents');
+    } finally {
+      setLoadingDocs(false);
+    }
+  };
+
+  // Load documents when house selection changes
+  const handleHouseSelectForDocs = (houseId: string) => {
+    setSelectedHouseForDocs(houseId);
+    loadHouseDocuments(houseId);
+  };
+
+  // View document handler
+  const handleViewDocument = (doc: any) => {
+    setViewingDocument({
+      url: doc.download_url,
+      filename: doc.filename,
+      fileType: doc.file_type,
+    });
+  };
+
+  // Delete document handler
+  const handleDeleteDocument = async (documentId: string) => {
+    if (!selectedHouseForDocs) return;
+
+    if (!window.confirm('Are you sure you want to delete this document?')) return;
+
+    try {
+      const response = await fetch(`/api/houses/${selectedHouseForDocs}/documents/${documentId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        toast.success('Document deleted successfully');
+        loadHouseDocuments(selectedHouseForDocs);
+      } else {
+        toast.error('Failed to delete document');
+      }
+    } catch (error) {
+      console.error('Error deleting document:', error);
+      toast.error('Error deleting document');
+    }
+  };
 
   if (isLoading) {
     return (
@@ -134,14 +256,54 @@ export default function Houses({ projectId }: HousesProps) {
 
   const handleCreateHouse = async (data: CreateHouseForm) => {
     try {
-      await createHouse.mutateAsync({
+      const result = await createHouse.mutateAsync({
         ...data,
         project_id: projectId,
       });
+
+      // Upload documents if any were selected
+      if (selectedDocumentFiles.length > 0 && result.id) {
+        let successCount = 0;
+        let failCount = 0;
+
+        for (const file of selectedDocumentFiles) {
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('document_type', 'connection_plan');
+            formData.append('description', `Connection plan uploaded during house creation: ${file.name}`);
+
+            const response = await fetch(`/api/houses/${result.id}/documents`, {
+              method: 'POST',
+              body: formData,
+            });
+
+            if (!response.ok) {
+              throw new Error('Document upload failed');
+            }
+            successCount++;
+          } catch (docError) {
+            console.error('Document upload error:', docError);
+            failCount++;
+          }
+        }
+
+        if (failCount === 0) {
+          toast.success(`House and ${successCount} document(s) added successfully`);
+        } else if (successCount > 0) {
+          toast.warning(`House added. ${successCount} document(s) uploaded, ${failCount} failed`);
+        } else {
+          toast.warning('House added but all document uploads failed');
+        }
+      } else {
+        toast.success('House added successfully');
+      }
+
       createForm.reset();
+      setSelectedDocumentFiles([]);
       refetch();
-      toast.success('House added successfully');
     } catch (error) {
+      console.error('Create house error:', error);
       toast.error('Failed to add house');
     }
   };
@@ -149,8 +311,8 @@ export default function Houses({ projectId }: HousesProps) {
   const handleUpdateHouse = async (houseId: string, data: EditHouseForm) => {
     try {
       await updateHouse.mutateAsync({
-        house_id: houseId,
-        ...data,
+        id: houseId,
+        data: data,
       });
       editForm.reset();
       setEditingHouse(null);
@@ -174,8 +336,8 @@ export default function Houses({ projectId }: HousesProps) {
   };
 
   const totalHouses = housesData?.houses?.length || 0;
-  const connectedCount = housesData?.houses?.filter(h => h.status === 'connected')?.length || 0;
-  const assignedCount = housesData?.houses?.filter(h => h.status === 'assigned')?.length || 0;
+  const finishedCount = housesData?.houses?.filter(h => h.status === 'finished')?.length || 0;
+  const startedCount = housesData?.houses?.filter(h => h.status === 'started')?.length || 0;
   const totalApartments = housesData?.houses?.reduce((sum, h) => sum + (h.apartment_count || 1), 0) || 0;
 
   return (
@@ -206,8 +368,8 @@ export default function Houses({ projectId }: HousesProps) {
             <div className="flex items-center space-x-2">
               <Users className="w-5 h-5 text-green-500" />
               <div>
-                <p className="text-sm font-medium">Verbunden</p>
-                <p className="text-2xl font-bold">{connectedCount}</p>
+                <p className="text-sm font-medium">Fertiggestellt</p>
+                <p className="text-2xl font-bold">{finishedCount}</p>
               </div>
             </div>
           </CardContent>
@@ -218,8 +380,8 @@ export default function Houses({ projectId }: HousesProps) {
             <div className="flex items-center space-x-2">
               <Calendar className="w-5 h-5 text-orange-500" />
               <div>
-                <p className="text-sm font-medium">Zugewiesen</p>
-                <p className="text-2xl font-bold">{assignedCount}</p>
+                <p className="text-sm font-medium">Begonnen</p>
+                <p className="text-2xl font-bold">{startedCount}</p>
               </div>
             </div>
           </CardContent>
@@ -337,6 +499,27 @@ export default function Houses({ projectId }: HousesProps) {
                                   defaultValue={house.planned_connection_date || ''}
                                   {...editForm.register('planned_connection_date')}
                                 />
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <Label htmlFor="work_started_at">Work Start Time</Label>
+                                <Input
+                                  type="datetime-local"
+                                  defaultValue={house.work_started_at ? new Date(house.work_started_at).toISOString().slice(0, 16) : ''}
+                                  {...editForm.register('work_started_at')}
+                                />
+                                <p className="text-xs text-gray-500 mt-1">When work began on this connection</p>
+                              </div>
+                              <div>
+                                <Label htmlFor="work_completed_at">Work Completion Time</Label>
+                                <Input
+                                  type="datetime-local"
+                                  defaultValue={house.work_completed_at ? new Date(house.work_completed_at).toISOString().slice(0, 16) : ''}
+                                  {...editForm.register('work_completed_at')}
+                                />
+                                <p className="text-xs text-gray-500 mt-1">When work was completed</p>
                               </div>
                             </div>
 
@@ -475,6 +658,27 @@ export default function Houses({ projectId }: HousesProps) {
                   </div>
                 </div>
 
+                <div>
+                  <Label htmlFor="cabinet_id">NVP Point (Cabinet)</Label>
+                  <Select onValueChange={(value) => createForm.setValue('cabinet_id', value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder={cabinetsLoading ? "Loading cabinets..." : "Select NVP point"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {cabinets && cabinets.length > 0 ? (
+                        cabinets.map((cabinet: any) => (
+                          <SelectItem key={cabinet.id} value={cabinet.id}>
+                            {cabinet.code} - {cabinet.name} {cabinet.address ? `(${cabinet.address})` : ''}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="none" disabled>No cabinets available</SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-gray-500 mt-1">Link this house to a network distribution point</p>
+                </div>
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="apartment_count">Number of Apartments</Label>
@@ -588,6 +792,68 @@ export default function Houses({ projectId }: HousesProps) {
                   />
                 </div>
 
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 bg-gray-50">
+                  <Label className="text-base font-semibold flex items-center mb-3">
+                    <Paperclip className="w-5 h-5 mr-2" />
+                    Connection Plan Documents (Optional)
+                  </Label>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <label htmlFor="house-doc-input" className="cursor-pointer">
+                        <div className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm font-medium">
+                          <Upload className="w-4 h-4" />
+                          <span>Add Files</span>
+                        </div>
+                      </label>
+                      <Input
+                        id="house-doc-input"
+                        type="file"
+                        accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"
+                        multiple
+                        onChange={(e) => {
+                          const newFiles = Array.from(e.target.files || []);
+                          if (newFiles.length > 0) {
+                            setSelectedDocumentFiles(prev => [...prev, ...newFiles]);
+                          }
+                          e.target.value = '';
+                        }}
+                        className="hidden"
+                      />
+                      <span className="text-sm text-gray-500">
+                        Click "Add Files" to select files
+                      </span>
+                    </div>
+                    {selectedDocumentFiles.length > 0 && (
+                      <div className="space-y-2">
+                        {selectedDocumentFiles.map((file, index) => (
+                          <div key={index} className="flex items-center justify-between gap-2 text-sm bg-green-50 p-2 rounded border border-green-200">
+                            <div className="flex items-center gap-2 text-green-700">
+                              <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                              <span className="truncate">{file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                            </div>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                setSelectedDocumentFiles(prev => prev.filter((_, i) => i !== index));
+                              }}
+                            >
+                              <X className="w-4 h-4 text-red-500" />
+                            </Button>
+                          </div>
+                        ))}
+                        <p className="text-xs text-green-600 font-medium">
+                          {selectedDocumentFiles.length} file(s) selected - You can add more files
+                        </p>
+                      </div>
+                    )}
+                    <p className="text-xs text-gray-500">
+                      PDF, images, or Office documents accepted. Click "Add Files" multiple times to add more files.
+                    </p>
+                  </div>
+                </div>
+
                 <Button
                   type="submit"
                   className="w-full"
@@ -681,7 +947,7 @@ export default function Houses({ projectId }: HousesProps) {
                 <div className="space-y-4">
                   <div>
                     <Label htmlFor="house_select">Select House</Label>
-                    <Select onValueChange={setSelectedHouseForDocs}>
+                    <Select onValueChange={handleHouseSelectForDocs}>
                       <SelectTrigger>
                         <SelectValue placeholder="Select house for document management" />
                       </SelectTrigger>
@@ -700,13 +966,14 @@ export default function Houses({ projectId }: HousesProps) {
                       {/* Document Upload */}
                       <Card>
                         <CardHeader>
-                          <CardTitle className="text-lg">Upload Document</CardTitle>
+                          <CardTitle className="text-lg">Upload Documents</CardTitle>
+                          <CardDescription>Upload multiple documents at once</CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-4">
                             <div>
-                              <Label htmlFor="doc_type">Document Type</Label>
-                              <Select>
+                              <Label htmlFor="doc_type">Document Type *</Label>
+                              <Select value={selectedDocumentType} onValueChange={setSelectedDocumentType}>
                                 <SelectTrigger>
                                   <SelectValue placeholder="Select document type" />
                                 </SelectTrigger>
@@ -720,13 +987,70 @@ export default function Houses({ projectId }: HousesProps) {
                               </Select>
                             </div>
                             <div>
-                              <Label htmlFor="file">File</Label>
-                              <div className="flex items-center space-x-2">
-                                <Input type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx" />
-                                <Button type="button" disabled={uploadDocument.isPending}>
+                              <Label htmlFor="file">Files *</Label>
+                              <div className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                  <label htmlFor="upload-doc-input" className="cursor-pointer">
+                                    <div className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm font-medium">
+                                      <Upload className="w-4 h-4" />
+                                      <span>Add Files</span>
+                                    </div>
+                                  </label>
+                                  <Input
+                                    id="upload-doc-input"
+                                    type="file"
+                                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx"
+                                    multiple
+                                    onChange={(e) => {
+                                      const newFiles = Array.from(e.target.files || []);
+                                      if (newFiles.length > 0) {
+                                        setUploadDocumentFiles(prev => [...prev, ...newFiles]);
+                                      }
+                                      e.target.value = '';
+                                    }}
+                                    className="hidden"
+                                  />
+                                  <span className="text-sm text-gray-500">
+                                    Click "Add Files" to select files
+                                  </span>
+                                </div>
+                                {uploadDocumentFiles.length > 0 && (
+                                  <div className="space-y-2">
+                                    {uploadDocumentFiles.map((file, index) => (
+                                      <div key={index} className="flex items-center justify-between gap-2 text-sm bg-blue-50 p-2 rounded border border-blue-200">
+                                        <div className="flex items-center gap-2 text-blue-700">
+                                          <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                                          <span className="truncate">{file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                                        </div>
+                                        <Button
+                                          type="button"
+                                          variant="ghost"
+                                          size="sm"
+                                          onClick={() => {
+                                            setUploadDocumentFiles(prev => prev.filter((_, i) => i !== index));
+                                          }}
+                                        >
+                                          <X className="w-4 h-4 text-red-500" />
+                                        </Button>
+                                      </div>
+                                    ))}
+                                    <p className="text-xs text-blue-600 font-medium">
+                                      {uploadDocumentFiles.length} file(s) selected - You can add more files
+                                    </p>
+                                  </div>
+                                )}
+                                <Button
+                                  type="button"
+                                  onClick={handleUploadDocuments}
+                                  disabled={isUploadingDocs || uploadDocumentFiles.length === 0 || !selectedDocumentType}
+                                  className="w-full"
+                                >
                                   <Upload className="w-4 h-4 mr-2" />
-                                  {uploadDocument.isPending ? 'Uploading...' : 'Upload'}
+                                  {isUploadingDocs ? 'Uploading...' : `Upload ${uploadDocumentFiles.length > 0 ? uploadDocumentFiles.length : ''} Document${uploadDocumentFiles.length !== 1 ? 's' : ''}`}
                                 </Button>
+                                <p className="text-xs text-gray-500">
+                                  PDF, images, or Office documents accepted. Click "Add Files" multiple times to add more files.
+                                </p>
                               </div>
                             </div>
                           </div>
@@ -734,30 +1058,56 @@ export default function Houses({ projectId }: HousesProps) {
                       </Card>
 
                       {/* Existing Documents */}
-                      {houseDocuments && houseDocuments.length > 0 ? (
+                      {loadingDocs ? (
+                        <Card>
+                          <CardContent className="p-6">
+                            <div className="flex items-center justify-center">
+                              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                              <span className="ml-3">Loading documents...</span>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ) : houseDocuments && houseDocuments.length > 0 ? (
                         <Card>
                           <CardHeader>
-                            <CardTitle className="text-lg">Existing Documents</CardTitle>
+                            <CardTitle className="text-lg">Existing Documents ({houseDocuments.length})</CardTitle>
                           </CardHeader>
                           <CardContent>
                             <div className="space-y-2">
                               {houseDocuments.map((doc) => (
-                                <div key={doc.id} className="flex items-center justify-between p-3 border rounded-lg">
-                                  <div className="flex items-center space-x-3">
-                                    <FileText className="w-5 h-5 text-gray-500" />
-                                    <div>
-                                      <p className="font-medium">{doc.filename}</p>
+                                <div key={doc.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50">
+                                  <div className="flex items-center space-x-3 flex-1">
+                                    {doc.file_type?.includes('image') ? (
+                                      <Camera className="w-5 h-5 text-blue-500" />
+                                    ) : doc.file_type?.includes('pdf') ? (
+                                      <FileText className="w-5 h-5 text-red-500" />
+                                    ) : (
+                                      <Paperclip className="w-5 h-5 text-gray-500" />
+                                    )}
+                                    <div className="flex-1 min-w-0">
+                                      <p className="font-medium truncate">{doc.filename}</p>
                                       <p className="text-sm text-gray-600">
-                                        {DOCUMENT_TYPES.find(t => t.value === doc.doc_type)?.label || doc.doc_type} •
-                                        Uploaded {doc.upload_date}
+                                        {DOCUMENT_TYPES.find(t => t.value === doc.document_type)?.label || doc.document_type}
+                                        {doc.file_size && ` • ${(doc.file_size / 1024).toFixed(1)} KB`}
+                                        {doc.upload_date && ` • ${new Date(doc.upload_date).toLocaleDateString()}`}
                                       </p>
                                     </div>
                                   </div>
                                   <div className="flex space-x-2">
-                                    <Button size="sm" variant="outline">
+                                    <Button
+                                      size="sm"
+                                      variant="outline"
+                                      onClick={() => handleViewDocument(doc)}
+                                      className="gap-1"
+                                    >
+                                      <Eye className="w-4 h-4" />
                                       View
                                     </Button>
-                                    <Button size="sm" variant="destructive">
+                                    <Button
+                                      size="sm"
+                                      variant="destructive"
+                                      onClick={() => handleDeleteDocument(doc.id)}
+                                    >
                                       <Trash2 className="w-4 h-4" />
                                     </Button>
                                   </div>
@@ -767,9 +1117,10 @@ export default function Houses({ projectId }: HousesProps) {
                           </CardContent>
                         </Card>
                       ) : (
-                        <div className="text-center py-8">
+                        <div className="text-center py-8 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
                           <FileText className="mx-auto h-8 w-8 text-gray-400 mb-2" />
                           <p className="text-gray-600">No documents uploaded for this house</p>
+                          <p className="text-sm text-gray-500 mt-1">Upload connection plans, photos, or permits above</p>
                         </div>
                       )}
                     </div>
@@ -786,6 +1137,84 @@ export default function Houses({ projectId }: HousesProps) {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Document Viewer Dialog */}
+      <Dialog open={!!viewingDocument} onOpenChange={(open) => !open && setViewingDocument(null)}>
+        <DialogContent className="max-w-4xl h-[80vh] flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center justify-between">
+              <span className="truncate flex-1">{viewingDocument?.filename}</span>
+              <div className="flex gap-2 ml-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    if (viewingDocument?.url) {
+                      window.open(viewingDocument.url, '_blank');
+                    }
+                  }}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setViewingDocument(null)}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            </DialogTitle>
+            <DialogDescription>
+              {viewingDocument?.fileType && (
+                <span className="text-sm text-gray-500">
+                  Type: {viewingDocument.fileType}
+                </span>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex-1 overflow-hidden">
+            {viewingDocument?.fileType?.includes('pdf') ? (
+              <iframe
+                src={viewingDocument.url}
+                className="w-full h-full border-0 rounded-lg"
+                title={viewingDocument.filename}
+              />
+            ) : viewingDocument?.fileType?.includes('image') ? (
+              <div className="w-full h-full flex items-center justify-center bg-gray-100 rounded-lg overflow-auto">
+                <img
+                  src={viewingDocument.url}
+                  alt={viewingDocument.filename}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
+            ) : (
+              <div className="w-full h-full flex flex-col items-center justify-center bg-gray-50 rounded-lg border-2 border-dashed">
+                <FileText className="w-16 h-16 text-gray-400 mb-4" />
+                <p className="text-lg font-medium text-gray-700 mb-2">
+                  Preview not available
+                </p>
+                <p className="text-sm text-gray-500 mb-4">
+                  This file type cannot be previewed in the browser
+                </p>
+                <Button
+                  onClick={() => {
+                    if (viewingDocument?.url) {
+                      window.open(viewingDocument.url, '_blank');
+                    }
+                  }}
+                  className="gap-2"
+                >
+                  <Download className="w-4 h-4" />
+                  Download to view
+                </Button>
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -22,9 +22,8 @@ const vehicleFormSchema = z.object({
   model: z.string().min(1, "Model is required").max(100, "Model must be less than 100 characters"),
   plate_number: z.string()
     .min(1, "Plate number is required")
-    .max(20, "Plate number must be less than 20 characters")
-    .regex(/^[A-Z0-9\-\s]+$/i, "Plate number can only contain letters, numbers, hyphens, and spaces"),
-  type: z.enum(["van", "truck", "trailer", "excavator", "other"], {
+    .max(20, "Plate number must be less than 20 characters"),
+  type: z.enum(["pkw", "lkw", "transporter", "pritsche", "anhänger", "excavator", "other"], {
     required_error: "Vehicle type is required",
   }),
   status: z.enum(["available", "in_use", "maintenance", "broken"], {
@@ -33,17 +32,29 @@ const vehicleFormSchema = z.object({
   owned: z.boolean().default(true),
   rental_price_per_day_eur: z.number().min(0, "Rental price per day must be 0 or greater").default(0),
   rental_price_per_hour_eur: z.number().min(0, "Rental price per hour must be 0 or greater").default(0),
-  fuel_consumption_l_100km: z.number().min(0, "Fuel consumption must be 0 or greater").default(0),
+  // CHANGED: Make fuel consumption OPTIONAL
+  fuel_consumption_per_100km: z.number().min(0, "Fuel consumption must be 0 or greater").optional().nullable(),
   current_location: z.string().max(200, "Location must be less than 200 characters").default("Main Depot"),
   purchase_price_eur: z.number().min(0, "Purchase price must be 0 or greater").default(0),
+  tipper_type: z.enum(["Kipper", "kein Kipper"], {
+    required_error: "Tipper type is required",
+  }).default("kein Kipper"),
+  max_weight_kg: z.number().min(0, "Max weight must be 0 or greater").max(100000, "Max weight must be less than 100,000 kg").optional().nullable(),
+  comment: z.string().max(500, "Comment must be less than 500 characters").optional().nullable(),
+  // NEW FIELDS
+  number_of_seats: z.number().int("Number of seats must be a whole number").min(0, "Number of seats must be 0 or greater").max(100, "Number of seats must be less than 100").optional().nullable(),
+  has_first_aid_kit: z.boolean().default(false),
+  first_aid_kit_expiry_date: z.string().optional().nullable(),
 });
 
 type VehicleFormValues = z.infer<typeof vehicleFormSchema>;
 
 const vehicleTypes = [
-  { value: "van", label: "Van" },
-  { value: "truck", label: "Truck" },
-  { value: "trailer", label: "Trailer" },
+  { value: "pkw", label: "PKW (Passenger car)" },
+  { value: "lkw", label: "LKW (Truck)" },
+  { value: "transporter", label: "Transporter (Van)" },
+  { value: "pritsche", label: "Pritsche (Flatbed)" },
+  { value: "anhänger", label: "Anhänger (Trailer)" },
   { value: "excavator", label: "Excavator" },
   { value: "other", label: "Other" },
 ];
@@ -66,16 +77,23 @@ export default function NewVehiclePage() {
       brand: "",
       model: "",
       plate_number: "",
-      type: "van",
+      type: "transporter",
       status: "available",
       owned: true,
       rental_price_per_day_eur: 0,
       rental_price_per_hour_eur: 0,
-      fuel_consumption_l_100km: 0,
+      fuel_consumption_per_100km: null,
       current_location: "Main Depot",
       purchase_price_eur: 0,
+      tipper_type: "kein Kipper",
+      max_weight_kg: null,
+      comment: null,
       year_of_manufacture: undefined,
       mileage_km: undefined,
+      // NEW FIELDS
+      number_of_seats: null,
+      has_first_aid_kit: false,
+      first_aid_kit_expiry_date: null,
     },
   });
 
@@ -299,7 +317,7 @@ export default function NewVehiclePage() {
 
               <FormField
                 control={form.control}
-                name="fuel_consumption_l_100km"
+                name="fuel_consumption_per_100km"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Fuel Consumption (L/100km)</FormLabel>
@@ -307,18 +325,154 @@ export default function NewVehiclePage() {
                       <Input
                         type="number"
                         step="0.1"
-                        placeholder="e.g., 8.5"
-                        {...field}
-                        onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : 0)}
+                        placeholder="e.g., 8.5 (optional)"
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : null)}
                       />
                     </FormControl>
                     <FormDescription>
-                      Fuel consumption in liters per 100 kilometers
+                      Fuel consumption in liters per 100 kilometers (optional)
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="tipper_type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tipper Type *</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select tipper type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Kipper">Kipper</SelectItem>
+                          <SelectItem value="kein Kipper">kein Kipper</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="max_weight_kg"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Max Weight (kg)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="e.g., 3500"
+                          value={field.value || ''}
+                          onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : null)}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Maximum weight capacity in kilograms
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <FormField
+                control={form.control}
+                name="comment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Comment</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Additional notes or comments"
+                        value={field.value || ''}
+                        onChange={(e) => field.onChange(e.target.value || null)}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Separator />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="number_of_seats"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Number of Seats</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          placeholder="e.g., 5"
+                          value={field.value || ''}
+                          onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : null)}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Passenger capacity of the vehicle (optional)
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="has_first_aid_kit"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 pt-8">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>
+                          Has First Aid Kit
+                        </FormLabel>
+                        <FormDescription>
+                          Check if this vehicle has a first aid kit
+                        </FormDescription>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {form.watch("has_first_aid_kit") && (
+                <FormField
+                  control={form.control}
+                  name="first_aid_kit_expiry_date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Aid Kit Expiry Date</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="date"
+                          value={field.value || ''}
+                          onChange={(e) => field.onChange(e.target.value || null)}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Expiration date of the first aid kit
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
             </CardContent>
           </Card>
 

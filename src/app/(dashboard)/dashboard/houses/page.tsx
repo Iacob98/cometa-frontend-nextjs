@@ -98,16 +98,14 @@ export default function HousesPage() {
 
   const getStatusBadgeVariant = (status: HouseConnectionStatus) => {
     switch (status) {
-      case "connected":
-        return "default";
-      case "in_progress":
+      case "created":
         return "secondary";
-      case "appointment_scheduled":
+      case "planned":
         return "outline";
-      case "postponed":
-        return "destructive";
-      case "partial_only":
-        return "outline";
+      case "started":
+        return "secondary";
+      case "finished":
+        return "default";
       default:
         return "secondary";
     }
@@ -115,18 +113,14 @@ export default function HousesPage() {
 
   const getStatusLabel = (status: HouseConnectionStatus) => {
     switch (status) {
-      case "not_assigned":
-        return "Not Assigned";
-      case "appointment_scheduled":
-        return "Scheduled";
-      case "in_progress":
-        return "In Progress";
-      case "connected":
-        return "Connected";
-      case "partial_only":
-        return "Partial Only";
-      case "postponed":
-        return "Postponed";
+      case "created":
+        return "Erstellt";
+      case "planned":
+        return "Geplant";
+      case "started":
+        return "Begonnen";
+      case "finished":
+        return "Fertiggestellt";
       default:
         return status;
     }
@@ -301,12 +295,10 @@ export default function HousesPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="not_assigned">Not Assigned</SelectItem>
-                    <SelectItem value="appointment_scheduled">Scheduled</SelectItem>
-                    <SelectItem value="in_progress">In Progress</SelectItem>
-                    <SelectItem value="connected">Connected</SelectItem>
-                    <SelectItem value="partial_only">Partial Only</SelectItem>
-                    <SelectItem value="postponed">Postponed</SelectItem>
+                    <SelectItem value="created">Erstellt</SelectItem>
+                    <SelectItem value="planned">Geplant</SelectItem>
+                    <SelectItem value="started">Begonnen</SelectItem>
+                    <SelectItem value="finished">Fertiggestellt</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -454,7 +446,7 @@ export default function HousesPage() {
                                     <Edit className="mr-2 h-4 w-4" />
                                     Edit House
                                   </DropdownMenuItem>
-                                  {house.status === "not_assigned" && (
+                                  {house.status === "created" && (
                                     <DropdownMenuItem
                                       onClick={() => router.push(`/dashboard/houses/${house.id}/schedule`)}
                                     >
@@ -462,7 +454,7 @@ export default function HousesPage() {
                                       Schedule Appointment
                                     </DropdownMenuItem>
                                   )}
-                                  {house.status === "appointment_scheduled" && (
+                                  {house.status === "planned" && (
                                     <DropdownMenuItem
                                       onClick={() => router.push(`/dashboard/houses/${house.id}/start`)}
                                     >
@@ -470,7 +462,7 @@ export default function HousesPage() {
                                       Start Connection
                                     </DropdownMenuItem>
                                   )}
-                                  {house.status === "in_progress" && (
+                                  {house.status === "started" && (
                                     <DropdownMenuItem
                                       onClick={() => router.push(`/dashboard/houses/${house.id}/complete`)}
                                     >

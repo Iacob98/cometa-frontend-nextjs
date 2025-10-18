@@ -9,6 +9,7 @@ import {
   ClipboardList,
   Package,
   Truck,
+  Car,
   BarChart3,
   Settings,
   Home,
@@ -78,7 +79,7 @@ const navigation: NavItem[] = [
   },
   {
     title: "Materials",
-    href: "/dashboard/materials",
+    href: "/dashboard/materials/inventory",
     icon: Package,
     roles: ["admin", "pm"],
   },
@@ -86,6 +87,12 @@ const navigation: NavItem[] = [
     title: "Equipment",
     href: "/dashboard/equipment",
     icon: Truck,
+    roles: ["admin", "pm"],
+  },
+  {
+    title: "Vehicles",
+    href: "/dashboard/vehicles",
+    icon: Car,
     roles: ["admin", "pm"],
   },
   {

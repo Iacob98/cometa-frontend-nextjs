@@ -101,6 +101,31 @@ export function getFile(documentId: string) {
   }
 }
 
+export function updateDocument(userId: string, documentId: string, updates: any) {
+  const userDocuments = uploadedDocuments[userId] || [];
+  const documentIndex = userDocuments.findIndex(doc => doc.id === documentId);
+
+  if (documentIndex !== -1) {
+    // Update the document with new data
+    uploadedDocuments[userId][documentIndex] = {
+      ...uploadedDocuments[userId][documentIndex],
+      ...updates,
+      updated_at: new Date().toISOString()
+    };
+    saveMetadata(); // Save to file
+
+    console.log('✏️ Document updated:', {
+      userId,
+      documentId,
+      fileName: uploadedDocuments[userId][documentIndex].file_name
+    });
+
+    return uploadedDocuments[userId][documentIndex];
+  }
+
+  return null;
+}
+
 export function deleteDocument(userId: string, documentId: string) {
   const userDocuments = uploadedDocuments[userId] || [];
   const documentIndex = userDocuments.findIndex(doc => doc.id === documentId);

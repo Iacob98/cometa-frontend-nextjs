@@ -75,10 +75,18 @@ import type {
 
 // API Configuration
 const getApiBaseUrl = () => {
+  // If NEXT_PUBLIC_API_URL is explicitly set, use it (for separate API domain)
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+
+  // Otherwise, in browser, use current origin (same domain)
   if (typeof window !== 'undefined') {
     return window.location.origin;
   }
-  return process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+
+  // Fallback for server-side rendering in development
+  return "http://localhost:3000";
 };
 
 export class ApiError extends Error {
@@ -387,8 +395,8 @@ export class SuppliersApiClient extends BaseApiClient {
     super(`${getApiBaseUrl()}/api/suppliers`);
   }
 
-  async getSuppliers(): Promise<Supplier[]> {
-    return this.get<Supplier[]>("/");
+  async getSuppliers(): Promise<PaginatedResponse<Supplier>> {
+    return this.get<PaginatedResponse<Supplier>>("/");
   }
 
   async getSupplier(id: string): Promise<Supplier> {
@@ -440,7 +448,7 @@ export class MaterialAllocationsApiClient extends BaseApiClient {
 
 export class MaterialOrdersApiClient extends BaseApiClient {
   constructor() {
-    super(`${getApiBaseUrl()}/api/material-orders`);
+    super(`${getApiBaseUrl()}/api/materials/orders`);
   }
 
   async getOrders(filters?: OrderFilters): Promise<PaginatedResponse<MaterialOrder>> {
@@ -456,7 +464,7 @@ export class MaterialOrdersApiClient extends BaseApiClient {
   }
 
   async updateOrder(id: string, data: Partial<MaterialOrder>): Promise<MaterialOrder> {
-    return this.patch<MaterialOrder>(`/${id}`, data);
+    return this.put<MaterialOrder>(`/${id}`, data);
   }
 
   async deleteOrder(id: string): Promise<void> {
@@ -494,7 +502,7 @@ export class HousesApiClient extends BaseApiClient {
   }
 
   async updateHouse(id: string, data: UpdateHouseRequest): Promise<House> {
-    return this.patch<House>(`/${id}`, data);
+    return this.put<House>(`/${id}`, data);
   }
 
   async deleteHouse(id: string): Promise<void> {
@@ -543,18 +551,41 @@ export class HousesApiClient extends BaseApiClient {
     });
   }
 
-  async getProjectHouses(projectId: string): Promise<House[]> {
-    // Use housing-units API instead of houses/project API
-    const response = await fetch(`/api/housing-units?project_id=${projectId}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch project houses');
-    }
-    const data = await response.json();
-    return data.items || [];
+  async getProjectHouses(projectId: string): Promise<{ houses: House[] }> {
+    // Fetch houses for a specific project
+    const response = await this.get<PaginatedResponse<House>>("/", { project_id: projectId });
+    return { houses: response.items || [] };
   }
 
   async getTeamHouses(teamId: string): Promise<House[]> {
     return this.get<House[]>(`/team/${teamId}`);
+  }
+
+  // Document methods
+  async getHouseDocuments(houseId: string): Promise<{ items: any[]; total: number }> {
+    return this.get<{ items: any[]; total: number }>(`/${houseId}/documents`);
+  }
+
+  async uploadHouseDocument(houseId: string, file: File, documentType: string = 'connection_plan', description?: string, uploadedBy?: string): Promise<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('document_type', documentType);
+    if (description) formData.append('description', description);
+    if (uploadedBy) formData.append('uploaded_by', uploadedBy);
+
+    // Don't set Content-Type header for FormData - browser will set it automatically with boundary
+    return this.request<any>(`/${houseId}/documents`, {
+      method: 'POST',
+      body: formData,
+    });
+  }
+
+  async getHouseDocument(houseId: string, documentId: string): Promise<any> {
+    return this.get<any>(`/${houseId}/documents/${documentId}`);
+  }
+
+  async deleteHouseDocument(houseId: string, documentId: string): Promise<void> {
+    return this.delete<void>(`/${houseId}/documents/${documentId}`);
   }
 }
 
@@ -673,9 +704,15 @@ export class WebSocketApiClient {
 
   connect(userId: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      const wsBaseUrl = typeof window !== 'undefined'
-        ? window.location.origin.replace(/^http/, 'ws')
-        : process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080";
+      // Priority: explicit NEXT_PUBLIC_WS_URL > auto-detect from current origin > localhost fallback
+      let wsBaseUrl: string;
+      if (process.env.NEXT_PUBLIC_WS_URL) {
+        wsBaseUrl = process.env.NEXT_PUBLIC_WS_URL;
+      } else if (typeof window !== 'undefined') {
+        wsBaseUrl = window.location.origin.replace(/^http/, 'ws');
+      } else {
+        wsBaseUrl = "ws://localhost:8080";
+      }
       const wsUrl = `${wsBaseUrl}/ws/${userId}`;
 
       this.ws = new WebSocket(wsUrl);

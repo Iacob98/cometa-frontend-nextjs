@@ -2,6 +2,22 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 🚨 CRITICAL WORKFLOW RULES 🚨
+
+**BEFORE STARTING ANY DEVELOPMENT TASK:**
+1. 🔴 **MANDATORY**: Use `pre-implementation-planner` agent for EVERY task before writing code
+2. 🔴 **MANDATORY**: Create comprehensive implementation plan across database, API, and frontend
+3. 🔴 **MANDATORY**: Document all changes, edge cases, and testing strategy
+4. ✅ **NEVER** start coding without running pre-implementation-planner first
+
+**AFTER EVERY COMPLETED TASK:**
+1. ✅ **ALWAYS** make a git commit with descriptive message
+2. ✅ **ALWAYS** run `git pull origin dev` to sync with remote
+3. ✅ **ALWAYS** verify no conflicts before continuing
+4. ✅ **NEVER** batch multiple completed tasks before committing
+
+**WHY:** Pre-implementation planning prevents bugs, ensures consistency across the stack, and catches issues before coding. Post-task commits prevent losing work and ensure continuous synchronization.
+
 ## Project Overview
 
 **COMETA** is a Fiber Optic Construction Management System with hybrid architecture combining legacy Streamlit apps and modern Next.js/Supabase for fiber optic cable installation project management. **Migration completed**: Fully migrated from FastAPI microservices to pure Supabase implementation.
@@ -358,6 +374,40 @@ const queryDocs = await context7.getLibraryDocs('/tanstack/query', {
 ```
 
 ## Critical Development Patterns
+
+### 🔴 MANDATORY: Pre-Implementation Planning
+
+**ALWAYS use the pre-implementation-planner agent BEFORE starting any development work:**
+
+```typescript
+// Step 1: Launch pre-implementation-planner agent
+// This agent will:
+// - Analyze the entire stack (database, API, frontend)
+// - Identify all files that need changes
+// - Document edge cases and validation requirements
+// - Create a comprehensive testing strategy
+// - Generate a step-by-step implementation plan
+
+// Example scenarios that REQUIRE pre-implementation-planner:
+// ✅ "Add a new field to projects table"
+// ✅ "Create a new API endpoint for material tracking"
+// ✅ "Fix the facilities cost calculation bug"
+// ✅ "Implement new feature for housing units"
+// ✅ "Update the project creation form"
+// ✅ "Refactor authentication logic"
+
+// Step 2: Review the generated plan saved in .claude/implementation-plans/
+// Step 3: Follow the plan exactly as documented
+// Step 4: Create git commit with reference to the plan file
+
+// NEVER skip this step - it prevents:
+// ❌ Missing database migrations
+// ❌ API/frontend mismatches
+// ❌ Incomplete validation logic
+// ❌ Missing error handling
+// ❌ Untested edge cases
+// ❌ Breaking existing functionality
+```
 
 ### Next.js Data Fetching Pattern
 ```typescript

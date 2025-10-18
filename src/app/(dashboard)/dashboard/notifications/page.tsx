@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Bell, Settings, Filter, Plus, CheckCircle, Trash2 } from "lucide-react";
+import { Bell, Settings, Filter, Plus, CheckCircle, Trash2, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -42,6 +42,7 @@ export default function NotificationsPage() {
   const [filterPriority, setFilterPriority] = useState<NotificationPriority | "all">("all");
   const [filterType, setFilterType] = useState<NotificationType | "all">("all");
   const [preferencesOpen, setPreferencesOpen] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const { user } = useAuth();
   const { isConnected } = useWebSocket();
   const { markAllAsRead, isLoading: actionLoading } = useNotificationActions();
@@ -92,6 +93,30 @@ export default function NotificationsPage() {
     }
   };
 
+  const handleGenerateNotifications = async () => {
+    setIsGenerating(true);
+    try {
+      const response = await fetch('/api/notifications/generate', {
+        method: 'POST'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate notifications');
+      }
+
+      const result = await response.json();
+
+      // Refresh notifications after generation
+      window.location.reload();
+
+      console.log('Generated notifications:', result);
+    } catch (error) {
+      console.error('Error generating notifications:', error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
@@ -126,6 +151,16 @@ export default function NotificationsPage() {
               <NotificationPreferences userId={user?.id || ""} />
             </DialogContent>
           </Dialog>
+
+          <Button
+            variant="default"
+            size="sm"
+            onClick={handleGenerateNotifications}
+            disabled={isGenerating}
+          >
+            <RefreshCw className={`mr-2 h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
+            Generate Alerts
+          </Button>
 
           {unreadCount && unreadCount.count > 0 && (
             <Button

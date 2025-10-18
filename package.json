@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "rebuild": "rm -rf .next && npm run build:clean && npm start",
     "build": "next build --turbopack",
     "build:clean": "find . -name '._*' -type f -delete && npm run build && find .next -name '._*' -type f -delete",
     "start": "next start",

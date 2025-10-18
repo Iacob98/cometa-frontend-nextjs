@@ -501,7 +501,7 @@ export function DocumentUpload({
                         </div>
 
                         <div>
-                          <Label htmlFor={`document-number-${index}`}>Document Number</Label>
+                          <Label htmlFor={`document-number-${index}`}>Document Number <span className="text-muted-foreground text-xs">(Optional)</span></Label>
                           <Input
                             id={`document-number-${index}`}
                             placeholder="Document number..."
@@ -514,7 +514,7 @@ export function DocumentUpload({
                         </div>
 
                         <div>
-                          <Label htmlFor={`issuing-authority-${index}`}>Issuing Authority</Label>
+                          <Label htmlFor={`issuing-authority-${index}`}>Issuing Authority <span className="text-muted-foreground text-xs">(Optional)</span></Label>
                           <Input
                             id={`issuing-authority-${index}`}
                             placeholder="Issuing authority..."
@@ -527,7 +527,7 @@ export function DocumentUpload({
                         </div>
 
                         <div>
-                          <Label htmlFor={`issue-date-${index}`}>Issue Date</Label>
+                          <Label htmlFor={`issue-date-${index}`}>Issue Date <span className="text-muted-foreground text-xs">(Optional)</span></Label>
                           <Input
                             id={`issue-date-${index}`}
                             type="date"
@@ -540,7 +540,7 @@ export function DocumentUpload({
                         </div>
 
                         <div>
-                          <Label htmlFor={`expiry-date-${index}`}>Expiry Date</Label>
+                          <Label htmlFor={`expiry-date-${index}`}>Expiry Date <span className="text-muted-foreground text-xs">(Optional)</span></Label>
                           <Input
                             id={`expiry-date-${index}`}
                             type="date"

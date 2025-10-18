@@ -9,6 +9,7 @@ export interface User {
   id: UUID;
   first_name: string;
   last_name: string;
+  full_name: string; // Computed from first_name + last_name
   phone?: string;
   email?: string;
   lang_pref: Language;
@@ -496,12 +497,10 @@ export type ConnectionType = "full" | "partial";
 export type ConnectionMethod = "trench" | "mole";
 
 export type HouseConnectionStatus =
-  | "not_assigned"
-  | "appointment_scheduled"
-  | "in_progress"
-  | "connected"
-  | "partial_only"
-  | "postponed";
+  | "created"
+  | "planned"
+  | "started"
+  | "finished";
 
 export type AppointmentStatus =
   | "scheduled"

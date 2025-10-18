@@ -8,10 +8,11 @@ export interface Equipment {
   inventory_no?: string;
   owned: boolean;
   status: 'available' | 'in_use' | 'maintenance' | 'broken';
-  purchase_price_eur: number;
-  rental_price_per_day_eur: number;
-  rental_price_per_hour_eur: number;
-  current_location?: string;
+  rental_cost_per_day?: number;
+  purchase_date?: string;
+  warranty_until?: string;
+  description?: string;
+  is_active?: boolean;
   quantity?: number; // Available quantity in inventory
 }
 
@@ -44,10 +45,10 @@ export interface CreateEquipmentData {
   inventory_no?: string;
   owned?: boolean;
   status?: string;
-  purchase_price_eur?: number;
-  rental_price_per_day_eur?: number;
-  rental_price_per_hour_eur?: number;
-  current_location?: string;
+  rental_cost_per_day?: number;
+  purchase_date?: string;
+  warranty_until?: string;
+  description?: string;
 }
 
 export interface CreateAssignmentData {
@@ -193,8 +194,8 @@ const api = {
     if (filters?.crew_id) params.append('crew_id', filters.crew_id);
     if (filters?.active_only) params.append('active_only', filters.active_only.toString());
 
-    // Use our new equipment assignments API
-    const url = `/api/equipment/assignments${params.toString() ? `?${params.toString()}` : ''}`;
+    // Use resources equipment assignments API (unified endpoint)
+    const url = `/api/resources/equipment-assignments${params.toString() ? `?${params.toString()}` : ''}`;
     const response = await fetch(url);
 
     if (!response.ok) {

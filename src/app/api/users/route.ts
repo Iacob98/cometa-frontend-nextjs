@@ -25,7 +25,9 @@ export async function GET(request: NextRequest) {
         first_name,
         last_name,
         role,
+        pin_code,
         phone,
+        skills,
         is_active,
         language_preference,
         created_at,
@@ -57,8 +59,16 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Parse skills from JSONB string to array, add full_name, and map database fields to frontend field names
+    const parsedUsers = (users || []).map(user => ({
+      ...user,
+      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || []),
+      full_name: `${user.first_name || ''} ${user.last_name || ''}`.trim() || user.email || 'Unknown',
+      lang_pref: user.language_preference || 'de' // Map language_preference to lang_pref
+    }));
+
     return NextResponse.json({
-      items: users || [],
+      items: parsedUsers,
       total: count || 0,
       page,
       per_page,
@@ -78,22 +88,26 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const {
       email,
-      pin_code,
+      pin_code: provided_pin_code,
       first_name,
       last_name,
       role = 'worker',
       phone,
-      language_preference = 'de',
+      skills = [],
+      lang_pref = 'de', // Frontend uses lang_pref
       is_active = true
     } = body;
 
-    // Validation
-    if (!email || !pin_code) {
+    // Validation - either email or phone required
+    if (!email && !phone) {
       return NextResponse.json(
-        { error: 'Email and PIN code are required' },
+        { error: 'Either email or phone number is required' },
         { status: 400 }
       );
     }
+
+    // Generate PIN code if not provided (4 digits)
+    const pin_code = provided_pin_code || Math.floor(1000 + Math.random() * 9000).toString();
 
     // Validate PIN code format (4-6 digits)
     if (!/^\d{4,6}$/.test(pin_code)) {
@@ -103,7 +117,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create user in Supabase
+    // Create user in Supabase (map lang_pref to language_preference)
     const { data: user, error } = await supabase
       .from('users')
       .insert([{
@@ -113,7 +127,8 @@ export async function POST(request: NextRequest) {
         last_name,
         role,
         phone,
-        language_preference,
+        skills,
+        language_preference: lang_pref, // Map to database field name
         is_active
       }])
       .select()
@@ -123,9 +138,15 @@ export async function POST(request: NextRequest) {
       console.error('Supabase users creation error:', error);
 
       // Handle unique constraint violations
-      if (error.code === '23505' && error.constraint === 'users_email_key') {
+      if (error.code === '23505') {
+        if (error.message?.includes('users_email_key') || error.details?.includes('email')) {
+          return NextResponse.json(
+            { error: 'User with this email already exists' },
+            { status: 409 }
+          );
+        }
         return NextResponse.json(
-          { error: 'User with this email already exists' },
+          { error: 'User with these details already exists' },
           { status: 409 }
         );
       }
@@ -136,7 +157,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json(user, { status: 201 });
+    // Format user with full_name and lang_pref for frontend
+    const formattedUser = {
+      ...user,
+      full_name: `${user.first_name || ''} ${user.last_name || ''}`.trim() || user.email || 'Unknown',
+      skills: typeof user.skills === 'string' ? JSON.parse(user.skills) : (user.skills || []),
+      lang_pref: user.language_preference || 'de' // Map language_preference to lang_pref
+    };
+
+    return NextResponse.json(formattedUser, { status: 201 });
   } catch (error) {
     console.error('Users POST API error:', error);
     return NextResponse.json(

@@ -10,7 +10,8 @@ export function useAllocations(filters?: AllocationFilters) {
   return useQuery({
     queryKey: allocationKeys.list(filters || {}),
     queryFn: () => materialAllocationsApi.getAllocations(filters),
-    staleTime: 2 * 60 * 1000, // 2 minutes - allocations change frequently
+    staleTime: 0, // TEMPORARILY set to 0 to force fresh data (was: 2 * 60 * 1000)
+    cacheTime: 0, // TEMPORARILY disable cache
   });
 }
 

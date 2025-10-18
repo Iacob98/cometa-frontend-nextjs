@@ -17,6 +17,7 @@ const UpdateHousingUnitSchema = z.object({
   advance_payment: z.number().optional(),
   check_in_date: z.string().optional(),
   check_out_date: z.string().optional(),
+  owner_salutation: z.enum(['Herr', 'Frau']).optional(),
   owner_first_name: z.string().optional(),
   owner_last_name: z.string().optional(),
   owner_phone: z.string().optional(),
@@ -28,6 +29,16 @@ const UpdateHousingUnitSchema = z.object({
 }, {
   message: "Occupied beds cannot exceed total beds",
   path: ["occupied_beds"],
+}).refine((data) => {
+  // Conditional validation: If any owner info is provided, salutation is required
+  const hasOwnerInfo = data.owner_first_name || data.owner_last_name || data.owner_phone;
+  if (hasOwnerInfo && !data.owner_salutation) {
+    return false;
+  }
+  return true;
+}, {
+  message: "Owner salutation is required when owner contact information is provided",
+  path: ["owner_salutation"],
 });
 
 export async function PUT(
@@ -78,7 +89,7 @@ export async function PUT(
     const allowedFields = [
       'address', 'rooms_total', 'beds_total', 'occupied_beds', 'rent_daily_eur',
       'status', 'advance_payment', 'check_in_date', 'check_out_date',
-      'owner_first_name', 'owner_last_name', 'owner_phone'
+      'owner_salutation', 'owner_first_name', 'owner_last_name', 'owner_phone'
     ];
 
     for (const field of allowedFields) {
@@ -113,6 +124,7 @@ export async function PUT(
         check_in_date,
         check_out_date,
         status,
+        owner_salutation,
         owner_first_name,
         owner_last_name,
         owner_phone,

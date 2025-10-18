@@ -33,6 +33,13 @@ export async function GET(request: NextRequest) {
         year_manufactured,
         description,
         is_active,
+        tipper_type,
+        max_weight_kg,
+        comment,
+        number_of_seats,
+        fuel_consumption_per_100km,
+        has_first_aid_kit,
+        first_aid_kit_expiry_date,
         created_at,
         updated_at,
         vehicle_assignments(
@@ -56,7 +63,23 @@ export async function GET(request: NextRequest) {
       .range(offset, offset + per_page - 1);
 
     // Apply filters
-    if (status) {
+    if (status === 'available' || available_only) {
+      // For "available" status, get vehicles that do NOT have any active assignments
+
+      // First, get all vehicle IDs with active assignments
+      const { data: activeAssignments } = await supabase
+        .from('vehicle_assignments')
+        .select('vehicle_id')
+        .eq('is_active', true);
+
+      const assignedVehicleIds = activeAssignments?.map(a => a.vehicle_id) || [];
+
+      // Filter out vehicles that have active assignments
+      if (assignedVehicleIds.length > 0) {
+        query = query.not('id', 'in', `(${assignedVehicleIds.join(',')})`);
+      }
+    } else if (status) {
+      // For other statuses, use direct filtering
       query = query.eq('status', status);
     }
 
@@ -68,10 +91,6 @@ export async function GET(request: NextRequest) {
       query = query.or(`brand.ilike.%${search}%,model.ilike.%${search}%,plate_number.ilike.%${search}%`);
     }
 
-    if (available_only) {
-      query = query.eq('status', 'available');
-    }
-
     const { data: vehicles, error, count } = await query;
 
     if (error) {
@@ -80,6 +99,40 @@ export async function GET(request: NextRequest) {
         { error: 'Failed to fetch vehicles data' },
         { status: 500 }
       );
+    }
+
+    // Fetch document statistics for all vehicles
+    const vehicleIds = (vehicles || []).map((v: any) => v.id);
+    let documentStats: Record<string, { count: number; expired: number; expiring: number }> = {};
+
+    if (vehicleIds.length > 0) {
+      const { data: documents } = await supabase
+        .from('vehicle_documents')
+        .select('vehicle_id, expiry_date')
+        .in('vehicle_id', vehicleIds);
+
+      // Group by vehicle_id and calculate stats
+      documents?.forEach((doc: any) => {
+        if (!documentStats[doc.vehicle_id]) {
+          documentStats[doc.vehicle_id] = { count: 0, expired: 0, expiring: 0 };
+        }
+        documentStats[doc.vehicle_id].count++;
+
+        // Calculate expiry status from expiry_date
+        if (doc.expiry_date) {
+          const now = new Date();
+          const expiry = new Date(doc.expiry_date);
+          const daysUntilExpiry = Math.floor(
+            (expiry.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+          );
+
+          if (daysUntilExpiry < 0) {
+            documentStats[doc.vehicle_id].expired++;
+          } else if (daysUntilExpiry <= 60) {
+            documentStats[doc.vehicle_id].expiring++;
+          }
+        }
+      });
     }
 
     // Format response to ensure proper structure for frontend
@@ -101,23 +154,31 @@ export async function GET(request: NextRequest) {
         return null;
       }
 
+      // Get document statistics for this vehicle
+      const vehicleDocStats = documentStats[vehicle.id] || { count: 0, expired: 0, expiring: 0 };
+
       return {
         id: vehicle.id,
         brand: vehicle.brand || '',
         model: vehicle.model || '',
         plate_number: vehicle.plate_number,
-        type: vehicle.type || 'truck',
+        type: vehicle.type || 'transporter',
         status: vehicle.status || 'available',
         rental_cost_per_day: Number(vehicle.rental_cost_per_day) || 0,
         fuel_type: vehicle.fuel_type || 'diesel',
         year_manufactured: vehicle.year_manufactured,
         description: vehicle.description || '',
         is_active: vehicle.is_active,
-        owned: true, // Default to owned until database is updated
-        purchase_price_eur: 0,
-        rental_price_per_day_eur: Number(vehicle.rental_cost_per_day) || 0,
-        rental_price_per_hour_eur: 0,
-        current_location: '',
+        owned: vehicle.owned !== undefined ? vehicle.owned : true,
+        rental_price_per_day_eur: Number(vehicle.rental_price_per_day_eur || vehicle.rental_cost_per_day) || 0,
+        current_location: vehicle.current_location || '',
+        tipper_type: vehicle.tipper_type || 'kein Kipper',
+        max_weight_kg: vehicle.max_weight_kg ? Number(vehicle.max_weight_kg) : null,
+        comment: vehicle.comment || null,
+        number_of_seats: vehicle.number_of_seats ? Number(vehicle.number_of_seats) : null,
+        fuel_consumption_per_100km: vehicle.fuel_consumption_per_100km ? Number(vehicle.fuel_consumption_per_100km) : null,
+        has_first_aid_kit: vehicle.has_first_aid_kit || false,
+        first_aid_kit_expiry_date: vehicle.first_aid_kit_expiry_date || null,
         full_name: `${vehicle.brand || ''} ${vehicle.model || ''} (${vehicle.plate_number})`.trim(),
         age: vehicle.year_manufactured ? new Date().getFullYear() - vehicle.year_manufactured : null,
         current_assignment: currentAssignment ? {
@@ -148,6 +209,9 @@ export async function GET(request: NextRequest) {
             Math.ceil((new Date(currentAssignment.to_ts).getTime() - new Date(currentAssignment.from_ts).getTime()) / (1000 * 60 * 60 * 24)) : null
         } : null,
         assignments_count: vehicle.vehicle_assignments?.length || 0,
+        documents_count: vehicleDocStats.count,
+        documents_expired: vehicleDocStats.expired,
+        documents_expiring_soon: vehicleDocStats.expiring,
         created_at: vehicle.created_at,
         updated_at: vehicle.updated_at
       };
@@ -222,12 +286,19 @@ export async function POST(request: NextRequest) {
       brand,
       model,
       plate_number,
-      type = 'truck',
+      type = 'transporter',
       status = 'available',
       rental_cost_per_day = 0,
       fuel_type = 'diesel',
       year_manufactured,
-      description = ''
+      description = '',
+      tipper_type = 'kein Kipper',
+      max_weight_kg,
+      comment,
+      number_of_seats,
+      fuel_consumption_per_100km,
+      has_first_aid_kit = false,
+      first_aid_kit_expiry_date
     } = body;
 
     // Validate required fields
@@ -238,10 +309,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!tipper_type) {
+      return NextResponse.json(
+        { error: 'Tipper type is required' },
+        { status: 400 }
+      );
+    }
+
     // Validate enum values
     const validStatuses = ['available', 'in_use', 'maintenance', 'broken'];
-    const validTypes = ['car', 'truck', 'van', 'trailer'];
+    const validTypes = ['pkw', 'lkw', 'transporter', 'pritsche', 'anhänger', 'excavator', 'other'];
     const validFuelTypes = ['diesel', 'petrol', 'electric', 'hybrid'];
+    const validTipperTypes = ['Kipper', 'kein Kipper'];
 
     if (!validStatuses.includes(status)) {
       return NextResponse.json(
@@ -262,6 +341,46 @@ export async function POST(request: NextRequest) {
         { error: `Invalid fuel type. Must be one of: ${validFuelTypes.join(', ')}` },
         { status: 400 }
       );
+    }
+
+    if (!validTipperTypes.includes(tipper_type)) {
+      return NextResponse.json(
+        { error: `Invalid tipper type. Must be one of: ${validTipperTypes.join(', ')}` },
+        { status: 400 }
+      );
+    }
+
+    // Validate max_weight_kg if provided
+    if (max_weight_kg !== undefined && max_weight_kg !== null) {
+      const weight = Number(max_weight_kg);
+      if (isNaN(weight) || weight < 0 || weight > 100000) {
+        return NextResponse.json(
+          { error: 'Invalid max weight. Must be between 0 and 100,000 kg' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validate number_of_seats if provided
+    if (number_of_seats !== undefined && number_of_seats !== null) {
+      const seats = Number(number_of_seats);
+      if (isNaN(seats) || seats < 0 || seats > 100 || !Number.isInteger(seats)) {
+        return NextResponse.json(
+          { error: 'Invalid number of seats. Must be an integer between 0 and 100' },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validate fuel_consumption_per_100km if provided
+    if (fuel_consumption_per_100km !== undefined && fuel_consumption_per_100km !== null) {
+      const consumption = Number(fuel_consumption_per_100km);
+      if (isNaN(consumption) || consumption < 0) {
+        return NextResponse.json(
+          { error: 'Invalid fuel consumption. Must be 0 or greater' },
+          { status: 400 }
+        );
+      }
     }
 
     // Check for duplicate plate number
@@ -291,7 +410,14 @@ export async function POST(request: NextRequest) {
         fuel_type,
         year_manufactured: year_manufactured ? parseInt(year_manufactured) : null,
         description,
-        is_active: true
+        is_active: true,
+        tipper_type,
+        max_weight_kg: max_weight_kg ? Number(max_weight_kg) : null,
+        comment: comment || null,
+        number_of_seats: number_of_seats ? parseInt(number_of_seats) : null,
+        fuel_consumption_per_100km: fuel_consumption_per_100km ? Number(fuel_consumption_per_100km) : null,
+        has_first_aid_kit: has_first_aid_kit || false,
+        first_aid_kit_expiry_date: first_aid_kit_expiry_date || null
       })
       .select(`
         id,
@@ -305,6 +431,13 @@ export async function POST(request: NextRequest) {
         year_manufactured,
         description,
         is_active,
+        tipper_type,
+        max_weight_kg,
+        comment,
+        number_of_seats,
+        fuel_consumption_per_100km,
+        has_first_aid_kit,
+        first_aid_kit_expiry_date,
         created_at,
         updated_at
       `)
@@ -331,12 +464,16 @@ export async function POST(request: NextRequest) {
       year_manufactured: newVehicle.year_manufactured,
       description: newVehicle.description || '',
       is_active: newVehicle.is_active,
-      owned: true, // Default to owned until database is updated
-      purchase_price_eur: 0,
-      rental_price_per_day_eur: Number(newVehicle.rental_cost_per_day) || 0,
-      rental_price_per_hour_eur: 0,
-      current_location: '',
-      fuel_consumption_l_100km: 0,
+      tipper_type: newVehicle.tipper_type,
+      max_weight_kg: newVehicle.max_weight_kg ? Number(newVehicle.max_weight_kg) : null,
+      comment: newVehicle.comment || null,
+      number_of_seats: newVehicle.number_of_seats ? Number(newVehicle.number_of_seats) : null,
+      fuel_consumption_per_100km: newVehicle.fuel_consumption_per_100km ? Number(newVehicle.fuel_consumption_per_100km) : null,
+      has_first_aid_kit: newVehicle.has_first_aid_kit || false,
+      first_aid_kit_expiry_date: newVehicle.first_aid_kit_expiry_date || null,
+      owned: newVehicle.owned !== undefined ? newVehicle.owned : true,
+      rental_price_per_day_eur: Number(newVehicle.rental_price_per_day_eur || newVehicle.rental_cost_per_day) || 0,
+      current_location: newVehicle.current_location || '',
       full_name: `${newVehicle.brand || ''} ${newVehicle.model || ''} (${newVehicle.plate_number})`.trim(),
       age: newVehicle.year_manufactured ? new Date().getFullYear() - newVehicle.year_manufactured : null,
       current_assignment: null,
@@ -365,17 +502,22 @@ export async function PUT(request: NextRequest) {
       id,
       brand,
       model,
+      type,
       status,
       rental_cost_per_day,
       fuel_type,
       year_manufactured,
       description,
       owned,
-      purchase_price_eur,
       rental_price_per_day_eur,
-      rental_price_per_hour_eur,
       current_location,
-      fuel_consumption_l_100km
+      fuel_consumption_per_100km,
+      tipper_type,
+      max_weight_kg,
+      comment,
+      number_of_seats,
+      has_first_aid_kit,
+      first_aid_kit_expiry_date
     } = body;
 
     if (!id) {
@@ -385,6 +527,39 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    // Validate tipper_type if provided
+    if (tipper_type !== undefined) {
+      const validTipperTypes = ['Kipper', 'kein Kipper'];
+      if (!validTipperTypes.includes(tipper_type)) {
+        return NextResponse.json(
+          { error: `Invalid tipper type. Must be one of: ${validTipperTypes.join(', ')}` },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validate type if provided
+    if (type !== undefined) {
+      const validTypes = ['pkw', 'lkw', 'transporter', 'pritsche', 'anhänger', 'excavator', 'other'];
+      if (!validTypes.includes(type)) {
+        return NextResponse.json(
+          { error: `Invalid type. Must be one of: ${validTypes.join(', ')}` },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validate max_weight_kg if provided
+    if (max_weight_kg !== undefined && max_weight_kg !== null) {
+      const weight = Number(max_weight_kg);
+      if (isNaN(weight) || weight < 0 || weight > 100000) {
+        return NextResponse.json(
+          { error: 'Invalid max weight. Must be between 0 and 100,000 kg' },
+          { status: 400 }
+        );
+      }
+    }
+
     // Prepare update data
     const updateData: any = {
       updated_at: new Date().toISOString()
@@ -392,17 +567,22 @@ export async function PUT(request: NextRequest) {
 
     if (brand !== undefined) updateData.brand = brand;
     if (model !== undefined) updateData.model = model;
+    if (type !== undefined) updateData.type = type;
     if (status !== undefined) updateData.status = status;
     if (rental_cost_per_day !== undefined) updateData.rental_cost_per_day = Number(rental_cost_per_day);
     if (fuel_type !== undefined) updateData.fuel_type = fuel_type;
     if (year_manufactured !== undefined) updateData.year_manufactured = year_manufactured ? parseInt(year_manufactured) : null;
     if (description !== undefined) updateData.description = description;
     if (owned !== undefined) updateData.owned = owned;
-    if (purchase_price_eur !== undefined) updateData.purchase_price_eur = Number(purchase_price_eur);
     if (rental_price_per_day_eur !== undefined) updateData.rental_price_per_day_eur = Number(rental_price_per_day_eur);
-    if (rental_price_per_hour_eur !== undefined) updateData.rental_price_per_hour_eur = Number(rental_price_per_hour_eur);
     if (current_location !== undefined) updateData.current_location = current_location;
-    if (fuel_consumption_l_100km !== undefined) updateData.fuel_consumption_l_100km = Number(fuel_consumption_l_100km);
+    if (fuel_consumption_per_100km !== undefined) updateData.fuel_consumption_per_100km = fuel_consumption_per_100km ? Number(fuel_consumption_per_100km) : null;
+    if (tipper_type !== undefined) updateData.tipper_type = tipper_type;
+    if (max_weight_kg !== undefined) updateData.max_weight_kg = max_weight_kg ? Number(max_weight_kg) : null;
+    if (comment !== undefined) updateData.comment = comment;
+    if (number_of_seats !== undefined) updateData.number_of_seats = number_of_seats ? parseInt(number_of_seats) : null;
+    if (has_first_aid_kit !== undefined) updateData.has_first_aid_kit = has_first_aid_kit;
+    if (first_aid_kit_expiry_date !== undefined) updateData.first_aid_kit_expiry_date = first_aid_kit_expiry_date;
 
     // Update vehicle
     const { data: updatedVehicle, error: updateError } = await supabase
@@ -422,11 +602,15 @@ export async function PUT(request: NextRequest) {
         description,
         is_active,
         owned,
-        purchase_price_eur,
         rental_price_per_day_eur,
-        rental_price_per_hour_eur,
         current_location,
-        fuel_consumption_l_100km,
+        fuel_consumption_per_100km,
+        tipper_type,
+        max_weight_kg,
+        comment,
+        number_of_seats,
+        has_first_aid_kit,
+        first_aid_kit_expiry_date,
         created_at,
         updated_at
       `)

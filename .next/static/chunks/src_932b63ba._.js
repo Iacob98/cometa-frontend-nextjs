@@ -168,11 +168,16 @@ __turbopack_context__.s([
     "wsApi",
     ()=>wsApi
 ]);
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_define_property$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_define_property.js [app-client] (ecmascript)");
 ;
 // API Configuration
-const API_BASE_URL = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const getApiBaseUrl = ()=>{
+    if ("TURBOPACK compile-time truthy", 1) {
+        return window.location.origin;
+    }
+    //TURBOPACK unreachable
+    ;
+};
 class ApiError extends Error {
     constructor(status, message, response){
         super(message), (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_define_property$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])(this, "status", void 0), (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_define_property$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["_"])(this, "response", void 0), this.status = status, this.response = response;
@@ -286,7 +291,7 @@ class AuthApiClient extends BaseApiClient {
         return this.get("/me");
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/auth"));
+        super("".concat(getApiBaseUrl(), "/api/auth"));
     }
 }
 class ProjectsApiClient extends BaseApiClient {
@@ -306,7 +311,7 @@ class ProjectsApiClient extends BaseApiClient {
         return this.delete("/".concat(id));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/projects"));
+        super("".concat(getApiBaseUrl(), "/api/projects"));
     }
 }
 class WorkEntriesApiClient extends BaseApiClient {
@@ -329,7 +334,7 @@ class WorkEntriesApiClient extends BaseApiClient {
         return this.post("/".concat(id, "/approve"));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/work-entries"));
+        super("".concat(getApiBaseUrl(), "/api/work-entries"));
     }
 }
 class UsersApiClient extends BaseApiClient {
@@ -349,7 +354,7 @@ class UsersApiClient extends BaseApiClient {
         return this.delete("/".concat(id));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/users"));
+        super("".concat(getApiBaseUrl(), "/api/users"));
     }
 }
 class TeamsApiClient extends BaseApiClient {
@@ -369,7 +374,7 @@ class TeamsApiClient extends BaseApiClient {
         return this.delete("/crews/".concat(id));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/teams"));
+        super("".concat(getApiBaseUrl(), "/api/teams"));
     }
 }
 class MaterialsApiClient extends BaseApiClient {
@@ -395,7 +400,7 @@ class MaterialsApiClient extends BaseApiClient {
         return this.post("/".concat(id, "/adjust-stock"), adjustment);
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/materials"));
+        super("".concat(getApiBaseUrl(), "/api/materials"));
     }
 }
 class SuppliersApiClient extends BaseApiClient {
@@ -415,7 +420,7 @@ class SuppliersApiClient extends BaseApiClient {
         return this.delete("/".concat(id));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/suppliers"));
+        super("".concat(getApiBaseUrl(), "/api/suppliers"));
     }
 }
 class MaterialAllocationsApiClient extends BaseApiClient {
@@ -438,7 +443,7 @@ class MaterialAllocationsApiClient extends BaseApiClient {
         return this.post("/".concat(id, "/usage"), usage);
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/material-allocations"));
+        super("".concat(getApiBaseUrl(), "/api/materials/allocations"));
     }
 }
 class MaterialOrdersApiClient extends BaseApiClient {
@@ -452,7 +457,7 @@ class MaterialOrdersApiClient extends BaseApiClient {
         return this.post("/", data);
     }
     async updateOrder(id, data) {
-        return this.patch("/".concat(id), data);
+        return this.put("/".concat(id), data);
     }
     async deleteOrder(id) {
         return this.delete("/".concat(id));
@@ -469,7 +474,7 @@ class MaterialOrdersApiClient extends BaseApiClient {
         return this.delete("/".concat(orderId, "/items/").concat(itemId));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/material-orders"));
+        super("".concat(getApiBaseUrl(), "/api/materials/orders"));
     }
 }
 class HousesApiClient extends BaseApiClient {
@@ -483,7 +488,7 @@ class HousesApiClient extends BaseApiClient {
         return this.post("/", data);
     }
     async updateHouse(id, data) {
-        return this.patch("/".concat(id), data);
+        return this.put("/".concat(id), data);
     }
     async deleteHouse(id) {
         return this.delete("/".concat(id));
@@ -526,19 +531,42 @@ class HousesApiClient extends BaseApiClient {
         });
     }
     async getProjectHouses(projectId) {
-        // Use housing-units API instead of houses/project API
-        const response = await fetch("/api/housing-units?project_id=".concat(projectId));
-        if (!response.ok) {
-            throw new Error('Failed to fetch project houses');
-        }
-        const data = await response.json();
-        return data.items || [];
+        // Fetch houses for a specific project
+        const response = await this.get("/", {
+            project_id: projectId
+        });
+        return {
+            houses: response.items || []
+        };
     }
     async getTeamHouses(teamId) {
         return this.get("/team/".concat(teamId));
     }
+    // Document methods
+    async getHouseDocuments(houseId) {
+        return this.get("/".concat(houseId, "/documents"));
+    }
+    async uploadHouseDocument(houseId, file) {
+        let documentType = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 'connection_plan', description = arguments.length > 3 ? arguments[3] : void 0, uploadedBy = arguments.length > 4 ? arguments[4] : void 0;
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('document_type', documentType);
+        if (description) formData.append('description', description);
+        if (uploadedBy) formData.append('uploaded_by', uploadedBy);
+        // Don't set Content-Type header for FormData - browser will set it automatically with boundary
+        return this.request("/".concat(houseId, "/documents"), {
+            method: 'POST',
+            body: formData
+        });
+    }
+    async getHouseDocument(houseId, documentId) {
+        return this.get("/".concat(houseId, "/documents/").concat(documentId));
+    }
+    async deleteHouseDocument(houseId, documentId) {
+        return this.delete("/".concat(houseId, "/documents/").concat(documentId));
+    }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/houses"));
+        super("".concat(getApiBaseUrl(), "/api/houses"));
     }
 }
 class AppointmentsApiClient extends BaseApiClient {
@@ -573,7 +601,7 @@ class AppointmentsApiClient extends BaseApiClient {
         });
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/appointments"));
+        super("".concat(getApiBaseUrl(), "/api/appointments"));
     }
 }
 class NotificationsApiClient extends BaseApiClient {
@@ -599,7 +627,7 @@ class NotificationsApiClient extends BaseApiClient {
         return this.get("/user/".concat(userId, "/unread-count"));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/notifications"));
+        super("".concat(getApiBaseUrl(), "/api/notifications"));
     }
 }
 class NotificationPreferencesApiClient extends BaseApiClient {
@@ -610,7 +638,7 @@ class NotificationPreferencesApiClient extends BaseApiClient {
         return this.patch("/user/".concat(userId), data);
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/notification-preferences"));
+        super("".concat(getApiBaseUrl(), "/api/notification-preferences"));
     }
 }
 class NotificationTemplatesApiClient extends BaseApiClient {
@@ -624,13 +652,14 @@ class NotificationTemplatesApiClient extends BaseApiClient {
         return this.patch("/".concat(id), data);
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/notification-templates"));
+        super("".concat(getApiBaseUrl(), "/api/notification-templates"));
     }
 }
 class WebSocketApiClient {
     connect(userId) {
         return new Promise((resolve, reject)=>{
-            const wsUrl = "".concat(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080", "/ws/").concat(userId);
+            const wsBaseUrl = ("TURBOPACK compile-time truthy", 1) ? window.location.origin.replace(/^http/, 'ws') : "TURBOPACK unreachable";
+            const wsUrl = "".concat(wsBaseUrl, "/ws/").concat(userId);
             this.ws = new WebSocket(wsUrl);
             this.ws.onopen = ()=>{
                 console.log("WebSocket connected");
@@ -796,7 +825,7 @@ class DocumentsApiClient extends BaseApiClient {
         return this.post("/".concat(id, "/ocr"));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/documents"));
+        super("".concat(getApiBaseUrl(), "/api/documents"));
     }
 }
 class DocumentCategoriesApiClient extends BaseApiClient {
@@ -816,7 +845,7 @@ class DocumentCategoriesApiClient extends BaseApiClient {
         return this.delete("/".concat(code));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/document-categories"));
+        super("".concat(getApiBaseUrl(), "/api/document-categories"));
     }
 }
 class DocumentAccessApiClient extends BaseApiClient {
@@ -833,7 +862,7 @@ class DocumentAccessApiClient extends BaseApiClient {
         return this.patch("/".concat(accessId), data);
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/document-access"));
+        super("".concat(getApiBaseUrl(), "/api/document-access"));
     }
 }
 class DocumentSharesApiClient extends BaseApiClient {
@@ -858,7 +887,7 @@ class DocumentSharesApiClient extends BaseApiClient {
         });
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/document-shares"));
+        super("".concat(getApiBaseUrl(), "/api/document-shares"));
     }
 }
 class DocumentTemplatesApiClient extends BaseApiClient {
@@ -881,7 +910,7 @@ class DocumentTemplatesApiClient extends BaseApiClient {
         return this.post("/".concat(templateId, "/create-document"), data);
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/document-templates"));
+        super("".concat(getApiBaseUrl(), "/api/document-templates"));
     }
 }
 class GeospatialApiClient extends BaseApiClient {
@@ -913,7 +942,7 @@ class GeospatialApiClient extends BaseApiClient {
         return this.get("/projects/".concat(projectId, "/features"));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/geospatial"));
+        super("".concat(getApiBaseUrl(), "/api/geospatial"));
     }
 }
 class GeoRoutesApiClient extends BaseApiClient {
@@ -944,7 +973,7 @@ class GeoRoutesApiClient extends BaseApiClient {
         });
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/geo-routes"));
+        super("".concat(getApiBaseUrl(), "/api/geo-routes"));
     }
 }
 class GeoLayersApiClient extends BaseApiClient {
@@ -981,7 +1010,7 @@ class GeoLayersApiClient extends BaseApiClient {
         });
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/geo-layers"));
+        super("".concat(getApiBaseUrl(), "/api/geo-layers"));
     }
 }
 class GeoMeasurementsApiClient extends BaseApiClient {
@@ -1013,7 +1042,7 @@ class GeoMeasurementsApiClient extends BaseApiClient {
         });
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/geo-measurements"));
+        super("".concat(getApiBaseUrl(), "/api/geo-measurements"));
     }
 }
 class GeoAnnotationsApiClient extends BaseApiClient {
@@ -1035,7 +1064,7 @@ class GeoAnnotationsApiClient extends BaseApiClient {
         return this.delete("/".concat(id));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/geo-annotations"));
+        super("".concat(getApiBaseUrl(), "/api/geo-annotations"));
     }
 }
 class MapTilesApiClient extends BaseApiClient {
@@ -1058,7 +1087,7 @@ class MapTilesApiClient extends BaseApiClient {
         return this.post("/".concat(id, "/activate"));
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/map-tiles"));
+        super("".concat(getApiBaseUrl(), "/api/map-tiles"));
     }
 }
 class GeoAnalysisApiClient extends BaseApiClient {
@@ -1101,7 +1130,7 @@ class GeoAnalysisApiClient extends BaseApiClient {
         });
     }
     constructor(){
-        super("".concat(API_BASE_URL, "/api/geo-analysis"));
+        super("".concat(getApiBaseUrl(), "/api/geo-analysis"));
     }
 }
 const authApi = new AuthApiClient();
@@ -2002,6 +2031,7 @@ __turbopack_context__.s([
     "Providers",
     ()=>Providers
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$query$2d$core$2f$build$2f$modern$2f$queryClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@tanstack/query-core/build/modern/queryClient.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$QueryClientProvider$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js [app-client] (ecmascript)");
@@ -2082,6 +2112,38 @@ function Providers(param) {
                 }
             })
     }["Providers.useState"]);
+    // OPTIMIZATION: Monitor cache size in development
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "Providers.useEffect": ()=>{
+            if ("TURBOPACK compile-time truthy", 1) {
+                const monitorInterval = setInterval({
+                    "Providers.useEffect.monitorInterval": ()=>{
+                        const cache = queryClient.getQueryCache();
+                        const queries = cache.getAll();
+                        const cacheSize = queries.length;
+                        console.log("[React Query] Cache size: ".concat(cacheSize, " queries"));
+                        if (cacheSize > 100) {
+                            console.warn("⚠️ [React Query] Cache is growing large (".concat(cacheSize, " queries). ") + "Consider more aggressive GC or refactoring query keys.");
+                        }
+                        // Log breakdown by query type
+                        const queryTypes = queries.reduce({
+                            "Providers.useEffect.monitorInterval.queryTypes": (acc, query)=>{
+                                const key = query.queryKey[0];
+                                acc[key] = (acc[key] || 0) + 1;
+                                return acc;
+                            }
+                        }["Providers.useEffect.monitorInterval.queryTypes"], {});
+                        console.log('[React Query] Cache breakdown:', queryTypes);
+                    }
+                }["Providers.useEffect.monitorInterval"], 60000); // Every minute
+                return ({
+                    "Providers.useEffect": ()=>clearInterval(monitorInterval)
+                })["Providers.useEffect"];
+            }
+        }
+    }["Providers.useEffect"], [
+        queryClient
+    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$QueryClientProvider$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["QueryClientProvider"], {
         client: queryClient,
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$websocket$2d$provider$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["WebSocketProvider"], {
@@ -2092,29 +2154,29 @@ function Providers(param) {
                     richColors: true
                 }, void 0, false, {
                     fileName: "[project]/src/lib/providers.tsx",
-                    lineNumber: 80,
+                    lineNumber: 111,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2d$devtools$2f$build$2f$modern$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ReactQueryDevtools"], {
                     initialIsOpen: false
                 }, void 0, false, {
                     fileName: "[project]/src/lib/providers.tsx",
-                    lineNumber: 81,
+                    lineNumber: 112,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/lib/providers.tsx",
-            lineNumber: 78,
+            lineNumber: 109,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/lib/providers.tsx",
-        lineNumber: 77,
+        lineNumber: 108,
         columnNumber: 5
     }, this);
 }
-_s(Providers, "5KvNicX0hhI4N9UTo2My1XVKrTk=");
+_s(Providers, "c94rNS5UkpV4UBEurhV1ADl6gP8=");
 _c = Providers;
 var _c;
 __turbopack_context__.k.register(_c, "Providers");

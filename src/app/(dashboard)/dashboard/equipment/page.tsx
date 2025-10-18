@@ -37,11 +37,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { useEquipment, useEquipmentAssignments, useDeleteAssignment, useEquipmentAnalytics } from "@/hooks/use-equipment";
-import { useVehicles, useVehicleAssignments } from "@/hooks/use-vehicles";
+import { useVehicleAssignments } from "@/hooks/use-vehicles";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
 
 const statusColors = {
   available: "bg-green-100 text-green-800 border-green-200",
+  issued_to_brigade: "bg-blue-100 text-blue-800 border-blue-200",
   in_use: "bg-blue-100 text-blue-800 border-blue-200",
   maintenance: "bg-yellow-100 text-yellow-800 border-yellow-200",
   broken: "bg-red-100 text-red-800 border-red-200",
@@ -49,6 +50,7 @@ const statusColors = {
 
 const statusLabels = {
   available: "Available",
+  issued_to_brigade: "Issued to Brigade",
   in_use: "In Use",
   maintenance: "Maintenance",
   broken: "Broken",
@@ -56,6 +58,7 @@ const statusLabels = {
 
 const statusIcons = {
   available: CheckCircle,
+  issued_to_brigade: Activity,
   in_use: Activity,
   maintenance: Clock,
   broken: XCircle,
@@ -99,7 +102,7 @@ export default function EquipmentPage() {
   // Handle URL tab parameter
   useEffect(() => {
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['fleet', 'assignments', 'usage', 'management'].includes(tabParam)) {
+    if (tabParam && ['fleet', 'assignments', 'usage'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
   }, [searchParams]);
@@ -108,62 +111,18 @@ export default function EquipmentPage() {
     ...filters,
     per_page: 1000
   });
-  const { data: vehiclesData, isLoading: vehiclesLoading } = useVehicles({
-    ...filters,
-    per_page: 1000
-  });
   const { data: equipmentAssignments } = useEquipmentAssignments({ active_only: true });
-  const { data: vehicleAssignments } = useVehicleAssignments({ active_only: true });
   const { data: analytics, isLoading: analyticsLoading } = useEquipmentAnalytics();
   const deleteAssignmentMutation = useDeleteAssignment();
 
   const equipment = equipmentData?.items || [];
-  const vehicles = vehiclesData?.items || [];
 
-  // Combine equipment and vehicle assignments
-  const assignments = [
-    ...(equipmentAssignments || []).map(assignment => ({
-      ...assignment,
-      assignment_type: 'equipment' as const,
-      resource_type: 'equipment' as const
-    })),
-    ...(vehicleAssignments || []).map(assignment => ({
-      ...assignment,
-      id: assignment.id,
-      equipment_id: assignment.vehicle_id, // Map vehicle_id to equipment_id for consistency
-      equipment: assignment.vehicle ? {
-        name: `${assignment.vehicle.brand} ${assignment.vehicle.model}`,
-        type: assignment.vehicle.type,
-        inventory_no: assignment.vehicle.plate_number
-      } : null,
-      assignment_type: 'vehicle' as const,
-      resource_type: 'vehicle' as const,
-      from_ts: assignment.from_ts,
-      to_ts: assignment.to_ts,
-      crew_id: assignment.crew_id,
-      project_id: assignment.project_id,
-      crew_name: assignment.crew?.name,
-      project_name: assignment.project?.name
-    }))
-  ];
-
-  // Combine equipment and vehicles for display with consistent format
-  const allResources = [
-    ...equipment.map(item => ({
-      ...item,
-      resource_type: 'equipment' as const,
-      plate_number: item.inventory_no, // Map inventory_no to plate_number for consistency
-      brand: item.name,
-      model: item.type
-    })),
-    ...vehicles.map(item => ({
-      ...item,
-      resource_type: 'vehicle' as const,
-      name: `${item.brand} ${item.model}`,
-      inventory_no: item.plate_number, // Map plate_number to inventory_no for consistency
-      type: item.type
-    }))
-  ];
+  // Only equipment assignments (no vehicles)
+  const assignments = (equipmentAssignments || []).map(assignment => ({
+    ...assignment,
+    assignment_type: 'equipment' as const,
+    resource_type: 'equipment' as const
+  }));
 
   const handleFilterChange = (key: string, value: string) => {
     setFilters(prev => ({
@@ -231,11 +190,10 @@ export default function EquipmentPage() {
     }
   };
 
-  // Calculate statistics
-  const stats = allResources.reduce(
+  // Calculate statistics for equipment only (not vehicles)
+  const stats = equipment.reduce(
     (acc, item) => {
       acc.total += 1;
-      acc.totalValue += item.purchase_price_eur || 0;
 
       if (item.status === "available") acc.available += 1;
       else if (item.status === "in_use") acc.inUse += 1;
@@ -249,7 +207,6 @@ export default function EquipmentPage() {
     },
     {
       total: 0,
-      totalValue: 0,
       available: 0,
       inUse: 0,
       maintenance: 0,
@@ -261,7 +218,7 @@ export default function EquipmentPage() {
 
   const utilizationRate = stats.total > 0 ? Math.round((stats.inUse / stats.total) * 100) : 0;
 
-  if (isLoading || vehiclesLoading) {
+  if (isLoading) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -308,9 +265,9 @@ export default function EquipmentPage() {
             <span>Back</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Equipment & Vehicle Management</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Equipment Management</h1>
             <p className="text-muted-foreground">
-              Manage your equipment tools, vehicles, assignments, and maintenance
+              Manage your equipment tools, assignments, and maintenance
             </p>
           </div>
         </div>
@@ -318,10 +275,6 @@ export default function EquipmentPage() {
           <Button variant="outline">
             <BarChart3 className="mr-2 h-4 w-4" />
             Reports
-          </Button>
-          <Button variant="outline" onClick={() => router.push("/dashboard/vehicles/new")}>
-            <Car className="mr-2 h-4 w-4" />
-            Add Vehicle
           </Button>
           <Button onClick={() => router.push("/dashboard/equipment/new")}>
             <Plus className="mr-2 h-4 w-4" />
@@ -339,7 +292,7 @@ export default function EquipmentPage() {
                 <p className="text-sm font-medium text-muted-foreground">Total Equipment</p>
                 <p className="text-2xl font-bold">{stats.total}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  €{stats.totalValue.toLocaleString()} value
+                  {stats.owned} owned, {stats.rented} rented
                 </p>
               </div>
               <Package className="h-8 w-8 text-blue-600" />
@@ -407,10 +360,6 @@ export default function EquipmentPage() {
           <TabsTrigger value="usage" className="flex items-center space-x-2">
             <Activity className="h-4 w-4" />
             <span>Usage & Analytics</span>
-          </TabsTrigger>
-          <TabsTrigger value="management" className="flex items-center space-x-2">
-            <Settings className="h-4 w-4" />
-            <span>Management</span>
           </TabsTrigger>
         </TabsList>
 
@@ -515,31 +464,23 @@ export default function EquipmentPage() {
                         <TableHead>Status</TableHead>
                         <TableHead>Ownership</TableHead>
                         <TableHead>Location</TableHead>
-                        <TableHead>Purchase Price</TableHead>
                         <TableHead>Daily Rate</TableHead>
                         <TableHead className="w-[100px]">Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {allResources.map((item) => {
+                      {equipment.map((item) => {
                         const StatusIcon = statusIcons[item.status as keyof typeof statusIcons] || Activity;
 
                         return (
                           <TableRow key={item.id} className="hover:bg-muted/50">
                             <TableCell>
                               <div className="flex items-center space-x-2">
-                                {item.resource_type === 'vehicle' ? (
-                                  <Car className="h-4 w-4 text-blue-600" />
-                                ) : (
-                                  <Package className="h-4 w-4 text-gray-600" />
-                                )}
+                                <Package className="h-4 w-4 text-gray-600" />
                                 <div>
                                   <p className="font-medium">{item.name}</p>
                                   <p className="text-sm text-muted-foreground">
-                                    {item.resource_type === 'vehicle'
-                                      ? `Plate: ${item.plate_number || item.inventory_no || 'No plate'}`
-                                      : (item.inventory_no || 'No inventory number')
-                                    }
+                                    {item.inventory_no || 'No inventory number'}
                                   </p>
                                 </div>
                               </div>
@@ -569,12 +510,7 @@ export default function EquipmentPage() {
                             </TableCell>
                             <TableCell>
                               <span className="font-medium">
-                                €{item.purchase_price_eur?.toLocaleString() || '0'}
-                              </span>
-                            </TableCell>
-                            <TableCell>
-                              <span className="font-medium">
-                                €{item.rental_price_per_day_eur?.toFixed(2) || '0'}/day
+                                {item.rental_cost_per_day ? `€${item.rental_cost_per_day}/day` : '-'}
                               </span>
                             </TableCell>
                             <TableCell>
@@ -582,13 +518,7 @@ export default function EquipmentPage() {
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  onClick={() => {
-                                    if (item.resource_type === 'vehicle') {
-                                      router.push(`/dashboard/vehicles/${item.id}/edit`);
-                                    } else {
-                                      router.push(`/dashboard/equipment/${item.id}/edit`);
-                                    }
-                                  }}
+                                  onClick={() => router.push(`/dashboard/equipment/${item.id}/edit`)}
                                 >
                                   <Edit className="h-4 w-4" />
                                 </Button>
@@ -905,141 +835,6 @@ export default function EquipmentPage() {
             </CardHeader>
             <CardContent>
               <PerformanceChart />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="management" className="space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Maintenance Due</p>
-                    <p className="text-2xl font-bold text-yellow-600">{stats.maintenance}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Equipment needs attention
-                    </p>
-                  </div>
-                  <Settings className="h-8 w-8 text-yellow-600" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Out of Service</p>
-                    <p className="text-2xl font-bold text-red-600">{stats.broken}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Requiring immediate repair
-                    </p>
-                  </div>
-                  <XCircle className="h-8 w-8 text-red-600" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Compliance Rate</p>
-                    <p className="text-2xl font-bold text-green-600">
-                      {analytics?.equipment?.totalCount > 0
-                        ? `${Math.round(((analytics?.equipment?.byStatus?.available || 0) + (analytics?.equipment?.byStatus?.in_use || 0)) / analytics?.equipment?.totalCount * 100)}%`
-                        : '0%'}
-                    </p>
-                    <p className="text-xs text-green-600 mt-1">
-                      Operational equipment
-                    </p>
-                  </div>
-                  <CheckCircle className="h-8 w-8 text-green-600" />
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>Common management tasks</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Button className="w-full justify-start" onClick={() => router.push('/dashboard/equipment/new')}>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Add New Equipment
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Activity className="mr-2 h-4 w-4" />
-                  Schedule Maintenance
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <BarChart3 className="mr-2 h-4 w-4" />
-                  Generate Report
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Settings className="mr-2 h-4 w-4" />
-                  Bulk Operations
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Upcoming Maintenance</CardTitle>
-                <CardDescription>Equipment requiring attention</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {equipment.filter(eq => eq.status === 'maintenance').slice(0, 3).map((item) => (
-                    <div key={item.id} className="flex items-center justify-between p-3 border rounded-lg">
-                      <div>
-                        <div className="font-medium">{item.name}</div>
-                        <div className="text-sm text-muted-foreground">{item.inventory_no}</div>
-                      </div>
-                      <Badge className="bg-yellow-100 text-yellow-800">
-                        {statusLabels[item.status]}
-                      </Badge>
-                    </div>
-                  ))}
-                  {equipment.filter(eq => eq.status === 'maintenance').length === 0 && (
-                    <div className="text-center py-6 text-muted-foreground">
-                      No maintenance scheduled
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Equipment Categories</CardTitle>
-              <CardDescription>Manage equipment by type and category</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {Object.entries(typeLabels).map(([type, label]) => {
-                  const count = equipment.filter(eq => eq.type === type).length;
-                  const value = equipment.filter(eq => eq.type === type).reduce((sum, eq) => sum + (eq.purchase_price_eur || 0), 0);
-                  return (
-                    <div key={type} className="p-4 border rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium">{label}</h4>
-                        <Badge className={typeColors[type]}>{count}</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground">Total Value: €{value.toLocaleString()}</p>
-                      <div className="mt-3 space-x-2">
-                        <Button size="sm" variant="outline">View All</Button>
-                        <Button size="sm" variant="ghost">Manage</Button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
             </CardContent>
           </Card>
         </TabsContent>

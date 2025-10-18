@@ -16,6 +16,14 @@ export interface ProjectResource {
   daily_rate?: number;
   total_cost?: number;
   owned: boolean;
+  assignment_source?: 'crew_based' | 'direct';
+  crew?: {
+    id: string;
+    name: string;
+  };
+  is_active?: boolean;
+  from_ts?: string;
+  to_ts?: string;
 }
 
 export interface Vehicle {
@@ -35,6 +43,14 @@ export interface Vehicle {
   days?: number;
   daily_rate?: number;
   total_cost?: number;
+  assignment_source?: 'crew_based' | 'direct';
+  crew?: {
+    id: string;
+    name: string;
+  };
+  is_active?: boolean;
+  from_ts?: string;
+  to_ts?: string;
 }
 
 export interface Equipment {
@@ -53,6 +69,14 @@ export interface Equipment {
   days?: number;
   daily_rate?: number;
   total_cost?: number;
+  assignment_source?: 'crew_based' | 'direct';
+  crew?: {
+    id: string;
+    name: string;
+  };
+  is_active?: boolean;
+  from_ts?: string;
+  to_ts?: string;
 }
 
 export interface ProjectResourcesResponse {
@@ -69,6 +93,7 @@ export interface ProjectResourcesResponse {
 export interface VehicleAssignmentData {
   project_id: string;
   vehicle_id: string;
+  crew_id?: string | null;
   from_date: string;
   to_date?: string;
   driver_name?: string;
@@ -80,6 +105,7 @@ export interface VehicleAssignmentData {
 export interface EquipmentAssignmentData {
   project_id: string;
   equipment_id: string;
+  crew_id?: string | null;
   from_date: string;
   to_date?: string;
   operator_name?: string;
@@ -122,10 +148,18 @@ export interface RentalEquipmentData {
   contract_notes?: string;
 }
 
+export interface Crew {
+  id: string;
+  name: string;
+  status: string;
+  project_id: string;
+}
+
 // Query keys
 export const resourceKeys = {
   all: ["resources"] as const,
   projectResources: (projectId: string) => [...resourceKeys.all, "project", projectId] as const,
+  projectCrews: (projectId: string) => [...resourceKeys.all, "project-crews", projectId] as const,
   availableVehicles: () => [...resourceKeys.all, "available-vehicles"] as const,
   availableEquipment: () => [...resourceKeys.all, "available-equipment"] as const,
 };
@@ -146,12 +180,31 @@ export function useProjectResources(projectId: string) {
   });
 }
 
+export function useProjectCrews(projectId: string) {
+  return useQuery({
+    queryKey: resourceKeys.projectCrews(projectId),
+    queryFn: async (): Promise<Crew[]> => {
+      const response = await fetch(`/api/crews?project_id=${projectId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch project crews');
+      }
+      return response.json();
+    },
+    enabled: !!projectId,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+}
+
 export function useAvailableVehicles() {
   return useQuery({
     queryKey: resourceKeys.availableVehicles(),
     queryFn: async (): Promise<Vehicle[]> => {
-      // TODO: Implement proper available vehicles API
-      return [];
+      const response = await fetch('/api/vehicles?status=available&per_page=1000');
+      if (!response.ok) {
+        throw new Error('Failed to fetch available vehicles');
+      }
+      const data = await response.json();
+      return data.vehicles || [];
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
   });
@@ -161,8 +214,12 @@ export function useAvailableEquipment() {
   return useQuery({
     queryKey: resourceKeys.availableEquipment(),
     queryFn: async (): Promise<Equipment[]> => {
-      // TODO: Implement proper available equipment API
-      return [];
+      const response = await fetch('/api/equipment?status=available&per_page=1000');
+      if (!response.ok) {
+        throw new Error('Failed to fetch available equipment');
+      }
+      const data = await response.json();
+      return data.items || []; // API returns { items: [...], total, page, per_page }
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
   });
@@ -173,8 +230,28 @@ export function useCreateVehicleAssignment() {
 
   return useMutation({
     mutationFn: async (data: VehicleAssignmentData) => {
-      // TODO: Implement proper vehicle assignment API
-      throw new Error('Vehicle assignment feature is not yet implemented');
+      const response = await fetch('/api/resources/vehicle-assignments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          vehicle_id: data.vehicle_id,
+          crew_id: data.crew_id || null,
+          project_id: data.project_id,
+          from_ts: data.from_date,
+          to_ts: data.to_date || null,
+          is_permanent: data.is_permanent,
+          rental_cost_per_day: 0, // Will be calculated from vehicle data
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to assign vehicle');
+      }
+
+      return response.json();
     },
     onSuccess: (data, variables) => {
       // Invalidate and refetch project resources
@@ -200,8 +277,28 @@ export function useCreateEquipmentAssignment() {
 
   return useMutation({
     mutationFn: async (data: EquipmentAssignmentData) => {
-      // TODO: Implement proper equipment assignment API
-      throw new Error('Equipment assignment feature is not yet implemented');
+      const response = await fetch('/api/resources/equipment-assignments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          equipment_id: data.equipment_id,
+          crew_id: data.crew_id || null,
+          project_id: data.project_id,
+          from_ts: data.from_date,
+          to_ts: data.to_date || null,
+          is_permanent: data.is_permanent,
+          rental_cost_per_day: 0, // Will be calculated from equipment data
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to assign equipment');
+      }
+
+      return response.json();
     },
     onSuccess: (data, variables) => {
       // Invalidate and refetch project resources

@@ -77,6 +77,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
     check_in_date: '',
     check_out_date: '',
     status: 'available',
+    owner_salutation: '',
     owner_first_name: '',
     owner_last_name: '',
     owner_phone: '',
@@ -97,7 +98,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
   ];
 
   // Find selected supplier for displaying details
-  const selectedSupplier = suppliers?.find(supplier => supplier.id === facilityForm.supplier_id);
+  const selectedSupplier = suppliers?.find((supplier: any) => supplier.id === facilityForm.supplier_id);
 
   // Fetch materials for selected supplier
   const { data: supplierMaterials } = useQuery({
@@ -163,6 +164,13 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
       return;
     }
 
+    // Conditional validation: If any owner info provided, salutation is required
+    const hasOwnerInfo = housingForm.owner_first_name || housingForm.owner_last_name || housingForm.owner_phone;
+    if (hasOwnerInfo && !housingForm.owner_salutation) {
+      toast.error('Please select owner salutation when providing owner contact information');
+      return;
+    }
+
     try {
       const rentAmount = parseFloat(housingForm.rent_daily_eur);
       // Convert monthly rate to daily if needed
@@ -181,6 +189,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
           advance_payment: housingForm.advance_payment ? parseFloat(housingForm.advance_payment) : undefined,
           check_in_date: housingForm.check_in_date || undefined,
           check_out_date: housingForm.check_out_date || undefined,
+          owner_salutation: housingForm.owner_salutation || undefined,
           owner_first_name: housingForm.owner_first_name || undefined,
           owner_last_name: housingForm.owner_last_name || undefined,
           owner_phone: housingForm.owner_phone || undefined,
@@ -199,6 +208,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
           advance_payment: housingForm.advance_payment ? parseFloat(housingForm.advance_payment) : undefined,
           check_in_date: housingForm.check_in_date || undefined,
           check_out_date: housingForm.check_out_date || undefined,
+          owner_salutation: housingForm.owner_salutation || undefined,
           owner_first_name: housingForm.owner_first_name || undefined,
           owner_last_name: housingForm.owner_last_name || undefined,
           owner_phone: housingForm.owner_phone || undefined,
@@ -217,6 +227,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
         check_in_date: '',
         check_out_date: '',
         status: 'available',
+        owner_salutation: '',
         owner_first_name: '',
         owner_last_name: '',
         owner_phone: '',
@@ -239,6 +250,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
       check_in_date: housing.check_in_date || '',
       check_out_date: housing.check_out_date || '',
       status: housing.status || 'available',
+      owner_salutation: housing.owner_salutation || '',
       owner_first_name: housing.owner_first_name || '',
       owner_last_name: housing.owner_last_name || '',
       owner_phone: housing.owner_phone || '',
@@ -270,6 +282,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
       check_in_date: '',
       check_out_date: '',
       status: 'available',
+      owner_salutation: '',
       owner_first_name: '',
       owner_last_name: '',
       owner_phone: '',
@@ -280,6 +293,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
   const handleEditFacility = (facility: any) => {
     setFacilityForm({
       type: facility.type,
+      supplier_id: facility.supplier_id || '',
       rent_daily_eur: facility.rent_daily_eur.toString(),
       rent_period: 'daily',
       service_freq: facility.service_freq || '',
@@ -355,13 +369,13 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
               <div>
                 <p className="font-medium text-orange-900">Facilities Cost</p>
                 <p className="text-lg font-semibold text-orange-600">
-                  €{projectCosts.costs?.facilities?.total?.toLocaleString() || '0'}
+                  €{projectCosts.facilities?.total?.toLocaleString() || '0'}
                 </p>
               </div>
               <div>
                 <p className="font-medium text-green-900">Housing Cost</p>
                 <p className="text-lg font-semibold text-green-600">
-                  €{projectCosts.costs?.housing?.total?.toLocaleString() || '0'}
+                  €{projectCosts.housing?.total?.toLocaleString() || '0'}
                 </p>
               </div>
               <div>
@@ -455,7 +469,7 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                           <SelectValue placeholder="Select supplier (optional)" />
                         </SelectTrigger>
                         <SelectContent>
-                          {suppliers?.map((supplier) => (
+                          {suppliers?.map((supplier: any) => (
                             <SelectItem key={supplier.id} value={supplier.id}>
                               <div className="flex flex-col">
                                 <span className="font-medium">{supplier.name}</span>
@@ -918,6 +932,32 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
+                      <Label htmlFor="owner_salutation">
+                        Anrede
+                        {(housingForm.owner_first_name || housingForm.owner_last_name || housingForm.owner_phone) && (
+                          <span className="text-red-500 ml-1">*</span>
+                        )}
+                      </Label>
+                      <Select
+                        value={housingForm.owner_salutation}
+                        onValueChange={(value) => setHousingForm(prev => ({ ...prev, owner_salutation: value }))}
+                      >
+                        <SelectTrigger id="owner_salutation">
+                          <SelectValue placeholder="Bitte wählen..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Herr">Herr</SelectItem>
+                          <SelectItem value="Frau">Frau</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {(housingForm.owner_first_name || housingForm.owner_last_name || housingForm.owner_phone) &&
+                       !housingForm.owner_salutation && (
+                        <p className="text-xs text-red-500 mt-1">
+                          Anrede ist erforderlich bei Kontaktangaben
+                        </p>
+                      )}
+                    </div>
+                    <div>
                       <Label htmlFor="owner_first_name">Owner First Name</Label>
                       <Input
                         id="owner_first_name"
@@ -990,6 +1030,8 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                       <TableHead>Beds</TableHead>
                       <TableHead>Occupancy</TableHead>
                       <TableHead>Daily Rent</TableHead>
+                      <TableHead>Check-in Date</TableHead>
+                      <TableHead>Check-out Date</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Actions</TableHead>
                     </TableRow>
@@ -1004,12 +1046,16 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                           {housing.owner_first_name || housing.owner_last_name ? (
                             <div className="flex flex-col">
                               <span className="text-sm">
+                                {housing.owner_salutation ? `${housing.owner_salutation} ` : ''}
                                 {[housing.owner_first_name, housing.owner_last_name]
                                   .filter(Boolean)
                                   .join(' ')}
                               </span>
                               {housing.owner_phone && (
                                 <span className="text-xs text-gray-500">{housing.owner_phone}</span>
+                              )}
+                              {!housing.owner_salutation && (housing.owner_first_name || housing.owner_last_name) && (
+                                <span className="text-xs text-gray-400 italic">Anrede: Keine Angabe</span>
                               )}
                             </div>
                           ) : (
@@ -1028,6 +1074,26 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                         </TableCell>
                         <TableCell>
                           €{housing.rent_daily_eur ? housing.rent_daily_eur.toLocaleString() : '0'}/day
+                        </TableCell>
+                        <TableCell>
+                          {housing.check_in_date ? (
+                            <div className="flex items-center gap-1 text-sm">
+                              <Calendar className="w-4 h-4 text-gray-400" />
+                              {new Date(housing.check_in_date).toLocaleDateString('de-DE')}
+                            </div>
+                          ) : (
+                            <span className="text-gray-400 text-sm">-</span>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {housing.check_out_date ? (
+                            <div className="flex items-center gap-1 text-sm">
+                              <Calendar className="w-4 h-4 text-gray-400" />
+                              {new Date(housing.check_out_date).toLocaleDateString('de-DE')}
+                            </div>
+                          ) : (
+                            <span className="text-gray-400 text-sm">-</span>
+                          )}
                         </TableCell>
                         <TableCell>
                           <Badge className={getStatusColor(housing.status)}>
