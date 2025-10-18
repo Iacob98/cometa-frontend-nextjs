@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { VehicleDocumentUpload } from './vehicle-document-upload';
 import { VehicleDocumentCard } from './vehicle-document-card';
+import { VehicleDocumentEditDialog } from './vehicle-document-edit-dialog';
 import {
   useVehicleDocuments,
   useUpdateVehicleDocument,
@@ -57,6 +58,7 @@ export function VehicleDocumentsDialog({
   const [activeTab, setActiveTab] = useState<'view' | 'upload'>('view');
   const [filterType, setFilterType] = useState<VehicleDocumentType | 'all'>('all');
   const [editingDocument, setEditingDocument] = useState<VehicleDocument | null>(null);
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   const { data, isLoading, error } = useVehicleDocuments(vehicleId);
   const updateMutation = useUpdateVehicleDocument();
@@ -90,7 +92,12 @@ export function VehicleDocumentsDialog({
 
   const handleEditDocument = (document: VehicleDocument) => {
     setEditingDocument(document);
-    // You could open an edit dialog here
+    setShowEditDialog(true);
+  };
+
+  const handleEditSuccess = () => {
+    setShowEditDialog(false);
+    setEditingDocument(null);
   };
 
   return (
@@ -225,6 +232,14 @@ export function VehicleDocumentsDialog({
           </TabsContent>
         </Tabs>
       </DialogContent>
+
+      {/* Edit Dialog */}
+      <VehicleDocumentEditDialog
+        document={editingDocument}
+        open={showEditDialog}
+        onOpenChange={setShowEditDialog}
+        onSuccess={handleEditSuccess}
+      />
     </Dialog>
   );
 }
