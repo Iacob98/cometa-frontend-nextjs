@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
+import { format } from "date-fns";
 import {
   Plus,
   Search,
@@ -23,8 +24,10 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { useVehicles, useDeleteVehicle } from "@/hooks/use-vehicles";
+import { useVehicles, useDeleteVehicle, useVehicleAssignments } from "@/hooks/use-vehicles";
+import { useDeleteAssignment } from "@/hooks/use-equipment";
 
 const statusColors = {
   available: "bg-green-100 text-green-800 border-green-200",
@@ -69,19 +72,43 @@ const typeLabels = {
 
 export default function VehiclesPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState("fleet");
   const [filters, setFilters] = useState({
     type: "",
     status: "",
     search: "",
   });
 
+  // Handle URL tab parameter
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam && ['fleet', 'assignments'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
+
   const { data: vehiclesData, isLoading } = useVehicles({
     ...filters,
     per_page: 1000
   });
+  const { data: vehicleAssignments } = useVehicleAssignments({ active_only: true });
   const deleteVehicleMutation = useDeleteVehicle();
+  const deleteAssignmentMutation = useDeleteAssignment();
 
   const vehicles = vehiclesData?.items || [];
+
+  // Map vehicle assignments for display
+  const assignments = (vehicleAssignments || []).map(assignment => ({
+    ...assignment,
+    assignment_type: 'vehicle' as const,
+    resource_type: 'vehicle' as const,
+    equipment: assignment.vehicle ? {
+      name: `${assignment.vehicle.brand} ${assignment.vehicle.model}`,
+      type: assignment.vehicle.type,
+      inventory_no: assignment.vehicle.plate_number
+    } : null,
+  }));
 
   // Filter vehicles based on search
   const filteredVehicles = vehicles.filter(vehicle => {
@@ -136,6 +163,22 @@ export default function VehiclesPage() {
     } catch (error) {
       console.error('Delete error:', error);
       toast.error(`Error deleting vehicle: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const handleEditAssignment = (assignmentId: string) => {
+    router.push(`/dashboard/equipment/assignments/${assignmentId}`);
+  };
+
+  const handleDeleteAssignment = async (assignmentId: string, vehicleName: string) => {
+    if (!confirm(`Are you sure you want to delete the assignment for "${vehicleName}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      await deleteAssignmentMutation.mutateAsync(assignmentId);
+    } catch (error) {
+      console.error('Delete assignment error:', error);
     }
   };
 
@@ -244,15 +287,28 @@ export default function VehiclesPage() {
         </Card>
       </div>
 
-      {/* Filters and Table */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Vehicles Fleet</CardTitle>
-          <CardDescription>
-            Browse and manage all vehicles in your fleet
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      {/* Main Content with Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="fleet" className="flex items-center space-x-2">
+            <Truck className="h-4 w-4" />
+            <span>Vehicle Fleet</span>
+          </TabsTrigger>
+          <TabsTrigger value="assignments" className="flex items-center space-x-2">
+            <Activity className="h-4 w-4" />
+            <span>Assignments</span>
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="fleet" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Vehicles Fleet</CardTitle>
+              <CardDescription>
+                Browse and manage all vehicles in your fleet
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
           {/* Filters */}
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
@@ -392,8 +448,133 @@ export default function VehiclesPage() {
               </TableBody>
             </Table>
           </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="assignments" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Current Assignments</CardTitle>
+                  <CardDescription>
+                    Active vehicle assignments across projects
+                  </CardDescription>
+                </div>
+                <Button
+                  onClick={() => router.push('/dashboard/equipment/assignments/new')}
+                  className="flex items-center gap-2"
+                >
+                  <Plus className="h-4 w-4" />
+                  Create Assignment
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {assignments && assignments.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Vehicle</TableHead>
+                        <TableHead>Type</TableHead>
+                        <TableHead>Project</TableHead>
+                        <TableHead>Assigned To</TableHead>
+                        <TableHead>Start Date</TableHead>
+                        <TableHead>Expected Return</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {assignments.map((assignment) => {
+                        return (
+                          <TableRow key={assignment.id}>
+                            <TableCell>
+                              <div className="flex items-center space-x-3">
+                                <div className="p-2 rounded-full bg-blue-100 text-blue-600">
+                                  <Truck className="h-4 w-4" />
+                                </div>
+                                <div>
+                                  <div className="font-medium">{assignment.equipment?.name || 'Unknown Vehicle'}</div>
+                                  <div className="text-sm text-muted-foreground">
+                                    {assignment.equipment?.inventory_no || 'No plate number'}
+                                  </div>
+                                </div>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <Badge className="bg-blue-100 text-blue-800 border-blue-200">
+                                <div className="flex items-center space-x-1">
+                                  <Truck className="h-3 w-3" />
+                                  <span>Vehicle</span>
+                                </div>
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <div className="font-medium">{assignment.project_name || assignment.project_id}</div>
+                            </TableCell>
+                            <TableCell>
+                              <div className="font-medium">{assignment.crew_name || 'Unassigned'}</div>
+                            </TableCell>
+                            <TableCell>
+                              {assignment.from_ts ? format(new Date(assignment.from_ts), 'MMM dd, yyyy') : 'N/A'}
+                            </TableCell>
+                            <TableCell>
+                              {assignment.to_ts ? format(new Date(assignment.to_ts), 'MMM dd, yyyy') : 'Open-ended'}
+                            </TableCell>
+                            <TableCell>
+                              <Badge className={`${assignment.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                                {assignment.is_active ? 'Active' : 'Inactive'}
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleEditAssignment(assignment.id)}
+                                >
+                                  <Edit className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="text-red-600"
+                                  onClick={() => handleDeleteAssignment(assignment.id, assignment.equipment?.name || 'Unknown Vehicle')}
+                                  disabled={deleteAssignmentMutation.isPending}
+                                >
+                                  <XCircle className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <Truck className="mx-auto h-12 w-12 text-muted-foreground" />
+                  <h3 className="mt-4 text-lg font-semibold">No active assignments</h3>
+                  <p className="text-muted-foreground">
+                    No vehicles are currently assigned to projects.
+                  </p>
+                  <Button
+                    className="mt-4"
+                    onClick={() => router.push("/dashboard/equipment/assignments/new")}
+                  >
+                    <Plus className="mr-2 h-4 w-4" />
+                    Create Assignment
+                  </Button>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

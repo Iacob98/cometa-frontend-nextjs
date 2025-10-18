@@ -37,7 +37,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { useEquipment, useEquipmentAssignments, useDeleteAssignment, useEquipmentAnalytics } from "@/hooks/use-equipment";
-import { useVehicles, useVehicleAssignments } from "@/hooks/use-vehicles";
+import { useVehicleAssignments } from "@/hooks/use-vehicles";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
 
 const statusColors = {
@@ -111,62 +111,18 @@ export default function EquipmentPage() {
     ...filters,
     per_page: 1000
   });
-  const { data: vehiclesData, isLoading: vehiclesLoading } = useVehicles({
-    ...filters,
-    per_page: 1000
-  });
   const { data: equipmentAssignments } = useEquipmentAssignments({ active_only: true });
-  const { data: vehicleAssignments } = useVehicleAssignments({ active_only: true });
   const { data: analytics, isLoading: analyticsLoading } = useEquipmentAnalytics();
   const deleteAssignmentMutation = useDeleteAssignment();
 
   const equipment = equipmentData?.items || [];
-  const vehicles = vehiclesData?.items || [];
 
-  // Combine equipment and vehicle assignments
-  const assignments = [
-    ...(equipmentAssignments || []).map(assignment => ({
-      ...assignment,
-      assignment_type: 'equipment' as const,
-      resource_type: 'equipment' as const
-    })),
-    ...(vehicleAssignments || []).map(assignment => ({
-      ...assignment,
-      id: assignment.id,
-      equipment_id: assignment.vehicle_id, // Map vehicle_id to equipment_id for consistency
-      equipment: assignment.vehicle ? {
-        name: `${assignment.vehicle.brand} ${assignment.vehicle.model}`,
-        type: assignment.vehicle.type,
-        inventory_no: assignment.vehicle.plate_number
-      } : null,
-      assignment_type: 'vehicle' as const,
-      resource_type: 'vehicle' as const,
-      from_ts: assignment.from_ts,
-      to_ts: assignment.to_ts,
-      crew_id: assignment.crew_id,
-      project_id: assignment.project_id,
-      crew_name: assignment.crew?.name,
-      project_name: assignment.project?.name
-    }))
-  ];
-
-  // Combine equipment and vehicles for display with consistent format
-  const allResources = [
-    ...equipment.map(item => ({
-      ...item,
-      resource_type: 'equipment' as const,
-      plate_number: item.inventory_no, // Map inventory_no to plate_number for consistency
-      brand: item.name,
-      model: item.type
-    })),
-    ...vehicles.map(item => ({
-      ...item,
-      resource_type: 'vehicle' as const,
-      name: `${item.brand} ${item.model}`,
-      inventory_no: item.plate_number, // Map plate_number to inventory_no for consistency
-      type: item.type
-    }))
-  ];
+  // Only equipment assignments (no vehicles)
+  const assignments = (equipmentAssignments || []).map(assignment => ({
+    ...assignment,
+    assignment_type: 'equipment' as const,
+    resource_type: 'equipment' as const
+  }));
 
   const handleFilterChange = (key: string, value: string) => {
     setFilters(prev => ({
@@ -234,8 +190,8 @@ export default function EquipmentPage() {
     }
   };
 
-  // Calculate statistics
-  const stats = allResources.reduce(
+  // Calculate statistics for equipment only (not vehicles)
+  const stats = equipment.reduce(
     (acc, item) => {
       acc.total += 1;
 
@@ -262,7 +218,7 @@ export default function EquipmentPage() {
 
   const utilizationRate = stats.total > 0 ? Math.round((stats.inUse / stats.total) * 100) : 0;
 
-  if (isLoading || vehiclesLoading) {
+  if (isLoading) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
@@ -309,9 +265,9 @@ export default function EquipmentPage() {
             <span>Back</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Equipment & Vehicle Management</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Equipment Management</h1>
             <p className="text-muted-foreground">
-              Manage your equipment tools, vehicles, assignments, and maintenance
+              Manage your equipment tools, assignments, and maintenance
             </p>
           </div>
         </div>
@@ -319,10 +275,6 @@ export default function EquipmentPage() {
           <Button variant="outline">
             <BarChart3 className="mr-2 h-4 w-4" />
             Reports
-          </Button>
-          <Button variant="outline" onClick={() => router.push("/dashboard/vehicles/new")}>
-            <Car className="mr-2 h-4 w-4" />
-            Add Vehicle
           </Button>
           <Button onClick={() => router.push("/dashboard/equipment/new")}>
             <Plus className="mr-2 h-4 w-4" />
@@ -517,25 +469,18 @@ export default function EquipmentPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {allResources.map((item) => {
+                      {equipment.map((item) => {
                         const StatusIcon = statusIcons[item.status as keyof typeof statusIcons] || Activity;
 
                         return (
                           <TableRow key={item.id} className="hover:bg-muted/50">
                             <TableCell>
                               <div className="flex items-center space-x-2">
-                                {item.resource_type === 'vehicle' ? (
-                                  <Car className="h-4 w-4 text-blue-600" />
-                                ) : (
-                                  <Package className="h-4 w-4 text-gray-600" />
-                                )}
+                                <Package className="h-4 w-4 text-gray-600" />
                                 <div>
                                   <p className="font-medium">{item.name}</p>
                                   <p className="text-sm text-muted-foreground">
-                                    {item.resource_type === 'vehicle'
-                                      ? `Plate: ${item.plate_number || item.inventory_no || 'No plate'}`
-                                      : (item.inventory_no || 'No inventory number')
-                                    }
+                                    {item.inventory_no || 'No inventory number'}
                                   </p>
                                 </div>
                               </div>
@@ -573,13 +518,7 @@ export default function EquipmentPage() {
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  onClick={() => {
-                                    if (item.resource_type === 'vehicle') {
-                                      router.push(`/dashboard/vehicles/${item.id}/edit`);
-                                    } else {
-                                      router.push(`/dashboard/equipment/${item.id}/edit`);
-                                    }
-                                  }}
+                                  onClick={() => router.push(`/dashboard/equipment/${item.id}/edit`)}
                                 >
                                   <Edit className="h-4 w-4" />
                                 </Button>
