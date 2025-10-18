@@ -177,28 +177,160 @@ flowchart TB
 src/app/
 ├── (dashboard)/dashboard/           # Main app routes
 │   ├── projects/                   # Project management
+│   │   ├── new/                   # Create new project
+│   │   └── [id]/                  # Project details & edit
 │   ├── work-entries/               # Work tracking
+│   │   ├── new/                   # Create work entry
+│   │   └── [id]/                  # Work entry details
 │   ├── teams/                      # Team management
+│   │   └── crews/                 # Crew assignments
 │   ├── materials/                  # Material management
+│   │   ├── inventory/             # Stock management
+│   │   ├── order/                 # New material order
+│   │   ├── orders/                # Order tracking
+│   │   ├── allocate/              # Allocate to projects
+│   │   └── suppliers/             # Supplier management
 │   ├── equipment/                  # Equipment tracking
+│   ├── vehicles/                   # Vehicle management
+│   ├── houses/                     # Housing units
 │   ├── financial/                  # Financial overview
 │   ├── reports/                    # Analytics
 │   ├── calendar/                   # Schedule management
+│   ├── geospatial/                 # Map features
+│   ├── documents/                  # Document management
+│   ├── notifications/              # Notification center
+│   ├── activities/                 # Activity logs
 │   ├── settings/                   # System settings
 │   └── page.tsx                    # Dashboard home
-├── api/                           # 60+ API routes
-│   ├── auth/                      # Authentication
-│   ├── projects/                  # Project CRUD
+├── api/                           # 100+ API routes (~5734 LOC)
+│   ├── auth/                      # Authentication & authorization
+│   ├── projects/                  # Project CRUD operations
 │   ├── work-entries/              # Work entry management
-│   └── [other-resources]/         # Resource APIs
-├── login/page.tsx                 # Authentication
+│   ├── materials/                 # Material management
+│   │   ├── allocations/           # Material allocations
+│   │   ├── orders/                # Material orders
+│   │   ├── consume/               # Consume materials
+│   │   └── warehouse/             # Warehouse operations
+│   ├── equipment/                 # Equipment management
+│   ├── vehicles/                  # Vehicle management & documents
+│   ├── teams/                     # Team & crew management
+│   ├── crews/                     # Crew operations
+│   ├── users/                     # User management
+│   ├── financial/                 # Financial summaries
+│   ├── calendar/                  # Calendar events
+│   ├── documents/                 # Document management
+│   ├── notifications/             # Notification system
+│   ├── activities/                # Activity logging
+│   ├── suppliers/                 # Supplier management
+│   ├── houses/                    # Housing units
+│   ├── housing-units/             # Housing unit details
+│   ├── geospatial/                # Geospatial features
+│   ├── reports/                   # Report generation
+│   ├── upload/                    # File upload handlers
+│   ├── storage/                   # Storage bucket management
+│   ├── resources/                 # Resource assignments
+│   ├── project-preparation/       # Project preparation data
+│   ├── zone-layout/               # Zone layout (cabinets/segments)
+│   └── [other-endpoints]/         # Additional APIs
+├── login/page.tsx                 # Authentication page
 └── layout.tsx                     # Root layout
+```
+
+**Component Organization (76+ components):**
+```
+src/components/
+├── ui/                            # shadcn/ui components
+│   ├── button.tsx, dialog.tsx, form.tsx, table.tsx, etc.
+├── features/                      # Business logic components
+├── layout/                        # Layout components
+├── lists/                         # List view components
+├── maps/                          # Leaflet map components
+├── documents/                     # Document management UI
+├── vehicles/                      # Vehicle management UI
+├── project-preparation/           # Project preparation forms
+├── teams/                         # Team management UI
+└── notifications/                 # Notification UI
+```
+
+**Custom Hooks (30+ hooks):**
+```
+src/hooks/
+├── use-auth.ts                   # Authentication & permissions
+├── use-projects.ts               # Project management
+├── use-materials.ts              # Material operations (24KB)
+├── use-equipment.ts              # Equipment tracking
+├── use-vehicles.ts               # Vehicle management
+├── use-teams.ts                  # Team operations
+├── use-work-entries.ts           # Work entry tracking
+├── use-documents.ts              # Document management
+├── use-suppliers.ts              # Supplier operations
+├── use-financial.ts              # Financial data
+├── use-calendar.ts               # Calendar events
+├── use-notifications.ts          # Notifications
+├── use-geospatial.ts             # Map features
+├── use-houses.ts                 # Housing units
+├── use-housing-units.ts          # Housing unit details
+├── use-vehicle-documents.ts      # Vehicle documents
+├── materials/                    # Material-specific hooks
+└── [other-hooks]/                # Additional hooks
 ```
 
 **State Management:**
 - **Server State**: TanStack Query (React Query) for API data
 - **Client State**: Zustand for UI state and user preferences
 - **Authentication**: NextAuth + custom hooks
+
+**Key Utilities & Libraries:**
+```
+src/lib/
+├── api-client.ts                 # API client (41KB - main HTTP layer)
+├── supabase.ts                   # Supabase client configuration
+├── db-pool.ts                    # PostgreSQL connection pool
+├── db-client.ts                  # Database client utilities
+├── document-storage.ts           # Document storage operations
+├── vehicle-document-storage.ts   # Vehicle document handling
+├── upload-utils.ts               # File upload utilities
+├── supabase-buckets.ts           # Supabase Storage buckets
+├── supabase-optimized-queries.ts # Optimized DB queries
+├── schema-validator.ts           # Zod schema validation
+├── performance-monitor.ts        # Performance monitoring
+├── providers.tsx                 # React context providers
+├── query-utils.ts                # TanStack Query utilities
+├── document-expiration.ts        # Document expiry tracking
+├── websocket-provider.tsx        # WebSocket real-time updates
+├── query-keys/                   # Query key constants
+├── validations/                  # Validation schemas
+└── i18n/                         # Internationalization
+```
+
+**TypeScript Type Definitions:**
+```
+src/types/
+├── index.ts                      # Main types (41KB - all entities)
+│   ├── User, UserRole           # User & authentication types
+│   ├── Project, ProjectStatus   # Project management types
+│   ├── Cabinet, Segment, Cut    # Infrastructure hierarchy
+│   ├── WorkEntry, StageDef      # Work tracking types
+│   ├── Material, MaterialOrder  # Material management types
+│   ├── Equipment, Vehicle       # Asset types
+│   ├── Team, Crew, CrewMember   # Team organization types
+│   ├── Document, File           # Document types
+│   ├── Cost, Transaction        # Financial types
+│   └── [50+ more types]         # Complete type system
+├── calendar.ts                   # Calendar & meeting types
+├── project-preparation.ts        # Project preparation types
+├── upload.ts                     # File upload types
+└── work-stages.ts                # Work stage definitions
+```
+
+**Codebase Statistics:**
+- **API Routes**: 100+ endpoints (~5,734 lines of code)
+- **React Components**: 76 component files
+- **Custom Hooks**: 30+ hooks for state management
+- **TypeScript Types**: 50+ entity types, 100+ interfaces
+- **Database Tables**: 49 active tables (optimized 2025-09-30)
+- **Supported Languages**: 5 (ru, en, de, uz, tr)
+- **User Roles**: 6 (admin, pm, foreman, crew, viewer, worker)
 
 **Data Fetching Pattern:**
 ```typescript
@@ -226,21 +358,118 @@ const queryClient = new QueryClient({
 - **Active**: All remaining tables are actively used in the codebase
 - **Performance**: Simplified schema for better migration and backup performance
 
+**Entity Relationship Overview:**
 ```
-Project
-├── Cabinet (Network distribution points)
-│   └── Segment (Cable routes)
-│       └── Cut (Excavation sections)
-│           └── WorkEntry (Work logs with GPS/photos)
-├── Crew/CrewMember (Team assignments)
-├── MaterialAllocation (Resource tracking)
-├── Equipment/VehicleAssignment
-├── Cost/Transaction (Financial tracking)
-└── Supplier Management
-    ├── Supplier (Partner companies)
-    ├── SupplierMaterial (Flexible material pricing)
-    └── MaterialOrder (Order tracking)
+Project (Main entity)
+├── Infrastructure Hierarchy
+│   ├── Cabinet (Distribution points)
+│   │   └── Segment (Cable routes)
+│   │       └── Cut (Excavation sections)
+│   │           └── WorkEntry (Work logs with GPS/photos)
+│   │               └── File (Photos: before/during/after)
+│   └── HousingUnit (Residential buildings)
+│
+├── Project Preparation
+│   ├── ProjectPreparationFacility (Site facilities)
+│   ├── ProjectPreparationHousing (Worker housing)
+│   ├── ProjectPreparationUtilityContact (Utility coordination)
+│   ├── ProjectPreparationCost (Budget planning)
+│   └── ProjectPreparationPlan (Planning documents)
+│
+├── Team Management
+│   ├── Team (Organization teams)
+│   │   └── Crew (Field crews)
+│   │       └── CrewMember (Worker assignments)
+│   └── User (Workers, managers, admins)
+│
+├── Material Management
+│   ├── Material (Catalog of materials)
+│   ├── MaterialAllocation (Project allocations)
+│   ├── MaterialOrder (Purchase orders)
+│   │   └── MaterialOrderBudget (Order budgets)
+│   ├── MaterialTransaction (Stock movements)
+│   ├── Supplier (Vendor companies)
+│   └── SupplierMaterial (Supplier pricing)
+│
+├── Equipment & Vehicles
+│   ├── Equipment (Tools & machinery)
+│   │   ├── EquipmentAssignment (Equipment → Crew)
+│   │   └── EquipmentMaintenance (Service records)
+│   └── Vehicle (Fleet vehicles)
+│       ├── VehicleAssignment (Vehicle → Crew)
+│       └── VehicleDocument (Registration, insurance, etc.)
+│
+├── Financial
+│   ├── Cost (Project costs)
+│   └── Transaction (Financial transactions)
+│
+├── Documents & Files
+│   ├── Document (Project documents)
+│   │   └── DocumentCategory (Document types)
+│   └── File (Supabase Storage files)
+│
+├── Meetings & Calendar
+│   ├── Meeting (Project meetings)
+│   ├── MeetingParticipant (Attendees)
+│   └── CalendarEvent (Scheduled events)
+│
+├── Geospatial
+│   ├── GeospatialFeature (Map features)
+│   ├── GeoLayer (Map layers)
+│   ├── GeoRoute (Planned routes)
+│   └── GeoMeasurement (Distance measurements)
+│
+├── Project Metadata
+│   ├── ProjectContact (Emergency contacts)
+│   ├── ProjectSoilType (Ground conditions)
+│   ├── ProjectConstraint (Site constraints)
+│   └── ProjectReadiness (Readiness checklist)
+│
+└── Activity Tracking
+    ├── Activity (User actions log)
+    ├── ActivityLog (Legacy activity log)
+    └── Notification (System notifications)
 ```
+
+**Key Tables by Category:**
+
+**Projects & Infrastructure (12 tables):**
+- `projects`, `cabinets`, `segments`, `cuts`
+- `project_contacts`, `project_soil_types`, `project_constraints`
+- `project_readiness`, `housing_units`, `constraints`
+- `project_activation`, `project_documents`
+
+**Work & Operations (3 tables):**
+- `work_entries`, `files`, `meetings`
+
+**Teams & Users (5 tables):**
+- `users`, `teams`, `crews`, `crew_members`, `meeting_participants`
+
+**Materials (7 tables):**
+- `materials`, `material_allocations`, `material_orders`
+- `material_order_budget`, `material_transactions`
+- `suppliers`, `supplier_materials`
+
+**Equipment & Vehicles (6 tables):**
+- `equipment`, `equipment_assignments`, `equipment_maintenance`
+- `vehicles`, `vehicle_assignments`, `vehicle_documents`
+
+**Financial (2 tables):**
+- `costs`, `transactions`
+
+**Documents (2 tables):**
+- `documents`, `document_categories`
+
+**Project Preparation (5 tables):**
+- `project_preparation_facilities`, `project_preparation_housing`
+- `project_preparation_utility_contacts`, `project_preparation_costs`
+- `project_preparation_plans`
+
+**Geospatial (4 tables):**
+- `geospatial_features`, `geo_layers`, `geo_routes`, `geo_measurements`
+
+**Activity & Notifications (3 tables):**
+- `activities`, `activity_logs`, `notifications`
 
 **Recently Removed Tables** (2025-09-30 cleanup):
 - Legacy warehouse tables: `company_warehouse`, `company_warehouse_materials`
@@ -250,10 +479,104 @@ Project
 - Legacy stages: `stage_defs`, `work_stages`, `cut_stages`, `material_stage_mapping`
 - Other unused: `asset_assignments`, `document_reminders`, `house_contacts`, `house_docs`, `house_status`, `material_moves`, `offmass_lines`, `plan_view_confirms`, `project_files`, `stock_locations`
 
+### Key Application Features
+
+**1. Project Management**
+- Create and manage fiber optic construction projects
+- Project preparation workflows (facilities, housing, utility contacts, costs)
+- Geospatial planning with Leaflet maps (cabinets → segments → cuts)
+- Project status tracking: draft, active, waiting_invoice, closed
+- Project readiness checklists and activation
+- Project contacts, soil types, and site constraints
+
+**2. Work Entry & Tracking**
+- Field work entry with GPS coordinates
+- Photo documentation (before/during/after)
+- Multi-stage work process: marking, excavation, conduit, cable, splice, test, connect, backfill, surface
+- Work methods: mole, hand, excavator, trencher, documentation
+- Work approval workflow (submit → review → approve/reject)
+- Real-time progress tracking by segment and cut
+
+**3. Material Management**
+- Material catalog with categories and pricing
+- Project material allocation and tracking
+- Material consumption logging with project association
+- Stock level monitoring and low-stock alerts
+- Purchase order management with suppliers
+- Material transaction history (order, allocation, consumption, return)
+- Supplier management with flexible pricing per material
+
+**4. Equipment & Vehicle Management**
+- Equipment catalog (tools, machinery)
+- Vehicle fleet management with documents
+- Assignment to crews and projects
+- Maintenance scheduling and history
+- Document expiration tracking (registration, insurance, inspection)
+- Ownership tracking (owned vs. rented)
+- Safety features (first aid kit, fire extinguisher, seats)
+
+**5. Team & User Management**
+- Role-based access control (admin, pm, foreman, crew, viewer, worker)
+- Team and crew organization
+- Crew member assignments to projects
+- User skills tracking
+- Multi-language support (Russian, English, German, Uzbek, Turkish)
+- PIN-based authentication for field workers
+
+**6. Financial Tracking**
+- Project cost tracking and budgeting
+- Transaction management
+- Material order budgets
+- Project preparation cost estimation
+- Financial summaries and reports
+
+**7. Document Management**
+- Document upload and categorization
+- Supabase Storage integration
+- Document expiration tracking
+- Vehicle document management
+- Project plan storage
+- Photo management with metadata
+
+**8. Geospatial Features**
+- Interactive Leaflet maps
+- Custom geo layers and routes
+- Distance measurements
+- Geospatial feature annotations
+- Cabinet and segment visualization
+- GPS coordinate tracking
+
+**9. Calendar & Meetings**
+- Project calendar events
+- Meeting scheduling and tracking
+- Meeting participants management
+- Event notifications
+
+**10. Reporting & Analytics**
+- Project progress reports
+- Material usage analytics
+- Equipment utilization reports
+- Financial summaries
+- Work entry statistics
+- Custom report generation
+
+**11. Activity Logging & Notifications**
+- User action tracking
+- System event logging
+- Document expiration notifications
+- Real-time notifications via WebSocket
+- Notification preferences management
+
+**12. Housing Management**
+- Housing unit tracking (residential buildings)
+- Connection status monitoring
+- Building metadata (floors, units, addresses)
+
 ### Authentication System
 - **PIN Code System**: 4-6 digit PIN codes for easy worker login
 - **Role-Based Access**: admin, pm, foreman, crew, viewer, worker
 - **Session Management**: NextAuth + Zustand for Next.js, Streamlit session state for legacy
+- **Permissions**: Fine-grained access control per feature
 - **Test Users** (Quick login):
   - admin@cometa.de (Admin - full access)
   - pm@cometa.de (Project Manager - approve/manage)
@@ -263,9 +586,37 @@ Project
 
 ### API Integration Patterns
 
-**Next.js API Routes → FastAPI Gateway:**
+**Modern Architecture (Primary): Next.js API Routes → Direct Supabase PostgreSQL**
 ```typescript
-// Next.js API route proxying to microservices
+// Direct PostgreSQL query via pg pool
+import { query } from '@/lib/db-pool';
+
+export async function GET(request: NextRequest) {
+  try {
+    // Direct database query with parameterized SQL
+    const result = await query(
+      `SELECT p.*, u.first_name, u.last_name
+       FROM projects p
+       LEFT JOIN users u ON p.pm_user_id = u.id
+       WHERE p.status = $1
+       ORDER BY p.created_at DESC`,
+      ['active']
+    );
+
+    return Response.json({ data: result.rows });
+  } catch (error) {
+    console.error('Database error:', error);
+    return Response.json(
+      { error: 'Failed to fetch projects' },
+      { status: 500 }
+    );
+  }
+}
+```
+
+**Legacy Architecture (Deprecated): Next.js API Routes → FastAPI Gateway**
+```typescript
+// DEPRECATED: FastAPI microservice proxying (being phased out)
 export async function GET(request: NextRequest) {
   const response = await fetch(`${GATEWAY_URL}/api/projects`, {
     headers: {
@@ -277,14 +628,39 @@ export async function GET(request: NextRequest) {
 }
 ```
 
-**Gateway Service Routing:**
-- `POST|GET /api/auth/*` → Auth Service (Port 8001)
-- `GET|POST|PUT|DELETE /api/projects/*` → Project Service (Port 8002)
-- `GET|POST|PUT|DELETE /api/teams/*` → Team Service (Port 8004)
-- `GET|POST|PUT|DELETE /api/work-entries/*` → Work Service (Port 8003)
-- `GET|POST|PUT|DELETE /api/materials/*` → Material Service (Port 8005)
-- `GET|POST|PUT|DELETE /api/equipment/*` → Equipment Service (Port 8006)
-- `GET|POST|PUT|DELETE /api/activities/*` → Activity Service (Port 8011)
+**API Architecture Evolution:**
+- ✅ **Current (2025)**: Next.js API Routes → PostgreSQL (Supabase) - Direct DB access
+- 🔄 **Transitional**: Next.js API Routes → FastAPI Gateway → PostgreSQL - Legacy microservices
+- ❌ **Deprecated**: Streamlit → Direct PostgreSQL - Legacy admin interface
+
+**Key API Route Categories:**
+
+**Direct Database Access (Primary):**
+- `GET|POST|PUT|DELETE /api/projects/*` - Project CRUD via PostgreSQL
+- `GET|POST|PUT|DELETE /api/materials/*` - Material management via PostgreSQL
+- `GET|POST|PUT|DELETE /api/equipment/*` - Equipment tracking via PostgreSQL
+- `GET|POST|PUT|DELETE /api/vehicles/*` - Vehicle management via PostgreSQL
+- `GET|POST|PUT|DELETE /api/work-entries/*` - Work logging via PostgreSQL
+- `GET|POST|PUT|DELETE /api/teams/*` - Team management via PostgreSQL
+- `GET|POST|PUT|DELETE /api/crews/*` - Crew operations via PostgreSQL
+- `GET|POST|PUT|DELETE /api/users/*` - User management via PostgreSQL
+- `GET|POST|PUT|DELETE /api/documents/*` - Document metadata via PostgreSQL
+
+**Supabase Storage Integration:**
+- `POST /api/upload/project-photos` - Photo upload to Supabase Storage
+- `POST /api/upload/work-photos` - Work photo upload to Supabase Storage
+- `GET /api/storage/buckets` - Bucket management
+
+**Hybrid (Database + Business Logic):**
+- `POST /api/materials/consume` - Material consumption with transaction logging
+- `POST /api/work-entries/[id]/approve` - Work approval with status updates
+- `GET /api/financial/summary` - Financial aggregation queries
+- `GET /api/dashboard/stats` - Dashboard statistics
+
+**Legacy FastAPI Gateway (Deprecated, Port 8080):**
+- `POST|GET /api/auth/*` → Auth Service (Port 8001) - Being replaced by NextAuth
+- Some complex queries still route through FastAPI microservices
+- Gradual migration to direct PostgreSQL access in progress
 
 ## Context7 Integration for Codebase Understanding
 
@@ -826,15 +1202,91 @@ The following analysis reports provide detailed insights into database and API o
 - Verify table usage before deletion
 - Track optimization progress over time
 
+## Important Files & Quick Reference
+
+### Configuration Files
+- `package.json` - Dependencies, scripts, project metadata
+- `.env.example` - Environment variable template
+- `tsconfig.json` - TypeScript configuration
+- `tailwind.config.ts` - Tailwind CSS setup
+- `next.config.js` - Next.js configuration
+- `playwright.config.ts` - E2E test configuration
+- `vitest.config.ts` - Unit test configuration
+
+### Database & API Documentation
+- `DATABASE_ANALYSIS_REPORT.md` - Complete database analysis (73 → 49 tables)
+- `API_DUPLICATION_REPORT.md` - API route analysis and consolidation
+- `CLEANUP_SUMMARY.md` - Optimization results (2025-09-30)
+- `database/migrations/` - SQL migration scripts
+- `sql/migrations/` - Additional SQL migrations
+
+### Core Type Definitions
+- `src/types/index.ts` (41KB) - All entity types and interfaces
+  - User, Project, Material, Equipment, Vehicle, Team, etc.
+  - 50+ types, 100+ interfaces
+- `src/types/calendar.ts` - Calendar and meeting types
+- `src/types/project-preparation.ts` - Project preparation types
+- `src/types/work-stages.ts` - Work stage definitions
+
+### Critical Hooks (TanStack Query + Business Logic)
+- `src/hooks/use-auth.ts` - Authentication & permissions
+- `src/hooks/use-materials.ts` (24KB) - Material management state
+- `src/hooks/use-projects.ts` - Project operations
+- `src/hooks/use-equipment.ts` - Equipment tracking
+- `src/hooks/use-vehicles.ts` - Vehicle management
+- `src/hooks/use-work-entries.ts` - Work entry operations
+- `src/hooks/use-teams.ts` - Team & crew management
+- `src/hooks/use-documents.ts` - Document operations
+- `src/hooks/use-suppliers.ts` - Supplier management
+
+### Core Libraries
+- `src/lib/api-client.ts` (41KB) - Main HTTP API client
+- `src/lib/db-pool.ts` - PostgreSQL connection pool
+- `src/lib/supabase.ts` - Supabase client setup
+- `src/lib/document-storage.ts` - Document upload/download
+- `src/lib/upload-utils.ts` - File upload utilities
+- `src/lib/schema-validator.ts` - Zod validation schemas
+
+### Key API Routes (Examples)
+- `src/app/api/projects/route.ts` - Project CRUD
+- `src/app/api/materials/route.ts` - Material management
+- `src/app/api/equipment/route.ts` - Equipment operations
+- `src/app/api/vehicles/route.ts` (637 LOC) - Vehicle management
+- `src/app/api/work-entries/route.ts` - Work logging
+- `src/app/api/teams/route.ts` - Team operations
+- `src/app/api/upload/work-photos/route.ts` - Photo uploads
+
+### Main Dashboard Pages
+- `src/app/(dashboard)/dashboard/page.tsx` - Dashboard home
+- `src/app/(dashboard)/dashboard/projects/page.tsx` - Projects list
+- `src/app/(dashboard)/dashboard/materials/page.tsx` - Materials inventory
+- `src/app/(dashboard)/dashboard/equipment/page.tsx` - Equipment tracking
+- `src/app/(dashboard)/dashboard/vehicles/page.tsx` - Vehicle management
+- `src/app/(dashboard)/dashboard/work-entries/page.tsx` - Work entries
+- `src/app/(dashboard)/dashboard/teams/page.tsx` - Team management
+
+### Testing Files
+- `src/__tests__/` - Unit test directory
+- `e2e/` - Playwright E2E tests
+- `src/test/` - Test utilities and mocks
+
+### AI & Development Tools
+- `CLAUDE.md` - This file (AI development guidelines)
+- `.taskmaster/CLAUDE.md` - Task Master AI integration
+- `.taskmaster/tasks/tasks.json` - Task tracking database
+- `.claude/implementation-plans/` - Implementation plan archives
+- `.claude/agents/` - Custom Claude Code agents
+
 ## Best Practices Summary
 
 ### Development Workflow
-1. **Context7 First**: Research libraries and patterns before implementation
-2. **Type Safety**: Use TypeScript strictly, validate with Zod
-3. **Performance**: Leverage Next.js optimizations and TanStack Query caching
-4. **Testing**: Write tests for components and critical user flows
-5. **Migration**: Gradually replace Streamlit features with Next.js equivalents
-6. **Database Changes**: Always check optimization reports before schema modifications
+1. **Pre-Implementation Planning**: ALWAYS use pre-implementation-planner agent before coding
+2. **Context7 Research**: Research libraries and patterns before implementation
+3. **Type Safety**: Use TypeScript strictly, validate with Zod schemas
+4. **Performance**: Leverage Next.js optimizations and TanStack Query caching
+5. **Testing**: Write tests for components and critical user flows
+6. **Database Changes**: Always check DATABASE_ANALYSIS_REPORT.md before schema modifications
+7. **Git Workflow**: Work in dev branch, commit after each task, pull before push
 
 ### Code Quality
 1. **Consistent Patterns**: Follow established patterns for API routes, components, and state management
@@ -843,7 +1295,179 @@ The following analysis reports provide detailed insights into database and API o
 4. **Security**: Validate inputs, sanitize outputs, implement proper authentication
 
 ### Architecture Decisions
-1. **API Design**: Keep Next.js API routes thin, delegate to FastAPI microservices
+1. **API Design**: Direct PostgreSQL access via Next.js API routes (modern approach)
 2. **State Management**: Use TanStack Query for server state, Zustand for client state
 3. **Component Structure**: Build reusable components with proper TypeScript interfaces
 4. **File Organization**: Follow Next.js App Router conventions for scalable structure
+5. **Database**: Single source of truth in PostgreSQL (Supabase), avoid service duplication
+6. **Storage**: Use Supabase Storage buckets for all file uploads (photos, documents)
+7. **Authentication**: PIN-based NextAuth for simplicity and field worker accessibility
+
+## Quick Start Guide
+
+### For New Developers
+
+**1. Environment Setup**
+```bash
+# Clone and install
+git clone <repo-url>
+cd cometa-frontend-nextjs
+npm install
+
+# Copy environment template
+cp .env.example .env
+# Edit .env with your Supabase credentials
+
+# Start development
+npm run dev --turbopack
+# Visit http://localhost:3000
+```
+
+**2. Key Directories to Know**
+- `src/app/(dashboard)/dashboard/` - Main application pages
+- `src/app/api/` - API route handlers (100+ endpoints)
+- `src/components/` - React components (76 files)
+- `src/hooks/` - Custom React hooks (30+ hooks)
+- `src/types/` - TypeScript type definitions
+- `src/lib/` - Utilities and helper functions
+
+**3. Database Access**
+```typescript
+// Import the query function
+import { query } from '@/lib/db-pool';
+
+// Execute parameterized queries
+const result = await query(
+  'SELECT * FROM projects WHERE status = $1',
+  ['active']
+);
+```
+
+**4. Common Development Commands**
+```bash
+npm run dev          # Start dev server with Turbopack
+npm run build        # Production build
+npm run lint         # ESLint code quality
+npm run type-check   # TypeScript validation
+npm run test         # Run Vitest unit tests
+npm run test:e2e     # Run Playwright E2E tests
+```
+
+**5. Making Changes**
+```bash
+# Always work in dev branch
+git checkout dev
+git pull origin dev
+
+# Make your changes...
+
+# Commit with descriptive message
+git add .
+git commit -m "feat: your feature description
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>"
+
+# Push to dev
+git push origin dev
+```
+
+### Common Tasks & Patterns
+
+**Adding a New Feature:**
+1. Use pre-implementation-planner agent
+2. Review generated plan in `.claude/implementation-plans/`
+3. Update database schema if needed (check DATABASE_ANALYSIS_REPORT.md)
+4. Create/update API routes in `src/app/api/`
+5. Create/update hooks in `src/hooks/`
+6. Create/update components in `src/components/`
+7. Add types to `src/types/`
+8. Write tests
+9. Commit and push
+
+**Adding a New Database Table:**
+1. Check DATABASE_ANALYSIS_REPORT.md for similar tables
+2. Create migration in `database/migrations/`
+3. Add TypeScript types in `src/types/index.ts`
+4. Create API routes for CRUD operations
+5. Create custom hook for state management
+6. Update relevant components
+
+**Creating a New API Endpoint:**
+1. Create `route.ts` in appropriate `src/app/api/` subdirectory
+2. Use `query()` from `@/lib/db-pool` for database access
+3. Implement proper error handling
+4. Validate input with Zod schemas
+5. Return standardized JSON responses
+6. Add corresponding hook in `src/hooks/`
+
+**Adding a New Page:**
+1. Create `page.tsx` in `src/app/(dashboard)/dashboard/[feature]/`
+2. Use server components for initial data fetching
+3. Create client components for interactivity
+4. Use appropriate hooks for data management
+5. Follow existing layout patterns
+
+### Project-Specific Conventions
+
+**Naming Conventions:**
+- Files: `kebab-case.tsx`, `kebab-case.ts`
+- Components: `PascalCase`
+- Functions/variables: `camelCase`
+- Types/Interfaces: `PascalCase`
+- Constants: `UPPER_SNAKE_CASE`
+- Database tables: `snake_case`
+
+**Import Order:**
+1. React imports
+2. Third-party libraries
+3. Local components
+4. Local hooks
+5. Local utilities/lib
+6. Types
+7. Styles
+
+**Component Structure:**
+```typescript
+'use client'; // If client component
+
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
+import { useProjects } from '@/hooks/use-projects';
+import type { Project } from '@/types';
+
+interface MyComponentProps {
+  projectId: string;
+}
+
+export function MyComponent({ projectId }: MyComponentProps) {
+  // Hooks
+  const { data, isLoading } = useProjects();
+  const [state, setState] = useState();
+
+  // Event handlers
+  const handleClick = () => {
+    // ...
+  };
+
+  // Early returns
+  if (isLoading) return <div>Loading...</div>;
+
+  // Main render
+  return (
+    <div>
+      {/* Component JSX */}
+    </div>
+  );
+}
+```
+
+---
+
+**Last Updated**: 2025-10-18
+**Database Tables**: 49 active (optimized 2025-09-30)
+**API Endpoints**: 100+ routes
+**Components**: 76 files
+**Tech Stack**: Next.js 15.5.3, React 19.1.0, PostgreSQL (Supabase), TanStack Query 5.89.0
