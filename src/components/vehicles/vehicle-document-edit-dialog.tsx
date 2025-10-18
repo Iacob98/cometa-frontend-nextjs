@@ -112,7 +112,7 @@ export function VehicleDocumentEditDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <FileText className="h-5 w-5" />
@@ -123,7 +123,7 @@ export function VehicleDocumentEditDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto space-y-6 pr-2">
           {/* Document Type (read-only display) */}
           <div className="space-y-2">
             <Label>Dokumenttyp</Label>
@@ -217,21 +217,25 @@ export function VehicleDocumentEditDialog({
               Dokument als verifiziert markieren
             </Label>
           </div>
-
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleCancel}
-              disabled={updateMutation.isPending}
-            >
-              Abbrechen
-            </Button>
-            <Button type="submit" disabled={updateMutation.isPending}>
-              {updateMutation.isPending ? 'Wird gespeichert...' : 'Speichern'}
-            </Button>
-          </DialogFooter>
         </form>
+
+        <DialogFooter className="mt-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleCancel}
+            disabled={updateMutation.isPending}
+          >
+            Abbrechen
+          </Button>
+          <Button
+            type="submit"
+            disabled={updateMutation.isPending}
+            onClick={handleSubmit}
+          >
+            {updateMutation.isPending ? 'Wird gespeichert...' : 'Speichern'}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
