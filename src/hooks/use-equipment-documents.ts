@@ -186,3 +186,64 @@ export function useExpiredDocuments() {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 }
+
+// PUT /api/equipment/documents
+export function useUpdateEquipmentDocument() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      document_type,
+      document_name,
+      issue_date,
+      expiry_date,
+      notes,
+    }: {
+      id: string;
+      document_type?: string;
+      document_name?: string;
+      issue_date?: string;
+      expiry_date?: string;
+      notes?: string;
+    }) => {
+      const response = await fetch(API_BASE, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          document_type,
+          document_name,
+          issue_date,
+          expiry_date,
+          notes,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to update document');
+      }
+
+      return response.json();
+    },
+    onSuccess: (data) => {
+      // Invalidate all document lists
+      queryClient.invalidateQueries({ queryKey: documentKeys.lists() });
+      // Invalidate specific document
+      if (data.document?.id) {
+        queryClient.invalidateQueries({
+          queryKey: documentKeys.detail(data.document.id),
+        });
+      }
+      // Invalidate equipment-specific documents
+      if (data.document?.equipment_id) {
+        queryClient.invalidateQueries({
+          queryKey: documentKeys.list({ equipment_id: data.document.equipment_id }),
+        });
+      }
+    },
+  });
+}

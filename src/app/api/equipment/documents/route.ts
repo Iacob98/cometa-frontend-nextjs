@@ -233,3 +233,60 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// PUT /api/equipment/documents/[id] - Update document metadata
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const {
+      id,
+      document_type,
+      document_name,
+      issue_date,
+      expiry_date,
+      notes,
+    } = body;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Document ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Update document metadata in database
+    const { data: document, error: dbError } = await supabase
+      .from('equipment_documents')
+      .update({
+        document_type: document_type || undefined,
+        document_name: document_name || undefined,
+        issue_date: issue_date || null,
+        expiry_date: expiry_date || null,
+        notes: notes || null,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (dbError) {
+      console.error('Error updating document:', dbError);
+      return NextResponse.json(
+        { error: 'Failed to update document' },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      document,
+      message: 'Document updated successfully',
+    });
+  } catch (error) {
+    console.error('Error updating equipment document:', error);
+    return NextResponse.json(
+      { error: 'Failed to update equipment document' },
+      { status: 500 }
+    );
+  }
+}

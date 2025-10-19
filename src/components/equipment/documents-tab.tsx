@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { format } from "date-fns";
-import { FileText, Plus, Trash2, Download, Upload, AlertTriangle, CheckCircle, Clock } from "lucide-react";
+import { FileText, Plus, Trash2, Download, Upload, AlertTriangle, CheckCircle, Clock, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-import { useEquipmentDocuments, useUploadEquipmentDocument, useDeleteEquipmentDocument, useExpiringDocuments } from "@/hooks/use-equipment-documents";
+import { useEquipmentDocuments, useUploadEquipmentDocument, useUpdateEquipmentDocument, useDeleteEquipmentDocument, useExpiringDocuments } from "@/hooks/use-equipment-documents";
 import { useEquipment } from "@/hooks/use-equipment";
 
 const DOCUMENT_TYPES = [
@@ -222,6 +222,7 @@ interface DocumentRowProps {
 }
 
 function DocumentRow({ document }: DocumentRowProps) {
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const deleteMutation = useDeleteEquipmentDocument();
 
   const handleDelete = async () => {
@@ -323,6 +324,17 @@ function DocumentRow({ document }: DocumentRowProps) {
           <Button variant="ghost" size="sm" onClick={handleDownload}>
             <Download className="h-4 w-4" />
           </Button>
+          <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <Pencil className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+            <EditDocumentDialog
+              document={document}
+              onClose={() => setIsEditDialogOpen(false)}
+            />
+          </Dialog>
           <Button
             variant="ghost"
             size="sm"
@@ -335,6 +347,121 @@ function DocumentRow({ document }: DocumentRowProps) {
         </div>
       </TableCell>
     </TableRow>
+  );
+}
+
+interface EditDocumentDialogProps {
+  document: any;
+  onClose: () => void;
+}
+
+function EditDocumentDialog({ document, onClose }: EditDocumentDialogProps) {
+  const [formData, setFormData] = useState({
+    document_type: document.document_type || "",
+    document_name: document.document_name || "",
+    issue_date: document.issue_date || "",
+    expiry_date: document.expiry_date || "",
+    notes: document.notes || "",
+  });
+
+  const updateMutation = useUpdateEquipmentDocument();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await updateMutation.mutateAsync({
+        id: document.id,
+        ...formData,
+      });
+      toast.success("Document updated successfully");
+      onClose();
+    } catch (error) {
+      toast.error("Failed to update document");
+    }
+  };
+
+  return (
+    <DialogContent className="sm:max-w-[500px]">
+      <DialogHeader>
+        <DialogTitle>Edit Document</DialogTitle>
+        <DialogDescription>
+          Update document metadata. Note: File cannot be changed.
+        </DialogDescription>
+      </DialogHeader>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Label htmlFor="edit-document-type">Document Type *</Label>
+          <Select
+            value={formData.document_type}
+            onValueChange={(value) => setFormData({ ...formData, document_type: value })}
+          >
+            <SelectTrigger id="edit-document-type">
+              <SelectValue placeholder="Select document type" />
+            </SelectTrigger>
+            <SelectContent>
+              {DOCUMENT_TYPES.map((type) => (
+                <SelectItem key={type.value} value={type.value}>
+                  {type.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Label htmlFor="edit-document-name">Document Name *</Label>
+          <Input
+            id="edit-document-name"
+            value={formData.document_name}
+            onChange={(e) => setFormData({ ...formData, document_name: e.target.value })}
+            required
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="edit-issue-date">Issue Date</Label>
+            <Input
+              id="edit-issue-date"
+              type="date"
+              value={formData.issue_date}
+              onChange={(e) => setFormData({ ...formData, issue_date: e.target.value })}
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="edit-expiry-date">Expiry Date</Label>
+            <Input
+              id="edit-expiry-date"
+              type="date"
+              value={formData.expiry_date}
+              onChange={(e) => setFormData({ ...formData, expiry_date: e.target.value })}
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="edit-notes">Notes</Label>
+          <Textarea
+            id="edit-notes"
+            value={formData.notes}
+            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+            rows={3}
+          />
+        </div>
+
+        <DialogFooter>
+          <Button type="button" variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={updateMutation.isPending}>
+            {updateMutation.isPending ? "Updating..." : "Update Document"}
+          </Button>
+        </DialogFooter>
+      </form>
+    </DialogContent>
   );
 }
 
