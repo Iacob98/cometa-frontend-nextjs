@@ -1615,8 +1615,18 @@ export interface DocumentsResponse {
 }
 
 // Equipment & Vehicle Management Types
+export type EquipmentCategory =
+  | 'power_tool'
+  | 'fusion_splicer'
+  | 'otdr'
+  | 'safety_gear'
+  | 'vehicle'
+  | 'measuring_device'
+  | 'accessory';
+
 export type EquipmentType = 'excavator' | 'trencher' | 'compactor' | 'generator' | 'pump' | 'vehicle' | 'tool' | 'safety' | 'measurement' | 'other';
 export type EquipmentStatus = 'available' | 'in_use' | 'maintenance' | 'out_of_service' | 'retired';
+export type OwnershipType = 'owned' | 'rented' | 'leased';
 export type VehicleType = 'truck' | 'van' | 'car' | 'trailer' | 'special';
 export type MaintenanceType = 'preventive' | 'corrective' | 'emergency' | 'inspection';
 export type MaintenanceStatus = 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | 'overdue';
@@ -1624,17 +1634,22 @@ export type MaintenanceStatus = 'scheduled' | 'in_progress' | 'completed' | 'can
 export interface Equipment {
   id: UUID;
   name: string;
+  inventory_no?: string;
+  category?: EquipmentCategory;
   equipment_type: EquipmentType;
   model?: string;
   manufacturer?: string;
   serial_number?: string;
   purchase_date?: string;
   purchase_cost?: number;
+  purchase_price?: number; // alias for purchase_cost
   current_value?: number;
   daily_rental_rate?: number;
   hourly_rental_rate?: number;
+  ownership?: OwnershipType;
   status: EquipmentStatus;
   location?: string;
+  current_location?: string; // alias for location
   notes?: string;
   specifications?: Record<string, any>;
   last_maintenance_date?: string;
@@ -1644,6 +1659,7 @@ export interface Equipment {
   updated_at: string;
   assignments?: EquipmentAssignment[];
   maintenance_records?: MaintenanceRecord[];
+  type_details?: EquipmentTypeDetails;
 }
 
 export interface Vehicle extends Equipment {
@@ -1813,6 +1829,174 @@ export interface CreateMaintenanceRecordRequest {
   next_maintenance_date?: string;
   warranty_until?: string;
   maintenance_notes?: string;
+}
+
+// Equipment Category-Specific Type Details
+export interface EquipmentTypeDetails {
+  id: UUID;
+  equipment_id: UUID;
+
+  // Power Tool fields
+  power_watts?: number;
+  voltage_volts?: number;
+  battery_type?: string;
+  battery_capacity_ah?: number;
+  ip_rating?: string;
+  rpm?: number;
+  weight_kg?: number;
+  tool_type?: string;
+  accessories_included?: string[];
+  inspection_interval_days?: number;
+  next_inspection_date?: string;
+
+  // Fusion Splicer fields
+  splice_count?: number;
+  last_calibration_date?: string;
+  next_calibration_due?: string;
+  firmware_version?: string;
+  arc_calibration_done?: boolean;
+  core_alignment?: boolean;
+  battery_health_percent?: number;
+  maintenance_interval_days?: number;
+  arc_calibration_date?: string;
+  avg_splice_loss_db?: number;
+  electrode_replacement_date?: string;
+
+  // OTDR fields
+  wavelengths_nm?: number[];
+  wavelength_nm?: number; // single wavelength (legacy)
+  dynamic_range_db?: number;
+  fiber_type?: string;
+  connector_type?: string;
+  pulse_width_ns?: number;
+  measurement_range_km?: number;
+  gps_enabled?: boolean;
+
+  // Safety Gear fields
+  size?: string;
+  certification?: string;
+  inspection_interval_months?: number;
+  inspection_due_date?: string;
+  expiration_date?: string;
+  assigned_user_id?: UUID;
+  color?: string;
+  certification_expiry_date?: string;
+
+  // Vehicle fields
+  license_plate?: string;
+  vin?: string;
+  mileage_km?: number;
+  engine_hours?: number;
+  fuel_type?: string;
+  tank_capacity_liters?: number;
+  load_capacity_kg?: number;
+  emission_class?: string;
+  service_interval_km?: number;
+  insurance_expiry?: string;
+  inspection_date?: string;
+  gps_tracker_id?: string;
+
+  // Measuring Device fields
+  measurement_type?: string;
+  measurement_unit?: string;
+  range_text?: string;
+  accuracy_rating?: string;
+  calibration_interval_months?: number;
+  next_calibration?: string;
+  calibration_certificate_no?: string;
+
+  // Accessory fields
+  compatible_models?: string[];
+  part_number?: string;
+  quantity_in_set?: number;
+  replacement_cycle_months?: number;
+
+  // Common fields
+  brand?: string;
+  model?: string;
+  manufacturer?: string;
+  serial_number?: string;
+  purchase_price_eur?: number;
+  depreciation_rate_percent?: number;
+  residual_value_eur?: number;
+  custom_attributes?: Record<string, any>;
+
+  created_at?: string;
+  updated_at?: string;
+}
+
+// Category-Specific Interfaces
+export interface PowerToolDetails {
+  power_watts: number;
+  voltage_volts?: number;
+  battery_type?: 'Li-ion' | 'NiMH' | 'NiCd' | 'Corded';
+  rpm?: number;
+  ip_rating?: string;
+  weight_kg?: number;
+  tool_type?: string;
+  accessories_included?: string[];
+  inspection_interval_days?: number;
+  next_inspection_date?: string;
+}
+
+export interface FusionSplicerDetails {
+  splice_count?: number;
+  last_calibration_date: string;
+  next_calibration_due: string;
+  firmware_version?: string;
+  arc_calibration_done?: boolean;
+  core_alignment?: boolean;
+  battery_health_percent?: number;
+  maintenance_interval_days?: number;
+}
+
+export interface OTDRDetails {
+  wavelengths_nm: number[]; // multi-select
+  dynamic_range_db?: number;
+  fiber_type?: 'Singlemode' | 'Multimode' | 'OM3' | 'OM4';
+  connector_type?: 'SC' | 'LC' | 'FC' | 'ST';
+  calibration_date: string;
+  calibration_interval_days?: number;
+  firmware_version?: string;
+  gps_enabled?: boolean;
+}
+
+export interface SafetyGearDetails {
+  size?: string;
+  certification?: string;
+  inspection_interval_months?: number;
+  next_inspection_date: string;
+  expiration_date?: string;
+  assigned_user_id?: UUID;
+  color?: string;
+}
+
+export interface VehicleEquipmentDetails {
+  license_plate: string;
+  vin?: string;
+  mileage_km?: number;
+  fuel_type?: 'Diesel' | 'Gasoline' | 'Electric' | 'Hybrid';
+  emission_class?: string;
+  service_interval_km?: number;
+  insurance_expiry?: string;
+  inspection_date?: string;
+  gps_tracker_id?: string;
+}
+
+export interface MeasuringDeviceDetails {
+  measurement_type?: 'Length' | 'Voltage' | 'Temperature' | 'Current' | 'Other';
+  range_text?: string; // e.g., "0-100m"
+  accuracy_rating?: string; // e.g., "±2%"
+  calibration_date: string;
+  next_calibration?: string;
+  battery_type?: string;
+}
+
+export interface AccessoryDetails {
+  compatible_models?: string[];
+  part_number?: string;
+  quantity_in_set?: number;
+  replacement_cycle_months?: number;
 }
 
 export interface EquipmentFilters {

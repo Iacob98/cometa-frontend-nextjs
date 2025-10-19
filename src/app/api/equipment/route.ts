@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { createEquipmentSchema, computeNextCalibrationDate, computeNextInspectionDate } from "@/lib/validations/equipment-categories";
+import type { EquipmentCategory } from "@/types";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -110,68 +112,128 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const {
-      type,
-      name,
-      inventory_no,
-      status = "available",
-      rental_cost_per_day,
-      description,
-      notes,
-      owned = true,
-      current_location,
-    } = body;
 
-    // Validation
-    if (!type || !name) {
+    // Validate request body with Zod schema
+    const validationResult = createEquipmentSchema.safeParse(body);
+
+    if (!validationResult.success) {
       return NextResponse.json(
-        { error: "Type and name are required" },
+        {
+          error: "Validation failed",
+          details: validationResult.error.errors
+        },
         { status: 400 }
       );
     }
 
-    // FIXED: Create equipment directly in Supabase with correct field names
-    const { data: equipment, error } = await supabase
+    const data = validationResult.data;
+    const { category, type_details, ...baseFields } = data;
+
+    // Auto-compute dates based on category
+    let processedTypeDetails = { ...type_details };
+
+    if (category === 'fusion_splicer' && type_details.last_calibration_date) {
+      const intervalDays = type_details.maintenance_interval_days || 365;
+      processedTypeDetails.next_calibration_due = computeNextCalibrationDate(
+        type_details.last_calibration_date,
+        intervalDays
+      );
+    }
+
+    if (category === 'otdr' && type_details.calibration_date) {
+      const intervalDays = type_details.calibration_interval_days || 365;
+      processedTypeDetails.next_calibration = computeNextCalibrationDate(
+        type_details.calibration_date,
+        intervalDays
+      );
+    }
+
+    if (category === 'measuring_device' && type_details.calibration_date) {
+      const intervalDays = (type_details.calibration_interval_months || 12) * 30;
+      processedTypeDetails.next_calibration = computeNextCalibrationDate(
+        type_details.calibration_date,
+        intervalDays
+      );
+    }
+
+    if (category === 'power_tool' && type_details.inspection_interval_days) {
+      const today = new Date().toISOString().split('T')[0];
+      processedTypeDetails.next_inspection_date = computeNextInspectionDate(
+        today,
+        type_details.inspection_interval_days
+      );
+    }
+
+    // Begin transaction: Create equipment record first
+    const { data: equipment, error: equipmentError } = await supabase
       .from("equipment")
       .insert([
         {
-          type,
-          name,
-          inventory_no,
-          status: status || "available",
-          rental_cost_per_day: rental_cost_per_day || null,
-          description: description || null,
-          notes: notes || null,
-          owned: owned,
-          current_location: current_location || null,
+          name: baseFields.name,
+          type: baseFields.name, // fallback for legacy type field
+          category: category,
+          inventory_no: baseFields.inventory_no,
+          serial_number: baseFields.serial_number,
+          status: baseFields.status || "available",
+          description: baseFields.notes || null,
+          notes: baseFields.notes || null,
+          owned: baseFields.ownership === 'owned',
+          current_location: baseFields.location || null,
+          purchase_date: baseFields.purchase_date || null,
+          rental_cost_per_day: baseFields.purchase_price ? baseFields.purchase_price / 30 : null,
+          supplier_name: baseFields.manufacturer || null,
         },
       ])
-      .select(
-        `
-        id,
-        type,
-        name,
-        inventory_no,
-        status,
-        rental_cost_per_day,
-        description,
-        notes,
-        owned,
-        current_location,
-        created_at
-      `
-      )
+      .select('id, name, category, inventory_no, status, created_at')
       .single();
 
-    if (error) {
-      console.error("Supabase error creating equipment:", error);
+    if (equipmentError) {
+      console.error("Error creating equipment:", equipmentError);
       return NextResponse.json(
-        { error: "Failed to create equipment in database" },
+        { error: "Failed to create equipment record", details: equipmentError },
         { status: 500 }
       );
     }
 
-    return NextResponse.json(equipment, { status: 201 });
+    // Create type_details record
+    const { data: typeDetailsRecord, error: typeDetailsError } = await supabase
+      .from("equipment_type_details")
+      .insert([
+        {
+          equipment_id: equipment.id,
+          manufacturer: baseFields.manufacturer,
+          model: baseFields.model,
+          serial_number: baseFields.serial_number,
+          purchase_price_eur: baseFields.purchase_price,
+
+          // Map type-specific fields to database columns
+          ...processedTypeDetails,
+        },
+      ])
+      .select()
+      .single();
+
+    if (typeDetailsError) {
+      console.error("Error creating type details:", typeDetailsError);
+
+      // Rollback: Delete equipment record if type details failed
+      await supabase.from("equipment").delete().eq("id", equipment.id);
+
+      return NextResponse.json(
+        { error: "Failed to create equipment type details", details: typeDetailsError },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Equipment created successfully",
+      data: {
+        equipment,
+        type_details: typeDetailsRecord,
+      },
+    }, { status: 201 });
+
   } catch (error) {
     console.error("Create equipment error:", error);
     return NextResponse.json(
