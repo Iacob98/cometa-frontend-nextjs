@@ -140,18 +140,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (category === 'otdr' && type_details.calibration_date) {
-      const intervalDays = type_details.calibration_interval_days || 365;
+    if (category === 'otdr' && type_details.last_calibration_date) {
+      const intervalDays = (type_details.calibration_interval_months || 12) * 30;
       processedTypeDetails.next_calibration = computeNextCalibrationDate(
-        type_details.calibration_date,
+        type_details.last_calibration_date,
         intervalDays
       );
     }
 
-    if (category === 'measuring_device' && type_details.calibration_date) {
+    if (category === 'measuring_device' && type_details.last_calibration_date) {
       const intervalDays = (type_details.calibration_interval_months || 12) * 30;
       processedTypeDetails.next_calibration = computeNextCalibrationDate(
-        type_details.calibration_date,
+        type_details.last_calibration_date,
         intervalDays
       );
     }

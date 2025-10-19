@@ -76,7 +76,8 @@
       "Bash(PGPASSWORD=\"Iasaninja1973..\" psql -h aws-1-eu-north-1.pooler.supabase.com -p 6543 -U postgres.oijmohlhdxoawzvctnxx -d postgres -c \"\nSELECT table_name \nFROM information_schema.tables \nWHERE table_schema = ''public'' \n  AND table_name LIKE ''%constraint%'' OR table_name LIKE ''%contact%''\nORDER BY table_name;\n\")",
       "Bash(PGPASSWORD=\"Iasaninja1973..\" psql -h aws-1-eu-north-1.pooler.supabase.com -p 6543 -U postgres.oijmohlhdxoawzvctnxx -d postgres -c \"\nSELECT column_name, data_type, is_nullable, column_default\nFROM information_schema.columns \nWHERE table_name = ''constraints''\nORDER BY ordinal_position;\n\")",
       "Bash(PGPASSWORD=\"Iasaninja1973..\" psql -h aws-1-eu-north-1.pooler.supabase.com -p 6543 -U postgres.oijmohlhdxoawzvctnxx -d postgres -c \"\nSELECT column_name, data_type, is_nullable, column_default\nFROM information_schema.columns \nWHERE table_name = ''project_contacts''\nORDER BY ordinal_position;\n\")",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(xdg-open \"http://localhost:3000/dashboard/equipment/new\")"
     ],
     "deny": [],
     "ask": []

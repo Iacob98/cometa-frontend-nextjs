@@ -57,8 +57,8 @@ export const otdrDetailsSchema = z.object({
   dynamic_range_db: z.number().optional(),
   fiber_type: z.enum(['Singlemode', 'Multimode', 'OM3', 'OM4']).optional(),
   connector_type: z.enum(['SC', 'LC', 'FC', 'ST']).optional(),
-  calibration_date: z.string().min(1, 'Calibration date is required'),
-  calibration_interval_days: z.number().optional().default(365),
+  last_calibration_date: z.string().min(1, 'Calibration date is required'),
+  calibration_interval_months: z.number().optional().default(12),
   firmware_version: z.string().optional(),
   gps_enabled: z.boolean().optional().default(false),
 });
@@ -107,8 +107,8 @@ export const measuringDeviceDetailsSchema = z.object({
   measurement_type: z.enum(['Length', 'Voltage', 'Temperature', 'Current', 'Other']).optional(),
   range_text: z.string().optional(),
   accuracy_rating: z.string().optional(),
-  calibration_date: z.string().min(1, 'Calibration date is required'),
-  next_calibration: z.string().optional(),
+  last_calibration_date: z.string().min(1, 'Calibration date is required'),
+  calibration_interval_months: z.number().optional().default(12),
   battery_type: z.string().optional(),
 });
 

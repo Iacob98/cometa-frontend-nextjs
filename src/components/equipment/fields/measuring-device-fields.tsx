@@ -25,13 +25,13 @@ export function MeasuringDeviceFields({ form }: MeasuringDeviceFieldsProps) {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Calibration Date - Required */}
+          {/* Last Calibration Date - Required */}
           <FormField
             control={form.control}
-            name="type_details.calibration_date"
+            name="type_details.last_calibration_date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Calibration Date *</FormLabel>
+                <FormLabel>Last Calibration Date *</FormLabel>
                 <FormControl>
                   <Input type="date" {...field} />
                 </FormControl>

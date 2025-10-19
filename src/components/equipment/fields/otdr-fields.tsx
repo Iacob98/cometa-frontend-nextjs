@@ -26,13 +26,13 @@ export function OTDRFields({ form }: OTDRFieldsProps) {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Calibration Date - Required */}
+          {/* Last Calibration Date - Required */}
           <FormField
             control={form.control}
-            name="type_details.calibration_date"
+            name="type_details.last_calibration_date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Calibration Date *</FormLabel>
+                <FormLabel>Last Calibration Date *</FormLabel>
                 <FormControl>
                   <Input type="date" {...field} />
                 </FormControl>
@@ -42,22 +42,22 @@ export function OTDRFields({ form }: OTDRFieldsProps) {
             )}
           />
 
-          {/* Calibration Interval (days) */}
+          {/* Calibration Interval (months) */}
           <FormField
             control={form.control}
-            name="type_details.calibration_interval_days"
+            name="type_details.calibration_interval_months"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Calibration Interval (days)</FormLabel>
+                <FormLabel>Calibration Interval (months)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
-                    placeholder="365"
+                    placeholder="12"
                     {...field}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
-                <FormDescription>Default: 365 days</FormDescription>
+                <FormDescription>Default: 12 months</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
