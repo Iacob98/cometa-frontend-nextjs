@@ -162,9 +162,15 @@ __turbopack_context__.s([
 ]);
 // API Configuration
 const getApiBaseUrl = ()=>{
+    // If NEXT_PUBLIC_API_URL is explicitly set, use it (for separate API domain)
+    if (process.env.NEXT_PUBLIC_API_URL) {
+        return process.env.NEXT_PUBLIC_API_URL;
+    }
+    // Otherwise, in browser, use current origin (same domain)
     if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
     ;
-    return process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+    // Fallback for server-side rendering in development
+    return "http://localhost:3000";
 };
 class ApiError extends Error {
     status;
@@ -658,7 +664,15 @@ class WebSocketApiClient {
     }
     connect(userId) {
         return new Promise((resolve, reject)=>{
-            const wsBaseUrl = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:8080";
+            // Priority: explicit NEXT_PUBLIC_WS_URL > auto-detect from current origin > localhost fallback
+            let wsBaseUrl;
+            if (process.env.NEXT_PUBLIC_WS_URL) {
+                wsBaseUrl = process.env.NEXT_PUBLIC_WS_URL;
+            } else if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+            ;
+            else {
+                wsBaseUrl = "ws://localhost:8080";
+            }
             const wsUrl = `${wsBaseUrl}/ws/${userId}`;
             this.ws = new WebSocket(wsUrl);
             this.ws.onopen = ()=>{

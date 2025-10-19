@@ -191,6 +191,60 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check material availability before allocation
+    // 1. Get material current stock
+    const { data: material, error: materialError } = await supabase
+      .from('materials')
+      .select('id, name, current_stock, unit')
+      .eq('id', material_id)
+      .single();
+
+    if (materialError || !material) {
+      return NextResponse.json(
+        { error: `Material not found: ${material_id}` },
+        { status: 404 }
+      );
+    }
+
+    // 2. Calculate currently reserved quantity from active allocations
+    const { data: activeAllocations, error: allocError } = await supabase
+      .from('material_allocations')
+      .select('quantity_remaining')
+      .eq('material_id', material_id)
+      .in('status', ['allocated', 'partially_used']);
+
+    if (allocError) {
+      console.error('Error fetching active allocations:', allocError);
+    }
+
+    const currentlyReserved = (activeAllocations || []).reduce(
+      (sum, alloc) => sum + Number(alloc.quantity_remaining || 0),
+      0
+    );
+
+    // 3. Calculate available quantity
+    const currentStock = Number(material.current_stock || 0);
+    const availableQty = currentStock - currentlyReserved;
+
+    // 4. Validate sufficient availability
+    if (Number(quantity_allocated) > availableQty) {
+      return NextResponse.json(
+        {
+          error: `Insufficient stock available for allocation`,
+          details: {
+            material_name: material.name,
+            unit: material.unit,
+            requested: Number(quantity_allocated),
+            available: availableQty,
+            current_stock: currentStock,
+            currently_reserved: currentlyReserved,
+            suggestion: `Maximum allocatable: ${availableQty} ${material.unit}`
+          }
+        },
+        { status: 400 }
+      );
+    }
+
     // Create new material allocation
     const { data: newAllocation, error: allocationError } = await supabase
       .from('material_allocations')

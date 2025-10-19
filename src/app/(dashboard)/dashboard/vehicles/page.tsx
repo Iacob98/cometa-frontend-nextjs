@@ -106,6 +106,8 @@ export default function VehiclesPage() {
     ...assignment,
     assignment_type: 'vehicle' as const,
     resource_type: 'vehicle' as const,
+    project_name: assignment.project?.name || 'Unknown Project',
+    crew_name: assignment.crew?.name || 'Unassigned',
     equipment: assignment.vehicle ? {
       name: `${assignment.vehicle.brand} ${assignment.vehicle.model}`,
       type: assignment.vehicle.type,

@@ -168,10 +168,16 @@ __turbopack_context__.s([
     "wsApi",
     ()=>wsApi
 ]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = /*#__PURE__*/ __turbopack_context__.i("[project]/node_modules/next/dist/build/polyfills/process.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$swc$2f$helpers$2f$esm$2f$_define_property$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@swc/helpers/esm/_define_property.js [app-client] (ecmascript)");
 ;
 // API Configuration
 const getApiBaseUrl = ()=>{
+    // If NEXT_PUBLIC_API_URL is explicitly set, use it (for separate API domain)
+    if (__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL) {
+        return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_API_URL;
+    }
+    // Otherwise, in browser, use current origin (same domain)
     if ("TURBOPACK compile-time truthy", 1) {
         return window.location.origin;
     }
@@ -658,7 +664,15 @@ class NotificationTemplatesApiClient extends BaseApiClient {
 class WebSocketApiClient {
     connect(userId) {
         return new Promise((resolve, reject)=>{
-            const wsBaseUrl = ("TURBOPACK compile-time truthy", 1) ? window.location.origin.replace(/^http/, 'ws') : "TURBOPACK unreachable";
+            // Priority: explicit NEXT_PUBLIC_WS_URL > auto-detect from current origin > localhost fallback
+            let wsBaseUrl;
+            if (__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_WS_URL) {
+                wsBaseUrl = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_WS_URL;
+            } else if ("TURBOPACK compile-time truthy", 1) {
+                wsBaseUrl = window.location.origin.replace(/^http/, 'ws');
+            } else {
+                wsBaseUrl = "ws://localhost:8080";
+            }
             const wsUrl = "".concat(wsBaseUrl, "/ws/").concat(userId);
             this.ws = new WebSocket(wsUrl);
             this.ws.onopen = ()=>{

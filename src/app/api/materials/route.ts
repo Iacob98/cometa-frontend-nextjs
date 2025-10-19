@@ -33,6 +33,8 @@ export async function GET(request: NextRequest) {
         is_active,
         current_stock,
         min_stock_threshold,
+        reserved_stock,
+        sku,
         created_at,
         updated_at,
         supplier_materials(
@@ -84,29 +86,8 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get all material IDs to fetch their allocations
-    const materialIds = (materials || []).map(m => m.id);
-
-    // Fetch active allocations (not fully used or returned) for all materials
-    const { data: allocations, error: allocationsError } = await supabase
-      .from("material_allocations")
-      .select("material_id, quantity_remaining")
-      .in("material_id", materialIds)
-      .in("status", ["allocated", "partially_used"]);
-
-    if (allocationsError) {
-      console.error("Allocations query error:", allocationsError);
-    }
-
-    // Calculate reserved quantities per material
-    const reservedByMaterial = (allocations || []).reduce((acc, alloc) => {
-      const materialId = alloc.material_id;
-      const remaining = Number(alloc.quantity_remaining || 0);
-      acc[materialId] = (acc[materialId] || 0) + remaining;
-      return acc;
-    }, {} as Record<string, number>);
-
     // Transform materials to match frontend interface
+    // Note: reserved_qty now comes directly from reserved_stock column (updated by triggers)
     const transformedMaterials = (materials || []).map(material => {
       // Extract supplier from supplier_materials junction
       const supplierData = material.supplier_materials?.[0]?.supplier || null;
@@ -116,10 +97,10 @@ export async function GET(request: NextRequest) {
         // Map database fields to frontend field names
         current_stock_qty: Number(material.current_stock || 0),
         min_stock_level: Number(material.min_stock_threshold || 0),
-        reserved_qty: reservedByMaterial[material.id] || 0,
+        reserved_qty: Number(material.reserved_stock || 0), // Now using denormalized column
         unit_cost: Number(material.unit_price_eur || 0),
         default_price_eur: Number(material.unit_price_eur || 0),
-        sku: null, // Not in database yet
+        sku: material.sku || null,
         last_updated: material.updated_at,
         // Add supplier information
         supplier: supplierData ? {
@@ -159,6 +140,7 @@ export async function POST(request: NextRequest) {
       supplier_name,
       description,
       is_active = true,
+      sku,
     } = body;
 
     // Validation
@@ -167,6 +149,22 @@ export async function POST(request: NextRequest) {
         { error: "Name is required" },
         { status: 400 }
       );
+    }
+
+    // Validate SKU uniqueness if provided
+    if (sku) {
+      const { data: existingSku } = await supabase
+        .from("materials")
+        .select("id")
+        .eq("sku", sku)
+        .maybeSingle();
+
+      if (existingSku) {
+        return NextResponse.json(
+          { error: `SKU '${sku}' already exists` },
+          { status: 400 }
+        );
+      }
     }
 
     // Create material in Supabase
@@ -181,6 +179,7 @@ export async function POST(request: NextRequest) {
           supplier_name: supplier_name || null,
           description: description || null,
           is_active: is_active !== false,
+          sku: sku || null,
         },
       ])
       .select(
@@ -195,6 +194,8 @@ export async function POST(request: NextRequest) {
         is_active,
         current_stock,
         min_stock_threshold,
+        reserved_stock,
+        sku,
         created_at,
         updated_at
       `
@@ -214,10 +215,10 @@ export async function POST(request: NextRequest) {
       ...material,
       current_stock_qty: Number(material.current_stock || 0),
       min_stock_level: Number(material.min_stock_threshold || 0),
-      reserved_qty: 0, // New materials have no allocations
+      reserved_qty: Number(material.reserved_stock || 0), // New materials have no allocations, but include field
       unit_cost: Number(material.unit_price_eur || 0),
       default_price_eur: Number(material.unit_price_eur || 0),
-      sku: null,
+      sku: material.sku || null,
       last_updated: material.updated_at,
     };
 

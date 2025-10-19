@@ -3,5 +3,5 @@
   "sources": [],
   "sections": [
     {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
-    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":["file:///Volumes/T7/cometa/cometa-separated-projects/cometa-frontend-nextjs/src/app/page.tsx"],"sourcesContent":["import { redirect } from \"next/navigation\";\n\nexport default function HomePage() {\n  // Redirect to dashboard for now\n  redirect(\"/dashboard\");\n}\n"],"names":[],"mappings":";;;;AAAA;AAAA;;AAEe,SAAS;IACtB,gCAAgC;IAChC,IAAA,iMAAQ,EAAC;AACX","debugId":null}}]
+    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":["file:///home/iacob/Documents/cometa-frontend-nextjs/src/app/page.tsx"],"sourcesContent":["import { redirect } from \"next/navigation\";\n\nexport default function HomePage() {\n  // Redirect to dashboard for now\n  redirect(\"/dashboard\");\n}\n"],"names":[],"mappings":";;;;AAAA;AAAA;;AAEe,SAAS;IACtB,gCAAgC;IAChC,IAAA,iMAAQ,EAAC;AACX","debugId":null}}]
 }
