@@ -5,7 +5,6 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { query } from '@/lib/db-pool';
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -23,19 +22,19 @@ export async function GET(
   try {
     const { id } = params;
 
-    const selectQuery = `
-      SELECT * FROM equipment_documents WHERE id = $1 AND is_active = true
-    `;
-    const result = await query(selectQuery, [id]);
+    const { data: document, error } = await supabase
+      .from('equipment_documents')
+      .select('*')
+      .eq('id', id)
+      .eq('is_active', true)
+      .single();
 
-    if (result.rows.length === 0) {
+    if (error || !document) {
       return NextResponse.json(
         { error: 'Document not found' },
         { status: 404 }
       );
     }
-
-    const document = result.rows[0];
 
     // Generate signed URL (valid for 1 hour)
     const { data: urlData, error: urlError } = await supabase.storage
@@ -69,36 +68,41 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { id } = params;
+    const { id} = params;
 
     // Get document to delete from storage
-    const selectQuery = `
-      SELECT file_path FROM equipment_documents WHERE id = $1 AND is_active = true
-    `;
-    const selectResult = await query(selectQuery, [id]);
+    const { data: document, error: selectError } = await supabase
+      .from('equipment_documents')
+      .select('file_path')
+      .eq('id', id)
+      .eq('is_active', true)
+      .single();
 
-    if (selectResult.rows.length === 0) {
+    if (selectError || !document) {
       return NextResponse.json(
         { error: 'Document not found' },
         { status: 404 }
       );
     }
 
-    const filePath = selectResult.rows[0].file_path;
-
     // Soft delete in database
-    const deleteQuery = `
-      UPDATE equipment_documents
-      SET is_active = false, updated_at = NOW()
-      WHERE id = $1
-      RETURNING id
-    `;
-    await query(deleteQuery, [id]);
+    const { error: updateError } = await supabase
+      .from('equipment_documents')
+      .update({ is_active: false, updated_at: new Date().toISOString() })
+      .eq('id', id);
+
+    if (updateError) {
+      console.error('Error soft-deleting document:', updateError);
+      return NextResponse.json(
+        { error: 'Failed to delete document' },
+        { status: 500 }
+      );
+    }
 
     // Delete from storage
     const { error: storageError } = await supabase.storage
       .from(BUCKET_NAME)
-      .remove([filePath]);
+      .remove([document.file_path]);
 
     if (storageError) {
       console.error('Storage deletion error (non-fatal):', storageError);

@@ -5,12 +5,16 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { query } from '@/lib/db-pool';
+import { createClient } from '@supabase/supabase-js';
 import type {
   EquipmentMaintenanceSchedule,
   CreateMaintenanceScheduleRequest,
-  MaintenanceScheduleFilters,
 } from '@/types/equipment-enhanced';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 // GET /api/equipment/maintenance-schedules
 export async function GET(request: NextRequest) {
@@ -20,114 +24,103 @@ export async function GET(request: NextRequest) {
     const maintenance_type = searchParams.get('maintenance_type');
     const overdue_only = searchParams.get('overdue_only') === 'true';
     const upcoming_within_days = searchParams.get('upcoming_within_days');
-    const active_only = searchParams.get('active_only') !== 'false'; // Default true
+    const active_only = searchParams.get('active_only') === 'true';
 
-    // Build WHERE conditions
-    const conditions: string[] = [];
-    const params: any[] = [];
-    let paramIndex = 1;
+    // Build query
+    let query = supabase
+      .from('equipment_maintenance_schedules')
+      .select(
+        `
+        id,
+        equipment_id,
+        maintenance_type,
+        interval_type,
+        interval_value,
+        last_performed_date,
+        last_performed_hours,
+        next_due_date,
+        next_due_hours,
+        notes,
+        is_active,
+        created_at,
+        updated_at,
+        equipment:equipment_id (
+          id,
+          name,
+          type,
+          total_usage_hours
+        )
+      `
+      )
+      .order('created_at', { ascending: false });
 
-    if (active_only) {
-      conditions.push(`ems.is_active = true`);
-    }
-
+    // Apply filters
     if (equipment_id) {
-      conditions.push(`ems.equipment_id = $${paramIndex++}`);
-      params.push(equipment_id);
+      query = query.eq('equipment_id', equipment_id);
     }
 
     if (maintenance_type) {
-      conditions.push(`ems.maintenance_type = $${paramIndex++}`);
-      params.push(maintenance_type);
+      query = query.eq('maintenance_type', maintenance_type);
     }
 
+    if (active_only) {
+      query = query.eq('is_active', true);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error('Supabase error fetching schedules:', error);
+      return NextResponse.json(
+        { error: 'Failed to fetch maintenance schedules' },
+        { status: 500 }
+      );
+    }
+
+    // Transform and compute overdue/upcoming status
+    const now = new Date();
+    const items = (data || []).map((item: any) => {
+      let isOverdue = false;
+      let isUpcoming = false;
+
+      // Check if overdue (date-based)
+      if (item.next_due_date) {
+        const dueDate = new Date(item.next_due_date);
+        isOverdue = dueDate < now;
+
+        if (upcoming_within_days && !isOverdue) {
+          const upcomingDate = new Date(now);
+          upcomingDate.setDate(upcomingDate.getDate() + parseInt(upcoming_within_days));
+          isUpcoming = dueDate <= upcomingDate;
+        }
+      }
+
+      // Check if overdue (hours-based)
+      if (item.next_due_hours && item.equipment?.total_usage_hours) {
+        if (item.equipment.total_usage_hours >= item.next_due_hours) {
+          isOverdue = true;
+        }
+      }
+
+      return {
+        ...item,
+        equipment_name: item.equipment?.name,
+        is_overdue: isOverdue,
+        is_upcoming: isUpcoming,
+      };
+    });
+
+    // Filter based on overdue/upcoming
+    let filteredItems = items;
     if (overdue_only) {
-      conditions.push(`(
-        (ems.next_due_date IS NOT NULL AND ems.next_due_date < CURRENT_DATE)
-        OR
-        (ems.next_due_hours IS NOT NULL AND e.total_usage_hours >= ems.next_due_hours)
-      )`);
+      filteredItems = items.filter((item) => item.is_overdue);
+    } else if (upcoming_within_days) {
+      filteredItems = items.filter((item) => item.is_upcoming && !item.is_overdue);
     }
-
-    if (upcoming_within_days) {
-      const days = parseInt(upcoming_within_days);
-      conditions.push(`(
-        (ems.next_due_date IS NOT NULL
-         AND ems.next_due_date >= CURRENT_DATE
-         AND ems.next_due_date <= CURRENT_DATE + INTERVAL '${days} days')
-        OR
-        (ems.next_due_hours IS NOT NULL
-         AND ems.next_due_hours > e.total_usage_hours
-         AND ems.next_due_hours <= e.total_usage_hours + (${days} * 8))
-      )`);
-    }
-
-    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
-
-    const dataQuery = `
-      SELECT
-        ems.id,
-        ems.equipment_id,
-        ems.maintenance_type,
-        ems.interval_type,
-        ems.interval_value,
-        ems.last_performed_date,
-        ems.last_performed_hours,
-        ems.next_due_date,
-        ems.next_due_hours,
-        ems.description,
-        ems.notes,
-        ems.is_active,
-        ems.created_at,
-        ems.updated_at,
-        -- Computed fields
-        CASE
-          WHEN ems.next_due_date IS NOT NULL AND ems.next_due_date < CURRENT_DATE
-            THEN true
-          WHEN ems.next_due_hours IS NOT NULL AND e.total_usage_hours >= ems.next_due_hours
-            THEN true
-          ELSE false
-        END as is_overdue,
-        CASE
-          WHEN ems.next_due_date IS NOT NULL AND ems.next_due_date < CURRENT_DATE
-            THEN (CURRENT_DATE - ems.next_due_date)::INTEGER
-          ELSE NULL
-        END as days_overdue,
-        CASE
-          WHEN ems.next_due_hours IS NOT NULL AND e.total_usage_hours >= ems.next_due_hours
-            THEN (e.total_usage_hours - ems.next_due_hours)
-          ELSE NULL
-        END as hours_overdue,
-        CASE
-          WHEN ems.next_due_date IS NOT NULL AND ems.next_due_date >= CURRENT_DATE
-            THEN (ems.next_due_date - CURRENT_DATE)::INTEGER
-          ELSE NULL
-        END as days_until_due,
-        CASE
-          WHEN ems.next_due_hours IS NOT NULL AND ems.next_due_hours > e.total_usage_hours
-            THEN (ems.next_due_hours - e.total_usage_hours)
-          ELSE NULL
-        END as hours_until_due,
-        -- Equipment details
-        json_build_object(
-          'id', e.id,
-          'name', e.name,
-          'type', e.type,
-          'total_usage_hours', e.total_usage_hours
-        ) as equipment
-      FROM equipment_maintenance_schedules ems
-      LEFT JOIN equipment e ON e.id = ems.equipment_id
-      ${whereClause}
-      ORDER BY
-        CASE WHEN ems.next_due_date IS NOT NULL THEN ems.next_due_date ELSE '9999-12-31'::DATE END ASC,
-        CASE WHEN ems.next_due_hours IS NOT NULL THEN ems.next_due_hours ELSE 999999 END ASC
-    `;
-
-    const dataResult = await query(dataQuery, params);
 
     return NextResponse.json({
-      items: dataResult.rows,
-      total: dataResult.rows.length,
+      items: filteredItems,
+      total: filteredItems.length,
     });
   } catch (error) {
     console.error('Error fetching maintenance schedules:', error);
@@ -144,61 +137,64 @@ export async function POST(request: NextRequest) {
     const body: CreateMaintenanceScheduleRequest = await request.json();
 
     // Validate required fields
-    if (!body.equipment_id || !body.maintenance_type || !body.interval_type || !body.interval_value) {
+    if (
+      !body.equipment_id ||
+      !body.maintenance_type ||
+      !body.interval_type ||
+      !body.interval_value
+    ) {
       return NextResponse.json(
         {
-          error: 'Missing required fields: equipment_id, maintenance_type, interval_type, interval_value',
+          error:
+            'Missing required fields: equipment_id, maintenance_type, interval_type, interval_value',
         },
         { status: 400 }
       );
     }
 
-    // Validate interval_value
-    if (body.interval_value <= 0) {
+    // Validate interval_type
+    if (!['calendar', 'usage_hours', 'cycles'].includes(body.interval_type)) {
       return NextResponse.json(
-        { error: 'interval_value must be greater than 0' },
+        { error: 'interval_type must be one of: calendar, usage_hours, cycles' },
         { status: 400 }
       );
     }
 
-    // Insert schedule
-    const insertQuery = `
-      INSERT INTO equipment_maintenance_schedules (
-        equipment_id,
-        maintenance_type,
-        interval_type,
-        interval_value,
-        description,
-        notes,
-        is_active
-      ) VALUES ($1, $2, $3, $4, $5, $6, true)
-      RETURNING
-        id,
-        equipment_id,
-        maintenance_type,
-        interval_type,
-        interval_value,
-        last_performed_date,
-        last_performed_hours,
-        next_due_date,
-        next_due_hours,
-        description,
-        notes,
-        is_active,
-        created_at,
-        updated_at
-    `;
+    // Create schedule
+    const { data: schedule, error: insertError } = await supabase
+      .from('equipment_maintenance_schedules')
+      .insert({
+        equipment_id: body.equipment_id,
+        maintenance_type: body.maintenance_type,
+        interval_type: body.interval_type,
+        interval_value: body.interval_value,
+        last_performed_date: body.last_performed_date || null,
+        last_performed_hours: body.last_performed_hours || null,
+        notes: body.notes || null,
+        is_active: true,
+      })
+      .select()
+      .single();
 
-    const insertResult = await query(insertQuery, [
-      body.equipment_id,
-      body.maintenance_type,
-      body.interval_type,
-      body.interval_value,
-      body.description || null,
-      body.notes || null,
-    ]);
+    if (insertError) {
+      console.error('Error creating maintenance schedule:', insertError);
 
-    const schedule = insertResult.rows[0];
+      // Handle unique constraint violation
+      if (insertError.code === '23505') {
+        return NextResponse.json(
+          {
+            error: 'Duplicate schedule',
+            message: 'A schedule already exists for this equipment and maintenance type',
+          },
+          { status: 409 }
+        );
+      }
+
+      return NextResponse.json(
+        { error: 'Failed to create maintenance schedule' },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       {
@@ -208,20 +204,8 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating maintenance schedule:', error);
-
-    // Handle unique constraint (one schedule per equipment per type)
-    if (error.code === '23505') {
-      return NextResponse.json(
-        {
-          error: 'Duplicate schedule',
-          message: 'A schedule for this maintenance type already exists for this equipment',
-        },
-        { status: 409 }
-      );
-    }
-
     return NextResponse.json(
       { error: 'Failed to create maintenance schedule' },
       { status: 500 }
