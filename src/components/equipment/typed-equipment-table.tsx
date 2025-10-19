@@ -73,13 +73,13 @@ interface TypedEquipmentTableProps {
 export function TypedEquipmentTable({ initialViewType = 'power_tools' }: TypedEquipmentTableProps) {
   const [viewType, setViewType] = useState<Exclude<EquipmentViewType, 'all'>>(initialViewType);
   const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
   const [page, setPage] = useState(1);
 
   // Fetch data for selected view type
   const { data, isLoading, error } = useTypedEquipmentView(viewType, {
     search,
-    status: statusFilter || undefined,
+    status: statusFilter !== 'all' ? statusFilter : undefined,
     page,
     per_page: 20,
   });
@@ -149,7 +149,7 @@ export function TypedEquipmentTable({ initialViewType = 'power_tools' }: TypedEq
               <SelectValue placeholder="All statuses" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All statuses</SelectItem>
+              <SelectItem value="all">All statuses</SelectItem>
               <SelectItem value="available">Available</SelectItem>
               <SelectItem value="assigned">Assigned</SelectItem>
               <SelectItem value="maintenance">Maintenance</SelectItem>

@@ -37,10 +37,10 @@ const VIEW_NAMES: Record<ViewType, string> = {
 // GET /api/equipment/typed-views/[viewType]
 export async function GET(
   request: NextRequest,
-  { params }: { params: { viewType: ViewType } }
+  { params }: { params: Promise<{ viewType: ViewType }> }
 ) {
   try {
-    const { viewType } = params;
+    const { viewType } = await params;
 
     // Validate view type
     if (!VIEW_NAMES[viewType]) {
