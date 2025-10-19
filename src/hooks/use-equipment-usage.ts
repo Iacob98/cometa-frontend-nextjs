@@ -167,3 +167,83 @@ export function useValidateDailyUsage() {
     },
   });
 }
+
+// PUT /api/equipment/usage
+export function useUpdateEquipmentUsage() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      usage_date,
+      hours_used,
+      operator_name,
+      notes,
+    }: {
+      id: string;
+      usage_date?: string;
+      hours_used?: number;
+      operator_name?: string;
+      notes?: string;
+    }) => {
+      const response = await fetch(API_BASE, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id,
+          usage_date,
+          hours_used,
+          operator_name,
+          notes,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to update usage log');
+      }
+
+      return response.json();
+    },
+    onSuccess: (data) => {
+      // Invalidate all usage lists
+      queryClient.invalidateQueries({ queryKey: usageKeys.lists() });
+
+      // Invalidate equipment query (total_usage_hours might change)
+      if (data.usage_log?.equipment_id) {
+        queryClient.invalidateQueries({
+          queryKey: ['equipment', data.usage_log.equipment_id],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['equipment'],
+        });
+      }
+    },
+  });
+}
+
+// DELETE /api/equipment/usage
+export function useDeleteEquipmentUsage() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (usageId: string) => {
+      const response = await fetch(`${API_BASE}?id=${usageId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to delete usage log');
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      // Invalidate all usage lists
+      queryClient.invalidateQueries({ queryKey: usageKeys.lists() });
+      // Invalidate equipment queries (total_usage_hours changed)
+      queryClient.invalidateQueries({ queryKey: ['equipment'] });
+    },
+  });
+}

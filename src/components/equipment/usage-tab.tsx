@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { format } from "date-fns";
-import { Clock, Plus, TrendingUp, Activity, AlertCircle } from "lucide-react";
+import { Clock, Plus, TrendingUp, Activity, AlertCircle, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-import { useEquipmentUsage, useLogEquipmentUsage, useValidateDailyUsage } from "@/hooks/use-equipment-usage";
+import { useEquipmentUsage, useLogEquipmentUsage, useUpdateEquipmentUsage, useDeleteEquipmentUsage, useValidateDailyUsage } from "@/hooks/use-equipment-usage";
 import { useEquipment } from "@/hooks/use-equipment";
 
 export function UsageTab() {
@@ -213,46 +213,12 @@ export function UsageTab() {
                     <TableHead>Operator</TableHead>
                     <TableHead>Notes</TableHead>
                     <TableHead>Logged At</TableHead>
+                    <TableHead className="w-[100px]">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {usageLogs.map((log) => (
-                    <TableRow key={log.id}>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">
-                            {log.equipment_name || "Unknown Equipment"}
-                          </div>
-                          <div className="text-sm text-muted-foreground">
-                            {log.equipment?.inventory_no || "No inventory #"}
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        {format(new Date(log.usage_date), "MMM dd, yyyy")}
-                      </TableCell>
-                      <TableCell>
-                        <Badge className="bg-blue-100 text-blue-800 border-blue-200">
-                          <Clock className="h-3 w-3 mr-1" />
-                          {log.hours_used.toFixed(1)}h
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-sm">
-                          {log.operator_name || "Not specified"}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-sm text-muted-foreground">
-                          {log.notes || "-"}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="text-sm text-muted-foreground">
-                          {format(new Date(log.created_at), "MMM dd, HH:mm")}
-                        </span>
-                      </TableCell>
-                    </TableRow>
+                    <UsageLogRow key={log.id} log={log} />
                   ))}
                 </TableBody>
               </Table>
@@ -501,6 +467,199 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
           </Button>
           <Button type="submit" disabled={logMutation.isPending}>
             {logMutation.isPending ? "Logging..." : "Log Usage"}
+          </Button>
+        </DialogFooter>
+      </form>
+    </DialogContent>
+  );
+}
+
+interface UsageLogRowProps {
+  log: any;
+}
+
+function UsageLogRow({ log }: UsageLogRowProps) {
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const deleteMutation = useDeleteEquipmentUsage();
+
+  const handleDelete = async () => {
+    if (!confirm(`Are you sure you want to delete this usage log?`)) {
+      return;
+    }
+
+    try {
+      await deleteMutation.mutateAsync(log.id);
+      toast.success("Usage log deleted successfully");
+    } catch (error) {
+      toast.error("Failed to delete usage log");
+    }
+  };
+
+  return (
+    <TableRow>
+      <TableCell>
+        <div>
+          <div className="font-medium">
+            {log.equipment_name || "Unknown Equipment"}
+          </div>
+          <div className="text-sm text-muted-foreground">
+            {log.equipment?.inventory_no || "No inventory #"}
+          </div>
+        </div>
+      </TableCell>
+      <TableCell>
+        {format(new Date(log.usage_date), "MMM dd, yyyy")}
+      </TableCell>
+      <TableCell>
+        <Badge className="bg-blue-100 text-blue-800 border-blue-200">
+          <Clock className="h-3 w-3 mr-1" />
+          {log.hours_used.toFixed(1)}h
+        </Badge>
+      </TableCell>
+      <TableCell>
+        <span className="text-sm">
+          {log.operator_name || "Not specified"}
+        </span>
+      </TableCell>
+      <TableCell>
+        <span className="text-sm text-muted-foreground">
+          {log.notes || "-"}
+        </span>
+      </TableCell>
+      <TableCell>
+        <span className="text-sm text-muted-foreground">
+          {format(new Date(log.created_at), "MMM dd, HH:mm")}
+        </span>
+      </TableCell>
+      <TableCell>
+        <div className="flex items-center gap-2">
+          <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <Pencil className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+            <EditUsageDialog
+              log={log}
+              onClose={() => setIsEditDialogOpen(false)}
+            />
+          </Dialog>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleDelete}
+            disabled={deleteMutation.isPending}
+            className="text-red-600 hover:text-red-700"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </TableCell>
+    </TableRow>
+  );
+}
+
+interface EditUsageDialogProps {
+  log: any;
+  onClose: () => void;
+}
+
+function EditUsageDialog({ log, onClose }: EditUsageDialogProps) {
+  const [formData, setFormData] = useState({
+    usage_date: log.usage_date || "",
+    hours_used: log.hours_used || 0,
+    operator_name: log.operator_name || "",
+    notes: log.notes || "",
+  });
+
+  const updateMutation = useUpdateEquipmentUsage();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Validate hours
+    if (formData.hours_used <= 0 || formData.hours_used > 24) {
+      toast.error("Hours must be between 0 and 24");
+      return;
+    }
+
+    try {
+      await updateMutation.mutateAsync({
+        id: log.id,
+        ...formData,
+      });
+      toast.success("Usage log updated successfully");
+      onClose();
+    } catch (error) {
+      toast.error("Failed to update usage log");
+    }
+  };
+
+  return (
+    <DialogContent className="sm:max-w-[500px]">
+      <DialogHeader>
+        <DialogTitle>Edit Usage Log</DialogTitle>
+        <DialogDescription>
+          Update equipment usage information
+        </DialogDescription>
+      </DialogHeader>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <Label htmlFor="edit-usage-date">Usage Date *</Label>
+          <Input
+            id="edit-usage-date"
+            type="date"
+            value={formData.usage_date}
+            onChange={(e) => setFormData({ ...formData, usage_date: e.target.value })}
+            required
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="edit-hours-used">Hours Used *</Label>
+          <Input
+            id="edit-hours-used"
+            type="number"
+            step="0.1"
+            min="0"
+            max="24"
+            value={formData.hours_used}
+            onChange={(e) => setFormData({ ...formData, hours_used: parseFloat(e.target.value) })}
+            required
+          />
+          <p className="text-sm text-muted-foreground mt-1">
+            Enter hours between 0 and 24
+          </p>
+        </div>
+
+        <div>
+          <Label htmlFor="edit-operator-name">Operator Name</Label>
+          <Input
+            id="edit-operator-name"
+            value={formData.operator_name}
+            onChange={(e) => setFormData({ ...formData, operator_name: e.target.value })}
+            placeholder="Operator or worker name"
+          />
+        </div>
+
+        <div>
+          <Label htmlFor="edit-notes">Notes</Label>
+          <Textarea
+            id="edit-notes"
+            placeholder="Additional notes..."
+            value={formData.notes}
+            onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+            rows={3}
+          />
+        </div>
+
+        <DialogFooter>
+          <Button type="button" variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={updateMutation.isPending}>
+            {updateMutation.isPending ? "Updating..." : "Update Log"}
           </Button>
         </DialogFooter>
       </form>

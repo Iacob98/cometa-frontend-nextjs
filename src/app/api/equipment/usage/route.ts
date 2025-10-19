@@ -193,3 +193,98 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// PUT /api/equipment/usage - Update usage log
+export async function PUT(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const {
+      id,
+      usage_date,
+      hours_used,
+      operator_name,
+      notes,
+    } = body;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Usage log ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Update usage log
+    const { data: usageLog, error: dbError } = await supabase
+      .from('equipment_usage_logs')
+      .update({
+        usage_date: usage_date || undefined,
+        hours_used: hours_used !== undefined ? hours_used : undefined,
+        operator_name: operator_name || undefined,
+        notes: notes !== undefined ? notes : undefined,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (dbError) {
+      console.error('Error updating usage log:', dbError);
+      return NextResponse.json(
+        { error: 'Failed to update usage log' },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      usage_log: usageLog,
+      message: 'Usage log updated successfully',
+    });
+  } catch (error) {
+    console.error('Error updating equipment usage log:', error);
+    return NextResponse.json(
+      { error: 'Failed to update equipment usage log' },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE /api/equipment/usage - Delete usage log
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Usage log ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Delete usage log
+    const { error: dbError } = await supabase
+      .from('equipment_usage_logs')
+      .delete()
+      .eq('id', id);
+
+    if (dbError) {
+      console.error('Error deleting usage log:', dbError);
+      return NextResponse.json(
+        { error: 'Failed to delete usage log' },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Usage log deleted successfully',
+    });
+  } catch (error) {
+    console.error('Error deleting equipment usage log:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete equipment usage log' },
+      { status: 500 }
+    );
+  }
+}
