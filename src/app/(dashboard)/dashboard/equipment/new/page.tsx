@@ -1,135 +1,96 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { ArrowLeft, Save, Loader2, Calendar, DollarSign, Wrench, Truck } from "lucide-react"
-import { toast } from "sonner"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft, Save, Loader2, AlertCircle } from "lucide-react";
+import { toast } from "sonner";
+import { createEquipmentSchema, categoryConfig } from "@/lib/validations/equipment-categories";
+import type { CreateEquipmentInput } from "@/lib/validations/equipment-categories";
+import type { EquipmentCategory } from "@/types";
 
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Checkbox } from "@/components/ui/checkbox"
-
-// Validation schema using Zod with Context7 best practices
-// Updated to match existing API schema
-const equipmentFormSchema = z.object({
-  name: z.string().min(2, {
-    message: "Equipment name must be at least 2 characters.",
-  }).max(100, {
-    message: "Equipment name must not exceed 100 characters.",
-  }),
-  type: z.enum(['machine', 'tool', 'measuring_device']),
-  inventory_no: z.string().optional(),
-  owned: z.boolean().default(true),
-  status: z.enum(['available', 'in_use', 'maintenance', 'broken']).default('available'),
-  current_location: z.string().max(200, "Location must be less than 200 characters").optional(),
-  rental_cost_per_day: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
-  description: z.string().max(1000, "Description must be less than 1000 characters").optional(),
-  notes: z.string().max(1000, "Notes must be less than 1000 characters").optional(),
-})
-
-type EquipmentFormValues = z.infer<typeof equipmentFormSchema>
-
-// Equipment type options for select (matching existing API)
-const equipmentTypeOptions = [
-  { value: 'machine', label: 'Machine', icon: <Wrench className="h-4 w-4" /> },
-  { value: 'tool', label: 'Tool', icon: <Wrench className="h-4 w-4" /> },
-  { value: 'measuring_device', label: 'Measuring Device', icon: <Wrench className="h-4 w-4" /> },
-]
-
-const equipmentStatusOptions = [
-  { value: 'available', label: 'Available' },
-  { value: 'in_use', label: 'In Use' },
-  { value: 'maintenance', label: 'Under Maintenance' },
-  { value: 'broken', label: 'Broken/Out of Service' },
-]
-
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { CategorySpecificFields } from "@/components/equipment/category-specific-fields";
 
 export default function NewEquipmentPage() {
-  const router = useRouter()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<EquipmentCategory | undefined>(undefined);
 
-  // Initialize form with react-hook-form and zod resolver
-  const form = useForm<EquipmentFormValues>({
-    resolver: zodResolver(equipmentFormSchema),
+  const form = useForm<any>({
+    resolver: zodResolver(createEquipmentSchema),
     defaultValues: {
       name: "",
-      type: "tool",
+      category: undefined,
       inventory_no: "",
-      owned: true,
+      serial_number: "",
+      manufacturer: "",
+      model: "",
+      purchase_date: "",
+      purchase_price: undefined,
+      ownership: "owned",
+      location: "",
       status: "available",
-      current_location: "",
-      description: "",
       notes: "",
+      type_details: {},
     },
-  })
+  });
 
-  // Form submission handler
-  async function onSubmit(values: EquipmentFormValues) {
-    setIsSubmitting(true)
+  // Watch category changes
+  const watchedCategory = form.watch("category");
+
+  useEffect(() => {
+    if (watchedCategory !== selectedCategory) {
+      // Category changed - warn user if they have filled type_details
+      const typeDetails = form.getValues("type_details");
+      const hasTypeDetails = typeDetails && Object.keys(typeDetails).length > 0;
+
+      if (hasTypeDetails && selectedCategory) {
+        if (confirm("Changing category will clear category-specific fields. Continue?")) {
+          form.setValue("type_details", {});
+          setSelectedCategory(watchedCategory);
+        } else {
+          form.setValue("category", selectedCategory);
+        }
+      } else {
+        setSelectedCategory(watchedCategory);
+      }
+    }
+  }, [watchedCategory, selectedCategory, form]);
+
+  async function onSubmit(values: any) {
+    setIsSubmitting(true);
 
     try {
-      // Transform form values to API format (matching existing API)
-      const equipmentData = {
-        name: values.name,
-        type: values.type,
-        inventory_no: values.inventory_no || undefined,
-        owned: values.owned,
-        status: values.status,
-        current_location: values.current_location || undefined,
-        rental_cost_per_day: values.rental_cost_per_day,
-        description: values.description || undefined,
-        notes: values.notes || undefined,
-      }
-
-      // Submit to API
-      const response = await fetch('/api/equipment', {
-        method: 'POST',
+      const response = await fetch("/api/equipment", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(equipmentData),
-      })
+        body: JSON.stringify(values),
+      });
 
       if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'Failed to create equipment')
+        const error = await response.json();
+        throw new Error(error.error || "Failed to create equipment");
       }
 
-      const result = await response.json()
-
-      toast.success("Equipment created successfully!")
-
-      // Navigate back to equipment list
-      router.push('/dashboard/equipment')
-
+      const result = await response.json();
+      toast.success("Equipment created successfully!");
+      router.push("/dashboard/equipment");
     } catch (error) {
-      console.error('Equipment creation error:', error)
-      toast.error(error instanceof Error ? error.message : "Failed to create equipment")
+      console.error("Equipment creation error:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to create equipment");
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   }
 
@@ -138,19 +99,14 @@ export default function NewEquipmentPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.back()}
-            className="flex items-center"
-          >
+          <Button variant="ghost" size="sm" onClick={() => router.back()} className="flex items-center">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>
           <div>
             <h1 className="text-2xl font-bold tracking-tight">Add New Equipment</h1>
             <p className="text-muted-foreground">
-              Create a new equipment or vehicle entry for your fleet management
+              Create a new equipment entry with category-specific specifications
             </p>
           </div>
         </div>
@@ -159,272 +115,277 @@ export default function NewEquipmentPage() {
       <Separator />
 
       {/* Form */}
-      <div className="max-w-4xl">
+      <div className="max-w-5xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <Tabs defaultValue="basic" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="basic">Basic Information</TabsTrigger>
-                <TabsTrigger value="financial">Financial Details</TabsTrigger>
-              </TabsList>
+            {/* Category Selection - FIRST */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Select Equipment Category</CardTitle>
+                <CardDescription>
+                  Choose the category that best describes this equipment. This determines which specific fields you'll need to fill.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <FormField
+                  control={form.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Category *</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select equipment category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {Object.entries(categoryConfig).map(([key, config]) => (
+                            <SelectItem key={key} value={key}>
+                              <div className="flex flex-col">
+                                <span className="font-medium">{config.label}</span>
+                                <span className="text-xs text-muted-foreground">{config.description}</span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>
+                        Select the type of equipment you're adding
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* Basic Information Tab */}
-              <TabsContent value="basic" className="space-y-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <Wrench className="h-5 w-5 mr-2" />
-                      Equipment Details
-                    </CardTitle>
-                    <CardDescription>
-                      Enter the basic information about the equipment
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* Equipment Name */}
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Equipment Name *</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g. Hydraulic Excavator CAT 320" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                              A descriptive name for the equipment
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                {selectedCategory && categoryConfig[selectedCategory]?.badge && (
+                  <Alert className="mt-4">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      <strong>{categoryConfig[selectedCategory].badge}</strong> - This equipment type requires additional compliance data.
+                    </AlertDescription>
+                  </Alert>
+                )}
+              </CardContent>
+            </Card>
 
-                      {/* Equipment Type */}
-                      <FormField
-                        control={form.control}
-                        name="type"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Equipment Type *</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select equipment type" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {equipmentTypeOptions.map((option) => (
-                                  <SelectItem key={option.value} value={option.value}>
-                                    <div className="flex items-center">
-                                      {option.icon}
-                                      <span className="ml-2">{option.label}</span>
-                                    </div>
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormDescription>
-                              Select the type of equipment
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+            {/* Base Equipment Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Basic Information</CardTitle>
+                <CardDescription>Common fields for all equipment types</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Name */}
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Equipment Name *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g., Hilti TE 60, Fujikura 70S" {...field} />
+                        </FormControl>
+                        <FormDescription>Human-readable name</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                      {/* Inventory Number */}
-                      <FormField
-                        control={form.control}
-                        name="inventory_no"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Inventory Number</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g. EQ-001, TOOL-123" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                              Unique identifier for tracking
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                  {/* Inventory Number */}
+                  <FormField
+                    control={form.control}
+                    name="inventory_no"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Inventory Number</FormLabel>
+                        <FormControl>
+                          <Input placeholder="EQ-001" {...field} />
+                        </FormControl>
+                        <FormDescription>Internal tracking number (must be unique)</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                      {/* Status */}
-                      <FormField
-                        control={form.control}
-                        name="status"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Status</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select status" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                {equipmentStatusOptions.map((option) => (
-                                  <SelectItem key={option.value} value={option.value}>
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                            <FormDescription>
-                              Current operational status
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                  {/* Manufacturer */}
+                  <FormField
+                    control={form.control}
+                    name="manufacturer"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Manufacturer</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Brand or company" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                      {/* Current Location */}
-                      <FormField
-                        control={form.control}
-                        name="current_location"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Current Location</FormLabel>
-                            <FormControl>
-                              <Input placeholder="e.g. Main Depot, Project Site A" {...field} />
-                            </FormControl>
-                            <FormDescription>
-                              Where the equipment is currently located
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                  {/* Model */}
+                  <FormField
+                    control={form.control}
+                    name="model"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Model</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Model name or code" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                      {/* Owned */}
-                      <FormField
-                        control={form.control}
-                        name="owned"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                              />
-                            </FormControl>
-                            <div className="space-y-1 leading-none">
-                              <FormLabel>
-                                Company Owned Equipment
-                              </FormLabel>
-                              <FormDescription>
-                                Check if this equipment is owned by the company (vs. rented)
-                              </FormDescription>
-                            </div>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                  {/* Serial Number */}
+                  <FormField
+                    control={form.control}
+                    name="serial_number"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Serial Number</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Manufacturer's serial" {...field} />
+                        </FormControl>
+                        <FormDescription>Optional for non-serial items</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                    {/* Description */}
-                    <FormField
-                      control={form.control}
-                      name="description"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Description</FormLabel>
+                  {/* Purchase Date */}
+                  <FormField
+                    control={form.control}
+                    name="purchase_date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Purchase Date</FormLabel>
+                        <FormControl>
+                          <Input type="date" {...field} />
+                        </FormControl>
+                        <FormDescription>Optional, for cost tracking</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Purchase Price */}
+                  <FormField
+                    control={form.control}
+                    name="purchase_price"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Purchase Price (€)</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            step="0.01"
+                            placeholder="0.00"
+                            {...field}
+                            onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
+                          />
+                        </FormControl>
+                        <FormDescription>Optional, stored in EUR</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Ownership */}
+                  <FormField
+                    control={form.control}
+                    name="ownership"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Ownership</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
-                            <Textarea
-                              placeholder="Equipment specifications, technical details, capabilities..."
-                              className="min-h-[100px]"
-                              {...field}
-                            />
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select ownership" />
+                            </SelectTrigger>
                           </FormControl>
-                          <FormDescription>
-                            Technical specifications and static details about the equipment
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                          <SelectContent>
+                            <SelectItem value="owned">Owned</SelectItem>
+                            <SelectItem value="rented">Rented</SelectItem>
+                            <SelectItem value="leased">Leased</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                    {/* Notes */}
-                    <FormField
-                      control={form.control}
-                      name="notes"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Notes</FormLabel>
+                  {/* Location */}
+                  <FormField
+                    control={form.control}
+                    name="location"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Location</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Warehouse, site, or vehicle" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Status */}
+                  <FormField
+                    control={form.control}
+                    name="status"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Status</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
-                            <Textarea
-                              placeholder="Operational notes, maintenance reminders, usage notes..."
-                              className="min-h-[100px]"
-                              {...field}
-                            />
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select status" />
+                            </SelectTrigger>
                           </FormControl>
-                          <FormDescription>
-                            Operational notes, maintenance schedules, or usage reminders
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                          <SelectContent>
+                            <SelectItem value="available">Available</SelectItem>
+                            <SelectItem value="in_use">In Use</SelectItem>
+                            <SelectItem value="maintenance">Maintenance</SelectItem>
+                            <SelectItem value="out_of_service">Out of Service</SelectItem>
+                            <SelectItem value="retired">Retired</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        <FormDescription>Default: available</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-                  </CardContent>
-                </Card>
-              </TabsContent>
+                {/* Notes */}
+                <FormField
+                  control={form.control}
+                  name="notes"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Notes</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Additional notes or comments" className="min-h-[100px]" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
 
-              {/* Financial Details Tab */}
-              <TabsContent value="financial" className="space-y-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <DollarSign className="h-5 w-5 mr-2" />
-                      Financial Information
-                    </CardTitle>
-                    <CardDescription>
-                      Set daily rental rate for the equipment
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* Daily Rental Cost */}
-                      <FormField
-                        control={form.control}
-                        name="rental_cost_per_day"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Daily Rental Cost (€)</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="number"
-                                step="0.01"
-                                placeholder="0.00"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormDescription>
-                              Cost per day when equipment is rented out
-                            </FormDescription>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-            </Tabs>
+            {/* Category-Specific Fields */}
+            <CategorySpecificFields category={selectedCategory} form={form} />
 
             {/* Form Actions */}
             <div className="flex items-center justify-end space-x-4 pt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.back()}
-                disabled={isSubmitting}
-              >
+              <Button type="button" variant="outline" onClick={() => router.back()} disabled={isSubmitting}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting || !selectedCategory}>
                 {isSubmitting ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -442,5 +403,5 @@ export default function NewEquipmentPage() {
         </Form>
       </div>
     </div>
-  )
+  );
 }
