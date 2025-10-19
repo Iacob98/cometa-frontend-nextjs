@@ -24,7 +24,9 @@ import {
   Package,
   PieChart as PieChartIcon,
   Loader2,
-  Car
+  Car,
+  Calendar,
+  FileText
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -39,6 +41,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEquipment, useEquipmentAssignments, useDeleteAssignment, useEquipmentAnalytics } from "@/hooks/use-equipment";
 import { useVehicleAssignments } from "@/hooks/use-vehicles";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
+import { ReservationsTab } from "@/components/equipment/reservations-tab";
+import { DocumentsTab } from "@/components/equipment/documents-tab";
+import { UsageTab } from "@/components/equipment/usage-tab";
+import { useOverdueMaintenanceCount } from "@/hooks/use-maintenance-schedules";
+import { useExpiringDocuments } from "@/hooks/use-equipment-documents";
 
 const statusColors = {
   available: "bg-green-100 text-green-800 border-green-200",
@@ -102,7 +109,7 @@ export default function EquipmentPage() {
   // Handle URL tab parameter
   useEffect(() => {
     const tabParam = searchParams.get('tab');
-    if (tabParam && ['fleet', 'assignments', 'usage'].includes(tabParam)) {
+    if (tabParam && ['fleet', 'assignments', 'usage', 'reservations', 'documents', 'usage-logs'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
   }, [searchParams]);
@@ -114,6 +121,11 @@ export default function EquipmentPage() {
   const { data: equipmentAssignments } = useEquipmentAssignments({ active_only: true });
   const { data: analytics, isLoading: analyticsLoading } = useEquipmentAnalytics();
   const deleteAssignmentMutation = useDeleteAssignment();
+
+  // Equipment enhancement hooks
+  const overdueMaintenanceCount = useOverdueMaintenanceCount();
+  const { data: expiringDocsData } = useExpiringDocuments(30);
+  const expiringDocsCount = expiringDocsData?.total || 0;
 
   const equipment = equipmentData?.items || [];
 
@@ -348,10 +360,10 @@ export default function EquipmentPage() {
 
       {/* Main Content */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
-        <TabsList>
+        <TabsList className="grid grid-cols-6 w-full">
           <TabsTrigger value="fleet" className="flex items-center space-x-2">
             <Wrench className="h-4 w-4" />
-            <span>Equipment Fleet</span>
+            <span>Fleet</span>
           </TabsTrigger>
           <TabsTrigger value="assignments" className="flex items-center space-x-2">
             <Truck className="h-4 w-4" />
@@ -359,7 +371,24 @@ export default function EquipmentPage() {
           </TabsTrigger>
           <TabsTrigger value="usage" className="flex items-center space-x-2">
             <Activity className="h-4 w-4" />
-            <span>Usage & Analytics</span>
+            <span>Analytics</span>
+          </TabsTrigger>
+          <TabsTrigger value="reservations" className="flex items-center space-x-2">
+            <Calendar className="h-4 w-4" />
+            <span>Reservations</span>
+          </TabsTrigger>
+          <TabsTrigger value="documents" className="flex items-center space-x-2 relative">
+            <FileText className="h-4 w-4" />
+            <span>Documents</span>
+            {expiringDocsCount > 0 && (
+              <Badge className="ml-1 bg-orange-500 text-white px-1.5 py-0.5 text-xs">
+                {expiringDocsCount}
+              </Badge>
+            )}
+          </TabsTrigger>
+          <TabsTrigger value="usage-logs" className="flex items-center space-x-2">
+            <Clock className="h-4 w-4" />
+            <span>Usage Logs</span>
           </TabsTrigger>
         </TabsList>
 
@@ -837,6 +866,18 @@ export default function EquipmentPage() {
               <PerformanceChart />
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="reservations" className="space-y-4">
+          <ReservationsTab />
+        </TabsContent>
+
+        <TabsContent value="documents" className="space-y-4">
+          <DocumentsTab />
+        </TabsContent>
+
+        <TabsContent value="usage-logs" className="space-y-4">
+          <UsageTab />
         </TabsContent>
       </Tabs>
     </div>
