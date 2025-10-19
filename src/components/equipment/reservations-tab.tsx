@@ -368,14 +368,14 @@ function CreateReservationDialog({ equipment, projects, onClose }: CreateReserva
         <div>
           <Label htmlFor="project">Project</Label>
           <Select
-            value={formData.project_id || ""}
-            onValueChange={(value) => setFormData({ ...formData, project_id: value || undefined })}
+            value={formData.project_id || "none"}
+            onValueChange={(value) => setFormData({ ...formData, project_id: value === "none" ? undefined : value })}
           >
             <SelectTrigger id="project">
               <SelectValue placeholder="Select project (optional)" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">No project</SelectItem>
+              <SelectItem value="none">No project</SelectItem>
               {projects.map((project) => (
                 <SelectItem key={project.id} value={project.id}>
                   {project.name}
