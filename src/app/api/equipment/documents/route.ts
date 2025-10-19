@@ -16,7 +16,9 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-const BUCKET_NAME = 'equipment-documents';
+// Use project-documents bucket with equipment/ prefix for organization
+const BUCKET_NAME = process.env.SUPABASE_PROJECT_DOCUMENTS_BUCKET || 'project-documents';
+const EQUIPMENT_DOCS_PREFIX = 'equipment/';
 
 // GET /api/equipment/documents - List documents
 export async function GET(request: NextRequest) {
@@ -169,7 +171,7 @@ export async function POST(request: NextRequest) {
     // Upload file to Supabase Storage
     const timestamp = Date.now();
     const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-    const filePath = `${equipment_id}/${timestamp}_${sanitizedFileName}`;
+    const filePath = `${EQUIPMENT_DOCS_PREFIX}${equipment_id}/${timestamp}_${sanitizedFileName}`;
 
     const fileBuffer = await file.arrayBuffer();
     const { data: uploadData, error: uploadError } = await supabase.storage
