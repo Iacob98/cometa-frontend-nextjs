@@ -4,7 +4,12 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { query } from '@/lib/db-pool';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 // DELETE /api/equipment/reservations/[id] - Cancel reservation
 export async function DELETE(
@@ -14,15 +19,14 @@ export async function DELETE(
   try {
     const { id } = params;
 
-    // Check if reservation exists and is active
-    const checkQuery = `
-      SELECT id, is_active
-      FROM equipment_reservations
-      WHERE id = $1
-    `;
-    const checkResult = await query(checkQuery, [id]);
+    // Check if reservation exists
+    const { data: existing, error: checkError } = await supabase
+      .from('equipment_reservations')
+      .select('id, is_active')
+      .eq('id', id)
+      .single();
 
-    if (checkResult.rows.length === 0) {
+    if (checkError || !existing) {
       return NextResponse.json(
         { error: 'Reservation not found' },
         { status: 404 }
@@ -30,18 +34,25 @@ export async function DELETE(
     }
 
     // Soft delete (set is_active = false)
-    const deleteQuery = `
-      UPDATE equipment_reservations
-      SET is_active = false, updated_at = NOW()
-      WHERE id = $1
-      RETURNING id, is_active
-    `;
-    const deleteResult = await query(deleteQuery, [id]);
+    const { data: updated, error: updateError } = await supabase
+      .from('equipment_reservations')
+      .update({ is_active: false, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select('id, is_active')
+      .single();
+
+    if (updateError) {
+      console.error('Error cancelling reservation:', updateError);
+      return NextResponse.json(
+        { error: 'Failed to cancel equipment reservation' },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({
       success: true,
       message: 'Reservation cancelled successfully',
-      reservation_id: deleteResult.rows[0].id,
+      reservation_id: updated.id,
     });
   } catch (error) {
     console.error('Error deleting equipment reservation:', error);

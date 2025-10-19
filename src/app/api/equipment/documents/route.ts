@@ -1,15 +1,13 @@
 /**
  * Equipment Documents API
  * GET: List documents with filters
- * POST: Upload new document
+ * POST: Upload new document to Supabase Storage
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { query } from '@/lib/db-pool';
 import { createClient } from '@supabase/supabase-js';
 import type {
   EquipmentDocument,
-  EquipmentDocumentFilters,
   PaginatedResponse,
 } from '@/types/equipment-enhanced';
 
@@ -28,118 +26,113 @@ export async function GET(request: NextRequest) {
     const document_type = searchParams.get('document_type');
     const expiring_within_days = searchParams.get('expiring_within_days');
     const expired_only = searchParams.get('expired_only') === 'true';
-    const active_only = searchParams.get('active_only') !== 'false'; // Default true
+    const active_only = searchParams.get('active_only') === 'true';
     const page = parseInt(searchParams.get('page') || '1');
     const per_page = parseInt(searchParams.get('per_page') || '20');
 
-    // Build WHERE conditions
-    const conditions: string[] = [];
-    const params: any[] = [];
-    let paramIndex = 1;
+    // Build query
+    let query = supabase
+      .from('equipment_documents')
+      .select(
+        `
+        id,
+        equipment_id,
+        document_type,
+        document_name,
+        file_path,
+        file_size,
+        mime_type,
+        issue_date,
+        expiry_date,
+        notes,
+        is_active,
+        created_at,
+        updated_at,
+        equipment:equipment_id (
+          id,
+          name,
+          type,
+          inventory_no
+        )
+      `,
+        { count: 'exact' }
+      )
+      .order('created_at', { ascending: false });
 
-    if (active_only) {
-      conditions.push(`ed.is_active = true`);
-    }
-
+    // Apply filters
     if (equipment_id) {
-      conditions.push(`ed.equipment_id = $${paramIndex++}`);
-      params.push(equipment_id);
+      query = query.eq('equipment_id', equipment_id);
     }
 
     if (document_type) {
-      conditions.push(`ed.document_type = $${paramIndex++}`);
-      params.push(document_type);
+      query = query.eq('document_type', document_type);
     }
 
-    if (expiring_within_days) {
-      const days = parseInt(expiring_within_days);
-      conditions.push(`ed.expiry_date IS NOT NULL`);
-      conditions.push(`ed.expiry_date > CURRENT_DATE`);
-      conditions.push(`ed.expiry_date <= CURRENT_DATE + INTERVAL '${days} days'`);
+    if (active_only) {
+      query = query.eq('is_active', true);
     }
 
+    // Expiry filters
     if (expired_only) {
-      conditions.push(`ed.expiry_date IS NOT NULL`);
-      conditions.push(`ed.expiry_date < CURRENT_DATE`);
+      query = query.lt('expiry_date', new Date().toISOString().split('T')[0]);
+    } else if (expiring_within_days) {
+      const futureDate = new Date();
+      futureDate.setDate(futureDate.getDate() + parseInt(expiring_within_days));
+      query = query
+        .lte('expiry_date', futureDate.toISOString().split('T')[0])
+        .gte('expiry_date', new Date().toISOString().split('T')[0]);
     }
 
-    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
-
-    // Count total
-    const countQuery = `
-      SELECT COUNT(*) as total
-      FROM equipment_documents ed
-      ${whereClause}
-    `;
-    const countResult = await query(countQuery, params);
-    const total = parseInt(countResult.rows[0]?.total || '0');
-
-    // Fetch paginated data with computed fields
+    // Pagination
     const offset = (page - 1) * per_page;
-    params.push(per_page, offset);
+    query = query.range(offset, offset + per_page - 1);
 
-    const dataQuery = `
-      SELECT
-        ed.id,
-        ed.equipment_id,
-        ed.document_type,
-        ed.document_name,
-        ed.file_path,
-        ed.file_size_bytes,
-        ed.mime_type,
-        ed.issue_date,
-        ed.expiry_date,
-        ed.notes,
-        ed.uploaded_by_user_id,
-        ed.is_active,
-        ed.created_at,
-        ed.updated_at,
-        -- Computed fields
-        CASE
-          WHEN ed.expiry_date IS NULL THEN NULL
-          ELSE (ed.expiry_date - CURRENT_DATE)::INTEGER
-        END as days_until_expiry,
-        CASE
-          WHEN ed.expiry_date IS NULL THEN false
-          WHEN ed.expiry_date < CURRENT_DATE THEN false
-          WHEN ed.expiry_date <= CURRENT_DATE + INTERVAL '60 days' THEN true
-          ELSE false
-        END as is_expiring_soon,
-        CASE
-          WHEN ed.expiry_date IS NULL THEN false
-          WHEN ed.expiry_date < CURRENT_DATE THEN true
-          ELSE false
-        END as is_expired,
-        -- Equipment details
-        json_build_object(
-          'id', e.id,
-          'name', e.name,
-          'type', e.type
-        ) as equipment,
-        -- Uploaded by user details
-        json_build_object(
-          'id', u.id,
-          'first_name', u.first_name,
-          'last_name', u.last_name
-        ) as uploaded_by
-      FROM equipment_documents ed
-      LEFT JOIN equipment e ON e.id = ed.equipment_id
-      LEFT JOIN users u ON u.id = ed.uploaded_by_user_id
-      ${whereClause}
-      ORDER BY
-        CASE WHEN ed.expiry_date IS NOT NULL THEN ed.expiry_date ELSE '9999-12-31'::DATE END ASC,
-        ed.created_at DESC
-      LIMIT $${paramIndex++} OFFSET $${paramIndex++}
-    `;
+    const { data, error, count } = await query;
 
-    const dataResult = await query(dataQuery, params);
+    if (error) {
+      console.error('Supabase error fetching documents:', error);
+      return NextResponse.json(
+        { error: 'Failed to fetch equipment documents' },
+        { status: 500 }
+      );
+    }
+
+    // Transform and add computed fields
+    const items = await Promise.all(
+      (data || []).map(async (item: any) => {
+        const daysUntilExpiry = item.expiry_date
+          ? Math.ceil(
+              (new Date(item.expiry_date).getTime() - new Date().getTime()) /
+                (1000 * 60 * 60 * 24)
+            )
+          : null;
+
+        // Generate signed URL for file access (valid for 1 hour)
+        let fileUrl = null;
+        if (item.file_path) {
+          const { data: urlData } = await supabase.storage
+            .from(BUCKET_NAME)
+            .createSignedUrl(item.file_path, 3600);
+          fileUrl = urlData?.signedUrl || null;
+        }
+
+        return {
+          ...item,
+          equipment_name: item.equipment?.name,
+          days_until_expiry: daysUntilExpiry,
+          is_expiring_soon: daysUntilExpiry !== null && daysUntilExpiry > 0 && daysUntilExpiry <= 60,
+          is_expired: daysUntilExpiry !== null && daysUntilExpiry < 0,
+          file_url: fileUrl,
+        };
+      })
+    );
 
     const response: PaginatedResponse<EquipmentDocument> = {
-      items: dataResult.rows,
-      total,
+      items,
+      total: count || 0,
       page,
       per_page,
-      total_pages: Math.ceil(total / per_page),
+      total_pages: Math.ceil((count || 0) / per_page),
     };
 
     return NextResponse.json(response);
@@ -152,11 +145,10 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/equipment/documents - Upload document
+// POST /api/equipment/documents - Upload new document
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
-
     const equipment_id = formData.get('equipment_id') as string;
     const document_type = formData.get('document_type') as string;
     const document_name = formData.get('document_name') as string;
@@ -164,7 +156,6 @@ export async function POST(request: NextRequest) {
     const issue_date = formData.get('issue_date') as string | null;
     const expiry_date = formData.get('expiry_date') as string | null;
     const notes = formData.get('notes') as string | null;
-    const uploaded_by_user_id = formData.get('uploaded_by_user_id') as string | null;
 
     // Validate required fields
     if (!equipment_id || !document_type || !document_name || !file) {
@@ -174,20 +165,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate file size (max 10MB)
-    if (file.size > 10 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: 'File size exceeds 10MB limit' },
-        { status: 400 }
-      );
-    }
-
-    // Generate unique file path
+    // Upload file to Supabase Storage
     const timestamp = Date.now();
     const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
     const filePath = `${equipment_id}/${timestamp}_${sanitizedFileName}`;
 
-    // Upload to Supabase Storage
     const fileBuffer = await file.arrayBuffer();
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from(BUCKET_NAME)
@@ -197,72 +179,45 @@ export async function POST(request: NextRequest) {
       });
 
     if (uploadError) {
-      console.error('Supabase upload error:', uploadError);
+      console.error('Error uploading file:', uploadError);
       return NextResponse.json(
         { error: 'Failed to upload file to storage' },
         { status: 500 }
       );
     }
 
-    // Insert document record
-    const insertQuery = `
-      INSERT INTO equipment_documents (
+    // Create database record
+    const { data: document, error: dbError } = await supabase
+      .from('equipment_documents')
+      .insert({
         equipment_id,
         document_type,
         document_name,
-        file_path,
-        file_size_bytes,
-        mime_type,
-        issue_date,
-        expiry_date,
-        notes,
-        uploaded_by_user_id,
-        is_active
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, true)
-      RETURNING
-        id,
-        equipment_id,
-        document_type,
-        document_name,
-        file_path,
-        file_size_bytes,
-        mime_type,
-        issue_date,
-        expiry_date,
-        notes,
-        uploaded_by_user_id,
-        is_active,
-        created_at,
-        updated_at
-    `;
+        file_path: uploadData.path,
+        file_size: file.size,
+        mime_type: file.type,
+        issue_date: issue_date || null,
+        expiry_date: expiry_date || null,
+        notes: notes || null,
+        is_active: true,
+      })
+      .select()
+      .single();
 
-    const insertResult = await query(insertQuery, [
-      equipment_id,
-      document_type,
-      document_name,
-      uploadData.path,
-      file.size,
-      file.type,
-      issue_date || null,
-      expiry_date || null,
-      notes || null,
-      uploaded_by_user_id || null,
-    ]);
-
-    const document = insertResult.rows[0];
-
-    // Generate signed URL for immediate access
-    const { data: urlData } = await supabase.storage
-      .from(BUCKET_NAME)
-      .createSignedUrl(uploadData.path, 3600); // 1 hour
+    if (dbError) {
+      console.error('Error creating document record:', dbError);
+      // Try to cleanup uploaded file
+      await supabase.storage.from(BUCKET_NAME).remove([uploadData.path]);
+      return NextResponse.json(
+        { error: 'Failed to create document record' },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       {
         success: true,
-        document: {
-          ...document,
-          signed_url: urlData?.signedUrl,
-        },
+        document,
         message: 'Document uploaded successfully',
       },
       { status: 201 }
