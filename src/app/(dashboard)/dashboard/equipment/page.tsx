@@ -44,6 +44,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { ReservationsTab } from "@/components/equipment/reservations-tab";
 import { DocumentsTab } from "@/components/equipment/documents-tab";
 import { UsageTab } from "@/components/equipment/usage-tab";
+import { TypedEquipmentTable } from "@/components/equipment/typed-equipment-table";
 import { useOverdueMaintenanceCount } from "@/hooks/use-maintenance-schedules";
 import { useExpiringDocuments } from "@/hooks/use-equipment-documents";
 
@@ -99,6 +100,7 @@ export default function EquipmentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("fleet");
+  const [viewMode, setViewMode] = useState<'standard' | 'typed'>('standard');
   const [filters, setFilters] = useState({
     type: "",
     status: "",
@@ -474,7 +476,51 @@ export default function EquipmentPage() {
             </CardContent>
           </Card>
 
-          {/* Equipment Table */}
+          {/* View Mode Toggle */}
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-sm font-medium">View Mode</h3>
+                  <p className="text-sm text-gray-500">Choose between standard or type-specific view</p>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant={viewMode === 'standard' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setViewMode('standard')}
+                  >
+                    Standard View
+                  </Button>
+                  <Button
+                    variant={viewMode === 'typed' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setViewMode('typed')}
+                  >
+                    Typed View (Power Tools, OTDR, etc.)
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Typed Equipment View */}
+          {viewMode === 'typed' && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Typed Equipment View</CardTitle>
+                <CardDescription>
+                  View equipment with type-specific technical columns
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <TypedEquipmentTable />
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Standard Equipment Table */}
+          {viewMode === 'standard' && (
           <Card>
             <CardHeader>
               <CardTitle>Equipment Fleet</CardTitle>
@@ -585,6 +631,7 @@ export default function EquipmentPage() {
               )}
             </CardContent>
           </Card>
+          )}
         </TabsContent>
 
         <TabsContent value="assignments" className="space-y-4">

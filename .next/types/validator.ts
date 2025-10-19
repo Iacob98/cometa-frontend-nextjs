@@ -623,6 +623,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../src/app/api/equipment/typed-views/[viewType]/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/equipment/typed-views/[viewType]">> = Specific
+  const handler = {} as typeof import("../../src/app/api/equipment/typed-views/[viewType]/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../src/app/api/equipment/usage/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/equipment/usage">> = Specific

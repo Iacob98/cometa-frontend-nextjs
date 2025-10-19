@@ -556,3 +556,87 @@ export interface EquipmentAvailabilityCheck {
     details: string;
   }>;
 }
+
+// ========================================
+// Typed Equipment Views
+// ========================================
+
+export type EquipmentViewType = 'all' | 'power_tools' | 'fusion_splicers' | 'otdrs' | 'safety_gear';
+
+// Base equipment fields (common to all types)
+export interface BaseEquipmentView {
+  id: UUID;
+  name: string;
+  type: string;
+  inventory_no?: string;
+  status: EquipmentStatus;
+  current_location?: string;
+  owned: boolean;
+  rental_cost_per_day?: number;
+}
+
+// Power Tools specific fields
+export interface PowerToolView extends BaseEquipmentView {
+  power_watts?: number;
+  voltage_volts?: number;
+  battery_type?: string;
+  battery_capacity_ah?: number;
+  ip_rating?: string;
+  blade_size_mm?: number;
+  rpm?: number;
+  serial_number?: string;
+  brand?: string;
+  model?: string;
+}
+
+// Fusion Splicer specific fields
+export interface FusionSplicerView extends BaseEquipmentView {
+  calibration_date?: string;
+  calibration_status?: string;
+  splice_loss_db?: number;
+  heating_time_seconds?: number;
+  electrode_replacement_date?: string;
+  cleaver_blade_replacement_date?: string;
+  serial_number?: string;
+  brand?: string;
+  model?: string;
+}
+
+// OTDR specific fields
+export interface OTDRView extends BaseEquipmentView {
+  wavelength_nm?: number;
+  dynamic_range_db?: number;
+  dead_zone_meters?: number;
+  fiber_type?: string;
+  calibration_date?: string;
+  calibration_status?: string;
+  serial_number?: string;
+  brand?: string;
+  model?: string;
+}
+
+// Safety Gear specific fields
+export interface SafetyGearView extends BaseEquipmentView {
+  size?: string;
+  certification?: string;
+  certification_expiry?: string;
+  last_inspection_date?: string;
+  next_inspection_date?: string;
+  defects_noted?: string;
+}
+
+export type TypedEquipmentView =
+  | PowerToolView
+  | FusionSplicerView
+  | OTDRView
+  | SafetyGearView;
+
+// Column configuration for typed views
+export interface EquipmentColumnConfig {
+  key: string;
+  label: string;
+  type: 'text' | 'number' | 'boolean' | 'date' | 'status';
+  width?: string;
+  sortable?: boolean;
+  filterable?: boolean;
+}
