@@ -34,9 +34,10 @@ export async function GET(request: NextRequest) {
         `
         id,
         equipment_id,
+        assignment_id,
+        work_entry_id,
         usage_date,
         hours_used,
-        operator_name,
         notes,
         logged_by_user_id,
         created_at,
@@ -158,9 +159,10 @@ export async function POST(request: NextRequest) {
       .from('equipment_usage_logs')
       .insert({
         equipment_id: body.equipment_id,
+        assignment_id: body.assignment_id || null,
+        work_entry_id: body.work_entry_id || null,
         usage_date: body.usage_date,
         hours_used: body.hours_used,
-        operator_name: body.operator_name || null,
         notes: body.notes || null,
         logged_by_user_id: body.logged_by_user_id || null,
       })
