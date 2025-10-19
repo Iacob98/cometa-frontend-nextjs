@@ -202,7 +202,6 @@ export async function PUT(request: NextRequest) {
       id,
       usage_date,
       hours_used,
-      operator_name,
       notes,
     } = body;
 
@@ -213,16 +212,15 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Update usage log
+    // Update usage log (only fields that exist in the table)
+    const updateData: any = {};
+    if (usage_date) updateData.usage_date = usage_date;
+    if (hours_used !== undefined) updateData.hours_used = hours_used;
+    if (notes !== undefined) updateData.notes = notes;
+
     const { data: usageLog, error: dbError } = await supabase
       .from('equipment_usage_logs')
-      .update({
-        usage_date: usage_date || undefined,
-        hours_used: hours_used !== undefined ? hours_used : undefined,
-        operator_name: operator_name || undefined,
-        notes: notes !== undefined ? notes : undefined,
-        updated_at: new Date().toISOString(),
-      })
+      .update(updateData)
       .eq('id', id)
       .select()
       .single();

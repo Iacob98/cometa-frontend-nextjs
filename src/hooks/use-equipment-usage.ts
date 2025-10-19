@@ -177,13 +177,11 @@ export function useUpdateEquipmentUsage() {
       id,
       usage_date,
       hours_used,
-      operator_name,
       notes,
     }: {
       id: string;
       usage_date?: string;
       hours_used?: number;
-      operator_name?: string;
       notes?: string;
     }) => {
       const response = await fetch(API_BASE, {
@@ -193,7 +191,6 @@ export function useUpdateEquipmentUsage() {
           id,
           usage_date,
           hours_used,
-          operator_name,
           notes,
         }),
       });

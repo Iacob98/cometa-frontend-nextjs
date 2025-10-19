@@ -568,7 +568,6 @@ function EditUsageDialog({ log, onClose }: EditUsageDialogProps) {
   const [formData, setFormData] = useState({
     usage_date: log.usage_date || "",
     hours_used: log.hours_used || 0,
-    operator_name: log.operator_name || "",
     notes: log.notes || "",
   });
 
@@ -586,7 +585,9 @@ function EditUsageDialog({ log, onClose }: EditUsageDialogProps) {
     try {
       await updateMutation.mutateAsync({
         id: log.id,
-        ...formData,
+        usage_date: formData.usage_date,
+        hours_used: formData.hours_used,
+        notes: formData.notes,
       });
       toast.success("Usage log updated successfully");
       onClose();
@@ -631,16 +632,6 @@ function EditUsageDialog({ log, onClose }: EditUsageDialogProps) {
           <p className="text-sm text-muted-foreground mt-1">
             Enter hours between 0 and 24
           </p>
-        </div>
-
-        <div>
-          <Label htmlFor="edit-operator-name">Operator Name</Label>
-          <Input
-            id="edit-operator-name"
-            value={formData.operator_name}
-            onChange={(e) => setFormData({ ...formData, operator_name: e.target.value })}
-            placeholder="Operator or worker name"
-          />
         </div>
 
         <div>
