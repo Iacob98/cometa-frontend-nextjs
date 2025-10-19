@@ -197,7 +197,7 @@ export async function POST(request: NextRequest) {
         document_type,
         document_name,
         file_path: uploadData.path,
-        file_size: file.size,
+        file_size_bytes: file.size,
         mime_type: file.type,
         issue_date: issue_date || null,
         expiry_date: expiry_date || null,
