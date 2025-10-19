@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
         document_type,
         document_name,
         file_path,
-        file_size,
+        file_size_bytes,
         mime_type,
         issue_date,
         expiry_date,
@@ -48,6 +48,7 @@ export async function GET(request: NextRequest) {
         is_active,
         created_at,
         updated_at,
+        uploaded_by_user_id,
         equipment:equipment_id (
           id,
           name,
