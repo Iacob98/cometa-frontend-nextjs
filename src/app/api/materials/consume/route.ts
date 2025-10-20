@@ -23,7 +23,7 @@ const supabase = createClient(
  * Process:
  * 1. Validate allocation exists and has enough remaining quantity
  * 2. Update allocation.quantity_used
- * 3. Update allocation.status (allocated ’ partially_used ’ fully_used)
+ * 3. Update allocation.status (allocated -> partially_used -> fully_used)
  * 4. Create material_transaction (type=issue)
  * 5. Update material.current_stock (decrement)
  * 6. Return updated allocation and transaction
