@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { X, Download, ZoomIn, ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface Photo {
   id: string;
@@ -150,6 +151,11 @@ export function PhotoGallery({ photos }: PhotoGalleryProps) {
       {/* Lightbox Dialog */}
       <Dialog open={selectedPhotoIndex !== null} onOpenChange={(open) => !open && handleClose()}>
         <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 bg-black/95">
+          <VisuallyHidden>
+            <DialogTitle>
+              Photo {selectedPhotoIndex !== null ? selectedPhotoIndex + 1 : ''} of {photos.length}
+            </DialogTitle>
+          </VisuallyHidden>
           {selectedPhoto && (
             <div className="relative w-full h-full flex flex-col">
               {/* Header */}
