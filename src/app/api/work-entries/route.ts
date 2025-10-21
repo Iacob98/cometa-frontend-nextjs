@@ -42,6 +42,9 @@ export async function GET(request: NextRequest) {
         approved,
         approved_by,
         approved_at,
+        rejected_by,
+        rejected_at,
+        rejection_reason,
         notes,
         created_at,
         updated_at
@@ -63,7 +66,12 @@ export async function GET(request: NextRequest) {
     }
 
     if (approved !== null && approved !== undefined) {
-      query = query.eq('approved', approved === 'true');
+      if (approved === 'false') {
+        // Pending approval: not approved AND not rejected
+        query = query.eq('approved', false).is('rejected_by', null);
+      } else {
+        query = query.eq('approved', approved === 'true');
+      }
     }
 
     if (stage_code) {

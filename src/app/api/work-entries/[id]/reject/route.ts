@@ -40,6 +40,7 @@ export async function POST(
         rejected_by: currentUserId,
         rejected_at: new Date().toISOString(),
         rejection_reason: rejection_reason,
+        was_rejected_before: true,
         updated_at: new Date().toISOString()
       })
       .eq('id', id)

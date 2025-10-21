@@ -1550,6 +1550,15 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   type __Unused = __Check
 }
 
+// Validate ../../src/app/api/work-entries/[id]/resubmit/route.ts
+{
+  type __IsExpected<Specific extends RouteHandlerConfig<"/api/work-entries/[id]/resubmit">> = Specific
+  const handler = {} as typeof import("../../src/app/api/work-entries/[id]/resubmit/route.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../src/app/api/work-entries/[id]/route.ts
 {
   type __IsExpected<Specific extends RouteHandlerConfig<"/api/work-entries/[id]">> = Specific

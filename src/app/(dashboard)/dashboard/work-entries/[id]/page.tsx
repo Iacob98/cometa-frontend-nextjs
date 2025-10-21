@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { use, useState } from "react";
-import { ArrowLeft, MapPin, Calendar, User, CheckCircle, Clock, Edit, Trash2, FileText, ThumbsUp, X } from "lucide-react";
+import { ArrowLeft, MapPin, Calendar, User, CheckCircle, Clock, Edit, Trash2, FileText, ThumbsUp, X, RefreshCw, AlertTriangle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-import { useWorkEntry, useDeleteWorkEntry, useApproveWorkEntry, useRejectWorkEntry } from "@/hooks/use-work-entries";
+import { useWorkEntry, useDeleteWorkEntry, useApproveWorkEntry, useRejectWorkEntry, useResubmitWorkEntry } from "@/hooks/use-work-entries";
 import { RejectWorkEntryDialog } from "@/components/work-entries/reject-work-entry-dialog";
 import { requireAuth } from "@/lib/auth";
 
@@ -27,6 +27,7 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
   const deleteWorkEntry = useDeleteWorkEntry();
   const approveWorkEntry = useApproveWorkEntry();
   const rejectWorkEntry = useRejectWorkEntry();
+  const resubmitWorkEntry = useResubmitWorkEntry();
   const [showRejectDialog, setShowRejectDialog] = useState(false);
 
   const handleDeleteWorkEntry = async () => {
@@ -45,6 +46,12 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
   const handleReject = async (rejection_reason: string) => {
     await rejectWorkEntry.mutateAsync({ id, rejection_reason });
     setShowRejectDialog(false);
+  };
+
+  const handleResubmit = async () => {
+    if (confirm("Resubmit this work entry for approval? The rejection will be cleared.")) {
+      await resubmitWorkEntry.mutateAsync(id);
+    }
   };
 
   const getStatusBadgeVariant = (status: string) => {
@@ -192,13 +199,35 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
             <span>Back</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Work Entry Details</h1>
+            <div className="flex items-center gap-2">
+              <h1 className="text-3xl font-bold tracking-tight">Work Entry Details</h1>
+              {workEntry.was_rejected_before && !workEntry.rejected_by && (
+                <Badge variant="outline" className="border-orange-500 text-orange-600">
+                  <AlertTriangle className="h-3 w-3 mr-1" />
+                  Resubmitted
+                </Badge>
+              )}
+            </div>
             <p className="text-muted-foreground">
               {workEntry.task} • {workEntry.project_name}
             </p>
           </div>
         </div>
         <div className="flex items-center space-x-2">
+          {/* Resubmit button - only show for rejected entries */}
+          {workEntry.rejected_by && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleResubmit}
+              disabled={resubmitWorkEntry.isPending}
+              className="border-orange-500 text-orange-600 hover:bg-orange-50"
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              {resubmitWorkEntry.isPending ? "Resubmitting..." : "Resubmit for Approval"}
+            </Button>
+          )}
+
           {/* Approval buttons - only show if not yet approved or rejected */}
           {!workEntry.approved && !workEntry.rejected_by && (
             <>

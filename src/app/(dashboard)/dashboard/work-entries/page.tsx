@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Search, Filter, MapPin, User, Eye, CheckCircle, Clock, Building2, Camera, Ruler } from "lucide-react";
+import { Plus, Search, Filter, MapPin, User, Eye, CheckCircle, Clock, Building2, Camera, Ruler, AlertTriangle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -246,9 +246,17 @@ export default function WorkEntriesPage() {
                         </TableCell>
                         <TableCell>
                           <div className="space-y-1">
-                            <Badge variant={getStageBadgeVariant(entry.stage_code)}>
-                              {getStageLabel(entry.stage_code)}
-                            </Badge>
+                            <div className="flex items-center gap-2">
+                              <Badge variant={getStageBadgeVariant(entry.stage_code as StageCode)}>
+                                {getStageLabel(entry.stage_code as StageCode)}
+                              </Badge>
+                              {entry.was_rejected_before && !entry.rejected_by && (
+                                <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">
+                                  <AlertTriangle className="h-2.5 w-2.5 mr-1" />
+                                  Resubmitted
+                                </Badge>
+                              )}
+                            </div>
                             <div className="text-sm text-muted-foreground flex items-center space-x-1">
                               <Ruler className="h-3 w-3" />
                               <span>{entry.meters_done_m}m</span>

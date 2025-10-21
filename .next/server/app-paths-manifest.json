@@ -10,6 +10,7 @@
   "/api/notifications/route": "app/api/notifications/route.js",
   "/api/work-entries/[id]/approve/route": "app/api/work-entries/[id]/approve/route.js",
   "/api/work-entries/[id]/reject/route": "app/api/work-entries/[id]/reject/route.js",
+  "/api/work-entries/[id]/resubmit/route": "app/api/work-entries/[id]/resubmit/route.js",
   "/api/work-entries/[id]/route": "app/api/work-entries/[id]/route.js",
   "/api/work-entries/route": "app/api/work-entries/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",

@@ -28,6 +28,7 @@ export interface WorkEntry {
   rejected_by?: string | null;
   rejected_at?: string | null;
   rejection_reason?: string | null;
+  was_rejected_before?: boolean;
   created_at?: string;
   updated_at?: string;
   // Display fields
@@ -283,6 +284,37 @@ export function useRejectWorkEntry() {
       queryClient.invalidateQueries({ queryKey: workEntryKeys.lists() });
       queryClient.invalidateQueries({ queryKey: workEntryKeys.details() });
       toast.success('Work entry rejected successfully');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+}
+
+// Resubmit rejected work entry (worker fixes and resubmits)
+export function useResubmitWorkEntry() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await fetch(`/api/work-entries/${id}/resubmit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to resubmit work entry');
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: workEntryKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: workEntryKeys.details() });
+      toast.success('Work entry resubmitted for approval');
     },
     onError: (error: Error) => {
       toast.error(error.message);
