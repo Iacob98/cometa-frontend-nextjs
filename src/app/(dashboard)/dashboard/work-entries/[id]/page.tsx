@@ -211,7 +211,7 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
               )}
             </div>
             <p className="text-muted-foreground">
-              {workEntry.task} • {workEntry.project_name}
+              {workEntry.project?.name || 'No project'} • {workEntry.project?.city || ''}
             </p>
           </div>
         </div>
@@ -310,14 +310,14 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
                 </Badge>
               </div>
               <CardDescription>
-                {workEntry.description}
+                {workEntry.notes || 'No description'}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Stage</label>
-                  <p className="font-medium">{workEntry.task}</p>
+                  <p className="font-medium">{workEntry.stage_code || '—'}</p>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Method</label>
@@ -325,7 +325,7 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Meters Completed</label>
-                  <p className="font-medium">{workEntry.meters_done}m</p>
+                  <p className="font-medium">{workEntry.meters_done_m || 0}m</p>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Date</label>
@@ -421,24 +421,12 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
             <CardContent className="space-y-4">
               <div>
                 <label className="text-sm font-medium text-muted-foreground">Name</label>
-                <p className="font-medium">{workEntry.project_name}</p>
+                <p className="font-medium">{workEntry.project?.name || 'No project'}</p>
               </div>
-              {workEntry.project_customer && (
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Customer</label>
-                  <p className="font-medium">{workEntry.project_customer}</p>
-                </div>
-              )}
-              {workEntry.project_city && (
+              {workEntry.project?.city && (
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Location</label>
-                  <p className="font-medium">{workEntry.project_city}</p>
-                </div>
-              )}
-              {workEntry.project_address && (
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Address</label>
-                  <p className="text-sm text-muted-foreground">{workEntry.project_address}</p>
+                  <p className="font-medium">{workEntry.project.city}</p>
                 </div>
               )}
             </CardContent>
@@ -455,12 +443,20 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
             <CardContent className="space-y-4">
               <div>
                 <label className="text-sm font-medium text-muted-foreground">Name</label>
-                <p className="font-medium">{workEntry.worker_name}</p>
+                <p className="font-medium">
+                  {workEntry.user ? `${workEntry.user.first_name} ${workEntry.user.last_name}` : 'Unknown worker'}
+                </p>
               </div>
-              {workEntry.worker_email && (
+              {workEntry.user?.email && (
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Email</label>
-                  <p className="text-sm text-muted-foreground">{workEntry.worker_email}</p>
+                  <p className="text-sm text-muted-foreground">{workEntry.user.email}</p>
+                </div>
+              )}
+              {workEntry.crew?.name && (
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Crew</label>
+                  <p className="font-medium">{workEntry.crew.name}</p>
                 </div>
               )}
             </CardContent>
