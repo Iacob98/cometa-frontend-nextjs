@@ -27,19 +27,22 @@ export async function GET(
         project_id,
         user_id,
         crew_id,
-        work_type,
-        description,
-        start_time,
-        end_time,
-        duration_hours,
-        latitude,
-        longitude,
-        location_accuracy,
-        status,
+        cabinet_id,
+        segment_id,
+        cut_id,
+        house_id,
+        date,
+        stage_code,
+        meters_done_m,
+        method,
+        width_m,
+        depth_m,
+        cables_count,
+        has_protection_pipe,
+        soil_type,
         approved,
         approved_by,
         approved_at,
-        photos,
         notes,
         created_at,
         updated_at,
@@ -90,41 +93,31 @@ export async function PUT(
     }
 
     const {
-      work_type,
-      description,
-      start_time,
-      end_time,
-      duration_hours,
-      latitude,
-      longitude,
-      location_accuracy,
-      photos,
-      notes,
-      status
+      date,
+      stage_code,
+      meters_done_m,
+      method,
+      width_m,
+      depth_m,
+      cables_count,
+      has_protection_pipe,
+      soil_type,
+      notes
     } = body;
-
-    // Calculate duration if not provided and end_time exists
-    let calculatedDuration = duration_hours;
-    if (!calculatedDuration && start_time && end_time) {
-      const startDate = new Date(start_time);
-      const endDate = new Date(end_time);
-      calculatedDuration = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60); // hours
-    }
 
     const { data: workEntry, error } = await supabase
       .from('work_entries')
       .update({
-        work_type,
-        description,
-        start_time,
-        end_time,
-        duration_hours: calculatedDuration,
-        latitude,
-        longitude,
-        location_accuracy,
-        photos,
+        date,
+        stage_code,
+        meters_done_m,
+        method,
+        width_m,
+        depth_m,
+        cables_count,
+        has_protection_pipe,
+        soil_type,
         notes,
-        status,
         updated_at: new Date().toISOString()
       })
       .eq('id', id)
@@ -133,19 +126,22 @@ export async function PUT(
         project_id,
         user_id,
         crew_id,
-        work_type,
-        description,
-        start_time,
-        end_time,
-        duration_hours,
-        latitude,
-        longitude,
-        location_accuracy,
-        status,
+        cabinet_id,
+        segment_id,
+        cut_id,
+        house_id,
+        date,
+        stage_code,
+        meters_done_m,
+        method,
+        width_m,
+        depth_m,
+        cables_count,
+        has_protection_pipe,
+        soil_type,
         approved,
         approved_by,
         approved_at,
-        photos,
         notes,
         created_at,
         updated_at
