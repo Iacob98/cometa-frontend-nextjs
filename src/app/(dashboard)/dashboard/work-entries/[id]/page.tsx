@@ -12,6 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 
 import { useWorkEntry, useDeleteWorkEntry, useApproveWorkEntry, useRejectWorkEntry, useResubmitWorkEntry } from "@/hooks/use-work-entries";
 import { RejectWorkEntryDialog } from "@/components/work-entries/reject-work-entry-dialog";
+import { UploadPhotos } from "@/components/work-entries/upload-photos";
 import { requireAuth } from "@/lib/auth";
 
 interface WorkEntryDetailsPageProps {
@@ -54,7 +55,7 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
     }
   };
 
-  const getStatusBadgeVariant = (status: string) => {
+  const getStatusBadgeVariant = (status: string | undefined) => {
     switch (status) {
       case "completed":
         return "default";
@@ -67,7 +68,7 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
     }
   };
 
-  const getStatusLabel = (status: string) => {
+  const getStatusLabel = (status: string | undefined) => {
     switch (status) {
       case "completed":
         return "Completed";
@@ -76,11 +77,11 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
       case "in_progress":
         return "In Progress";
       default:
-        return status;
+        return status || "Unknown";
     }
   };
 
-  const getMethodLabel = (method: string | null) => {
+  const getMethodLabel = (method: string | null | undefined) => {
     switch (method) {
       case "hand":
         return "Manual";
@@ -400,12 +401,16 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
             <CardContent>
               {workEntry.photos && workEntry.photos.length > 0 ? (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {workEntry.photos.map((photo, index) => (
-                    <div key={index} className="aspect-square bg-muted rounded-lg">
+                  {workEntry.photos.map((photo: any, index: number) => (
+                    <div key={photo.id || index} className="aspect-square bg-muted rounded-lg overflow-hidden">
                       <img
-                        src={photo}
-                        alt={`Work photo ${index + 1}`}
-                        className="w-full h-full object-cover rounded-lg"
+                        src={photo.url}
+                        alt={photo.filename || `Work photo ${index + 1}`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          console.error('Failed to load photo:', photo);
+                          e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999"%3ENo Image%3C/text%3E%3C/svg%3E';
+                        }}
                       />
                     </div>
                   ))}
@@ -417,6 +422,9 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
               )}
             </CardContent>
           </Card>
+
+          {/* Upload Photos Section */}
+          <UploadPhotos workEntryId={id} />
         </div>
 
         {/* Sidebar */}
@@ -526,13 +534,13 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
               <div>
                 <label className="text-sm font-medium text-muted-foreground">Created</label>
                 <p className="text-sm text-muted-foreground">
-                  {new Date(workEntry.created_at).toLocaleString()}
+                  {workEntry.created_at ? new Date(workEntry.created_at).toLocaleString() : "—"}
                 </p>
               </div>
               <div>
                 <label className="text-sm font-medium text-muted-foreground">Last Updated</label>
                 <p className="text-sm text-muted-foreground">
-                  {new Date(workEntry.updated_at).toLocaleString()}
+                  {workEntry.updated_at ? new Date(workEntry.updated_at).toLocaleString() : "—"}
                 </p>
               </div>
             </CardContent>

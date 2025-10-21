@@ -71,7 +71,34 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(workEntry);
+    // Fetch photos for this work entry
+    const { data: photos, error: photosError } = await supabase
+      .from('photos')
+      .select('id, filename, file_path, photo_type, is_before_photo, is_after_photo, created_at')
+      .eq('work_entry_id', id)
+      .order('created_at', { ascending: true });
+
+    if (photosError) {
+      console.error('Error fetching photos:', photosError);
+    }
+
+    // Get public URLs for photos with valid file_path
+    const photoUrls = photos
+      ?.filter(photo => photo.file_path)
+      .map(photo => {
+        const { data } = supabase.storage
+          .from('work-photos')
+          .getPublicUrl(photo.file_path);
+        return {
+          ...photo,
+          url: data.publicUrl
+        };
+      }) || [];
+
+    return NextResponse.json({
+      ...workEntry,
+      photos: photoUrls
+    });
   } catch (error) {
     console.error('Work entry GET API error:', error);
     return NextResponse.json(

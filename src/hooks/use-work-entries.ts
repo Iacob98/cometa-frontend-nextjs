@@ -53,7 +53,16 @@ export interface WorkEntry {
   description?: string;
   status?: string;
   meters_done?: number;
-  photos?: string[];
+  photos?: Array<{
+    id: string;
+    filename: string;
+    file_path: string;
+    photo_type?: string;
+    is_before_photo?: boolean;
+    is_after_photo?: boolean;
+    url: string;
+    created_at?: string;
+  }>;
   project_name?: string | null;
   project_customer?: string | null;
   project_city?: string | null;

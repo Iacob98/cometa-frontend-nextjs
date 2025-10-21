@@ -8,6 +8,7 @@
   "/api/auth/login/route": "app/api/auth/login/route.js",
   "/api/dashboard/stats/route": "app/api/dashboard/stats/route.js",
   "/api/notifications/route": "app/api/notifications/route.js",
+  "/api/storage/buckets/route": "app/api/storage/buckets/route.js",
   "/api/work-entries/[id]/approve/route": "app/api/work-entries/[id]/approve/route.js",
   "/api/work-entries/[id]/reject/route": "app/api/work-entries/[id]/reject/route.js",
   "/api/work-entries/[id]/resubmit/route": "app/api/work-entries/[id]/resubmit/route.js",
