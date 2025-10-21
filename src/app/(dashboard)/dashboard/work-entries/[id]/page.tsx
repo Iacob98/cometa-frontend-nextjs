@@ -13,6 +13,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useWorkEntry, useDeleteWorkEntry, useApproveWorkEntry, useRejectWorkEntry, useResubmitWorkEntry } from "@/hooks/use-work-entries";
 import { RejectWorkEntryDialog } from "@/components/work-entries/reject-work-entry-dialog";
 import { UploadPhotos } from "@/components/work-entries/upload-photos";
+import { PhotoGallery } from "@/components/work-entries/photo-gallery";
 import { requireAuth } from "@/lib/auth";
 
 interface WorkEntryDetailsPageProps {
@@ -399,27 +400,7 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {workEntry.photos && workEntry.photos.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {workEntry.photos.map((photo: any, index: number) => (
-                    <div key={photo.id || index} className="aspect-square bg-muted rounded-lg overflow-hidden">
-                      <img
-                        src={photo.url}
-                        alt={photo.filename || `Work photo ${index + 1}`}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          console.error('Failed to load photo:', photo);
-                          e.currentTarget.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100"%3E%3Crect fill="%23ddd" width="100" height="100"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999"%3ENo Image%3C/text%3E%3C/svg%3E';
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  No photos uploaded for this work entry.
-                </div>
-              )}
+              <PhotoGallery photos={workEntry.photos || []} />
             </CardContent>
           </Card>
 
