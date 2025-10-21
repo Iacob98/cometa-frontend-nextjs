@@ -22,12 +22,30 @@ export interface WorkEntry {
   has_protection_pipe: boolean;
   soil_type?: string | null;
   notes?: string | null;
+  approved?: boolean;
   approved_by?: string | null;
   approved_at?: string | null;
+  rejected_by?: string | null;
+  rejected_at?: string | null;
+  rejection_reason?: string | null;
+  created_at?: string;
+  updated_at?: string;
+  // Display fields
+  task?: string;
+  description?: string;
+  status?: string;
+  meters_done?: number;
+  photos?: string[];
   project_name?: string | null;
+  project_customer?: string | null;
+  project_city?: string | null;
+  project_address?: string | null;
   crew_name?: string | null;
   worker_name?: string | null;
+  worker_email?: string | null;
   approver_name?: string | null;
+  approved_by_name?: string | null;
+  rejector_name?: string | null;
   cabinet_name?: string | null;
   segment_name?: string | null;
   cut_name?: string | null;
@@ -231,7 +249,40 @@ export function useApproveWorkEntry() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: workEntryKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: workEntryKeys.details() });
       toast.success('Work entry approved successfully');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
+    },
+  });
+}
+
+// Reject work entry
+export function useRejectWorkEntry() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, rejection_reason, userId }: { id: string; rejection_reason: string; userId?: string }) => {
+      const response = await fetch(`/api/work-entries/${id}/reject`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ rejection_reason, userId }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to reject work entry');
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: workEntryKeys.lists() });
+      queryClient.invalidateQueries({ queryKey: workEntryKeys.details() });
+      toast.success('Work entry rejected successfully');
     },
     onError: (error: Error) => {
       toast.error(error.message);

@@ -12,6 +12,8 @@ export async function POST(
 ) {
   try {
     const { id } = await params;
+    const body = await request.json();
+    const { rejection_reason, userId } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -20,16 +22,24 @@ export async function POST(
       );
     }
 
+    if (!rejection_reason || rejection_reason.trim() === '') {
+      return NextResponse.json(
+        { error: 'Rejection reason is required' },
+        { status: 400 }
+      );
+    }
+
     // TODO: Get current user ID from authentication
-    // For now, using NULL for approved_by
-    const currentUserId = null; // This should come from auth session
+    // For now, using NULL for rejected_by
+    const currentUserId = userId || null; // This should come from auth session
 
     const { data: workEntry, error } = await supabase
       .from('work_entries')
       .update({
-        approved: true,
-        approved_by: currentUserId,
-        approved_at: new Date().toISOString(),
+        approved: false,
+        rejected_by: currentUserId,
+        rejected_at: new Date().toISOString(),
+        rejection_reason: rejection_reason,
         updated_at: new Date().toISOString()
       })
       .eq('id', id)
@@ -54,6 +64,9 @@ export async function POST(
         approved,
         approved_by,
         approved_at,
+        rejected_by,
+        rejected_at,
+        rejection_reason,
         notes,
         created_at,
         updated_at,
@@ -64,7 +77,7 @@ export async function POST(
       .single();
 
     if (error) {
-      console.error('Supabase work entry approve error:', error);
+      console.error('Supabase work entry reject error:', error);
       if (error.code === 'PGRST116') {
         return NextResponse.json(
           { error: 'Work entry not found' },
@@ -72,19 +85,19 @@ export async function POST(
         );
       }
       return NextResponse.json(
-        { error: 'Failed to approve work entry in database' },
+        { error: 'Failed to reject work entry in database' },
         { status: 500 }
       );
     }
 
     return NextResponse.json({
-      message: 'Work entry approved successfully',
+      message: 'Work entry rejected successfully',
       workEntry
     });
   } catch (error) {
-    console.error('Work entry approve API error:', error);
+    console.error('Work entry reject API error:', error);
     return NextResponse.json(
-      { error: 'Failed to approve work entry' },
+      { error: 'Failed to reject work entry' },
       { status: 500 }
     );
   }

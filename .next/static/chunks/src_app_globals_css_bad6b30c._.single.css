@@ -856,6 +856,10 @@ img, video {
   min-height: 100vh;
 }
 
+.min-h-\[120px\] {
+  min-height: 120px;
+}
+
 .w-0\.5 {
   width: .125rem;
 }
@@ -3302,6 +3306,10 @@ body {
 
   .sm\:max-w-md {
     max-width: 28rem;
+  }
+
+  .sm\:max-w-\[525px\] {
+    max-width: 525px;
   }
 
   .sm\:flex-initial {

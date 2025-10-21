@@ -1,15 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { use } from "react";
-import { ArrowLeft, MapPin, Calendar, User, CheckCircle, Clock, Edit, Trash2, FileText } from "lucide-react";
+import { use, useState } from "react";
+import { ArrowLeft, MapPin, Calendar, User, CheckCircle, Clock, Edit, Trash2, FileText, ThumbsUp, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
-import { useWorkEntry, useDeleteWorkEntry } from "@/hooks/use-work-entries";
+import { useWorkEntry, useDeleteWorkEntry, useApproveWorkEntry, useRejectWorkEntry } from "@/hooks/use-work-entries";
+import { RejectWorkEntryDialog } from "@/components/work-entries/reject-work-entry-dialog";
 import { requireAuth } from "@/lib/auth";
 
 interface WorkEntryDetailsPageProps {
@@ -23,12 +25,26 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
   const { id } = use(params);
   const { data: workEntry, isLoading, error } = useWorkEntry(id);
   const deleteWorkEntry = useDeleteWorkEntry();
+  const approveWorkEntry = useApproveWorkEntry();
+  const rejectWorkEntry = useRejectWorkEntry();
+  const [showRejectDialog, setShowRejectDialog] = useState(false);
 
   const handleDeleteWorkEntry = async () => {
     if (confirm("Are you sure you want to delete this work entry? This action cannot be undone.")) {
       await deleteWorkEntry.mutateAsync(id);
       router.push("/dashboard/work-entries");
     }
+  };
+
+  const handleApprove = async () => {
+    if (confirm("Are you sure you want to approve this work entry?")) {
+      await approveWorkEntry.mutateAsync(id);
+    }
+  };
+
+  const handleReject = async (rejection_reason: string) => {
+    await rejectWorkEntry.mutateAsync({ id, rejection_reason });
+    setShowRejectDialog(false);
   };
 
   const getStatusBadgeVariant = (status: string) => {
@@ -183,6 +199,29 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
           </div>
         </div>
         <div className="flex items-center space-x-2">
+          {/* Approval buttons - only show if not yet approved or rejected */}
+          {!workEntry.approved && !workEntry.rejected_by && (
+            <>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={handleApprove}
+                disabled={approveWorkEntry.isPending}
+              >
+                <ThumbsUp className="h-4 w-4 mr-2" />
+                {approveWorkEntry.isPending ? "Approving..." : "Approve"}
+              </Button>
+              <Button
+                variant="destructive"
+                size="sm"
+                onClick={() => setShowRejectDialog(true)}
+                disabled={rejectWorkEntry.isPending}
+              >
+                <X className="h-4 w-4 mr-2" />
+                Reject
+              </Button>
+            </>
+          )}
           <Button variant="outline" size="sm">
             <Edit className="h-4 w-4 mr-2" />
             Edit
@@ -197,6 +236,32 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
           </Button>
         </div>
       </div>
+
+      {/* Show rejection info if work entry was rejected */}
+      {workEntry.rejected_by && workEntry.rejection_reason && (
+        <Alert variant="destructive">
+          <X className="h-4 w-4" />
+          <AlertDescription>
+            <div className="space-y-2">
+              <p className="font-semibold">This work entry was rejected</p>
+              <p className="text-sm">{workEntry.rejection_reason}</p>
+              {workEntry.rejected_at && (
+                <p className="text-xs text-muted-foreground">
+                  Rejected on {new Date(workEntry.rejected_at).toLocaleString()}
+                </p>
+              )}
+            </div>
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Reject Dialog */}
+      <RejectWorkEntryDialog
+        open={showRejectDialog}
+        onOpenChange={setShowRejectDialog}
+        onReject={handleReject}
+        isLoading={rejectWorkEntry.isPending}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Content */}
