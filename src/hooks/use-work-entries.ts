@@ -31,7 +31,24 @@ export interface WorkEntry {
   was_rejected_before?: boolean;
   created_at?: string;
   updated_at?: string;
-  // Display fields
+  // Nested objects from API
+  project?: {
+    id: string;
+    name: string;
+    city?: string | null;
+    customer?: string | null;
+  } | null;
+  user?: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+  } | null;
+  crew?: {
+    id: string;
+    name: string;
+  } | null;
+  // Display fields (legacy)
   task?: string;
   description?: string;
   status?: string;

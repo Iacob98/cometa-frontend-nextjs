@@ -1653,6 +1653,11 @@ img, video {
   border-color: rgba(254, 240, 138, var(--tw-border-opacity, 1));
 }
 
+.border-orange-500 {
+  --tw-border-opacity: 1;
+  border-color: rgba(249, 115, 22, var(--tw-border-opacity, 1));
+}
+
 .border-l-blue-500 {
   --tw-border-opacity: 1;
   border-left-color: rgba(59, 130, 246, var(--tw-border-opacity, 1));
@@ -2997,6 +3002,11 @@ body {
 .hover\:bg-yellow-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgba(161, 98, 7, var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-orange-50:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(255, 247, 237, var(--tw-bg-opacity, 1));
 }
 
 .hover\:text-accent-foreground:hover {

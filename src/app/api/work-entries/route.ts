@@ -45,9 +45,13 @@ export async function GET(request: NextRequest) {
         rejected_by,
         rejected_at,
         rejection_reason,
+        was_rejected_before,
         notes,
         created_at,
-        updated_at
+        updated_at,
+        project:projects(id, name, city, customer),
+        user:users!work_entries_user_id_fkey(id, first_name, last_name, email),
+        crew:crews(id, name)
       `, { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(offset, offset + per_page - 1);

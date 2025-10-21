@@ -27,8 +27,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { useWorkEntries, usePendingApprovals, useApproveWorkEntry } from "@/hooks/use-work-entries";
-import { useAuth, usePermissions } from "@/hooks/use-auth";
-import type { StageCode, WorkEntryFilters } from "@/types";
+import { usePermissions } from "@/hooks/use-auth";
+import type { StageCode } from "@/types";
 
 export default function WorkEntriesPage() {
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function WorkEntriesPage() {
   const [stageFilter, setStageFilter] = useState<StageCode | "all">("all");
   const [approvalFilter, setApprovalFilter] = useState<"all" | "approved" | "pending">("all");
 
-  const filters: WorkEntryFilters = {
+  const filters = {
     stage_code: stageFilter === "all" ? undefined : stageFilter,
     approved: approvalFilter === "all" ? undefined : (approvalFilter === "approved" ? "true" : "false"),
     page: 1,
@@ -240,7 +240,11 @@ export default function WorkEntriesPage() {
                             </div>
                             <div className="text-sm text-muted-foreground flex items-center space-x-1">
                               <User className="h-3 w-3" />
-                              <span>{entry.user?.full_name || "Unknown"}</span>
+                              <span>
+                                {entry.user
+                                  ? `${entry.user.first_name || ''} ${entry.user.last_name || ''}`.trim()
+                                  : "Unknown"}
+                              </span>
                             </div>
                           </div>
                         </TableCell>
@@ -264,8 +268,16 @@ export default function WorkEntriesPage() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <div className="text-sm">
-                            Project {entry.project_id}
+                          <div className="space-y-1">
+                            <div className="text-sm font-medium">
+                              {entry.project?.name || `Project ${entry.project_id}`}
+                            </div>
+                            {entry.project?.city && (
+                              <div className="text-xs text-muted-foreground flex items-center space-x-1">
+                                <MapPin className="h-2.5 w-2.5" />
+                                <span>{entry.project.city}</span>
+                              </div>
+                            )}
                           </div>
                         </TableCell>
                         <TableCell>
@@ -366,10 +378,12 @@ export default function WorkEntriesPage() {
                       >
                         <div className="space-y-1">
                           <div className="font-medium">
-                            {getStageLabel(entry.stage_code)} - {entry.meters_done_m}m
+                            {getStageLabel(entry.stage_code as StageCode)} - {entry.meters_done_m}m
                           </div>
                           <div className="text-sm text-muted-foreground">
-                            {entry.user?.full_name} • {new Date(entry.date).toLocaleDateString()}
+                            {entry.user
+                              ? `${entry.user.first_name || ''} ${entry.user.last_name || ''}`.trim()
+                              : "Unknown"} • {new Date(entry.date).toLocaleDateString()}
                           </div>
                         </div>
                         <div className="flex space-x-2">
