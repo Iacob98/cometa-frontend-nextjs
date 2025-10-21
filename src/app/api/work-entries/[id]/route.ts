@@ -74,7 +74,7 @@ export async function GET(
     // Fetch photos for this work entry
     const { data: photos, error: photosError } = await supabase
       .from('photos')
-      .select('id, filename, file_path, photo_type, is_before_photo, is_after_photo, created_at')
+      .select('id, filename, file_path, url, label, gps_lat, gps_lon, photo_type, is_before_photo, is_after_photo, created_at')
       .eq('work_entry_id', id)
       .order('created_at', { ascending: true });
 
@@ -82,16 +82,29 @@ export async function GET(
       console.error('Error fetching photos:', photosError);
     }
 
-    // Get public URLs for photos with valid file_path
+    // Get public URLs for photos - support both file_path (Admin upload) and url (Worker PWA upload)
     const photoUrls = photos
-      ?.filter(photo => photo.file_path)
+      ?.filter(photo => photo.file_path || photo.url)
       .map(photo => {
-        const { data } = supabase.storage
-          .from('work-photos')
-          .getPublicUrl(photo.file_path);
+        let publicUrl = '';
+
+        if (photo.file_path) {
+          // Admin upload format: use file_path
+          const { data } = supabase.storage
+            .from('work-photos')
+            .getPublicUrl(photo.file_path);
+          publicUrl = data.publicUrl;
+        } else if (photo.url) {
+          // Worker PWA format: use url field directly
+          const { data } = supabase.storage
+            .from('work-photos')
+            .getPublicUrl(photo.url);
+          publicUrl = data.publicUrl;
+        }
+
         return {
           ...photo,
-          url: data.publicUrl
+          url: publicUrl
         };
       }) || [];
 
