@@ -96,12 +96,6 @@ const navigation: NavItem[] = [
     roles: ["admin", "pm"],
   },
   {
-    title: "Reports",
-    href: "/dashboard/reports",
-    icon: BarChart3,
-    roles: ["admin", "pm", "viewer"],
-  },
-  {
     title: "Financial",
     href: "/dashboard/financial",
     icon: DollarSign,

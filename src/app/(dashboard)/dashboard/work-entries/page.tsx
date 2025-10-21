@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Search, Filter, MapPin, Calendar, User, Eye, CheckCircle, Clock, Building2, Camera, Ruler } from "lucide-react";
+import { Plus, Search, Filter, MapPin, User, Eye, CheckCircle, Clock, Building2, Camera, Ruler } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,8 +32,7 @@ import type { StageCode, WorkEntryFilters } from "@/types";
 
 export default function WorkEntriesPage() {
   const router = useRouter();
-  const { user } = useAuth();
-  const { canApproveWork, canManageWork } = usePermissions();
+  const { canApproveWork } = usePermissions();
   const approveWorkEntry = useApproveWorkEntry();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -42,7 +41,7 @@ export default function WorkEntriesPage() {
 
   const filters: WorkEntryFilters = {
     stage_code: stageFilter === "all" ? undefined : stageFilter,
-    approved: approvalFilter === "all" ? undefined : approvalFilter === "approved",
+    approved: approvalFilter === "all" ? undefined : (approvalFilter === "approved" ? "true" : "false"),
     page: 1,
     per_page: 20,
   };
@@ -66,13 +65,13 @@ export default function WorkEntriesPage() {
       stage_1_marking: "Marking",
       stage_2_excavation: "Excavation",
       stage_3_conduit: "Conduit Installation",
-      stage_4_cable_pulling: "Cable Pulling",
-      stage_5_closure: "Closure",
-      stage_6_testing: "Testing",
-      stage_7_backfill: "Backfilling",
-      stage_8_restoration: "Surface Restoration",
-      stage_9_documentation: "Documentation",
-      stage_10_quality_check: "Quality Check",
+      stage_4_cable: "Cable Installation",
+      stage_5_splice: "Splice/Connection",
+      stage_6_test: "Testing",
+      stage_7_connect: "Connection",
+      stage_8_final: "Final Inspection",
+      stage_9_backfill: "Backfilling",
+      stage_10_surface: "Surface Restoration",
     };
     return stageLabels[stageCode] || stageCode;
   };
@@ -126,7 +125,6 @@ export default function WorkEntriesPage() {
               Pending Approval ({pendingApprovals.length})
             </TabsTrigger>
           )}
-          <TabsTrigger value="my-work">My Work</TabsTrigger>
         </TabsList>
 
         <TabsContent value="all" className="space-y-6">
@@ -392,22 +390,6 @@ export default function WorkEntriesPage() {
             </Card>
           </TabsContent>
         )}
-
-        <TabsContent value="my-work" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>My Work Entries</CardTitle>
-              <CardDescription>
-                Work entries you have created
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8 text-muted-foreground">
-                My work entries view will be implemented based on current user context.
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
       </Tabs>
     </div>
   );

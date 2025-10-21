@@ -1,12 +1,18 @@
 {
   "app": {
-    "[project]/src/app/(dashboard)/dashboard/equipment/new/page": [
+    "[project]/src/app/(auth)/login/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/src/app/(dashboard)/dashboard/equipment/page": [
+    "[project]/src/app/(dashboard)/dashboard/notifications/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ],
-    "[project]/src/app/(dashboard)/dashboard/materials/inventory/page": [
+    "[project]/src/app/(dashboard)/dashboard/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/src/app/(dashboard)/dashboard/work-entries/page": [
+      "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
+    ],
+    "[project]/src/app/page": [
       "static/media/83afe278b6a6bb3c-s.p.3a6ba036.woff2"
     ]
   },
