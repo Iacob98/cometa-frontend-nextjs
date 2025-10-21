@@ -15,8 +15,8 @@ export async function GET(request: NextRequest) {
     const project_id = searchParams.get('project_id');
     const user_id = searchParams.get('user_id');
     const crew_id = searchParams.get('crew_id');
-    const status = searchParams.get('status');
-    const work_type = searchParams.get('work_type');
+    const approved = searchParams.get('approved');
+    const stage_code = searchParams.get('stage_code');
 
     // Build simple Supabase query first
     let query = supabase
@@ -26,19 +26,22 @@ export async function GET(request: NextRequest) {
         project_id,
         user_id,
         crew_id,
-        work_type,
-        description,
-        start_time,
-        end_time,
-        duration_hours,
-        latitude,
-        longitude,
-        location_accuracy,
-        status,
+        cabinet_id,
+        segment_id,
+        cut_id,
+        house_id,
+        date,
+        stage_code,
+        meters_done_m,
+        method,
+        width_m,
+        depth_m,
+        cables_count,
+        has_protection_pipe,
+        soil_type,
         approved,
         approved_by,
         approved_at,
-        photos,
         notes,
         created_at,
         updated_at
@@ -59,12 +62,12 @@ export async function GET(request: NextRequest) {
       query = query.eq('crew_id', crew_id);
     }
 
-    if (status) {
-      query = query.eq('status', status);
+    if (approved !== null && approved !== undefined) {
+      query = query.eq('approved', approved === 'true');
     }
 
-    if (work_type) {
-      query = query.eq('work_type', work_type);
+    if (stage_code) {
+      query = query.eq('stage_code', stage_code);
     }
 
     const { data: workEntries, error, count } = await query;
@@ -100,33 +103,35 @@ export async function POST(request: NextRequest) {
       project_id,
       user_id,
       crew_id,
-      work_type,
-      description,
-      start_time,
-      end_time,
-      duration_hours,
-      latitude,
-      longitude,
-      location_accuracy,
-      photos = [],
-      notes,
-      status = 'submitted'
+      cabinet_id,
+      segment_id,
+      cut_id,
+      house_id,
+      date,
+      stage_code,
+      meters_done_m,
+      method,
+      width_m,
+      depth_m,
+      cables_count,
+      has_protection_pipe,
+      soil_type,
+      notes
     } = body;
 
     // Validation
-    if (!project_id || !user_id || !work_type || !start_time) {
+    if (!project_id || !user_id || !stage_code || !date) {
       return NextResponse.json(
-        { error: 'Project ID, User ID, work type, and start time are required' },
+        { error: 'Project ID, User ID, stage code, and date are required' },
         { status: 400 }
       );
     }
 
-    // Calculate duration if not provided and end_time exists
-    let calculatedDuration = duration_hours;
-    if (!calculatedDuration && start_time && end_time) {
-      const startDate = new Date(start_time);
-      const endDate = new Date(end_time);
-      calculatedDuration = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60); // hours
+    if (meters_done_m === undefined || meters_done_m === null) {
+      return NextResponse.json(
+        { error: 'Meters done is required' },
+        { status: 400 }
+      );
     }
 
     // Create work entry in Supabase
@@ -136,34 +141,42 @@ export async function POST(request: NextRequest) {
         project_id,
         user_id,
         crew_id,
-        work_type,
-        description,
-        start_time,
-        end_time,
-        duration_hours: calculatedDuration,
-        latitude,
-        longitude,
-        location_accuracy,
-        photos,
-        notes,
-        status
+        cabinet_id,
+        segment_id,
+        cut_id,
+        house_id,
+        date,
+        stage_code,
+        meters_done_m,
+        method,
+        width_m,
+        depth_m,
+        cables_count,
+        has_protection_pipe,
+        soil_type,
+        notes
       }])
       .select(`
         id,
         project_id,
         user_id,
         crew_id,
-        work_type,
-        description,
-        start_time,
-        end_time,
-        duration_hours,
-        latitude,
-        longitude,
-        location_accuracy,
-        status,
+        cabinet_id,
+        segment_id,
+        cut_id,
+        house_id,
+        date,
+        stage_code,
+        meters_done_m,
+        method,
+        width_m,
+        depth_m,
+        cables_count,
+        has_protection_pipe,
+        soil_type,
         approved,
-        photos,
+        approved_by,
+        approved_at,
         notes,
         created_at,
         updated_at

@@ -32,20 +32,21 @@ import type { CreateWorkEntryRequest, StageCode, WorkMethod } from "@/types";
 
 const createWorkEntrySchema = z.object({
   project_id: z.string().min(1, "Project is required"),
+  date: z.string().min(1, "Date is required"),
   stage_code: z.enum([
     "stage_1_marking",
     "stage_2_excavation",
     "stage_3_conduit",
-    "stage_4_cable_pulling",
-    "stage_5_closure",
-    "stage_6_testing",
-    "stage_7_backfill",
-    "stage_8_restoration",
-    "stage_9_documentation",
-    "stage_10_quality_check"
+    "stage_4_cable",
+    "stage_5_splice",
+    "stage_6_test",
+    "stage_7_connect",
+    "stage_8_final",
+    "stage_9_backfill",
+    "stage_10_surface"
   ]),
   meters_done_m: z.coerce.number().min(0, "Meters must be positive"),
-  method: z.enum(["manual", "machine", "mixed"]).optional(),
+  method: z.enum(["mole", "hand", "excavator", "trencher", "documentation"]).optional(),
   width_m: z.coerce.number().min(0).optional(),
   depth_m: z.coerce.number().min(0).optional(),
   cables_count: z.coerce.number().min(0).optional(),
@@ -75,9 +76,10 @@ export default function NewWorkEntryPage() {
     resolver: zodResolver(createWorkEntrySchema),
     defaultValues: {
       project_id: "",
+      date: new Date().toISOString().split('T')[0], // Today's date in YYYY-MM-DD format
       stage_code: "stage_1_marking",
       meters_done_m: 0,
-      method: "manual",
+      method: "hand",
       width_m: undefined,
       depth_m: undefined,
       cables_count: undefined,
@@ -96,8 +98,14 @@ export default function NewWorkEntryPage() {
 
   const onSubmit = async (data: CreateWorkEntryFormData) => {
     try {
+      if (!user?.id) {
+        console.error("User not authenticated");
+        return;
+      }
+
       const workEntryData: CreateWorkEntryRequest = {
         ...data,
+        user_id: user.id, // Add authenticated user ID
         // Remove empty string values
         cabinet_id: data.cabinet_id || undefined,
         segment_id: data.segment_id || undefined,
@@ -123,24 +131,26 @@ export default function NewWorkEntryPage() {
     { value: "stage_1_marking", label: "1. Marking" },
     { value: "stage_2_excavation", label: "2. Excavation" },
     { value: "stage_3_conduit", label: "3. Conduit Installation" },
-    { value: "stage_4_cable_pulling", label: "4. Cable Pulling" },
-    { value: "stage_5_closure", label: "5. Closure" },
-    { value: "stage_6_testing", label: "6. Testing" },
-    { value: "stage_7_backfill", label: "7. Backfilling" },
-    { value: "stage_8_restoration", label: "8. Surface Restoration" },
-    { value: "stage_9_documentation", label: "9. Documentation" },
-    { value: "stage_10_quality_check", label: "10. Quality Check" },
+    { value: "stage_4_cable", label: "4. Cable Installation" },
+    { value: "stage_5_splice", label: "5. Splice/Connection" },
+    { value: "stage_6_test", label: "6. Testing" },
+    { value: "stage_7_connect", label: "7. Connection" },
+    { value: "stage_8_final", label: "8. Final Inspection" },
+    { value: "stage_9_backfill", label: "9. Backfilling" },
+    { value: "stage_10_surface", label: "10. Surface Restoration" },
   ];
 
   const methodOptions = [
-    { value: "manual", label: "Manual" },
-    { value: "machine", label: "Machine" },
-    { value: "mixed", label: "Mixed" },
+    { value: "mole", label: "Mole" },
+    { value: "hand", label: "Hand" },
+    { value: "excavator", label: "Excavator" },
+    { value: "trencher", label: "Trencher" },
+    { value: "documentation", label: "Documentation" },
   ];
 
   // Show different fields based on stage
   const showMeasurements = ["stage_2_excavation", "stage_3_conduit"].includes(selectedStage);
-  const showCables = ["stage_3_conduit", "stage_4_cable_pulling"].includes(selectedStage);
+  const showCables = ["stage_3_conduit", "stage_4_cable"].includes(selectedStage);
   const showSoilType = selectedStage === "stage_2_excavation";
 
   return (
@@ -217,6 +227,25 @@ export default function NewWorkEntryPage() {
                         )}
                       />
 
+                      <FormField
+                        control={form.control}
+                        name="date"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Work Date *</FormLabel>
+                            <FormControl>
+                              <Input type="date" {...field} />
+                            </FormControl>
+                            <FormDescription>
+                              Date when the work was performed
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <FormField
                         control={form.control}
                         name="stage_code"

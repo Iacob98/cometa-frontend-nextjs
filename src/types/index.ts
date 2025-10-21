@@ -205,11 +205,13 @@ export interface UpdateProjectRequest extends Partial<CreateProjectRequest> {
 
 export interface CreateWorkEntryRequest {
   project_id: UUID;
+  user_id: UUID;
   cabinet_id?: UUID;
   segment_id?: UUID;
   cut_id?: UUID;
   house_id?: UUID;
   crew_id?: UUID;
+  date: string; // ISO date string (YYYY-MM-DD)
   stage_code: StageCode;
   meters_done_m: number;
   method?: WorkMethod;

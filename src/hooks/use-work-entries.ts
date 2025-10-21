@@ -54,13 +54,13 @@ export interface WorkEntryFilters {
 
 export interface CreateWorkEntryData {
   project_id: string;
+  user_id: string;
   cabinet_id?: string;
   segment_id?: string;
   cut_id?: string;
   house_id?: string;
   crew_id?: string;
-  user_id?: string;
-  date: string;
+  date: string; // ISO date string (YYYY-MM-DD)
   stage_code: string;
   meters_done_m: number;
   method?: string;
