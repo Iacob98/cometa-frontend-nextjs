@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
         else if (metadata.stage === 'quality_check') label = 'during'
 
         const isAfterPhoto = metadata.stage === 'after' || metadata.stage === 'issue'
-        const photoType = metadata.stage === 'issue' ? 'issue' : metadata.stage || 'general'
+        const photoType = metadata.stage === 'issue' ? 'problem' : metadata.stage || 'general'
 
         // DEBUG LOGGING
         console.log('📸 Uploading photo with metadata:', {
