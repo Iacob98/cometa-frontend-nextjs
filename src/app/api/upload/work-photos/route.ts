@@ -27,23 +27,31 @@ const workPhotoMetadataSchema = z.object({
  * Upload photos for work entry documentation
  */
 export async function POST(request: NextRequest) {
+  console.log('🚀 POST /api/upload/work-photos called')
+
   try {
     // Parse multipart form data
     const formData = await request.formData()
+    console.log('📦 FormData received, parsing metadata...')
 
     // Get metadata from form data
     const metadataJson = formData.get('metadata') as string
     if (!metadataJson) {
+      console.error('❌ No metadata found in FormData')
       return NextResponse.json(
         { error: 'Missing work photo metadata' },
         { status: 400 }
       )
     }
 
+    console.log('📄 Raw metadata JSON:', metadataJson)
+
     let metadata
     try {
       metadata = workPhotoMetadataSchema.parse(JSON.parse(metadataJson))
+      console.log('✅ Metadata parsed successfully:', metadata)
     } catch (error) {
+      console.error('❌ Metadata validation failed:', error)
       return NextResponse.json(
         { error: 'Invalid work photo metadata', details: error },
         { status: 400 }
@@ -166,6 +174,19 @@ export async function POST(request: NextRequest) {
         else if (metadata.stage === 'issue') label = 'after'  // ⚠️ CRITICAL: rejection photos need 'after' label
         else if (metadata.stage === 'quality_check') label = 'during'
 
+        const isAfterPhoto = metadata.stage === 'after' || metadata.stage === 'issue'
+        const photoType = metadata.stage === 'issue' ? 'issue' : metadata.stage || 'general'
+
+        // DEBUG LOGGING
+        console.log('📸 Uploading photo with metadata:', {
+          workEntryId: metadata.workEntryId,
+          stage: metadata.stage,
+          description: metadata.description?.substring(0, 50)
+        })
+        console.log('📝 Computed label:', label)
+        console.log('📝 Computed photo_type:', photoType)
+        console.log('📝 Computed is_after_photo:', isAfterPhoto)
+
         const photoData = {
           id: photoId,
           work_entry_id: metadata.workEntryId,
@@ -176,27 +197,41 @@ export async function POST(request: NextRequest) {
           gps_lon: metadata.location?.longitude,
           label: label,
           author_user_id: metadata.userId,
-          photo_type: metadata.stage === 'issue' ? 'issue' : metadata.stage || 'general',
+          photo_type: photoType,
           is_before_photo: metadata.stage === 'before',
-          is_after_photo: metadata.stage === 'after' || metadata.stage === 'issue',  // ⚠️ CRITICAL: true for rejection photos
+          is_after_photo: isAfterPhoto,
           caption: metadata.description,
           taken_at: new Date().toISOString(),
           taken_by: metadata.userId,
         }
+
+        console.log('💾 Inserting photo to database:', {
+          id: photoData.id,
+          work_entry_id: photoData.work_entry_id,
+          label: photoData.label,
+          photo_type: photoData.photo_type,
+          is_after_photo: photoData.is_after_photo,
+        })
 
         const { error: dbError } = await supabase
           .from('photos')
           .insert(photoData)
 
         if (dbError) {
-          // @ts-ignore - TypeScript false positive with console.error
-          console.error('Failed to save photo metadata to database for', file.name, ':', dbError)
+          // @ts-ignore - TypeScript false positive
+          console.error('❌ Database insert error:', dbError)
+          // @ts-ignore - TypeScript false positive
+          console.error('❌ Failed photo data:', photoData)
           // Don't fail entire upload, just log error
           // Add error info to uploadResult
           (uploadResult as any).dbSaveError = dbError.message
         } else {
-          // @ts-ignore - TypeScript false positive with console.log
-          console.log('Photo saved to database:', photoId)
+          // @ts-ignore - TypeScript false positive
+          console.log('✅ Photo saved to database successfully!')
+          // @ts-ignore - TypeScript false positive
+          console.log('✅ Photo ID:', photoId)
+          // @ts-ignore - TypeScript false positive
+          console.log('✅ Work Entry ID:', metadata.workEntryId)
           // Mark as successfully saved to DB
           (uploadResult as any).savedToDatabase = true
         }
