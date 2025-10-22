@@ -30,19 +30,23 @@ export async function POST(
     }
 
     // TODO: Get current user ID from authentication
-    // For now, using NULL for rejected_by
-    const currentUserId = userId || null; // This should come from auth session
+    // For now, only set rejected_by if we have a valid UUID
+    const updateData: any = {
+      approved: false,
+      rejected_at: new Date().toISOString(),
+      rejection_reason: rejection_reason,
+      was_rejected_before: true,
+      updated_at: new Date().toISOString()
+    };
+
+    // Only add rejected_by if userId is a valid UUID
+    if (userId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId)) {
+      updateData.rejected_by = userId;
+    }
 
     const { data: workEntry, error } = await supabase
       .from('work_entries')
-      .update({
-        approved: false,
-        rejected_by: currentUserId,
-        rejected_at: new Date().toISOString(),
-        rejection_reason: rejection_reason,
-        was_rejected_before: true,
-        updated_at: new Date().toISOString()
-      })
+      .update(updateData)
       .eq('id', id)
       .select(`
         id,

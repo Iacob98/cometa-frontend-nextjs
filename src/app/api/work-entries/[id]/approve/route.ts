@@ -21,17 +21,27 @@ export async function POST(
     }
 
     // TODO: Get current user ID from authentication
-    // For now, using NULL for approved_by
-    const currentUserId = null; // This should come from auth session
+    // For now, only set approved_by if we have a valid user from the request
+    const body = await request.json().catch(() => ({}));
+    const { userId } = body;
+
+    const updateData: any = {
+      approved: true,
+      approved_at: new Date().toISOString(),
+      rejected_by: null, // Clear rejection
+      rejected_at: null,
+      rejection_reason: null,
+      updated_at: new Date().toISOString()
+    };
+
+    // Only add approved_by if userId is a valid UUID
+    if (userId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(userId)) {
+      updateData.approved_by = userId;
+    }
 
     const { data: workEntry, error } = await supabase
       .from('work_entries')
-      .update({
-        approved: true,
-        approved_by: currentUserId,
-        approved_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
+      .update(updateData)
       .eq('id', id)
       .select(`
         id,
