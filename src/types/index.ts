@@ -475,6 +475,8 @@ export interface House {
   assigned_team?: Crew;
   appointments?: HouseAppointment[];
   work_entries?: WorkEntry[];
+  documents?: any[]; // House documents (plans, schemes, etc.)
+  photos?: Photo[]; // Photos from work entries
 }
 
 export interface HouseAppointment {

@@ -273,7 +273,15 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
           </Button>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-3xl font-bold tracking-tight">Work Entry Details</h1>
+              <h1 className="text-3xl font-bold tracking-tight">
+                {workEntry.house_id ? 'House Connection Work' : 'Work Entry Details'}
+              </h1>
+              {workEntry.house_id && (
+                <Badge variant="secondary" className="bg-blue-100 text-blue-700 border-blue-300">
+                  <Home className="h-3 w-3 mr-1" />
+                  House
+                </Badge>
+              )}
               {workEntry.was_rejected_before && !workEntry.rejected_by && (
                 <Badge variant="outline" className="border-orange-500 text-orange-600">
                   <AlertTriangle className="h-3 w-3 mr-1" />
@@ -282,7 +290,15 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
               )}
             </div>
             <p className="text-muted-foreground">
-              {workEntry.project?.name || 'No project'} • {workEntry.project?.city || ''}
+              {workEntry.house_id && houseData ? (
+                <>
+                  {[houseData.street, houseData.house_number && `#${houseData.house_number}`, houseData.city].filter(Boolean).join(', ')} • {workEntry.project?.name || 'No project'}
+                </>
+              ) : (
+                <>
+                  {workEntry.project?.name || 'No project'} • {workEntry.project?.city || ''}
+                </>
+              )}
             </p>
           </div>
         </div>
