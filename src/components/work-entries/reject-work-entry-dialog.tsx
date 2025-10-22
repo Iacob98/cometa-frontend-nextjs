@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, AlertCircle } from "lucide-react";
+import { X, AlertCircle, Upload, Image as ImageIcon, Trash2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -25,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card } from "@/components/ui/card";
 
 const rejectFormSchema = z.object({
   rejection_reason: z.string().min(10, "Rejection reason must be at least 10 characters"),
@@ -35,7 +36,7 @@ type RejectFormValues = z.infer<typeof rejectFormSchema>;
 interface RejectWorkEntryDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onReject: (rejection_reason: string) => void;
+  onReject: (rejection_reason: string, photos?: File[]) => void;
   isLoading?: boolean;
 }
 
@@ -45,6 +46,9 @@ export function RejectWorkEntryDialog({
   onReject,
   isLoading,
 }: RejectWorkEntryDialogProps) {
+  const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
+  const [photoPreviewUrls, setPhotoPreviewUrls] = useState<string[]>([]);
+
   const form = useForm<RejectFormValues>({
     resolver: zodResolver(rejectFormSchema),
     defaultValues: {
@@ -52,9 +56,47 @@ export function RejectWorkEntryDialog({
     },
   });
 
+  const handlePhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    // Validate file types and size
+    const validFiles = files.filter((file) => {
+      if (!file.type.startsWith("image/")) {
+        alert(`${file.name} is not an image file`);
+        return false;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        alert(`${file.name} is larger than 10MB`);
+        return false;
+      }
+      return true;
+    });
+
+    if (validFiles.length === 0) return;
+
+    // Create preview URLs
+    const newPreviewUrls = validFiles.map((file) => URL.createObjectURL(file));
+
+    setSelectedPhotos((prev) => [...prev, ...validFiles]);
+    setPhotoPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
+  };
+
+  const handleRemovePhoto = (index: number) => {
+    // Revoke the preview URL to free memory
+    URL.revokeObjectURL(photoPreviewUrls[index]);
+
+    setSelectedPhotos((prev) => prev.filter((_, i) => i !== index));
+    setPhotoPreviewUrls((prev) => prev.filter((_, i) => i !== index));
+  };
+
   const onSubmit = (values: RejectFormValues) => {
-    onReject(values.rejection_reason);
+    onReject(values.rejection_reason, selectedPhotos.length > 0 ? selectedPhotos : undefined);
     form.reset();
+    setSelectedPhotos([]);
+    // Cleanup preview URLs
+    photoPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
+    setPhotoPreviewUrls([]);
   };
 
   return (
@@ -97,12 +139,77 @@ export function RejectWorkEntryDialog({
               )}
             />
 
+            {/* Photo Upload Section */}
+            <div className="space-y-3">
+              <FormLabel>Attach Photos (Optional)</FormLabel>
+              <p className="text-sm text-muted-foreground">
+                Add photos to illustrate the issue (max 5 files, 10MB each)
+              </p>
+
+              {/* Photo Upload Button */}
+              <div className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => document.getElementById("rejection-photo-input")?.click()}
+                  disabled={isLoading || selectedPhotos.length >= 5}
+                >
+                  <Upload className="h-4 w-4 mr-2" />
+                  Select Photos
+                </Button>
+                <span className="text-sm text-muted-foreground">
+                  {selectedPhotos.length}/5 photos
+                </span>
+              </div>
+
+              <input
+                id="rejection-photo-input"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handlePhotoSelect}
+                className="hidden"
+              />
+
+              {/* Photo Preview Grid */}
+              {selectedPhotos.length > 0 && (
+                <div className="grid grid-cols-3 gap-2">
+                  {photoPreviewUrls.map((url, index) => (
+                    <Card key={index} className="relative aspect-square overflow-hidden group">
+                      <img
+                        src={url}
+                        alt={`Rejection photo ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => handleRemovePhoto(index)}
+                        disabled={isLoading}
+                      >
+                        <Trash2 className="h-3 w-3" />
+                      </Button>
+                      <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs p-1 text-center">
+                        {selectedPhotos[index].name}
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <DialogFooter className="gap-2">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => {
                   form.reset();
+                  setSelectedPhotos([]);
+                  photoPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
+                  setPhotoPreviewUrls([]);
                   onOpenChange(false);
                 }}
                 disabled={isLoading}

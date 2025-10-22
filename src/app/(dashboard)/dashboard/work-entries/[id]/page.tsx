@@ -45,9 +45,36 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
     }
   };
 
-  const handleReject = async (rejection_reason: string) => {
-    await rejectWorkEntry.mutateAsync({ id, rejection_reason });
-    setShowRejectDialog(false);
+  const handleReject = async (rejection_reason: string, photos?: File[]) => {
+    try {
+      // First reject the work entry
+      await rejectWorkEntry.mutateAsync({ id, rejection_reason });
+
+      // If photos are provided, upload them
+      if (photos && photos.length > 0) {
+        const formData = new FormData();
+        formData.append('work_entry_id', id);
+        formData.append('label', 'rejection'); // Label for rejection photos
+
+        photos.forEach((file) => {
+          formData.append('photos', file);
+        });
+
+        const uploadResponse = await fetch('/api/upload/work-photos', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!uploadResponse.ok) {
+          console.error('Failed to upload rejection photos');
+        }
+      }
+
+      setShowRejectDialog(false);
+    } catch (error) {
+      console.error('Error rejecting work entry:', error);
+      alert('Failed to reject work entry. Please try again.');
+    }
   };
 
   const handleResubmit = async () => {
