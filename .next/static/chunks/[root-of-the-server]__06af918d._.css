@@ -2033,6 +2033,10 @@ img, video {
   background-color: rgba(244, 244, 245, var(--tw-bg-opacity, 1));
 }
 
+.bg-black\/50 {
+  background-color: rgba(0, 0, 0, .5);
+}
+
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { use, useState } from "react";
 import { ArrowLeft, MapPin, Calendar, User, CheckCircle, Clock, Edit, Trash2, FileText, ThumbsUp, X, RefreshCw, AlertTriangle } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,6 +25,7 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
   requireAuth();
 
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { id } = use(params);
   const { data: workEntry, isLoading, error } = useWorkEntry(id);
   const deleteWorkEntry = useDeleteWorkEntry();
@@ -78,6 +80,8 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
           console.error('Failed to upload rejection photos:', uploadResponse.status, errorText);
         } else {
           console.log('Rejection photos uploaded successfully');
+          // Invalidate work entry query to refresh photos immediately
+          await queryClient.invalidateQueries({ queryKey: ['work-entry', id] });
         }
       }
 
