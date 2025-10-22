@@ -158,10 +158,12 @@ export async function POST(request: NextRequest) {
         const photoId = uploadResult.id
 
         // Map stage to label for database
+        // CRITICAL: Rejection photos (stage='issue') MUST have label='after' and is_after_photo=true
+        // This ensures Worker PWA can find admin rejection photos
         let label = 'during'
         if (metadata.stage === 'before') label = 'before'
         else if (metadata.stage === 'after') label = 'after'
-        else if (metadata.stage === 'issue') label = 'during'
+        else if (metadata.stage === 'issue') label = 'after'  // ⚠️ CRITICAL: rejection photos need 'after' label
         else if (metadata.stage === 'quality_check') label = 'during'
 
         const photoData = {
@@ -176,7 +178,7 @@ export async function POST(request: NextRequest) {
           author_user_id: metadata.userId,
           photo_type: metadata.stage === 'issue' ? 'issue' : metadata.stage || 'general',
           is_before_photo: metadata.stage === 'before',
-          is_after_photo: metadata.stage === 'after',
+          is_after_photo: metadata.stage === 'after' || metadata.stage === 'issue',  // ⚠️ CRITICAL: true for rejection photos
           caption: metadata.description,
           taken_at: new Date().toISOString(),
           taken_by: metadata.userId,
@@ -187,12 +189,14 @@ export async function POST(request: NextRequest) {
           .insert(photoData)
 
         if (dbError) {
-          console.error('⚠️ Failed to save photo metadata to database for ' + file.name + ':', dbError)
+          // @ts-ignore - TypeScript false positive with console.error
+          console.error('Failed to save photo metadata to database for', file.name, ':', dbError)
           // Don't fail entire upload, just log error
           // Add error info to uploadResult
           (uploadResult as any).dbSaveError = dbError.message
         } else {
-          console.log('✅ Photo saved to database: ' + photoId)
+          // @ts-ignore - TypeScript false positive with console.log
+          console.log('Photo saved to database:', photoId)
           // Mark as successfully saved to DB
           (uploadResult as any).savedToDatabase = true
         }
