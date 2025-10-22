@@ -377,8 +377,16 @@ export default function WorkEntriesPage() {
                         className="flex items-center justify-between p-4 border rounded-lg"
                       >
                         <div className="space-y-1">
-                          <div className="font-medium">
-                            {getStageLabel(entry.stage_code as StageCode)} - {entry.meters_done_m}m
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">
+                              {getStageLabel(entry.stage_code as StageCode)} - {entry.meters_done_m}m
+                            </span>
+                            {entry.was_rejected_before && (
+                              <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">
+                                <AlertTriangle className="h-2.5 w-2.5 mr-1" />
+                                Resubmitted
+                              </Badge>
+                            )}
                           </div>
                           <div className="text-sm text-muted-foreground">
                             {entry.user
