@@ -154,8 +154,48 @@ export async function POST(request: NextRequest) {
 
         uploadResults.push(uploadResult)
 
-        // TODO: Save file metadata to database for querying and relationships
-        // This should store file info in a work_entry_photos table
+        // Save photo metadata to database
+        const photoId = uploadResult.id
+
+        // Map stage to label for database
+        let label = 'during'
+        if (metadata.stage === 'before') label = 'before'
+        else if (metadata.stage === 'after') label = 'after'
+        else if (metadata.stage === 'issue') label = 'during'
+        else if (metadata.stage === 'quality_check') label = 'during'
+
+        const photoData = {
+          id: photoId,
+          work_entry_id: metadata.workEntryId,
+          url: data.path,
+          file_path: data.path,
+          ts: new Date().toISOString(),
+          gps_lat: metadata.location?.latitude,
+          gps_lon: metadata.location?.longitude,
+          label: label,
+          author_user_id: metadata.userId,
+          photo_type: metadata.stage === 'issue' ? 'issue' : metadata.stage || 'general',
+          is_before_photo: metadata.stage === 'before',
+          is_after_photo: metadata.stage === 'after',
+          caption: metadata.description,
+          taken_at: new Date().toISOString(),
+          taken_by: metadata.userId,
+        }
+
+        const { error: dbError } = await supabase
+          .from('photos')
+          .insert(photoData)
+
+        if (dbError) {
+          console.error('⚠️ Failed to save photo metadata to database for ' + file.name + ':', dbError)
+          // Don't fail entire upload, just log error
+          // Add error info to uploadResult
+          (uploadResult as any).dbSaveError = dbError.message
+        } else {
+          console.log('✅ Photo saved to database: ' + photoId)
+          // Mark as successfully saved to DB
+          (uploadResult as any).savedToDatabase = true
+        }
 
         console.log(`✅ Work photo uploaded: ${file.name} -> ${data.path}`)
       } catch (error) {
