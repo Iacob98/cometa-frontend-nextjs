@@ -57,7 +57,9 @@ export function RejectWorkEntryDialog({
   });
 
   const handlePhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('📷 [RejectDialog] Photo selection triggered');
     const files = Array.from(e.target.files || []);
+    console.log('📷 [RejectDialog] Files selected:', files.length);
     if (files.length === 0) return;
 
     // Validate file types and size
@@ -73,12 +75,18 @@ export function RejectWorkEntryDialog({
       return true;
     });
 
+    console.log('📷 [RejectDialog] Valid files after filtering:', validFiles.length);
     if (validFiles.length === 0) return;
 
     // Create preview URLs
     const newPreviewUrls = validFiles.map((file) => URL.createObjectURL(file));
 
-    setSelectedPhotos((prev) => [...prev, ...validFiles]);
+    setSelectedPhotos((prev) => {
+      const updated = [...prev, ...validFiles];
+      console.log('📷 [RejectDialog] Updated selectedPhotos count:', updated.length);
+      console.log('📷 [RejectDialog] Photo names:', updated.map(p => p.name));
+      return updated;
+    });
     setPhotoPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
   };
 
@@ -91,12 +99,25 @@ export function RejectWorkEntryDialog({
   };
 
   const onSubmit = (values: RejectFormValues) => {
-    onReject(values.rejection_reason, selectedPhotos.length > 0 ? selectedPhotos : undefined);
+    // 🔍 DIAGNOSTIC LOGGING: Track photo flow from dialog
+    console.log('🚨 [RejectDialog] onSubmit called');
+    console.log('🚨 [RejectDialog] selectedPhotos.length:', selectedPhotos.length);
+    console.log('🚨 [RejectDialog] selectedPhotos array:', selectedPhotos);
+    console.log('🚨 [RejectDialog] Photo names:', selectedPhotos.map(p => p.name));
+
+    const photosToPass = selectedPhotos.length > 0 ? selectedPhotos : undefined;
+    console.log('🚨 [RejectDialog] Passing photos to onReject:', photosToPass ? photosToPass.length : 'undefined');
+
+    onReject(values.rejection_reason, photosToPass);
+
+    // 🔍 State cleanup happens AFTER onReject is called (but onReject is async!)
+    console.log('🚨 [RejectDialog] Cleaning up dialog state...');
     form.reset();
     setSelectedPhotos([]);
     // Cleanup preview URLs
     photoPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
     setPhotoPreviewUrls([]);
+    console.log('🚨 [RejectDialog] Dialog state cleaned up');
   };
 
   return (

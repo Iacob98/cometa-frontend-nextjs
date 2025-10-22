@@ -48,12 +48,26 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
   };
 
   const handleReject = async (rejection_reason: string, photos?: File[]) => {
+    // 🔍 DIAGNOSTIC LOGGING: Track photo flow in handleReject
+    console.log('🎯 [handleReject] Function called');
+    console.log('🎯 [handleReject] rejection_reason:', rejection_reason.substring(0, 50));
+    console.log('🎯 [handleReject] photos parameter:', photos);
+    console.log('🎯 [handleReject] photos?.length:', photos?.length);
+    console.log('🎯 [handleReject] photos array:', photos);
+    if (photos && photos.length > 0) {
+      console.log('🎯 [handleReject] Photo names received:', photos.map(p => p.name));
+    }
+
     try {
       // First reject the work entry
+      console.log('🎯 [handleReject] Step 1: Rejecting work entry...');
       await rejectWorkEntry.mutateAsync({ id, rejection_reason });
+      console.log('🎯 [handleReject] Step 1: Work entry rejected successfully');
 
       // If photos are provided, upload them
+      console.log('🎯 [handleReject] Step 2: Checking if photos need to be uploaded...');
       if (photos && photos.length > 0) {
+        console.log('🎯 [handleReject] Step 2: YES - Photos need upload. Count:', photos.length);
         const formData = new FormData();
 
         // Add metadata as JSON (required by API)
@@ -63,31 +77,40 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
           description: `Rejection: ${rejection_reason.substring(0, 100)}${rejection_reason.length > 100 ? '...' : ''}`,
           issueType: 'quality' as const,
         };
+        console.log('🎯 [handleReject] Metadata prepared:', metadata);
         formData.append('metadata', JSON.stringify(metadata));
 
         // Add photos with correct field name (fileN)
         photos.forEach((file, index) => {
+          console.log(`🎯 [handleReject] Adding file${index}:`, file.name, file.size, 'bytes');
           formData.append(`file${index}`, file);
         });
 
+        console.log('🎯 [handleReject] FormData prepared. Calling API...');
         const uploadResponse = await fetch('/api/upload/work-photos', {
           method: 'POST',
           body: formData,
         });
 
+        console.log('🎯 [handleReject] API response status:', uploadResponse.status);
         if (!uploadResponse.ok) {
           const errorText = await uploadResponse.text();
-          console.error('Failed to upload rejection photos:', uploadResponse.status, errorText);
+          console.error('🎯 [handleReject] ❌ Failed to upload rejection photos:', uploadResponse.status, errorText);
         } else {
-          console.log('Rejection photos uploaded successfully');
+          const responseData = await uploadResponse.json();
+          console.log('🎯 [handleReject] ✅ Rejection photos uploaded successfully:', responseData);
           // Invalidate work entry query to refresh photos immediately
           await queryClient.invalidateQueries({ queryKey: ['work-entry', id] });
         }
+      } else {
+        console.log('🎯 [handleReject] Step 2: NO - No photos to upload (photos:', photos, ')');
       }
 
+      console.log('🎯 [handleReject] Step 3: Closing dialog...');
       setShowRejectDialog(false);
+      console.log('🎯 [handleReject] ✅ All steps completed');
     } catch (error) {
-      console.error('Error rejecting work entry:', error);
+      console.error('🎯 [handleReject] ❌ Error in handleReject:', error);
       alert('Failed to reject work entry. Please try again.');
     }
   };

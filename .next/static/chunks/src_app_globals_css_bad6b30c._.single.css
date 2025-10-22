@@ -1668,6 +1668,10 @@ img, video {
   background-color: rgba(0, 0, 0, 0);
 }
 
+.bg-black\/50 {
+  background-color: rgba(0, 0, 0, .5);
+}
+
 .bg-black\/80 {
   background-color: rgba(0, 0, 0, .8);
 }
@@ -1949,10 +1953,6 @@ img, video {
 .bg-zinc-100 {
   --tw-bg-opacity: 1;
   background-color: rgba(244, 244, 245, var(--tw-bg-opacity, 1));
-}
-
-.bg-black\/50 {
-  background-color: rgba(0, 0, 0, .5);
 }
 
 .bg-gradient-to-b {
