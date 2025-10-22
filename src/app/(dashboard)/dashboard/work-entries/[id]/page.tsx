@@ -12,9 +12,12 @@ import { Separator } from "@/components/ui/separator";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 import { useWorkEntry, useDeleteWorkEntry, useApproveWorkEntry, useRejectWorkEntry, useResubmitWorkEntry } from "@/hooks/use-work-entries";
+import { useHouse } from "@/hooks/use-houses";
 import { RejectWorkEntryDialog } from "@/components/work-entries/reject-work-entry-dialog";
 import { UploadPhotos } from "@/components/work-entries/upload-photos";
 import { PhotoGallery } from "@/components/work-entries/photo-gallery";
+import { HouseInfoCard } from "@/components/work-entries/house-info-card";
+import { HouseDocumentsGallery } from "@/components/work-entries/house-documents-gallery";
 import { requireAuth } from "@/lib/auth";
 
 interface WorkEntryDetailsPageProps {
@@ -33,6 +36,9 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
   const rejectWorkEntry = useRejectWorkEntry();
   const resubmitWorkEntry = useResubmitWorkEntry();
   const [showRejectDialog, setShowRejectDialog] = useState(false);
+
+  // Fetch house data if this work entry is for a house connection
+  const { data: houseData, isLoading: isLoadingHouse } = useHouse(workEntry?.house_id || "");
 
   const handleDeleteWorkEntry = async () => {
     if (confirm("Are you sure you want to delete this work entry? This action cannot be undone.")) {
@@ -469,12 +475,22 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
             </CardContent>
           </Card>
 
+          {/* House Documents Section - Only show for house connection work */}
+          {workEntry.house_id && houseData && (
+            <HouseDocumentsGallery documents={houseData.documents || []} />
+          )}
+
           {/* Upload Photos Section */}
           <UploadPhotos workEntryId={id} />
         </div>
 
         {/* Sidebar */}
         <div className="space-y-6">
+          {/* House Info - Only show for house connection work */}
+          {workEntry.house_id && houseData && (
+            <HouseInfoCard house={houseData} />
+          )}
+
           {/* Project Info */}
           <Card>
             <CardHeader>

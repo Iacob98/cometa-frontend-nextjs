@@ -4,6 +4,7 @@
   "/(dashboard)/dashboard/work-entries/page": "app/(dashboard)/dashboard/work-entries/page.js",
   "/api/activities/route": "app/api/activities/route.js",
   "/api/dashboard/stats/route": "app/api/dashboard/stats/route.js",
+  "/api/houses/[id]/route": "app/api/houses/[id]/route.js",
   "/api/notifications/route": "app/api/notifications/route.js",
   "/api/upload/work-photos/route": "app/api/upload/work-photos/route.js",
   "/api/work-entries/[id]/approve/route": "app/api/work-entries/[id]/approve/route.js",

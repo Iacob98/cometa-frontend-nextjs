@@ -21,7 +21,7 @@ export async function GET(
       );
     }
 
-    // Get house data from database
+    // Get house data from database with project information
     const { data: house, error } = await supabase
       .from('houses')
       .select(`
@@ -51,7 +51,10 @@ export async function GET(
         project:projects!houses_project_id_fkey(
           id,
           name,
-          customer
+          customer,
+          status,
+          start_date,
+          end_date
         )
       `)
       .eq('id', houseId)
@@ -71,7 +74,64 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(house);
+    // Get house documents (plans, schemes, etc.) from house_documents table
+    const { data: documents, error: documentsError } = await supabase
+      .from('house_documents')
+      .select('*')
+      .eq('house_id', houseId)
+      .order('created_at', { ascending: false });
+
+    if (documentsError && documentsError.code !== 'PGRST116') {
+      console.error('Failed to fetch house documents:', documentsError);
+    }
+
+    // Get work entries for this house
+    const { data: workEntries, error: workEntriesError } = await supabase
+      .from('work_entries')
+      .select(`
+        id,
+        stage,
+        status,
+        created_at,
+        updated_at,
+        rejection_reason,
+        user:users!work_entries_user_id_fkey(
+          id,
+          first_name,
+          last_name
+        )
+      `)
+      .eq('house_id', houseId)
+      .order('created_at', { ascending: false });
+
+    if (workEntriesError && workEntriesError.code !== 'PGRST116') {
+      console.error('Failed to fetch work entries:', workEntriesError);
+    }
+
+    // Get all photos for work entries related to this house
+    let photos: any[] = [];
+    if (workEntries && workEntries.length > 0) {
+      const workEntryIds = workEntries.map((we: any) => we.id);
+      const { data: photosData, error: photosError } = await supabase
+        .from('photos')
+        .select('*')
+        .in('work_entry_id', workEntryIds)
+        .order('ts', { ascending: false });
+
+      if (photosError && photosError.code !== 'PGRST116') {
+        console.error('Failed to fetch photos:', photosError);
+      } else {
+        photos = photosData || [];
+      }
+    }
+
+    // Return comprehensive house data
+    return NextResponse.json({
+      ...house,
+      documents: documents || [],
+      workEntries: workEntries || [],
+      photos: photos,
+    });
 
   } catch (error) {
     console.error('House API error:', error);
