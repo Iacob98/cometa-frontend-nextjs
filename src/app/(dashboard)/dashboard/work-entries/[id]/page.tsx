@@ -53,11 +53,19 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
       // If photos are provided, upload them
       if (photos && photos.length > 0) {
         const formData = new FormData();
-        formData.append('work_entry_id', id);
-        formData.append('label', 'rejection'); // Label for rejection photos
 
-        photos.forEach((file) => {
-          formData.append('photos', file);
+        // Add metadata as JSON (required by API)
+        const metadata = {
+          workEntryId: id,
+          stage: 'issue' as const, // Rejection photos are issues
+          description: `Rejection: ${rejection_reason.substring(0, 100)}${rejection_reason.length > 100 ? '...' : ''}`,
+          issueType: 'quality' as const,
+        };
+        formData.append('metadata', JSON.stringify(metadata));
+
+        // Add photos with correct field name (fileN)
+        photos.forEach((file, index) => {
+          formData.append(`file${index}`, file);
         });
 
         const uploadResponse = await fetch('/api/upload/work-photos', {
@@ -66,7 +74,10 @@ export default function WorkEntryDetailsPage({ params }: WorkEntryDetailsPagePro
         });
 
         if (!uploadResponse.ok) {
-          console.error('Failed to upload rejection photos');
+          const errorText = await uploadResponse.text();
+          console.error('Failed to upload rejection photos:', uploadResponse.status, errorText);
+        } else {
+          console.log('Rejection photos uploaded successfully');
         }
       }
 
