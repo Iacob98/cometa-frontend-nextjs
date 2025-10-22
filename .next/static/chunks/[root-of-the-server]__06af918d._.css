@@ -2037,6 +2037,10 @@ img, video {
   background-color: rgba(244, 244, 245, var(--tw-bg-opacity, 1));
 }
 
+.bg-blue-50\/50 {
+  background-color: rgba(239, 246, 255, .5);
+}
+
 .bg-gradient-to-b {
   background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
 }
@@ -3061,6 +3065,11 @@ body {
 .hover\:bg-yellow-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgba(161, 98, 7, var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-blue-50:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(239, 246, 255, var(--tw-bg-opacity, 1));
 }
 
 .hover\:text-accent-foreground:hover {

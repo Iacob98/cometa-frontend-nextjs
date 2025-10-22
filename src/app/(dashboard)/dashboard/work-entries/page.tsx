@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Search, Filter, MapPin, User, Eye, CheckCircle, Clock, Building2, Camera, Ruler, AlertTriangle } from "lucide-react";
+import { Plus, Search, Filter, MapPin, User, Eye, CheckCircle, Clock, Building2, Camera, Ruler, AlertTriangle, Home } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -232,7 +232,10 @@ export default function WorkEntriesPage() {
                   </TableHeader>
                   <TableBody>
                     {workEntries.map((entry) => (
-                      <TableRow key={entry.id}>
+                      <TableRow
+                        key={entry.id}
+                        className={entry.house_id ? "bg-blue-50/50 hover:bg-blue-50" : ""}
+                      >
                         <TableCell>
                           <div>
                             <div className="font-medium">
@@ -254,6 +257,12 @@ export default function WorkEntriesPage() {
                               <Badge variant={getStageBadgeVariant(entry.stage_code as StageCode)}>
                                 {getStageLabel(entry.stage_code as StageCode)}
                               </Badge>
+                              {entry.house_id && (
+                                <Badge variant="secondary" className="bg-blue-100 text-blue-700 border-blue-300 text-xs">
+                                  <Home className="h-2.5 w-2.5 mr-1" />
+                                  House
+                                </Badge>
+                              )}
                               {entry.was_rejected_before && !entry.rejected_by && (
                                 <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">
                                   <AlertTriangle className="h-2.5 w-2.5 mr-1" />
@@ -281,13 +290,20 @@ export default function WorkEntriesPage() {
                           </div>
                         </TableCell>
                         <TableCell>
-                          <div className="text-sm flex items-center space-x-1">
-                            <MapPin className="h-3 w-3 text-muted-foreground" />
-                            <span>
-                              {entry.cut_id ? `Cut ${entry.cut_id}` :
-                               entry.cabinet_id ? `Cabinet ${entry.cabinet_id}` : "—"}
-                            </span>
-                          </div>
+                          {entry.house_id ? (
+                            <div className="text-sm flex items-center space-x-1 text-blue-700">
+                              <Home className="h-3.5 w-3.5" />
+                              <span className="font-medium">House Connection</span>
+                            </div>
+                          ) : (
+                            <div className="text-sm flex items-center space-x-1">
+                              <MapPin className="h-3 w-3 text-muted-foreground" />
+                              <span>
+                                {entry.cut_id ? `Cut ${entry.cut_id}` :
+                                 entry.cabinet_id ? `Cabinet ${entry.cabinet_id}` : "—"}
+                              </span>
+                            </div>
+                          )}
                         </TableCell>
                         <TableCell>
                           {entry.approved_at ? (
