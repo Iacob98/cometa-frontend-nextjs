@@ -37,6 +37,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     type="number"
                     placeholder="1200"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -58,6 +59,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     type="number"
                     placeholder="230"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -74,7 +76,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Battery Type</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select onValueChange={field.onChange} value={field.value ?? undefined}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select battery type" />
@@ -104,6 +106,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     type="number"
                     placeholder="3000"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -120,7 +123,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>IP Rating</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select onValueChange={field.onChange} value={field.value ?? undefined}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select IP rating" />
@@ -153,6 +156,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     step="0.1"
                     placeholder="2.5"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -169,7 +173,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Tool Type</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select onValueChange={field.onChange} value={field.value ?? undefined}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select tool type" />
@@ -202,6 +206,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     type="number"
                     placeholder="365"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
