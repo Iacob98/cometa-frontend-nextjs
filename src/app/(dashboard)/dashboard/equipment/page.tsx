@@ -570,6 +570,7 @@ export default function EquipmentPage() {
                 <TypedEquipmentTable
                   category={selectedCategory}
                   equipment={equipment}
+                  onDelete={handleDeleteEquipment}
                 />
               </CardContent>
             </Card>

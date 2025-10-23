@@ -2,116 +2,166 @@
 
 /**
  * Typed Equipment Table Component
- * Date: 2025-10-19
- * Purpose: Display equipment with type-specific columns based on selected view type
+ * Date: 2025-10-23
+ * Purpose: Display equipment with category-specific columns based on equipment category
+ * Updated: Now accepts equipment data as props instead of fetching internally
  */
 
-import { useState } from 'react';
-import { useTypedEquipmentView } from '@/hooks/use-typed-equipment-views';
-import type { EquipmentViewType, TypedEquipmentView, EquipmentColumnConfig } from '@/types/equipment-enhanced';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Loader2 } from 'lucide-react';
+import { Edit, Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import type { Equipment } from '@/hooks/use-equipment';
 
-// Column configurations for each view type
-const COLUMN_CONFIGS: Record<Exclude<EquipmentViewType, 'all'>, EquipmentColumnConfig[]> = {
-  power_tools: [
-    { key: 'name', label: 'Name', type: 'text', sortable: true },
-    { key: 'inventory_no', label: 'Inventory #', type: 'text', sortable: true },
-    { key: 'status', label: 'Status', type: 'status', sortable: true },
-    { key: 'power_watts', label: 'Power (W)', type: 'number', sortable: true },
-    { key: 'voltage_volts', label: 'Voltage (V)', type: 'number', sortable: true },
-    { key: 'battery_type', label: 'Battery Type', type: 'text' },
-    { key: 'battery_capacity_ah', label: 'Battery (Ah)', type: 'number' },
-    { key: 'ip_rating', label: 'IP Rating', type: 'text' },
-    { key: 'brand', label: 'Brand', type: 'text' },
-    { key: 'model', label: 'Model', type: 'text' },
+// Column configuration type
+type ColumnType = 'text' | 'number' | 'date' | 'status' | 'boolean';
+
+interface EquipmentColumnConfig {
+  key: string;
+  label: string;
+  type: ColumnType;
+  path?: string; // Path to nested property in type_details (e.g., 'type_details.power_watts')
+}
+
+// Column configurations for each category (German labels)
+const COLUMN_CONFIGS: Record<string, EquipmentColumnConfig[]> = {
+  power_tool: [
+    { key: 'name', label: 'Name', type: 'text' },
+    { key: 'inventory_no', label: 'Inventar-Nr.', type: 'text' },
+    { key: 'status', label: 'Status', type: 'status' },
+    { key: 'power_watts', label: 'Leistung (W)', type: 'number', path: 'type_details.power_watts' },
+    { key: 'voltage_volts', label: 'Spannung (V)', type: 'number', path: 'type_details.voltage_volts' },
+    { key: 'battery_type', label: 'Batterie-Typ', type: 'text', path: 'type_details.battery_type' },
+    { key: 'ip_rating', label: 'IP-Schutzklasse', type: 'text', path: 'type_details.ip_rating' },
+    { key: 'brand', label: 'Marke', type: 'text', path: 'type_details.brand' },
+    { key: 'model', label: 'Modell', type: 'text', path: 'type_details.model' },
   ],
-  fusion_splicers: [
-    { key: 'name', label: 'Name', type: 'text', sortable: true },
-    { key: 'inventory_no', label: 'Inventory #', type: 'text', sortable: true },
-    { key: 'status', label: 'Status', type: 'status', sortable: true },
-    { key: 'calibration_date', label: 'Calibration Date', type: 'date', sortable: true },
-    { key: 'calibration_status', label: 'Cal. Status', type: 'text' },
-    { key: 'splice_loss_db', label: 'Splice Loss (dB)', type: 'number' },
-    { key: 'heating_time_seconds', label: 'Heating Time (s)', type: 'number' },
-    { key: 'brand', label: 'Brand', type: 'text' },
-    { key: 'model', label: 'Model', type: 'text' },
+  fusion_splicer: [
+    { key: 'name', label: 'Name', type: 'text' },
+    { key: 'inventory_no', label: 'Inventar-Nr.', type: 'text' },
+    { key: 'status', label: 'Status', type: 'status' },
+    { key: 'splice_count', label: 'Spleißzähler', type: 'number', path: 'type_details.splice_count' },
+    { key: 'last_calibration_date', label: 'Letzte Kalibrierung', type: 'date', path: 'type_details.last_calibration_date' },
+    { key: 'next_calibration_due', label: 'Nächste Kalibrierung', type: 'date', path: 'type_details.next_calibration_due' },
+    { key: 'avg_splice_loss_db', label: 'Ø Spleißverlust (dB)', type: 'number', path: 'type_details.avg_splice_loss_db' },
+    { key: 'firmware_version', label: 'Firmware', type: 'text', path: 'type_details.firmware_version' },
+    { key: 'brand', label: 'Marke', type: 'text', path: 'type_details.brand' },
+    { key: 'model', label: 'Modell', type: 'text', path: 'type_details.model' },
   ],
-  otdrs: [
-    { key: 'name', label: 'Name', type: 'text', sortable: true },
-    { key: 'inventory_no', label: 'Inventory #', type: 'text', sortable: true },
-    { key: 'status', label: 'Status', type: 'status', sortable: true },
-    { key: 'wavelength_nm', label: 'Wavelength (nm)', type: 'number', sortable: true },
-    { key: 'dynamic_range_db', label: 'Dynamic Range (dB)', type: 'number' },
-    { key: 'dead_zone_meters', label: 'Dead Zone (m)', type: 'number' },
-    { key: 'fiber_type', label: 'Fiber Type', type: 'text' },
-    { key: 'calibration_date', label: 'Calibration Date', type: 'date', sortable: true },
-    { key: 'brand', label: 'Brand', type: 'text' },
-    { key: 'model', label: 'Model', type: 'text' },
+  otdr: [
+    { key: 'name', label: 'Name', type: 'text' },
+    { key: 'inventory_no', label: 'Inventar-Nr.', type: 'text' },
+    { key: 'status', label: 'Status', type: 'status' },
+    { key: 'wavelength_nm', label: 'Wellenlänge (nm)', type: 'number', path: 'type_details.wavelength_nm' },
+    { key: 'dynamic_range_db', label: 'Dynamikbereich (dB)', type: 'number', path: 'type_details.dynamic_range_db' },
+    { key: 'fiber_type', label: 'Fasertyp', type: 'text', path: 'type_details.fiber_type' },
+    { key: 'connector_type', label: 'Stecker-Typ', type: 'text', path: 'type_details.connector_type' },
+    { key: 'last_calibration_date', label: 'Letzte Kalibrierung', type: 'date', path: 'type_details.last_calibration_date' },
+    { key: 'brand', label: 'Marke', type: 'text', path: 'type_details.brand' },
+    { key: 'model', label: 'Modell', type: 'text', path: 'type_details.model' },
   ],
   safety_gear: [
-    { key: 'name', label: 'Name', type: 'text', sortable: true },
-    { key: 'inventory_no', label: 'Inventory #', type: 'text', sortable: true },
-    { key: 'status', label: 'Status', type: 'status', sortable: true },
-    { key: 'size', label: 'Size', type: 'text' },
-    { key: 'certification', label: 'Certification', type: 'text' },
-    { key: 'certification_expiry', label: 'Cert. Expiry', type: 'date', sortable: true },
-    { key: 'last_inspection_date', label: 'Last Inspection', type: 'date', sortable: true },
-    { key: 'next_inspection_date', label: 'Next Inspection', type: 'date', sortable: true },
-    { key: 'defects_noted', label: 'Defects', type: 'text' },
+    { key: 'name', label: 'Name', type: 'text' },
+    { key: 'inventory_no', label: 'Inventar-Nr.', type: 'text' },
+    { key: 'status', label: 'Status', type: 'status' },
+    { key: 'size', label: 'Größe', type: 'text', path: 'type_details.size' },
+    { key: 'certification', label: 'Zertifizierung', type: 'text', path: 'type_details.certification' },
+    { key: 'inspection_due_date', label: 'Nächste Inspektion', type: 'date', path: 'type_details.inspection_due_date' },
+    { key: 'certification_expiry_date', label: 'Zertifikat läuft ab', type: 'date', path: 'type_details.certification_expiry_date' },
+  ],
+  measuring_device: [
+    { key: 'name', label: 'Name', type: 'text' },
+    { key: 'inventory_no', label: 'Inventar-Nr.', type: 'text' },
+    { key: 'status', label: 'Status', type: 'status' },
+    { key: 'measurement_unit', label: 'Messeinheit', type: 'text', path: 'type_details.measurement_unit' },
+    { key: 'accuracy_rating', label: 'Genauigkeit', type: 'text', path: 'type_details.accuracy_rating' },
+    { key: 'last_calibration_date', label: 'Letzte Kalibrierung', type: 'date', path: 'type_details.last_calibration_date' },
+    { key: 'calibration_interval_months', label: 'Kalibrierintervall (Monate)', type: 'number', path: 'type_details.calibration_interval_months' },
+    { key: 'brand', label: 'Marke', type: 'text', path: 'type_details.brand' },
+    { key: 'model', label: 'Modell', type: 'text', path: 'type_details.model' },
+  ],
+  accessory: [
+    { key: 'name', label: 'Name', type: 'text' },
+    { key: 'inventory_no', label: 'Inventar-Nr.', type: 'text' },
+    { key: 'status', label: 'Status', type: 'status' },
+    { key: 'brand', label: 'Marke', type: 'text', path: 'type_details.brand' },
+    { key: 'model', label: 'Modell', type: 'text', path: 'type_details.model' },
+    { key: 'serial_number', label: 'Seriennummer', type: 'text', path: 'type_details.serial_number' },
+  ],
+  uncategorized: [
+    { key: 'name', label: 'Name', type: 'text' },
+    { key: 'inventory_no', label: 'Inventar-Nr.', type: 'text' },
+    { key: 'status', label: 'Status', type: 'status' },
+    { key: 'type', label: 'Typ', type: 'text' },
+    { key: 'current_location', label: 'Standort', type: 'text' },
+    { key: 'owned', label: 'Eigentum', type: 'boolean' },
   ],
 };
 
 interface TypedEquipmentTableProps {
-  initialViewType?: Exclude<EquipmentViewType, 'all'>;
+  category: string;
+  equipment: Equipment[];
+  onEdit?: (id: string) => void;
+  onDelete?: (id: string, name: string) => void;
 }
 
-export function TypedEquipmentTable({ initialViewType = 'power_tools' }: TypedEquipmentTableProps) {
-  const [viewType, setViewType] = useState<Exclude<EquipmentViewType, 'all'>>(initialViewType);
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [page, setPage] = useState(1);
+export function TypedEquipmentTable({
+  category,
+  equipment,
+  onEdit,
+  onDelete
+}: TypedEquipmentTableProps) {
+  const router = useRouter();
+  const columns = COLUMN_CONFIGS[category] || COLUMN_CONFIGS.uncategorized;
 
-  // Fetch data for selected view type
-  const { data, isLoading, error } = useTypedEquipmentView(viewType, {
-    search,
-    status: statusFilter !== 'all' ? statusFilter : undefined,
-    page,
-    per_page: 20,
-  });
-
-  const columns = COLUMN_CONFIGS[viewType];
+  // Get nested value using path notation (e.g., 'type_details.power_watts')
+  const getNestedValue = (obj: any, path: string) => {
+    return path.split('.').reduce((current, key) => current?.[key], obj);
+  };
 
   // Render cell value based on column type
-  const renderCellValue = (item: TypedEquipmentView, column: EquipmentColumnConfig) => {
-    const value = (item as any)[column.key];
+  const renderCellValue = (item: Equipment, column: EquipmentColumnConfig) => {
+    // Get value from nested path or direct property
+    const value = column.path
+      ? getNestedValue(item, column.path)
+      : (item as any)[column.key];
 
-    if (value === null || value === undefined) return '-';
+    if (value === null || value === undefined) return '—';
 
     switch (column.type) {
       case 'status':
         const statusColors: Record<string, string> = {
           available: 'bg-green-100 text-green-800',
-          assigned: 'bg-blue-100 text-blue-800',
+          in_use: 'bg-blue-100 text-blue-800',
           maintenance: 'bg-yellow-100 text-yellow-800',
-          damaged: 'bg-red-100 text-red-800',
+          broken: 'bg-red-100 text-red-800',
+          out_of_service: 'bg-gray-100 text-gray-800',
           retired: 'bg-gray-100 text-gray-800',
+        };
+        const statusLabels: Record<string, string> = {
+          available: 'Verfügbar',
+          in_use: 'In Benutzung',
+          maintenance: 'Wartung',
+          broken: 'Defekt',
+          out_of_service: 'Außer Betrieb',
+          retired: 'Ausgemustert',
         };
         return (
           <Badge className={statusColors[value] || 'bg-gray-100'}>
-            {value}
+            {statusLabels[value] || value}
           </Badge>
         );
 
       case 'date':
-        return new Date(value).toLocaleDateString();
+        try {
+          return new Date(value).toLocaleDateString('de-DE');
+        } catch {
+          return value;
+        }
 
       case 'boolean':
-        return value ? 'Yes' : 'No';
+        return value ? 'Ja' : 'Nein';
 
       case 'number':
         return typeof value === 'number' ? value.toFixed(2) : value;
@@ -121,125 +171,56 @@ export function TypedEquipmentTable({ initialViewType = 'power_tools' }: TypedEq
     }
   };
 
-  return (
-    <div className="space-y-4">
-      {/* Filters */}
-      <div className="flex gap-4 items-end">
-        {/* View Type Selector */}
-        <div className="flex-1">
-          <label className="block text-sm font-medium mb-2">Equipment Type</label>
-          <Select value={viewType} onValueChange={(v) => setViewType(v as Exclude<EquipmentViewType, 'all'>)}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="power_tools">Power Tools</SelectItem>
-              <SelectItem value="fusion_splicers">Fusion Splicers</SelectItem>
-              <SelectItem value="otdrs">OTDRs</SelectItem>
-              <SelectItem value="safety_gear">Safety Gear</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Status Filter */}
-        <div className="flex-1">
-          <label className="block text-sm font-medium mb-2">Status</label>
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger>
-              <SelectValue placeholder="All statuses" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All statuses</SelectItem>
-              <SelectItem value="available">Available</SelectItem>
-              <SelectItem value="assigned">Assigned</SelectItem>
-              <SelectItem value="maintenance">Maintenance</SelectItem>
-              <SelectItem value="damaged">Damaged</SelectItem>
-              <SelectItem value="retired">Retired</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Search */}
-        <div className="flex-1">
-          <label className="block text-sm font-medium mb-2">Search</label>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input
-              placeholder="Search name, inventory, brand..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9"
-            />
-          </div>
-        </div>
+  if (!equipment || equipment.length === 0) {
+    return (
+      <div className="text-center py-12 text-gray-500">
+        Keine Ausrüstung für diese Kategorie gefunden
       </div>
+    );
+  }
 
-      {/* Table */}
-      {isLoading ? (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-        </div>
-      ) : error ? (
-        <div className="text-center py-12 text-red-600">
-          Error loading equipment: {error.message}
-        </div>
-      ) : !data?.items?.length ? (
-        <div className="text-center py-12 text-gray-500">
-          No equipment found for this type
-        </div>
-      ) : (
-        <>
-          <div className="border rounded-lg overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableHead key={column.key}>{column.label}</TableHead>
-                  ))}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data.items.map((item) => (
-                  <TableRow key={item.id}>
-                    {columns.map((column) => (
-                      <TableCell key={column.key}>
-                        {renderCellValue(item, column)}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-
-          {/* Pagination */}
-          {data.total_pages > 1 && (
-            <div className="flex items-center justify-between">
-              <div className="text-sm text-gray-600">
-                Showing {((page - 1) * 20) + 1} to {Math.min(page * 20, data.total)} of {data.total} items
-              </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  disabled={page === 1}
-                >
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setPage(p => Math.min(data.total_pages, p + 1))}
-                  disabled={page >= data.total_pages}
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
-          )}
-        </>
-      )}
+  return (
+    <div className="border rounded-lg overflow-hidden">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {columns.map((column) => (
+              <TableHead key={column.key}>{column.label}</TableHead>
+            ))}
+            <TableHead className="w-[100px]">Aktionen</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {equipment.map((item) => (
+            <TableRow key={item.id} className="hover:bg-muted/50">
+              {columns.map((column) => (
+                <TableCell key={column.key}>
+                  {renderCellValue(item, column)}
+                </TableCell>
+              ))}
+              <TableCell>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onEdit ? onEdit(item.id) : router.push(`/dashboard/equipment/${item.id}/edit`)}
+                  >
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onDelete && onDelete(item.id, item.name)}
+                    className="text-red-600 hover:text-red-700"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }
