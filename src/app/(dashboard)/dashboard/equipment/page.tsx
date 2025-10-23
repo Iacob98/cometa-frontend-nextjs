@@ -38,7 +38,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { useEquipment, useEquipmentAssignments, useDeleteAssignment, useEquipmentAnalytics } from "@/hooks/use-equipment";
+import { useEquipment, useEquipmentAssignments, useDeleteAssignment, useEquipmentAnalytics, useTypedEquipmentView } from "@/hooks/use-equipment";
 import { useVehicleAssignments } from "@/hooks/use-vehicles";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, Legend } from 'recharts';
 import { ReservationsTab } from "@/components/equipment/reservations-tab";
@@ -127,6 +127,18 @@ export default function EquipmentPage() {
     category: selectedCategory !== 'all' ? selectedCategory : undefined,
     per_page: 1000
   });
+
+  // Fetch typed view data when category is selected
+  const { data: typedViewData, isLoading: isLoadingTypedView } = useTypedEquipmentView(
+    selectedCategory,
+    {
+      status: filters.status,
+      owned: filters.owned ? filters.owned === 'true' : undefined,
+      search: filters.search,
+      per_page: 1000
+    }
+  );
+
   const { data: equipmentAssignments } = useEquipmentAssignments({ active_only: true });
   const { data: analytics, isLoading: analyticsLoading } = useEquipmentAnalytics();
   const deleteAssignmentMutation = useDeleteAssignment();
@@ -136,7 +148,10 @@ export default function EquipmentPage() {
   const { data: expiringDocsData } = useExpiringDocuments(30);
   const expiringDocsCount = expiringDocsData?.total || 0;
 
-  const equipment = equipmentData?.items || [];
+  // Use typed view data when category is selected, otherwise use regular equipment data
+  const equipment = selectedCategory !== 'all' && typedViewData?.items
+    ? typedViewData.items
+    : equipmentData?.items || [];
 
   // Only equipment assignments (no vehicles)
   const assignments = (equipmentAssignments || []).map(assignment => ({
@@ -252,7 +267,7 @@ export default function EquipmentPage() {
 
   const utilizationRate = stats.total > 0 ? Math.round((stats.inUse / stats.total) * 100) : 0;
 
-  if (isLoading) {
+  if (isLoading || (selectedCategory !== 'all' && isLoadingTypedView)) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">

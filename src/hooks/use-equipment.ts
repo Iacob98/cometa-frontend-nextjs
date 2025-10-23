@@ -498,3 +498,52 @@ export function useProjectEquipmentAssignments(project_id?: string) {
     staleTime: 60 * 1000, // 1 minute - project assignments are more stable
   });
 }
+
+// Hook for getting typed equipment views with flat technical data
+type ViewType = 'power_tools' | 'fusion_splicers' | 'otdrs' | 'safety_gear' | 'measuring_devices' | 'accessories';
+
+interface TypedViewFilters {
+  status?: string;
+  owned?: boolean;
+  search?: string;
+  page?: number;
+  per_page?: number;
+}
+
+export function useTypedEquipmentView(category: string, filters?: TypedViewFilters) {
+  // Map category names to view types
+  const viewTypeMap: Record<string, ViewType> = {
+    'power_tool': 'power_tools',
+    'fusion_splicer': 'fusion_splicers',
+    'otdr': 'otdrs',
+    'safety_gear': 'safety_gear',
+    'measuring_device': 'measuring_devices',
+    'accessory': 'accessories',
+  };
+
+  const viewType = viewTypeMap[category];
+
+  return useQuery({
+    queryKey: ['equipment', 'typed-view', viewType, filters],
+    queryFn: async () => {
+      if (!viewType) {
+        return { items: [], total: 0, page: 1, per_page: 20, total_pages: 0 };
+      }
+
+      const params = new URLSearchParams();
+      if (filters?.status) params.append('status', filters.status);
+      if (filters?.owned !== undefined) params.append('owned', String(filters.owned));
+      if (filters?.search) params.append('search', filters.search);
+      if (filters?.page) params.append('page', String(filters.page));
+      if (filters?.per_page) params.append('per_page', String(filters.per_page));
+
+      const response = await fetch(`/api/equipment/typed-views/${viewType}?${params}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch typed equipment view');
+      }
+      return response.json();
+    },
+    enabled: !!viewType,
+    staleTime: 30 * 1000, // 30 seconds
+  });
+}
