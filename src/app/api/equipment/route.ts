@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { createEquipmentSchema, computeNextCalibrationDate, computeNextInspectionDate } from "@/lib/validations/equipment-categories";
-import type { EquipmentCategory } from "@/types";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -15,11 +14,12 @@ export async function GET(request: NextRequest) {
     const per_page = parseInt(searchParams.get("per_page") || "20");
     const offset = (page - 1) * per_page;
     const type = searchParams.get("type");
+    const category = searchParams.get("category"); // NEW: category filter
     const status = searchParams.get("status");
     const search = searchParams.get("search");
     const owned = searchParams.get("owned");
 
-    // Get equipment directly from Supabase with correct field names
+    // Get equipment directly from Supabase with type_details JOIN
     let query = supabase
       .from("equipment")
       .select(
@@ -27,6 +27,7 @@ export async function GET(request: NextRequest) {
         id,
         name,
         type,
+        category,
         inventory_no,
         status,
         rental_cost_per_day,
@@ -38,7 +39,37 @@ export async function GET(request: NextRequest) {
         current_location,
         is_active,
         created_at,
-        updated_at
+        updated_at,
+        equipment_type_details (
+          id,
+          brand,
+          model,
+          serial_number,
+          manufacturer,
+          power_watts,
+          voltage_volts,
+          battery_type,
+          battery_capacity_ah,
+          ip_rating,
+          rpm,
+          splice_count,
+          arc_calibration_date,
+          avg_splice_loss_db,
+          firmware_version,
+          wavelength_nm,
+          dynamic_range_db,
+          fiber_type,
+          connector_type,
+          size,
+          certification,
+          inspection_due_date,
+          certification_expiry_date,
+          last_calibration_date,
+          calibration_interval_months,
+          calibration_certificate_no,
+          accuracy_rating,
+          measurement_unit
+        )
       `,
         { count: "exact" }
       )
@@ -49,6 +80,15 @@ export async function GET(request: NextRequest) {
     // Apply filters
     if (type) {
       query = query.eq("type", type);
+    }
+
+    // NEW: Category filter
+    if (category) {
+      if (category === 'uncategorized') {
+        query = query.is("category", null);
+      } else {
+        query = query.eq("category", category);
+      }
     }
 
     if (status === "available") {
@@ -93,8 +133,16 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Transform equipment data to flatten type_details
+    const transformedEquipment = equipment?.map(item => ({
+      ...item,
+      type_details: Array.isArray(item.equipment_type_details) && item.equipment_type_details.length > 0
+        ? item.equipment_type_details[0]
+        : null
+    })) || [];
+
     return NextResponse.json({
-      items: equipment || [],
+      items: transformedEquipment,
       total: count || 0,
       page,
       per_page,
@@ -120,7 +168,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "Validation failed",
-          details: validationResult.error.errors
+          details: validationResult.error.issues
         },
         { status: 400 }
       );
@@ -130,33 +178,33 @@ export async function POST(request: NextRequest) {
     const { category, type_details, ...baseFields } = data;
 
     // Auto-compute dates based on category
-    let processedTypeDetails = { ...type_details };
+    let processedTypeDetails: any = { ...type_details };
 
-    if (category === 'fusion_splicer' && type_details.last_calibration_date) {
-      const intervalDays = type_details.maintenance_interval_days || 365;
+    if (category === 'fusion_splicer' && 'last_calibration_date' in type_details && type_details.last_calibration_date) {
+      const intervalDays = ('maintenance_interval_days' in type_details && type_details.maintenance_interval_days) || 365;
       processedTypeDetails.next_calibration_due = computeNextCalibrationDate(
         type_details.last_calibration_date,
         intervalDays
       );
     }
 
-    if (category === 'otdr' && type_details.last_calibration_date) {
-      const intervalDays = (type_details.calibration_interval_months || 12) * 30;
+    if (category === 'otdr' && 'last_calibration_date' in type_details && type_details.last_calibration_date) {
+      const intervalDays = (('calibration_interval_months' in type_details && type_details.calibration_interval_months) || 12) * 30;
       processedTypeDetails.next_calibration = computeNextCalibrationDate(
         type_details.last_calibration_date,
         intervalDays
       );
     }
 
-    if (category === 'measuring_device' && type_details.last_calibration_date) {
-      const intervalDays = (type_details.calibration_interval_months || 12) * 30;
+    if (category === 'measuring_device' && 'last_calibration_date' in type_details && type_details.last_calibration_date) {
+      const intervalDays = (('calibration_interval_months' in type_details && type_details.calibration_interval_months) || 12) * 30;
       processedTypeDetails.next_calibration = computeNextCalibrationDate(
         type_details.last_calibration_date,
         intervalDays
       );
     }
 
-    if (category === 'power_tool' && type_details.inspection_interval_days) {
+    if (category === 'power_tool' && 'inspection_interval_days' in type_details && type_details.inspection_interval_days) {
       const today = new Date().toISOString().split('T')[0];
       processedTypeDetails.next_inspection_date = computeNextInspectionDate(
         today,

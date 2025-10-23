@@ -1,9 +1,54 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
+export interface EquipmentTypeDetails {
+  id?: string;
+  brand?: string;
+  model?: string;
+  serial_number?: string;
+  manufacturer?: string;
+
+  // Power Tool
+  power_watts?: number;
+  voltage_volts?: number;
+  battery_type?: string;
+  battery_capacity_ah?: number;
+  ip_rating?: string;
+  rpm?: number;
+
+  // Fusion Splicer
+  splice_count?: number;
+  arc_calibration_date?: string;
+  avg_splice_loss_db?: number;
+  firmware_version?: string;
+
+  // OTDR
+  wavelength_nm?: number;
+  dynamic_range_db?: number;
+  fiber_type?: string;
+  connector_type?: string;
+
+  // Safety Gear
+  size?: string;
+  certification?: string;
+  inspection_due_date?: string;
+  certification_expiry_date?: string;
+
+  // Measuring Device
+  last_calibration_date?: string;
+  calibration_interval_months?: number;
+  calibration_certificate_no?: string;
+  accuracy_rating?: string;
+  measurement_unit?: string;
+
+  // Extensibility
+  [key: string]: any;
+}
+
 export interface Equipment {
   id: string;
   type: 'machine' | 'tool' | 'measuring_device';
+  category?: 'power_tool' | 'fusion_splicer' | 'otdr' | 'safety_gear' | 'measuring_device' | 'accessory';
   name: string;
   inventory_no?: string;
   owned: boolean;
@@ -14,6 +59,8 @@ export interface Equipment {
   description?: string;
   is_active?: boolean;
   quantity?: number; // Available quantity in inventory
+  type_details?: EquipmentTypeDetails | null;
+  current_location?: string;
 }
 
 export interface EquipmentAssignment {
@@ -96,6 +143,7 @@ export interface EquipmentAnalytics {
 
 interface EquipmentFilters {
   type?: string;
+  category?: string;
   status?: string;
   owned?: string;
   search?: string;
@@ -114,6 +162,7 @@ const api = {
   getEquipment: async (filters?: EquipmentFilters): Promise<{ items: Equipment[]; total: number; page: number; per_page: number; total_pages: number }> => {
     const params = new URLSearchParams();
     if (filters?.type) params.append('type', filters.type);
+    if (filters?.category) params.append('category', filters.category);
     if (filters?.status) params.append('status', filters.status);
     if (filters?.owned) params.append('owned', filters.owned);
     if (filters?.search) params.append('search', filters.search);
