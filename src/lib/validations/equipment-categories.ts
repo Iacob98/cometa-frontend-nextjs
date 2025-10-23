@@ -130,13 +130,12 @@ export const accessorySchema = baseEquipmentSchema.extend({
   type_details: accessoryDetailsSchema,
 });
 
-// Union schema for all categories
+// Union schema for all categories (excluding vehicle - managed separately)
 export const createEquipmentSchema = z.discriminatedUnion('category', [
   powerToolSchema,
   fusionSplicerSchema,
   otdrSchema,
   safetyGearSchema,
-  vehicleEquipmentSchema,
   measuringDeviceSchema,
   accessorySchema,
 ]);
@@ -170,48 +169,42 @@ export function computeNextInspectionDate(
   return date.toISOString().split('T')[0];
 }
 
-// Category configuration for form rendering
+// Category configuration for form rendering (German translations)
 export const categoryConfig = {
   power_tool: {
-    label: 'Power Tool',
-    description: 'Drills, grinders, saws, compressors, etc.',
+    label: 'Elektrowerkzeug',
+    description: 'Bohrer, Schleifer, Sägen, Kompressoren, usw.',
     icon: 'Wrench',
     requiredFields: ['power_watts'],
   },
   fusion_splicer: {
-    label: 'Fusion Splicer',
-    description: 'Fiber optic welding and splicing equipment',
+    label: 'Fusion-Spleißgerät',
+    description: 'Glasfaser-Schweiß- und Spleißausrüstung',
     icon: 'Cable',
     requiredFields: ['last_calibration_date'],
-    badge: 'Calibration Required',
+    badge: 'Kalibrierung erforderlich',
   },
   otdr: {
     label: 'OTDR',
-    description: 'Optical Time Domain Reflectometer',
+    description: 'Optisches Zeitbereichsreflektometer',
     icon: 'Radio',
     requiredFields: ['wavelengths_nm', 'calibration_date'],
   },
   safety_gear: {
-    label: 'Safety Gear',
-    description: 'Helmets, harnesses, gloves, reflective vests',
+    label: 'Sicherheitsausrüstung',
+    description: 'Helme, Gurte, Handschuhe, Warnwesten',
     icon: 'Shield',
     requiredFields: ['next_inspection_date'],
   },
-  vehicle: {
-    label: 'Vehicle / Transport',
-    description: 'Company vans, trailers, lifts',
-    icon: 'Truck',
-    requiredFields: ['license_plate'],
-  },
   measuring_device: {
-    label: 'Measuring Device',
-    description: 'Laser meters, multimeters, thermometers',
+    label: 'Messgerät',
+    description: 'Lasermessgeräte, Multimeter, Thermometer',
     icon: 'Ruler',
     requiredFields: ['calibration_date'],
   },
   accessory: {
-    label: 'Accessory / Component',
-    description: 'Cases, batteries, cables, replacement parts',
+    label: 'Zubehör / Komponente',
+    description: 'Koffer, Batterien, Kabel, Ersatzteile',
     icon: 'Package',
     requiredFields: [],
   },

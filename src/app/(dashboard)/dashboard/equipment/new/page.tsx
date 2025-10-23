@@ -54,7 +54,7 @@ export default function NewEquipmentPage() {
       const hasTypeDetails = typeDetails && Object.keys(typeDetails).length > 0;
 
       if (hasTypeDetails && selectedCategory) {
-        if (confirm("Changing category will clear category-specific fields. Continue?")) {
+        if (confirm("Das Ändern der Kategorie löscht kategoriespezifische Felder. Fortfahren?")) {
           form.setValue("type_details", {});
           setSelectedCategory(watchedCategory);
         } else {
@@ -84,11 +84,11 @@ export default function NewEquipmentPage() {
       }
 
       const result = await response.json();
-      toast.success("Equipment created successfully!");
+      toast.success("Ausrüstung erfolgreich erstellt!");
       router.push("/dashboard/equipment");
     } catch (error) {
       console.error("Equipment creation error:", error);
-      toast.error(error instanceof Error ? error.message : "Failed to create equipment");
+      toast.error(error instanceof Error ? error.message : "Fehler beim Erstellen der Ausrüstung");
     } finally {
       setIsSubmitting(false);
     }
@@ -101,12 +101,12 @@ export default function NewEquipmentPage() {
         <div className="flex items-center space-x-4">
           <Button variant="ghost" size="sm" onClick={() => router.back()} className="flex items-center">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            Zurück
           </Button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Add New Equipment</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Neue Ausrüstung hinzufügen</h1>
             <p className="text-muted-foreground">
-              Create a new equipment entry with category-specific specifications
+              Erstellen Sie einen neuen Ausrüstungseintrag mit kategoriespezifischen Spezifikationen
             </p>
           </div>
         </div>
@@ -121,9 +121,9 @@ export default function NewEquipmentPage() {
             {/* Category Selection - FIRST */}
             <Card>
               <CardHeader>
-                <CardTitle>Select Equipment Category</CardTitle>
+                <CardTitle>Ausrüstungskategorie auswählen</CardTitle>
                 <CardDescription>
-                  Choose the category that best describes this equipment. This determines which specific fields you'll need to fill.
+                  Wählen Sie die Kategorie, die diese Ausrüstung am besten beschreibt. Dies bestimmt, welche spezifischen Felder Sie ausfüllen müssen.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -132,11 +132,11 @@ export default function NewEquipmentPage() {
                   name="category"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Category *</FormLabel>
+                      <FormLabel>Kategorie *</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select equipment category" />
+                            <SelectValue placeholder="Ausrüstungskategorie auswählen" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -151,7 +151,7 @@ export default function NewEquipmentPage() {
                         </SelectContent>
                       </Select>
                       <FormDescription>
-                        Select the type of equipment you're adding
+                        Wählen Sie den Typ der Ausrüstung, die Sie hinzufügen
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -162,7 +162,7 @@ export default function NewEquipmentPage() {
                   <Alert className="mt-4">
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription>
-                      <strong>{categoryConfig[selectedCategory].badge}</strong> - This equipment type requires additional compliance data.
+                      <strong>{categoryConfig[selectedCategory].badge}</strong> - Dieser Ausrüstungstyp erfordert zusätzliche Compliance-Daten.
                     </AlertDescription>
                   </Alert>
                 )}
@@ -172,8 +172,8 @@ export default function NewEquipmentPage() {
             {/* Base Equipment Information */}
             <Card>
               <CardHeader>
-                <CardTitle>Basic Information</CardTitle>
-                <CardDescription>Common fields for all equipment types</CardDescription>
+                <CardTitle>Grundinformationen</CardTitle>
+                <CardDescription>Gemeinsame Felder für alle Ausrüstungstypen</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -183,11 +183,11 @@ export default function NewEquipmentPage() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Equipment Name *</FormLabel>
+                        <FormLabel>Ausrüstungsname *</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Hilti TE 60, Fujikura 70S" {...field} />
+                          <Input placeholder="z.B. Hilti TE 60, Fujikura 70S" {...field} />
                         </FormControl>
-                        <FormDescription>Human-readable name</FormDescription>
+                        <FormDescription>Lesbarer Name</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -199,11 +199,11 @@ export default function NewEquipmentPage() {
                     name="inventory_no"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Inventory Number</FormLabel>
+                        <FormLabel>Inventarnummer</FormLabel>
                         <FormControl>
                           <Input placeholder="EQ-001" {...field} />
                         </FormControl>
-                        <FormDescription>Internal tracking number (must be unique)</FormDescription>
+                        <FormDescription>Interne Tracking-Nummer (muss eindeutig sein)</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -215,9 +215,9 @@ export default function NewEquipmentPage() {
                     name="manufacturer"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Manufacturer</FormLabel>
+                        <FormLabel>Hersteller</FormLabel>
                         <FormControl>
-                          <Input placeholder="Brand or company" {...field} />
+                          <Input placeholder="Marke oder Firma" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -230,9 +230,9 @@ export default function NewEquipmentPage() {
                     name="model"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Model</FormLabel>
+                        <FormLabel>Modell</FormLabel>
                         <FormControl>
-                          <Input placeholder="Model name or code" {...field} />
+                          <Input placeholder="Modellname oder -code" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -245,11 +245,11 @@ export default function NewEquipmentPage() {
                     name="serial_number"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Serial Number</FormLabel>
+                        <FormLabel>Seriennummer</FormLabel>
                         <FormControl>
-                          <Input placeholder="Manufacturer's serial" {...field} />
+                          <Input placeholder="Seriennummer des Herstellers" {...field} />
                         </FormControl>
-                        <FormDescription>Optional for non-serial items</FormDescription>
+                        <FormDescription>Optional für nicht-serielle Artikel</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -261,11 +261,11 @@ export default function NewEquipmentPage() {
                     name="purchase_date"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Purchase Date</FormLabel>
+                        <FormLabel>Kaufdatum</FormLabel>
                         <FormControl>
                           <Input type="date" {...field} />
                         </FormControl>
-                        <FormDescription>Optional, for cost tracking</FormDescription>
+                        <FormDescription>Optional, für Kostenverfolgung</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -277,7 +277,7 @@ export default function NewEquipmentPage() {
                     name="purchase_price"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Purchase Price (€)</FormLabel>
+                        <FormLabel>Kaufpreis (€)</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
@@ -287,7 +287,7 @@ export default function NewEquipmentPage() {
                             onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                           />
                         </FormControl>
-                        <FormDescription>Optional, stored in EUR</FormDescription>
+                        <FormDescription>Optional, gespeichert in EUR</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -299,17 +299,17 @@ export default function NewEquipmentPage() {
                     name="ownership"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Ownership</FormLabel>
+                        <FormLabel>Eigentum</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select ownership" />
+                              <SelectValue placeholder="Eigentum auswählen" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="owned">Owned</SelectItem>
-                            <SelectItem value="rented">Rented</SelectItem>
-                            <SelectItem value="leased">Leased</SelectItem>
+                            <SelectItem value="owned">Eigentum</SelectItem>
+                            <SelectItem value="rented">Gemietet</SelectItem>
+                            <SelectItem value="leased">Geleast</SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -323,9 +323,9 @@ export default function NewEquipmentPage() {
                     name="location"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Location</FormLabel>
+                        <FormLabel>Standort</FormLabel>
                         <FormControl>
-                          <Input placeholder="Warehouse, site, or vehicle" {...field} />
+                          <Input placeholder="Lager, Baustelle oder Fahrzeug" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -342,18 +342,18 @@ export default function NewEquipmentPage() {
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select status" />
+                              <SelectValue placeholder="Status auswählen" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value="available">Available</SelectItem>
-                            <SelectItem value="in_use">In Use</SelectItem>
-                            <SelectItem value="maintenance">Maintenance</SelectItem>
-                            <SelectItem value="out_of_service">Out of Service</SelectItem>
-                            <SelectItem value="retired">Retired</SelectItem>
+                            <SelectItem value="available">Verfügbar</SelectItem>
+                            <SelectItem value="in_use">In Benutzung</SelectItem>
+                            <SelectItem value="maintenance">Wartung</SelectItem>
+                            <SelectItem value="out_of_service">Außer Betrieb</SelectItem>
+                            <SelectItem value="retired">Ausgemustert</SelectItem>
                           </SelectContent>
                         </Select>
-                        <FormDescription>Default: available</FormDescription>
+                        <FormDescription>Standard: verfügbar</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -366,9 +366,9 @@ export default function NewEquipmentPage() {
                   name="notes"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Notes</FormLabel>
+                      <FormLabel>Notizen</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Additional notes or comments" className="min-h-[100px]" {...field} />
+                        <Textarea placeholder="Zusätzliche Notizen oder Kommentare" className="min-h-[100px]" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -383,18 +383,18 @@ export default function NewEquipmentPage() {
             {/* Form Actions */}
             <div className="flex items-center justify-end space-x-4 pt-6">
               <Button type="button" variant="outline" onClick={() => router.back()} disabled={isSubmitting}>
-                Cancel
+                Abbrechen
               </Button>
               <Button type="submit" disabled={isSubmitting || !selectedCategory}>
                 {isSubmitting ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Creating...
+                    Wird erstellt...
                   </>
                 ) : (
                   <>
                     <Save className="h-4 w-4 mr-2" />
-                    Create Equipment
+                    Ausrüstung erstellen
                   </>
                 )}
               </Button>
