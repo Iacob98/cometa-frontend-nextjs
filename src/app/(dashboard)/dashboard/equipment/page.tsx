@@ -47,6 +47,7 @@ import { UsageTab } from "@/components/equipment/usage-tab";
 import { TypedEquipmentTable } from "@/components/equipment/typed-equipment-table";
 import { useOverdueMaintenanceCount } from "@/hooks/use-maintenance-schedules";
 import { useExpiringDocuments } from "@/hooks/use-equipment-documents";
+import { categoryConfig } from "@/lib/validations/equipment-categories";
 
 const statusColors = {
   available: "bg-green-100 text-green-800 border-green-200",
@@ -100,7 +101,7 @@ export default function EquipmentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState("fleet");
-  const [viewMode, setViewMode] = useState<'standard' | 'typed'>('standard');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [filters, setFilters] = useState({
     type: "",
     status: "",
@@ -108,16 +109,22 @@ export default function EquipmentPage() {
     search: "",
   });
 
-  // Handle URL tab parameter
+  // Handle URL tab and category parameters
   useEffect(() => {
     const tabParam = searchParams.get('tab');
     if (tabParam && ['fleet', 'assignments', 'usage', 'reservations', 'documents', 'usage-logs'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
+
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      setSelectedCategory(categoryParam);
+    }
   }, [searchParams]);
 
   const { data: equipmentData, isLoading } = useEquipment({
     ...filters,
+    category: selectedCategory !== 'all' ? selectedCategory : undefined,
     per_page: 1000
   });
   const { data: equipmentAssignments } = useEquipmentAssignments({ active_only: true });
@@ -189,6 +196,19 @@ export default function EquipmentPage() {
 
   const handleEditAssignment = (assignmentId: string) => {
     router.push(`/dashboard/equipment/assignments/${assignmentId}`);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+
+    // Update URL
+    const params = new URLSearchParams(searchParams.toString());
+    if (category === 'all') {
+      params.delete('category');
+    } else {
+      params.set('category', category);
+    }
+    router.push(`/dashboard/equipment?${params.toString()}`);
   };
 
   const handleDeleteAssignment = async (assignmentId: string, equipmentName: string) => {
@@ -476,51 +496,84 @@ export default function EquipmentPage() {
             </CardContent>
           </Card>
 
-          {/* View Mode Toggle */}
+          {/* Category Tabs */}
           <Card>
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-sm font-medium">View Mode</h3>
-                  <p className="text-sm text-gray-500">Choose between standard or type-specific view</p>
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant={viewMode === 'standard' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setViewMode('standard')}
-                  >
-                    Standard View
-                  </Button>
-                  <Button
-                    variant={viewMode === 'typed' ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setViewMode('typed')}
-                  >
-                    Typed View (Power Tools, OTDR, etc.)
-                  </Button>
-                </div>
-              </div>
+            <CardHeader>
+              <CardTitle>Kategorien</CardTitle>
+              <CardDescription>
+                Filtern Sie Ausrüstung nach Kategorie mit spezifischen technischen Spalten
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Tabs value={selectedCategory} onValueChange={handleCategoryChange} className="w-full">
+                <TabsList className="grid grid-cols-4 md:grid-cols-8 w-full gap-1">
+                  <TabsTrigger value="all" className="flex items-center gap-1 text-xs md:text-sm px-2">
+                    <Package className="h-3 w-3 md:h-4 md:w-4" />
+                    <span>Alle</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="power_tool" className="flex items-center gap-1 text-xs md:text-sm px-2">
+                    <Wrench className="h-3 w-3 md:h-4 md:w-4" />
+                    <span className="hidden lg:inline">Elektrowerkzeug</span>
+                    <span className="lg:hidden">Elektro</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="fusion_splicer" className="flex items-center gap-1 text-xs md:text-sm px-2">
+                    <Activity className="h-3 w-3 md:h-4 md:w-4" />
+                    <span className="hidden lg:inline">Spleißgerät</span>
+                    <span className="lg:hidden">Spleiß</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="otdr" className="flex items-center gap-1 text-xs md:text-sm px-2">
+                    <Activity className="h-3 w-3 md:h-4 md:w-4" />
+                    <span>OTDR</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="safety_gear" className="flex items-center gap-1 text-xs md:text-sm px-2">
+                    <Settings className="h-3 w-3 md:h-4 md:w-4" />
+                    <span className="hidden lg:inline">Sicherheit</span>
+                    <span className="lg:hidden">Safety</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="measuring_device" className="flex items-center gap-1 text-xs md:text-sm px-2">
+                    <BarChart3 className="h-3 w-3 md:h-4 md:w-4" />
+                    <span className="hidden lg:inline">Messgerät</span>
+                    <span className="lg:hidden">Mess</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="accessory" className="flex items-center gap-1 text-xs md:text-sm px-2">
+                    <Package className="h-3 w-3 md:h-4 md:w-4" />
+                    <span className="hidden lg:inline">Zubehör</span>
+                    <span className="lg:hidden">Zub</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="uncategorized" className="flex items-center gap-1 text-xs md:text-sm px-2">
+                    <AlertTriangle className="h-3 w-3 md:h-4 md:w-4" />
+                    <span className="hidden lg:inline">Nicht kategorisiert</span>
+                    <span className="lg:hidden">Unkategorisiert</span>
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
             </CardContent>
           </Card>
 
-          {/* Typed Equipment View */}
-          {viewMode === 'typed' && (
+          {/* Equipment Table - Category-Specific or All */}
+          {selectedCategory !== 'all' ? (
             <Card>
               <CardHeader>
-                <CardTitle>Typed Equipment View</CardTitle>
+                <CardTitle>
+                  {categoryConfig[selectedCategory as keyof typeof categoryConfig]?.label || 'Ausrüstung'}
+                </CardTitle>
                 <CardDescription>
-                  View equipment with type-specific technical columns
+                  {equipment.length} Ausrüstungsgegenstand{equipment.length !== 1 ? 'e' : ''} gefunden
+                  {selectedCategory !== 'all' && categoryConfig[selectedCategory as keyof typeof categoryConfig] && (
+                    <span className="ml-2 text-sm text-muted-foreground">
+                      ({categoryConfig[selectedCategory as keyof typeof categoryConfig].description})
+                    </span>
+                  )}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <TypedEquipmentTable />
+                <TypedEquipmentTable
+                  category={selectedCategory}
+                  equipment={equipment}
+                />
               </CardContent>
             </Card>
-          )}
-
-          {/* Standard Equipment Table */}
-          {viewMode === 'standard' && (
+          ) : (
           <Card>
             <CardHeader>
               <CardTitle>Equipment Fleet</CardTitle>
