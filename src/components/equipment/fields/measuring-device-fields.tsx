@@ -53,6 +53,7 @@ export function MeasuringDeviceFields({ form }: MeasuringDeviceFieldsProps) {
                     type="number"
                     placeholder="12"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -69,7 +70,7 @@ export function MeasuringDeviceFields({ form }: MeasuringDeviceFieldsProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Measurement Type</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select onValueChange={field.onChange} value={field.value ?? undefined}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select measurement type" />
@@ -96,7 +97,7 @@ export function MeasuringDeviceFields({ form }: MeasuringDeviceFieldsProps) {
               <FormItem>
                 <FormLabel>Range</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., 0-100m, 0-600V" {...field} />
+                  <Input placeholder="e.g., 0-100m, 0-600V" {...field} value={field.value ?? ''} />
                 </FormControl>
                 <FormDescription>Measurement range</FormDescription>
                 <FormMessage />
@@ -112,7 +113,7 @@ export function MeasuringDeviceFields({ form }: MeasuringDeviceFieldsProps) {
               <FormItem>
                 <FormLabel>Accuracy</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., ±2%" {...field} />
+                  <Input placeholder="e.g., ±2%" {...field} value={field.value ?? ''} />
                 </FormControl>
                 <FormDescription>Accuracy rating</FormDescription>
                 <FormMessage />
@@ -128,7 +129,7 @@ export function MeasuringDeviceFields({ form }: MeasuringDeviceFieldsProps) {
               <FormItem>
                 <FormLabel>Battery Type</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., 9V, AA, Li-ion" {...field} />
+                  <Input placeholder="e.g., 9V, AA, Li-ion" {...field} value={field.value ?? ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

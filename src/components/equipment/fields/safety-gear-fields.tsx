@@ -52,6 +52,7 @@ export function SafetyGearFields({ form }: SafetyGearFieldsProps) {
                     type="number"
                     placeholder="6"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -69,7 +70,7 @@ export function SafetyGearFields({ form }: SafetyGearFieldsProps) {
               <FormItem>
                 <FormLabel>Size</FormLabel>
                 <FormControl>
-                  <Input placeholder="M, L, XL, etc." {...field} />
+                  <Input placeholder="M, L, XL, etc." {...field} value={field.value ?? ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -84,7 +85,7 @@ export function SafetyGearFields({ form }: SafetyGearFieldsProps) {
               <FormItem>
                 <FormLabel>Certification</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., EN 361:2002" {...field} />
+                  <Input placeholder="e.g., EN 361:2002" {...field} value={field.value ?? ''} />
                 </FormControl>
                 <FormDescription>Safety standard certification</FormDescription>
                 <FormMessage />
@@ -100,7 +101,7 @@ export function SafetyGearFields({ form }: SafetyGearFieldsProps) {
               <FormItem>
                 <FormLabel>Expiration Date</FormLabel>
                 <FormControl>
-                  <Input type="date" {...field} />
+                  <Input type="date" {...field} value={field.value ?? ''} />
                 </FormControl>
                 <FormDescription>If shelf life limited</FormDescription>
                 <FormMessage />
@@ -116,7 +117,7 @@ export function SafetyGearFields({ form }: SafetyGearFieldsProps) {
               <FormItem>
                 <FormLabel>Color</FormLabel>
                 <FormControl>
-                  <Input placeholder="Yellow, Orange, etc." {...field} />
+                  <Input placeholder="Yellow, Orange, etc." {...field} value={field.value ?? ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

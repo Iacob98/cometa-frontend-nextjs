@@ -32,7 +32,7 @@ export function AccessoryFields({ form }: AccessoryFieldsProps) {
               <FormItem>
                 <FormLabel>Part Number</FormLabel>
                 <FormControl>
-                  <Input placeholder="Manufacturer's part number" {...field} />
+                  <Input placeholder="Manufacturer's part number" {...field} value={field.value ?? ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -51,6 +51,7 @@ export function AccessoryFields({ form }: AccessoryFieldsProps) {
                     type="number"
                     placeholder="1"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -72,6 +73,7 @@ export function AccessoryFields({ form }: AccessoryFieldsProps) {
                     type="number"
                     placeholder="12"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>

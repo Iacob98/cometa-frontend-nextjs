@@ -57,6 +57,7 @@ export function FusionSplicerFields({ form }: FusionSplicerFieldsProps) {
                     type="number"
                     placeholder="365"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -78,6 +79,7 @@ export function FusionSplicerFields({ form }: FusionSplicerFieldsProps) {
                     type="number"
                     placeholder="0"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -95,7 +97,7 @@ export function FusionSplicerFields({ form }: FusionSplicerFieldsProps) {
               <FormItem>
                 <FormLabel>Firmware Version</FormLabel>
                 <FormControl>
-                  <Input placeholder="v3.1.2" {...field} />
+                  <Input placeholder="v3.1.2" {...field} value={field.value ?? ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -116,6 +118,7 @@ export function FusionSplicerFields({ form }: FusionSplicerFieldsProps) {
                     max="100"
                     placeholder="100"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>

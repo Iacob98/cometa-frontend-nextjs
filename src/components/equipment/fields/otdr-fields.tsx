@@ -54,6 +54,7 @@ export function OTDRFields({ form }: OTDRFieldsProps) {
                     type="number"
                     placeholder="12"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -76,6 +77,7 @@ export function OTDRFields({ form }: OTDRFieldsProps) {
                     step="0.1"
                     placeholder="35.0"
                     {...field}
+                    value={field.value ?? ''}
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
@@ -92,7 +94,7 @@ export function OTDRFields({ form }: OTDRFieldsProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Fiber Type</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select onValueChange={field.onChange} value={field.value ?? undefined}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select fiber type" />
@@ -117,7 +119,7 @@ export function OTDRFields({ form }: OTDRFieldsProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Connector Type</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select onValueChange={field.onChange} value={field.value ?? undefined}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select connector" />
@@ -143,7 +145,7 @@ export function OTDRFields({ form }: OTDRFieldsProps) {
               <FormItem>
                 <FormLabel>Firmware Version</FormLabel>
                 <FormControl>
-                  <Input placeholder="v2.5.1" {...field} />
+                  <Input placeholder="v2.5.1" {...field} value={field.value ?? ''} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
