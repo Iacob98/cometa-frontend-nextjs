@@ -5,7 +5,7 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export type NotificationPriority = 'urgent' | 'high' | 'normal' | 'low';
+export type NotificationPriority = 'urgent' | 'high' | 'medium' | 'normal' | 'low';
 export type NotificationType =
   | 'project_start'
   | 'project_end'
@@ -39,7 +39,7 @@ export async function checkDuplicateNotification(
   since.setHours(since.getHours() - hours);
 
   const { data, error } = await supabase
-    .from('notifications')
+    .from('in_app_notifications')
     .select('id')
     .eq('user_id', userId)
     .eq('title', title)
@@ -82,13 +82,13 @@ export async function createNotification(
 
   // Create the notification
   const { data: notification, error } = await supabase
-    .from('notifications')
+    .from('in_app_notifications')
     .insert([
       {
         user_id,
         title,
         message,
-        type,
+        notification_type: type,
         priority,
         action_url,
         data,

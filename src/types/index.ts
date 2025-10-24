@@ -696,7 +696,7 @@ export type NotificationType =
   | "user_mention"
   | "approval_required";
 
-export type NotificationPriority = "low" | "normal" | "high" | "urgent";
+export type NotificationPriority = "low" | "medium" | "normal" | "high" | "urgent";
 
 export type WebSocketMessageType =
   | "notification"

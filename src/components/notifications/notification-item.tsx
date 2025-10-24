@@ -26,6 +26,12 @@ const priorityConfig: Record<NotificationPriority, {
     bgColor: "bg-blue-50",
     badgeVariant: "secondary",
   },
+  medium: {
+    icon: Info,
+    color: "text-blue-600",
+    bgColor: "bg-blue-100",
+    badgeVariant: "secondary",
+  },
   normal: {
     icon: Info,
     color: "text-gray-600",
