@@ -73,28 +73,24 @@ const statusIcons = {
   broken: XCircle,
 };
 
-const typeColors = {
-  machine: "bg-purple-100 text-purple-800 border-purple-200",
-  tool: "bg-orange-100 text-orange-800 border-orange-200",
+const categoryColors = {
+  power_tool: "bg-orange-100 text-orange-800 border-orange-200",
+  fusion_splicer: "bg-purple-100 text-purple-800 border-purple-200",
+  otdr: "bg-blue-100 text-blue-800 border-blue-200",
+  safety_gear: "bg-green-100 text-green-800 border-green-200",
   measuring_device: "bg-cyan-100 text-cyan-800 border-cyan-200",
-  // Vehicle types
-  van: "bg-blue-100 text-blue-800 border-blue-200",
-  truck: "bg-indigo-100 text-indigo-800 border-indigo-200",
-  trailer: "bg-gray-100 text-gray-800 border-gray-200",
-  excavator: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  other: "bg-slate-100 text-slate-800 border-slate-200",
+  accessory: "bg-gray-100 text-gray-800 border-gray-200",
+  uncategorized: "bg-slate-100 text-slate-800 border-slate-200",
 } as const;
 
-const typeLabels = {
-  machine: "Machine",
-  tool: "Tool",
+const categoryLabelsEN = {
+  power_tool: "Power Tool",
+  fusion_splicer: "Fusion Splicer",
+  otdr: "OTDR",
+  safety_gear: "Safety Gear",
   measuring_device: "Measuring Device",
-  // Vehicle types
-  van: "Van",
-  truck: "Truck",
-  trailer: "Trailer",
-  excavator: "Excavator",
-  other: "Other Vehicle",
+  accessory: "Accessory",
+  uncategorized: "Uncategorized",
 } as const;
 
 export default function EquipmentPage() {
@@ -630,8 +626,8 @@ export default function EquipmentPage() {
                               </div>
                             </TableCell>
                             <TableCell>
-                              <Badge className={typeColors[item.type]}>
-                                {typeLabels[item.type]}
+                              <Badge className={categoryColors[item.category as keyof typeof categoryColors] || categoryColors.uncategorized}>
+                                {categoryLabelsEN[item.category as keyof typeof categoryLabelsEN] || item.category || "—"}
                               </Badge>
                             </TableCell>
                             <TableCell>
