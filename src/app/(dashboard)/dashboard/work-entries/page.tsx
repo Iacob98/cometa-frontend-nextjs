@@ -293,17 +293,16 @@ export default function WorkEntriesPage() {
                           {entry.house_id ? (
                             <div className="text-sm flex items-center space-x-1 text-blue-700">
                               <Home className="h-3.5 w-3.5" />
-                              <span className="font-medium">
-                                {entry.house?.address || entry.house?.building_number || "House Connection"}
-                              </span>
+                              <span className="font-medium">House Connection</span>
                             </div>
                           ) : (
                             <div className="text-sm flex items-center space-x-1">
                               <MapPin className="h-3 w-3 text-muted-foreground" />
                               <span>
-                                {entry.cut?.name || (entry.cut_id ? `Cut ${entry.cut_id.slice(0, 8)}...` :
-                                 entry.segment?.name || (entry.segment_id ? `Segment ${entry.segment_id.slice(0, 8)}...` :
-                                 entry.cabinet?.name || entry.cabinet?.address || (entry.cabinet_id ? `Cabinet ${entry.cabinet_id.slice(0, 8)}...` : "—")))}
+                                {entry.segment?.name ||
+                                 entry.cabinet?.name ||
+                                 entry.cabinet?.address ||
+                                 (entry.cabinet_id ? `Cabinet ${entry.cabinet_id.slice(0, 8)}...` : "—")}
                               </span>
                             </div>
                           )}

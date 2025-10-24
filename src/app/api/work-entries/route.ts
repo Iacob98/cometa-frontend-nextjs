@@ -54,8 +54,6 @@ export async function GET(request: NextRequest) {
         crew:crews(id, name),
         cabinet:cabinets(id, name, address),
         segment:segments(id, name),
-        cut:cuts(id, name),
-        house:housing_units(id, address, building_number),
         photos:files(id, filename, file_url, category)
       `, { count: 'exact' })
       .order('created_at', { ascending: false })

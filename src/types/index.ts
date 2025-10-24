@@ -128,8 +128,19 @@ export interface WorkEntry {
   notes?: string;
   approved_by?: UUID;
   approved_at?: string; // ISO datetime string
+  rejected_by?: UUID;
+  rejected_at?: string;
+  rejection_reason?: string;
+  was_rejected_before?: boolean;
+  created_at?: string;
+  updated_at?: string;
+  // Relations
+  project?: { id: UUID; name: string; city?: string; customer?: string };
   user?: User;
   approver?: User;
+  crew?: { id: UUID; name: string };
+  cabinet?: { id: UUID; name?: string; address?: string };
+  segment?: { id: UUID; name?: string };
   photos?: Photo[];
 }
 
