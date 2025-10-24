@@ -26,6 +26,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { usePermissions } from "@/hooks/use-auth";
+import { usePendingApprovals } from "@/hooks/use-work-entries";
 
 interface NavItem {
   title: string;
@@ -64,7 +65,6 @@ const navigation: NavItem[] = [
     title: "Work Entries",
     href: "/dashboard/work-entries",
     icon: ClipboardList,
-    badge: "12",
   },
   {
     title: "Notifications",
@@ -135,6 +135,7 @@ export function Sidebar() {
   const pathname = usePathname();
   const { hasAnyRole } = usePermissions();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const { data: pendingApprovalsData } = usePendingApprovals();
 
   const toggleExpanded = (href: string) => {
     setExpandedItems((prev) =>
@@ -156,7 +157,16 @@ export function Sidebar() {
     return hasAnyRole(item.roles);
   };
 
-  const filteredNavigation = navigation.filter(canAccessItem);
+  // Add dynamic badge for Work Entries with pending approvals count
+  const pendingCount = pendingApprovalsData?.total || 0;
+  const navigationWithBadges = navigation.map((item) => {
+    if (item.href === "/dashboard/work-entries" && pendingCount > 0) {
+      return { ...item, badge: String(pendingCount) };
+    }
+    return item;
+  });
+
+  const filteredNavigation = navigationWithBadges.filter(canAccessItem);
 
   return (
     <div className="flex h-screen w-64 flex-col border-r bg-card">
