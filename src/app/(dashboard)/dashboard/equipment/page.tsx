@@ -26,7 +26,8 @@ import {
   Loader2,
   Car,
   Calendar,
-  FileText
+  FileText,
+  Building2
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -52,25 +53,28 @@ import { categoryConfig } from "@/lib/validations/equipment-categories";
 const statusColors = {
   available: "bg-green-100 text-green-800 border-green-200",
   issued_to_brigade: "bg-blue-100 text-blue-800 border-blue-200",
-  in_use: "bg-blue-100 text-blue-800 border-blue-200",
+  assigned_to_project: "bg-purple-100 text-purple-800 border-purple-200",
   maintenance: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  broken: "bg-red-100 text-red-800 border-red-200",
+  retired: "bg-gray-100 text-gray-800 border-gray-200",
+  lost: "bg-red-100 text-red-800 border-red-200",
 };
 
 const statusLabels = {
   available: "Available",
   issued_to_brigade: "Issued to Brigade",
-  in_use: "In Use",
+  assigned_to_project: "Assigned to Project",
   maintenance: "Maintenance",
-  broken: "Broken",
+  retired: "Retired",
+  lost: "Lost",
 };
 
 const statusIcons = {
   available: CheckCircle,
   issued_to_brigade: Activity,
-  in_use: Activity,
+  assigned_to_project: Building2,
   maintenance: Clock,
-  broken: XCircle,
+  retired: XCircle,
+  lost: AlertTriangle,
 };
 
 const categoryColors = {
@@ -241,9 +245,9 @@ export default function EquipmentPage() {
       acc.total += 1;
 
       if (item.status === "available") acc.available += 1;
-      else if (item.status === "in_use") acc.inUse += 1;
+      else if (item.status === "issued_to_brigade" || item.status === "assigned_to_project") acc.inUse += 1;
       else if (item.status === "maintenance") acc.maintenance += 1;
-      else if (item.status === "broken") acc.broken += 1;
+      else if (item.status === "retired" || item.status === "lost") acc.unavailable += 1;
 
       if (item.owned) acc.owned += 1;
       else acc.rented += 1;
@@ -255,7 +259,7 @@ export default function EquipmentPage() {
       available: 0,
       inUse: 0,
       maintenance: 0,
-      broken: 0,
+      unavailable: 0,
       owned: 0,
       rented: 0,
     }
@@ -380,9 +384,9 @@ export default function EquipmentPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Attention Needed</p>
-                <p className="text-2xl font-bold text-yellow-600">{stats.maintenance + stats.broken}</p>
+                <p className="text-2xl font-bold text-yellow-600">{stats.maintenance + stats.unavailable}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Maintenance & repairs
+                  Maintenance, retired & lost
                 </p>
               </div>
               <AlertTriangle className="h-8 w-8 text-yellow-600" />
@@ -473,9 +477,11 @@ export default function EquipmentPage() {
                     <SelectContent>
                       <SelectItem value="all">All status</SelectItem>
                       <SelectItem value="available">Available</SelectItem>
-                      <SelectItem value="in_use">In Use</SelectItem>
+                      <SelectItem value="issued_to_brigade">Issued to Brigade</SelectItem>
+                      <SelectItem value="assigned_to_project">Assigned to Project</SelectItem>
                       <SelectItem value="maintenance">Maintenance</SelectItem>
-                      <SelectItem value="broken">Broken</SelectItem>
+                      <SelectItem value="retired">Retired</SelectItem>
+                      <SelectItem value="lost">Lost</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
