@@ -55,7 +55,8 @@ export async function GET(request: NextRequest) {
         cabinet:cabinets(id, name, address),
         segment:segments(id, name),
         cut:cuts(id, name),
-        house:housing_units(id, address, building_number)
+        house:housing_units(id, address, building_number),
+        photos:files(id, filename, file_url, category)
       `, { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(offset, offset + per_page - 1);
