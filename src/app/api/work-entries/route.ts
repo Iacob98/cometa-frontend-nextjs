@@ -51,7 +51,11 @@ export async function GET(request: NextRequest) {
         updated_at,
         project:projects(id, name, city, customer),
         user:users!work_entries_user_id_fkey(id, first_name, last_name, email),
-        crew:crews(id, name)
+        crew:crews(id, name),
+        cabinet:cabinets(id, name, address),
+        segment:segments(id, name),
+        cut:cuts(id, name),
+        house:housing_units(id, address, building_number)
       `, { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(offset, offset + per_page - 1);
