@@ -98,7 +98,14 @@ export function NotificationItem({ notification, onClose }: NotificationItemProp
       markAsRead(notification.id);
     }
 
-    // Handle navigation based on notification type and data
+    // First priority: use action_url if available
+    if (notification.action_url) {
+      window.location.href = notification.action_url;
+      onClose?.();
+      return;
+    }
+
+    // Fallback: Handle navigation based on notification type and data
     if (notification.data) {
       const { project_id, work_entry_id, house_id, material_id } = notification.data;
 
