@@ -122,11 +122,15 @@ export function useTypedEquipmentView(
   filters: TypedViewFilters = {},
   options?: Omit<UseQueryOptions<PaginatedResponse<TypedEquipmentView>>, 'queryKey' | 'queryFn'>
 ) {
+  // Only enable for supported view types
+  const supportedViewTypes = ['power_tools', 'fusion_splicers', 'otdrs', 'safety_gear'];
+  const isSupported = supportedViewTypes.includes(viewType);
+
   return useQuery({
     queryKey: typedEquipmentViewKeys.filtered(viewType, filters),
     queryFn: () => fetchTypedEquipmentView(viewType, filters),
     staleTime: 2 * 60 * 1000,
-    enabled: viewType !== 'all',
+    enabled: viewType !== 'all' && isSupported,
     ...options,
   });
 }

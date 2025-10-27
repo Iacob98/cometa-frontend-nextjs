@@ -128,14 +128,21 @@ export default function EquipmentPage() {
     per_page: 1000
   });
 
-  // Fetch typed view data when category is selected
+  // Only fetch typed view data for supported categories
+  const supportedTypedViewCategories = ['power_tool', 'fusion_splicer', 'otdr', 'safety_gear'];
+  const shouldUseTypedView = supportedTypedViewCategories.includes(selectedCategory);
+
+  // Fetch typed view data when category is selected and supported
   const { data: typedViewData, isLoading: isLoadingTypedView } = useTypedEquipmentView(
-    selectedCategory,
+    shouldUseTypedView ? selectedCategory : 'all',
     {
       status: filters.status,
       owned: filters.owned ? filters.owned === 'true' : undefined,
       search: filters.search,
       per_page: 1000
+    },
+    {
+      enabled: shouldUseTypedView,
     }
   );
 
