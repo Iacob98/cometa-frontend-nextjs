@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useEffect } from "react";
 import { CalendarIcon, ArrowLeft, Save, Building2, AlertTriangle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useProject, useUpdateProject } from "@/hooks/use-projects";
 import { usePermissions } from "@/hooks/use-auth";
 import type { UpdateProjectRequest, Language } from "@/types";
+import ProjectSoilTypesCard from "@/components/project-soil-types-card";
+import { useQuery } from "@tanstack/react-query";
 
 const updateProjectSchema = z.object({
   name: z.string().min(1, "Project name is required").max(255, "Project name too long"),
@@ -41,6 +44,17 @@ export default function EditProjectPage() {
   const projectId = params.id as string;
   const { data: project, isLoading, error } = useProject(projectId);
 
+  // Fetch soil types for average price calculation
+  const { data: soilTypes = [] } = useQuery({
+    queryKey: ["project-soil-types", projectId],
+    queryFn: async () => {
+      const response = await fetch(`/api/projects/${projectId}/soil-types`);
+      if (!response.ok) return [];
+      return response.json();
+    },
+    enabled: !!projectId,
+  });
+
   const form = useForm<UpdateProjectFormData>({
     resolver: zodResolver(updateProjectSchema),
     defaultValues: {
@@ -59,21 +73,46 @@ export default function EditProjectPage() {
   });
 
   // Update form when project data loads
-  if (project && !form.formState.isDirty) {
-    form.reset({
-      name: project.name,
-      customer: project.customer || "",
-      city: project.city || "",
-      address: project.address || "",
-      contact_24h: project.contact_24h || "",
-      start_date: project.start_date ? new Date(project.start_date).toISOString().split('T')[0] : "",
-      end_date_plan: project.end_date_plan ? new Date(project.end_date_plan).toISOString().split('T')[0] : "",
-      total_length_m: project.total_length_m,
-      base_rate_per_m: project.base_rate_per_m,
-      language_default: project.language_default || "de",
-      status: project.status,
-    });
-  }
+  useEffect(() => {
+    if (project && !form.formState.isDirty) {
+      form.reset({
+        name: project.name,
+        customer: project.customer || "",
+        city: project.city || "",
+        address: project.address || "",
+        contact_24h: project.contact_24h || "",
+        start_date: project.start_date ? new Date(project.start_date).toISOString().split('T')[0] : "",
+        end_date_plan: project.end_date_plan ? new Date(project.end_date_plan).toISOString().split('T')[0] : "",
+        total_length_m: project.total_length_m,
+        base_rate_per_m: project.base_rate_per_m,
+        language_default: project.language_default || "de",
+        status: project.status,
+      });
+    }
+  }, [project, form]);
+
+  // Calculate average price from soil types
+  useEffect(() => {
+    if (soilTypes && soilTypes.length > 0) {
+      // Calculate weighted average based on quantity
+      const totalQuantity = soilTypes.reduce((sum: number, st: any) => sum + (st.quantity_meters || 0), 0);
+
+      if (totalQuantity > 0) {
+        const weightedSum = soilTypes.reduce((sum: number, st: any) => {
+          return sum + (st.price_per_meter * (st.quantity_meters || 0));
+        }, 0);
+        const averagePrice = weightedSum / totalQuantity;
+        form.setValue('base_rate_per_m', Number(averagePrice.toFixed(2)));
+      } else {
+        // If no quantities, calculate simple average
+        const avgPrice = soilTypes.reduce((sum: number, st: any) => sum + st.price_per_meter, 0) / soilTypes.length;
+        form.setValue('base_rate_per_m', Number(avgPrice.toFixed(2)));
+      }
+    } else if (soilTypes && soilTypes.length === 0) {
+      // No soil types, set to 0
+      form.setValue('base_rate_per_m', 0);
+    }
+  }, [soilTypes, form]);
 
   const onSubmit = async (data: UpdateProjectFormData) => {
     try {
@@ -389,18 +428,20 @@ export default function EditProjectPage() {
                     name="total_length_m"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Total Length (meters) *</FormLabel>
+                        <FormLabel>Total Length (meters)</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
                             step="0.01"
                             min="0"
-                            placeholder="e.g., 1500"
+                            placeholder="Calculated from project data"
+                            disabled
+                            className="bg-muted cursor-not-allowed"
                             {...field}
                           />
                         </FormControl>
                         <FormDescription>
-                          Total length of fiber cable to be installed
+                          Total length automatically calculated from segments
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -412,18 +453,20 @@ export default function EditProjectPage() {
                     name="base_rate_per_m"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Rate per Meter (€) *</FormLabel>
+                        <FormLabel>Average Rate per Meter (€)</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
                             step="0.01"
                             min="0"
-                            placeholder="e.g., 15.50"
+                            placeholder="Calculated from Soil Types"
+                            disabled
+                            className="bg-muted cursor-not-allowed"
                             {...field}
                           />
                         </FormControl>
                         <FormDescription>
-                          Base rate charged per meter of installation
+                          Automatically calculated from Soil Types below
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -517,6 +560,11 @@ export default function EditProjectPage() {
             </div>
           </form>
         </Form>
+
+        {/* Soil Types Management */}
+        <div className="mt-6">
+          <ProjectSoilTypesCard projectId={projectId} />
+        </div>
       </div>
     </div>
   );
