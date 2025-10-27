@@ -22,6 +22,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **COMETA** is a Fiber Optic Construction Management System with hybrid architecture combining legacy Streamlit apps and modern Next.js/Supabase for fiber optic cable installation project management. **Migration completed**: Fully migrated from FastAPI microservices to pure Supabase implementation.
 
+### Recent Updates (October 2025)
+- ✅ **Notifications System**: Automated notifications with in_app_notifications table
+- ✅ **Dynamic Approvals**: Pending approvals count in sidebar
+- ✅ **Click Navigation**: Direct navigation from notifications
+- ✅ **Equipment Status**: Database constraint compliance
+- ✅ **Work Entries**: API error resolution and type definitions
+- ✅ **Photo Count**: Accurate display in work entries table
+- ✅ **Location Display**: Readable names instead of UUIDs
+- ✅ **Equipment Categories**: Typed view data for category-specific tables
+
 ## Tech Stack
 
 ### **NEXTJS** Modern Frontend (Primary Development Focus)
@@ -236,7 +246,7 @@ src/app/
 └── layout.tsx                     # Root layout
 ```
 
-**Component Organization (76+ components):**
+**Component Organization (93 components):**
 ```
 src/components/
 ├── ui/                            # shadcn/ui components
@@ -252,13 +262,18 @@ src/components/
 └── notifications/                 # Notification UI
 ```
 
-**Custom Hooks (30+ hooks):**
+**Custom Hooks (40+ hooks):**
 ```
 src/hooks/
 ├── use-auth.ts                   # Authentication & permissions
 ├── use-projects.ts               # Project management
 ├── use-materials.ts              # Material operations (24KB)
 ├── use-equipment.ts              # Equipment tracking
+├── use-equipment-documents.ts    # Equipment document management
+├── use-equipment-reservations.ts # Equipment reservations
+├── use-equipment-usage.ts        # Equipment usage logs
+├── use-maintenance-schedules.ts  # Maintenance scheduling
+├── use-typed-equipment-views.ts  # Typed equipment views
 ├── use-vehicles.ts               # Vehicle management
 ├── use-teams.ts                  # Team operations
 ├── use-work-entries.ts           # Work entry tracking
@@ -317,20 +332,28 @@ src/types/
 │   ├── Document, File           # Document types
 │   ├── Cost, Transaction        # Financial types
 │   └── [50+ more types]         # Complete type system
-├── calendar.ts                   # Calendar & meeting types
-├── project-preparation.ts        # Project preparation types
-├── upload.ts                     # File upload types
-└── work-stages.ts                # Work stage definitions
+├── calendar.ts                   # Calendar & meeting types (192 lines)
+├── equipment-enhanced.ts         # Enhanced equipment types (642 lines)
+│   ├── EquipmentReservation     # Reservation system types
+│   ├── EquipmentDocument        # Document management types
+│   ├── EquipmentUsageLog        # Usage tracking types
+│   ├── MaintenanceSchedule      # Maintenance types
+│   └── TypedEquipmentViews      # Category-specific views
+├── project-preparation.ts        # Project preparation types (419 lines)
+├── upload.ts                     # File upload types (133 lines)
+└── work-stages.ts                # Work stage definitions (719 lines)
 ```
 
 **Codebase Statistics:**
 - **API Routes**: 100+ endpoints (~5,734 lines of code)
-- **React Components**: 76 component files
-- **Custom Hooks**: 30+ hooks for state management
+- **React Components**: 93 component files
+- **Custom Hooks**: 40+ hooks for state management
 - **TypeScript Types**: 50+ entity types, 100+ interfaces
 - **Database Tables**: 49 active tables (optimized 2025-09-30)
+- **Database Migrations**: 15+ SQL migration files
 - **Supported Languages**: 5 (ru, en, de, uz, tr)
 - **User Roles**: 6 (admin, pm, foreman, crew, viewer, worker)
+- **Storage Buckets**: 6 (project-photos, work-photos, documents, etc.)
 
 **Data Fetching Pattern:**
 ```typescript
@@ -507,13 +530,17 @@ Project (Main entity)
 - Supplier management with flexible pricing per material
 
 **4. Equipment & Vehicle Management**
-- Equipment catalog (tools, machinery)
+- Equipment catalog (tools, machinery) with enhanced categories
 - Vehicle fleet management with documents
 - Assignment to crews and projects
 - Maintenance scheduling and history
+- Equipment reservations system
+- Usage logs and tracking
+- Document management (manuals, certificates, warranties)
 - Document expiration tracking (registration, insurance, inspection)
 - Ownership tracking (owned vs. rented)
 - Safety features (first aid kit, fire extinguisher, seats)
+- Category-specific typed views (power-tools, hand-tools, measuring, safety, consumables)
 
 **5. Team & User Management**
 - Role-based access control (admin, pm, foreman, crew, viewer, worker)
@@ -1053,6 +1080,17 @@ test('user can create a new project', async ({ page }) => {
 - Enhanced schema readability
 - Zero impact on functionality (all deleted tables were unused)
 
+**Recent Database Migrations (October 2025)**:
+- `001_create_equipment_reservations.sql` - Equipment reservation system
+- `002_create_equipment_documents.sql` - Equipment document management
+- `003_create_equipment_usage_logs.sql` - Equipment usage tracking
+- `004_create_equipment_maintenance_schedules.sql` - Maintenance scheduling
+- `005_create_equipment_type_details.sql` - Category-specific equipment details
+- `006_add_equipment_indexes_and_search.sql` - Performance optimization
+- `007_add_equipment_category_indexes.sql` - Category indexing
+- `20251024_add_notifications_data_column.sql` - Notification data field
+- `20251024_update_notification_types.sql` - Updated notification types
+
 ### Feature Parity Tracking
 | Feature | Streamlit Status | Next.js Status | Priority |
 |---------|------------------|----------------|----------|
@@ -1062,7 +1100,7 @@ test('user can create a new project', async ({ page }) => {
 | Team Management | ✅ Complete | ✅ Migrated | High |
 | Financial Tracking | ✅ Complete | ✅ Migrated | High |
 | Reports & Analytics | ✅ Complete | 🚧 In Progress | Medium |
-| Equipment Management | ✅ Complete | ✅ Migrated | Medium |
+| Equipment Management | ✅ Complete | ✅ Enhanced | Medium |
 | User Administration | ✅ Complete | 🚧 Partial | Medium |
 | Activity Logging | ✅ Complete | ✅ Migrated | Medium |
 
@@ -1466,8 +1504,11 @@ export function MyComponent({ projectId }: MyComponentProps) {
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-27
 **Database Tables**: 49 active (optimized 2025-09-30)
-**API Endpoints**: 100+ routes
-**Components**: 76 files
+**API Endpoints**: 100+ routes (~5,734 LOC)
+**Components**: 93 files
+**Custom Hooks**: 40+ hooks
 **Tech Stack**: Next.js 15.5.3, React 19.1.0, PostgreSQL (Supabase), TanStack Query 5.89.0
+**Current Branch**: dev (clean working directory)
+**Main Branch**: main (stable - requires permission for changes)
