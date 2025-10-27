@@ -223,6 +223,7 @@ export function usePermissions() {
     isForeman: hasRole("foreman"),
     isWorker: hasAnyRole(["crew", "worker"]),
     isViewer: hasRole("viewer"),
+    canManageProjects: hasAnyRole(["admin", "pm"]),
     canManageTeams: hasAnyRole(["admin", "pm", "foreman"]),
     canApproveWork: hasAnyRole(["admin", "pm", "foreman"]),
     canManageWork: hasAnyRole(["admin", "pm", "foreman", "crew", "worker"]),
