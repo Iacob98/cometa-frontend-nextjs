@@ -31,14 +31,22 @@ export function parsePaginationParams(
   searchParams: URLSearchParams,
   defaultPerPage: number = 20
 ): PaginationParams {
-  const page = parseInt(searchParams.get("page") || "1");
-  const per_page = parseInt(searchParams.get("per_page") || String(defaultPerPage));
-  const offset = (page - 1) * per_page;
+  const pageParam = searchParams.get("page") || "1";
+  const perPageParam = searchParams.get("per_page") || String(defaultPerPage);
+
+  const page = parseInt(pageParam, 10);
+  const per_page = parseInt(perPageParam, 10);
+
+  // Handle NaN from invalid inputs
+  const validPage = isNaN(page) ? 1 : Math.max(1, page);
+  const validPerPage = isNaN(per_page) ? defaultPerPage : Math.max(1, Math.min(100, per_page));
+
+  const offset = (validPage - 1) * validPerPage;
 
   return {
-    page: Math.max(1, page), // Ensure page is at least 1
-    per_page: Math.max(1, Math.min(100, per_page)), // Clamp between 1-100
-    offset: Math.max(0, offset), // Ensure offset is non-negative
+    page: validPage,
+    per_page: validPerPage,
+    offset: Math.max(0, offset),
   };
 }
 
