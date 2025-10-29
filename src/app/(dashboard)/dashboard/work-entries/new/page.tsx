@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCreateWorkEntry, useWorkStages } from "@/hooks/use-work-entries";
 import { useProjects } from "@/hooks/use-projects";
 import { useAuth } from "@/hooks/use-auth";
+import { GPSCapture } from "@/components/work-entries/gps-capture";
 import type { CreateWorkEntryRequest, StageCode, WorkMethod } from "@/types";
 
 const createWorkEntrySchema = z.object({
@@ -55,6 +56,8 @@ const createWorkEntrySchema = z.object({
   cut_id: z.string().optional(),
   house_id: z.string().optional(),
   crew_id: z.string().optional(),
+  gps_lat: z.number().min(-90).max(90).optional(),
+  gps_lon: z.number().min(-180).max(180).optional(),
 });
 
 type CreateWorkEntryFormData = z.infer<typeof createWorkEntrySchema>;
@@ -88,6 +91,8 @@ export default function NewWorkEntryPage() {
       cut_id: "",
       house_id: "",
       crew_id: "",
+      gps_lat: undefined,
+      gps_lon: undefined,
     },
   });
 
@@ -115,6 +120,8 @@ export default function NewWorkEntryPage() {
         soil_type: data.soil_type || undefined,
         notes: data.notes || undefined,
         method: data.method || undefined,
+        gps_lat: data.gps_lat || undefined,
+        gps_lon: data.gps_lon || undefined,
       };
 
       const newWorkEntry = await createWorkEntry.mutateAsync(workEntryData);
@@ -565,6 +572,16 @@ export default function NewWorkEntryPage() {
                     />
                   </CardContent>
                 </Card>
+
+                {/* GPS Location Capture */}
+                <GPSCapture
+                  onLocationCapture={(location) => {
+                    form.setValue("gps_lat", location.latitude);
+                    form.setValue("gps_lon", location.longitude);
+                  }}
+                  initialLatitude={form.getValues("gps_lat")}
+                  initialLongitude={form.getValues("gps_lon")}
+                />
               </TabsContent>
 
               <TabsContent value="notes" className="space-y-6">
