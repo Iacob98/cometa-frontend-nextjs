@@ -97,7 +97,7 @@ export default function EditProjectPage() {
   }, [project, reset, form.formState.isDirty]);
 
   // Calculate average price from soil types
-  useEffect(() => {
+  const calculateAveragePrice = useCallback(() => {
     if (soilTypes && soilTypes.length > 0) {
       // Calculate weighted average based on quantity
       const totalQuantity = soilTypes.reduce((sum: number, st: ProjectSoilType) => sum + (st.quantity_meters || 0), 0);
@@ -107,17 +107,29 @@ export default function EditProjectPage() {
           return sum + (st.price_per_meter * (st.quantity_meters || 0));
         }, 0);
         const averagePrice = weightedSum / totalQuantity;
-        setValue('base_rate_per_m', Number(averagePrice.toFixed(2)));
+        return Number(averagePrice.toFixed(2));
       } else {
         // If no quantities, calculate simple average
         const avgPrice = soilTypes.reduce((sum: number, st: ProjectSoilType) => sum + st.price_per_meter, 0) / soilTypes.length;
-        setValue('base_rate_per_m', Number(avgPrice.toFixed(2)));
+        return Number(avgPrice.toFixed(2));
       }
     } else if (soilTypes && soilTypes.length === 0) {
       // No soil types, set to 0
-      setValue('base_rate_per_m', 0);
+      return 0;
     }
-  }, [soilTypes, setValue]);
+    return null;
+  }, [soilTypes]);
+
+  useEffect(() => {
+    const averagePrice = calculateAveragePrice();
+    if (averagePrice !== null) {
+      // Only update if the value actually changed to prevent infinite loops
+      const currentValue = form.getValues('base_rate_per_m');
+      if (currentValue !== averagePrice) {
+        setValue('base_rate_per_m', averagePrice, { shouldDirty: false, shouldTouch: false });
+      }
+    }
+  }, [calculateAveragePrice, setValue, form]);
 
   const onSubmit = async (data: UpdateProjectFormData) => {
     try {
