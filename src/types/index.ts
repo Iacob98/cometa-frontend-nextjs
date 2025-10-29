@@ -1673,6 +1673,8 @@ export type OwnershipType = 'owned' | 'rented' | 'leased';
 export type VehicleType = 'pkw' | 'lkw' | 'transporter' | 'pritsche' | 'anhänger' | 'excavator' | 'other';
 export type MaintenanceType = 'preventive' | 'corrective' | 'emergency' | 'inspection';
 export type MaintenanceStatus = 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | 'overdue';
+export type VehicleDocumentType = 'fahrzeugschein' | 'fahrzeugbrief' | 'tuv' | 'versicherung' | 'au' | 'wartung' | 'sonstiges';
+export type DocumentExpiryStatus = 'active' | 'expiring_warning' | 'expiring_soon' | 'expired' | null;
 
 export interface Equipment {
   id: UUID;
@@ -1771,6 +1773,47 @@ export interface MaintenanceRecord {
   equipment?: Equipment;
   performer?: User;
   creator?: User;
+}
+
+export interface VehicleDocument {
+  id: UUID;
+  vehicle_id: UUID;
+  document_type: VehicleDocumentType;
+  file_name: string;
+  file_path: string;
+  file_size: number;
+  file_type: string;
+  document_number?: string;
+  issuing_authority?: string;
+  issue_date?: string;
+  expiry_date?: string;
+  notes?: string;
+  is_verified: boolean;
+  uploaded_by?: UUID;
+  created_at: string;
+  updated_at: string;
+  expiry_status?: DocumentExpiryStatus;
+}
+
+export interface VehicleAssignment {
+  id: UUID;
+  vehicle_id: UUID;
+  project_id?: UUID;
+  crew_id?: UUID;
+  user_id?: UUID;
+  from_ts: string;
+  to_ts?: string;
+  is_permanent: boolean;
+  rental_cost_per_day: number;
+  notes?: string;
+  created_at: string;
+  is_active: boolean;
+
+  // Relations
+  vehicle?: Vehicle;
+  project?: Project;
+  crew?: Crew;
+  user?: User;
 }
 
 export interface VehicleExpense {
