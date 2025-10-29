@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseServerClient } from "@/lib/supabase-server";
 import { requireEquipmentPermission } from "@/lib/auth-middleware";
 import { createEquipmentSchema, computeNextCalibrationDate, computeNextInspectionDate } from "@/lib/validations/equipment-categories";
+import { parsePaginationParams, createPaginatedResponse } from "@/lib/pagination-utils";
+import { handleSupabaseError, handleGenericError, handleValidationError } from "@/lib/api-error-handler";
 
 export async function GET(request: NextRequest) {
   // 🔒 SECURITY: Require authentication
@@ -11,9 +13,10 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = getSupabaseServerClient();
     const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get("page") || "1");
-    const per_page = parseInt(searchParams.get("per_page") || "20");
-    const offset = (page - 1) * per_page;
+
+    // 📦 REFACTOR: Use standardized pagination utilities
+    const { page, per_page, offset } = parsePaginationParams(searchParams);
+
     const type = searchParams.get("type");
     const category = searchParams.get("category"); // NEW: category filter
     const status = searchParams.get("status");
@@ -189,32 +192,30 @@ export async function GET(request: NextRequest) {
         }
       );
 
+      // 📦 REFACTOR: Use standardized error handling
       if (searchError) {
-        console.error('Search RPC error:', searchError);
-        return NextResponse.json(
-          { error: 'Failed to search equipment', details: searchError },
-          { status: 500 }
-        );
+        return handleSupabaseError(searchError, 'search equipment');
       }
 
       // For search, return results directly (no need for further filtering)
-      return NextResponse.json({
-        items: searchResults || [],
-        total: searchResults?.length || 0,
+      // 📦 REFACTOR: Use standardized pagination response (keeping backward compatibility)
+      const searchResponse = createPaginatedResponse(
+        searchResults || [],
         page,
         per_page,
-        total_pages: Math.ceil((searchResults?.length || 0) / per_page),
+        searchResults?.length || 0
+      );
+      return NextResponse.json({
+        items: searchResponse.data,
+        ...searchResponse.meta
       });
     }
 
     const { data: equipment, error, count } = await query;
 
+    // 📦 REFACTOR: Use standardized error handling
     if (error) {
-      console.error("Supabase error:", error);
-      return NextResponse.json(
-        { error: "Failed to fetch equipment from database" },
-        { status: 500 }
-      );
+      return handleSupabaseError(error, 'fetch equipment');
     }
 
     // Transform equipment data to flatten type_details
@@ -225,19 +226,20 @@ export async function GET(request: NextRequest) {
         : null
     })) || [];
 
-    return NextResponse.json({
-      items: transformedEquipment,
-      total: count || 0,
+    // 📦 REFACTOR: Use standardized pagination response (keeping backward compatibility)
+    const paginatedResponse = createPaginatedResponse(
+      transformedEquipment,
       page,
       per_page,
-      total_pages: Math.ceil((count || 0) / per_page),
+      count || 0
+    );
+    return NextResponse.json({
+      items: paginatedResponse.data,
+      ...paginatedResponse.meta
     });
   } catch (error) {
-    console.error("Equipment API error:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch equipment" },
-      { status: 500 }
-    );
+    // 📦 REFACTOR: Use standardized error handling
+    return handleGenericError(error, 'fetch equipment');
   }
 }
 
@@ -250,17 +252,12 @@ export async function POST(request: NextRequest) {
     const supabase = getSupabaseServerClient();
     const body = await request.json();
 
-    // Validate request body with Zod schema
+    // 📦 REFACTOR: Validate request body with Zod schema
     const validationResult = createEquipmentSchema.safeParse(body);
 
     if (!validationResult.success) {
-      return NextResponse.json(
-        {
-          error: "Validation failed",
-          details: validationResult.error.issues
-        },
-        { status: 400 }
-      );
+      // 📦 REFACTOR: Use standardized validation error handling
+      return handleValidationError(validationResult.error);
     }
 
     const data = validationResult.data;
@@ -324,12 +321,9 @@ export async function POST(request: NextRequest) {
       .select('id, name, category, inventory_no, status, created_at')
       .single();
 
+    // 📦 REFACTOR: Use standardized error handling
     if (equipmentError) {
-      console.error("Error creating equipment:", equipmentError);
-      return NextResponse.json(
-        { error: "Failed to create equipment record", details: equipmentError },
-        { status: 500 }
-      );
+      return handleSupabaseError(equipmentError, 'create equipment');
     }
 
     // Create type_details record
@@ -350,16 +344,11 @@ export async function POST(request: NextRequest) {
       .select()
       .single();
 
+    // 📦 REFACTOR: Use standardized error handling
     if (typeDetailsError) {
-      console.error("Error creating type details:", typeDetailsError);
-
       // Rollback: Delete equipment record if type details failed
       await supabase.from("equipment").delete().eq("id", equipment.id);
-
-      return NextResponse.json(
-        { error: "Failed to create equipment type details", details: typeDetailsError },
-        { status: 500 }
-      );
+      return handleSupabaseError(typeDetailsError, 'create equipment type details');
     }
 
     return NextResponse.json({
@@ -372,10 +361,7 @@ export async function POST(request: NextRequest) {
     }, { status: 201 });
 
   } catch (error) {
-    console.error("Create equipment error:", error);
-    return NextResponse.json(
-      { error: "Failed to create equipment" },
-      { status: 500 }
-    );
+    // 📦 REFACTOR: Use standardized error handling
+    return handleGenericError(error, 'create equipment');
   }
 }
