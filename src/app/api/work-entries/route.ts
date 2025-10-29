@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
         crew:crews(id, name),
         cabinet:cabinets(id, name, address),
         segment:segments(id, name),
-        photos:files(id, filename, file_url, category)
+        photos(id, filename, url, label, gps_lat, gps_lon)
       `, { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(offset, offset + per_page - 1);

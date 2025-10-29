@@ -365,7 +365,7 @@ export const WORK_STAGES: WorkStage[] = [
         },
       ],
     },
-    nextStages: ["stage_4_backfill"],
+    nextStages: ["stage_4_cable"],
     estimatedDuration: 90,
     requiredTools: ["pipe_cutter", "conduit_bender", "pull_string_threader"],
     safetyRequirements: ["safety_vest", "hard_hat", "gloves"],
@@ -373,20 +373,20 @@ export const WORK_STAGES: WorkStage[] = [
     isActive: true,
   },
   {
-    code: "stage_4_backfill",
+    code: "stage_4_cable",
     name: {
-      ru: "Засыпка",
-      de: "Verfüllung",
-      en: "Backfill",
-      uz: "To'ldirish",
-      tr: "Geri dolgu",
+      ru: "Прокладка кабеля",
+      de: "Kabelverlegung",
+      en: "Cable Installation",
+      uz: "Kabel o'rnatish",
+      tr: "Kablo döşeme",
     },
     description: {
-      ru: "Засыпка траншеи и восстановление покрытия",
-      de: "Verfüllung des Grabens und Wiederherstellung der Oberfläche",
-      en: "Trench backfilling and surface restoration",
-      uz: "Xandaqni to'ldirish va sirtni tiklash",
-      tr: "Hendek doldurma ve yüzey restorasyonu",
+      ru: "Прокладка оптоволоконного кабеля",
+      de: "Verlegung von Glasfaserkabeln",
+      en: "Installation of fiber optic cables",
+      uz: "Optik kabel o'rnatish",
+      tr: "Fiber optik kablo döşeme",
     },
     requirements: {
       minPhotos: 3,
@@ -415,7 +415,7 @@ export const WORK_STAGES: WorkStage[] = [
         },
       ],
     },
-    nextStages: ["stage_5_cable_pulling"],
+    nextStages: ["stage_5_splice"],
     estimatedDuration: 60,
     requiredTools: ["compactor", "shovel", "level"],
     safetyRequirements: ["safety_vest", "hard_hat"],
@@ -423,20 +423,20 @@ export const WORK_STAGES: WorkStage[] = [
     isActive: true,
   },
   {
-    code: "stage_5_cable_pulling",
+    code: "stage_5_splice",
     name: {
-      ru: "Протяжка кабеля",
-      de: "Kabeleinzug",
-      en: "Cable Pulling",
-      uz: "Kabel tortish",
-      tr: "Kablo çekme",
+      ru: "Сращивание",
+      de: "Spleißen",
+      en: "Cable Splicing",
+      uz: "Ulanish",
+      tr: "Kablo ekleme",
     },
     description: {
-      ru: "Протяжка оптического кабеля через трубы",
-      de: "Einziehen des Glasfaserkabels durch die Rohre",
-      en: "Pulling fiber optic cable through conduits",
-      uz: "Optik kabelni quvurlar orqali tortish",
-      tr: "Fiber optik kabloyu borular arasından çekme",
+      ru: "Сращивание оптических волокон",
+      de: "Spleißen von Glasfasern",
+      en: "Splicing fiber optic connections",
+      uz: "Optik tolalarni ulash",
+      tr: "Fiber optik bağlantıları ekleme",
     },
     requirements: {
       minPhotos: 5,
@@ -474,20 +474,20 @@ export const WORK_STAGES: WorkStage[] = [
     isActive: true,
   },
   {
-    code: "stage_6_splicing",
+    code: "stage_6_test",
     name: {
-      ru: "Сварка",
-      de: "Spleißen",
-      en: "Splicing",
-      uz: "Payvandlash",
-      tr: "Ekleme",
+      ru: "Тестирование",
+      de: "Testen",
+      en: "Signal Testing",
+      uz: "Sinash",
+      tr: "Sinyal Testi",
     },
     description: {
-      ru: "Сварка оптических волокон",
-      de: "Spleißen der Glasfasern",
-      en: "Splicing of optical fibers",
-      uz: "Optik tolalarni payvandlash",
-      tr: "Optik fiberlerin eklenmesi",
+      ru: "Тестирование сигнала и качества соединения",
+      de: "Testen der Signalqualität und Konnektivität",
+      en: "Testing signal quality and connectivity",
+      uz: "Signal sifati va aloqani sinash",
+      tr: "Sinyal kalitesi ve bağlantı testi",
     },
     requirements: {
       minPhotos: 6,
@@ -526,7 +526,7 @@ export const WORK_STAGES: WorkStage[] = [
         }
       ]
     },
-    nextStages: ["stage_7_testing"],
+    nextStages: ["stage_9_backfill"],
     estimatedDuration: 180,
     requiredTools: ["fusion_splicer", "otdr", "fiber_cleaver", "splice_trays"],
     safetyRequirements: ["safety_vest", "hard_hat", "safety_glasses", "clean_environment"],
@@ -534,20 +534,20 @@ export const WORK_STAGES: WorkStage[] = [
     isActive: true,
   },
   {
-    code: "stage_7_testing",
+    code: "stage_9_backfill",
     name: {
-      ru: "Тестирование",
-      de: "Prüfung",
-      en: "Testing",
-      uz: "Sinash",
-      tr: "Test",
+      ru: "Засыпка",
+      de: "Verfüllung",
+      en: "Backfilling",
+      uz: "To'ldirish",
+      tr: "Geri dolgu",
     },
     description: {
-      ru: "Тестирование оптических линий",
-      de: "Prüfung der Glasfaserverbindungen",
-      en: "Testing of fiber optic connections",
-      uz: "Optik aloqa liniyalarini sinash",
-      tr: "Fiber optik bağlantıların testi",
+      ru: "Засыпка траншеи после прокладки кабеля",
+      de: "Verfüllung des Grabens nach Kabelverlegung",
+      en: "Filling trenches after cable installation",
+      uz: "Kabel yotqizgandan keyin xandaqni to'ldirish",
+      tr: "Kablo döşemesinden sonra hendeği doldurma",
     },
     requirements: {
       minPhotos: 4,
@@ -571,7 +571,7 @@ export const WORK_STAGES: WorkStage[] = [
         }
       ]
     },
-    nextStages: ["stage_8_documentation"],
+    nextStages: [],
     estimatedDuration: 90,
     requiredTools: ["power_meter", "light_source", "otdr", "test_leads"],
     safetyRequirements: ["safety_vest", "hard_hat", "laser_safety_glasses"],
@@ -612,10 +612,10 @@ export const WORK_STAGES: WorkStage[] = [
     requiredTools: ["camera", "document_templates", "measuring_tools"],
     safetyRequirements: ["safety_vest"],
     qualityStandards: ["complete_documentation", "accurate_measurements", "clear_photos"],
-    isActive: true,
+    isActive: false, // NOT IN DATABASE - stage 7 and 8 don't exist in production
   },
   {
-    code: "stage_9_cleanup",
+    code: "stage_7_legacy_cleanup", // Renamed - NOT IN DATABASE (only stage_9_backfill exists)
     name: {
       ru: "Уборка",
       de: "Aufräumen",
@@ -648,10 +648,10 @@ export const WORK_STAGES: WorkStage[] = [
     requiredTools: ["cleaning_supplies", "waste_bags"],
     safetyRequirements: ["safety_vest", "gloves"],
     qualityStandards: ["clean_work_area", "proper_waste_disposal", "no_leftover_materials"],
-    isActive: true,
+    isActive: false, // NOT IN DATABASE - stage 7/8/9_cleanup don't exist in production
   },
   {
-    code: "stage_10_handover",
+    code: "stage_10_legacy_handover", // Renamed - NOT IN DATABASE
     name: {
       ru: "Сдача работ",
       de: "Übergabe",
@@ -684,7 +684,7 @@ export const WORK_STAGES: WorkStage[] = [
     requiredTools: ["documentation_package", "warranty_forms"],
     safetyRequirements: ["safety_vest"],
     qualityStandards: ["customer_satisfaction", "complete_handover", "proper_documentation"],
-    isActive: true,
+    isActive: false, // NOT IN DATABASE - stage 10 doesn't exist in production
   },
 ];
 

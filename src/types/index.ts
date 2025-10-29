@@ -93,6 +93,9 @@ export interface Cut {
 }
 
 // Work entry types
+// CANONICAL SOURCE: Database actual values (verified from work_entries table)
+// Database contains: stage_1_marking, stage_2_excavation, stage_3_conduit,
+//                   stage_4_cable, stage_5_splice, stage_6_test, stage_9_backfill
 export type StageCode =
   | 'stage_1_marking'
   | 'stage_2_excavation'
@@ -100,10 +103,7 @@ export type StageCode =
   | 'stage_4_cable'
   | 'stage_5_splice'
   | 'stage_6_test'
-  | 'stage_7_connect'
-  | 'stage_8_final'
-  | 'stage_9_backfill'
-  | 'stage_10_surface';
+  | 'stage_9_backfill';
 
 export type WorkMethod = 'mole' | 'hand' | 'excavator' | 'trencher' | 'documentation';
 export type PhotoLabel = 'before' | 'during' | 'after' | 'instrument' | 'other';
@@ -137,6 +137,7 @@ export interface WorkEntry {
   has_protection_pipe?: boolean;
   soil_type?: string;
   notes?: string;
+  approved?: boolean; // Database field: approved boolean default false
   approved_by?: UUID;
   approved_at?: string; // ISO datetime string
   rejected_by?: UUID;
