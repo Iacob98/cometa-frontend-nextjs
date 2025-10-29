@@ -106,7 +106,7 @@ export type StageCode =
   | 'stage_9_backfill';
 
 export type WorkMethod = 'mole' | 'hand' | 'excavator' | 'trencher' | 'documentation';
-export type PhotoLabel = 'before' | 'during' | 'after' | 'instrument' | 'other';
+export type PhotoLabel = 'before' | 'during' | 'after' | 'instrument' | 'other' | 'rejection';
 
 export interface StageDef {
   id: UUID;
@@ -144,6 +144,8 @@ export interface WorkEntry {
   rejected_at?: string;
   rejection_reason?: string;
   was_rejected_before?: boolean;
+  gps_lat?: number; // GPS Latitude (-90 to 90 degrees)
+  gps_lon?: number; // GPS Longitude (-180 to 180 degrees)
   created_at?: string;
   updated_at?: string;
   // Relations

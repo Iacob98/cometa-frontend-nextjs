@@ -95,6 +95,33 @@ export async function POST(
       );
     }
 
+    // Create notification for the worker
+    if (workEntry && workEntry.user_id) {
+      try {
+        await supabase.from('in_app_notifications').insert({
+          user_id: workEntry.user_id,
+          title: 'Work Entry Rejected',
+          message: `Your work entry for ${workEntry.stage_code} has been rejected. Reason: ${rejection_reason}`,
+          notification_type: 'work_entry_rejected',
+          priority: 'high',
+          is_read: false,
+          action_url: `/dashboard/work-entries/${id}`,
+          action_label: 'View Details',
+          created_by: userId || null,
+          data: {
+            work_entry_id: id,
+            rejection_reason: rejection_reason,
+            stage_code: workEntry.stage_code,
+            project_id: workEntry.project_id,
+            project_name: workEntry.project?.name || null
+          }
+        });
+      } catch (notifError) {
+        console.error('Failed to create rejection notification:', notifError);
+        // Don't fail the rejection if notification fails
+      }
+    }
+
     return NextResponse.json({
       message: 'Work entry rejected successfully',
       workEntry
