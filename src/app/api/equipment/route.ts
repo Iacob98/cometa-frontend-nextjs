@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { getSupabaseServerClient } from "@/lib/supabase-server";
+import { requireEquipmentPermission } from "@/lib/auth-middleware";
 import { createEquipmentSchema, computeNextCalibrationDate, computeNextInspectionDate } from "@/lib/validations/equipment-categories";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 export async function GET(request: NextRequest) {
+  // 🔒 SECURITY: Require authentication
+  const authResult = await requireEquipmentPermission(request, 'view');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");
     const per_page = parseInt(searchParams.get("per_page") || "20");
@@ -117,10 +118,37 @@ export async function GET(request: NextRequest) {
       query = query.eq("owned", owned === "true");
     }
 
+    // 🔒 SECURITY FIX: Use full-text search RPC instead of unsafe ILIKE
     if (search) {
-      query = query.or(
-        `name.ilike.%${search}%,inventory_no.ilike.%${search}%,type.ilike.%${search}%,description.ilike.%${search}%,notes.ilike.%${search}%,current_location.ilike.%${search}%`
+      // Use PostgreSQL full-text search via RPC (prevents SQL injection)
+      const { data: searchResults, error: searchError } = await supabase.rpc(
+        'search_equipment',
+        {
+          p_query: search,
+          p_type: type || null,
+          p_status: status && status !== 'available' ? status : null,
+          p_owned: owned && owned !== 'all' ? (owned === 'true') : null,
+          p_limit: per_page,
+          p_offset: offset,
+        }
       );
+
+      if (searchError) {
+        console.error('Search RPC error:', searchError);
+        return NextResponse.json(
+          { error: 'Failed to search equipment', details: searchError },
+          { status: 500 }
+        );
+      }
+
+      // For search, return results directly (no need for further filtering)
+      return NextResponse.json({
+        items: searchResults || [],
+        total: searchResults?.length || 0,
+        page,
+        per_page,
+        total_pages: Math.ceil((searchResults?.length || 0) / per_page),
+      });
     }
 
     const { data: equipment, error, count } = await query;
@@ -158,7 +186,12 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  // 🔒 SECURITY: Only admin, pm, and foreman can create equipment
+  const authResult = await requireEquipmentPermission(request, 'create');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
     const body = await request.json();
 
     // Validate request body with Zod schema
