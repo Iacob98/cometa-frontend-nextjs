@@ -22,19 +22,7 @@ export async function GET(
     const { data: allocation, error } = await supabase
       .from('material_allocations')
       .select(`
-        id,
-        material_id,
-        project_id,
-        crew_id,
-        quantity_allocated,
-        quantity_used,
-        quantity_remaining,
-        status,
-        allocated_date,
-        allocated_by,
-        notes,
-        created_at,
-        updated_at,
+        *,
         materials (
           id,
           name,
@@ -47,21 +35,15 @@ export async function GET(
           description,
           supplier_name
         ),
-        project:projects (
+        projects (
           id,
           name,
           city,
           address
         ),
-        crew:crews (
+        crews (
           id,
           crew_name
-        ),
-        allocated_by_user:users!material_allocations_allocated_by_fkey (
-          id,
-          first_name,
-          last_name,
-          email
         )
       `)
       .eq('id', id)
@@ -84,12 +66,10 @@ export async function GET(
     // Enrich with calculated fields
     const enriched = {
       ...allocation,
-      allocated_by_name: allocation.allocated_by_user
-        ? `${allocation.allocated_by_user.first_name} ${allocation.allocated_by_user.last_name}`.trim()
-        : null,
-      material_name: allocation.materials?.name,
-      project_name: allocation.project?.name,
-      crew_name: allocation.crew?.crew_name,
+      material_name: allocation.materials?.name || null,
+      project_name: allocation.projects?.name || null,
+      crew_name: allocation.crews?.crew_name || null,
+      allocated_by_name: null, // Would need separate query for user details
     };
 
     return NextResponse.json(enriched);

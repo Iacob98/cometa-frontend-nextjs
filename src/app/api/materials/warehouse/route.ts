@@ -36,9 +36,8 @@ export async function GET(request: NextRequest) {
       query = query.or(`name.ilike.%${search}%,sku.ilike.%${search}%,description.ilike.%${search}%`);
     }
 
-    if (low_stock_only) {
-      query = query.or('current_stock.lte.min_stock_threshold,current_stock.lt.10');
-    }
+    // Note: low_stock_only filtering done in memory after fetch
+    // because Supabase doesn't support column comparison in filters
 
     // Pagination and sorting
     query = query
@@ -57,12 +56,12 @@ export async function GET(request: NextRequest) {
     }
 
     // Calculate available stock (current - reserved)
-    const enrichedMaterials = (materials || []).map(material => {
+    let enrichedMaterials = (materials || []).map(material => {
       const currentStock = Number(material.current_stock || 0);
       const reservedStock = Number(material.reserved_stock || 0);
       const available = Math.max(0, currentStock - reservedStock);
       const minThreshold = Number(material.min_stock_threshold || 10);
-      
+
       return {
         ...material,
         available_stock: available,
@@ -72,6 +71,11 @@ export async function GET(request: NextRequest) {
                       available <= minThreshold ? 'reserved' : 'available',
       };
     });
+
+    // Apply low_stock_only filter in memory
+    if (low_stock_only) {
+      enrichedMaterials = enrichedMaterials.filter(material => material.is_low_stock);
+    }
 
     return NextResponse.json({
       materials: enrichedMaterials,
