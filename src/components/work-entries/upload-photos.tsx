@@ -1,29 +1,47 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Upload, X, Loader2 } from "lucide-react";
+import { Upload, X, Loader2, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import type { PhotoLabel } from "@/types";
 
 interface UploadPhotosProps {
   workEntryId: string;
 }
 
+interface FileWithLabel {
+  file: File;
+  label: PhotoLabel;
+}
+
 export function UploadPhotos({ workEntryId }: UploadPhotosProps) {
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<FileWithLabel[]>([]);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    setSelectedFiles(prev => [...prev, ...files].slice(0, 5)); // Max 5 files
+    const filesWithLabels: FileWithLabel[] = files.map(file => ({
+      file,
+      label: 'before' as PhotoLabel, // Default label
+    }));
+    setSelectedFiles(prev => [...prev, ...filesWithLabels].slice(0, 5)); // Max 5 files
   };
 
   const removeFile = (index: number) => {
     setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const updateFileLabel = (index: number, label: PhotoLabel) => {
+    setSelectedFiles(prev =>
+      prev.map((item, i) => i === index ? { ...item, label } : item)
+    );
   };
 
   const handleUpload = async () => {
@@ -44,8 +62,8 @@ export function UploadPhotos({ workEntryId }: UploadPhotosProps) {
       }));
 
       // Add files
-      selectedFiles.forEach((file, index) => {
-        formData.append(`file${index}`, file);
+      selectedFiles.forEach((item, index) => {
+        formData.append(`file${index}`, item.file);
       });
 
       // Upload to Supabase Storage
@@ -61,8 +79,11 @@ export function UploadPhotos({ workEntryId }: UploadPhotosProps) {
 
       const uploadResult = await uploadResponse.json();
 
-      // Save photo metadata to database
-      for (const file of uploadResult.files) {
+      // Save photo metadata to database with labels
+      for (let i = 0; i < uploadResult.files.length; i++) {
+        const file = uploadResult.files[i];
+        const label = selectedFiles[i]?.label || 'other';
+
         await fetch('/api/photos', {
           method: 'POST',
           headers: {
@@ -73,6 +94,7 @@ export function UploadPhotos({ workEntryId }: UploadPhotosProps) {
             filename: file.fileName,
             file_path: file.path,
             photo_type: 'progress',
+            label: label, // Add photo label
           }),
         });
       }
@@ -110,32 +132,58 @@ export function UploadPhotos({ workEntryId }: UploadPhotosProps) {
         />
 
         {selectedFiles.length > 0 && (
-          <div className="space-y-2">
-            {selectedFiles.map((file, index) => (
+          <div className="space-y-3">
+            {selectedFiles.map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between p-2 border rounded-lg"
+                className="flex flex-col gap-3 p-3 border rounded-lg bg-card"
               >
-                <div className="flex items-center space-x-2 flex-1">
-                  <div className="w-12 h-12 bg-muted rounded flex items-center justify-center">
-                    <Upload className="h-4 w-4" />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2 flex-1 min-w-0">
+                    <div className="w-12 h-12 bg-muted rounded flex items-center justify-center flex-shrink-0">
+                      <Upload className="h-4 w-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{item.file.name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {(item.file.size / 1024 / 1024).toFixed(2)} MB
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{file.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB
-                    </p>
-                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => removeFile(index)}
+                    disabled={uploading}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
                 </div>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => removeFile(index)}
-                  disabled={uploading}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+
+                {/* Photo Label Selection */}
+                <div className="flex items-center gap-2">
+                  <Label htmlFor={`label-${index}`} className="flex items-center gap-1.5 text-sm whitespace-nowrap">
+                    <Tag className="h-3.5 w-3.5" />
+                    Label:
+                  </Label>
+                  <Select
+                    value={item.label}
+                    onValueChange={(value) => updateFileLabel(index, value as PhotoLabel)}
+                    disabled={uploading}
+                  >
+                    <SelectTrigger id={`label-${index}`} className="h-9">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="before">Before Work</SelectItem>
+                      <SelectItem value="during">During Work</SelectItem>
+                      <SelectItem value="after">After Work</SelectItem>
+                      <SelectItem value="instrument">Equipment Reading</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             ))}
           </div>
