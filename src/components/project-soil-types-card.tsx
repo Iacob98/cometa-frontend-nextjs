@@ -130,11 +130,6 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
     addSoilType.mutate(newSoilType);
   };
 
-  const totalCost = soilTypes.reduce((sum: number, st: ProjectSoilType) => {
-    const quantity = st.quantity_meters || 0;
-    return sum + quantity * st.price_per_meter;
-  }, 0);
-
   if (isLoading) {
     return (
       <Card>
@@ -224,14 +219,21 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
                 </TableBody>
               </Table>
 
-              {totalCost > 0 && (
-                <div className="mt-4 pt-4 border-t flex justify-end">
-                  <div className="text-right">
-                    <p className="text-sm text-muted-foreground">Total Estimated Cost</p>
-                    <p className="text-2xl font-bold">€{totalCost.toFixed(2)}</p>
+              {(() => {
+                const totalCost = soilTypes.reduce((sum: number, st: ProjectSoilType) => {
+                  const quantity = st.quantity_meters || 0;
+                  return sum + quantity * st.price_per_meter;
+                }, 0);
+
+                return totalCost > 0 ? (
+                  <div className="mt-4 pt-4 border-t flex justify-end">
+                    <div className="text-right">
+                      <p className="text-sm text-muted-foreground">Total Estimated Cost</p>
+                      <p className="text-2xl font-bold">€{totalCost.toFixed(2)}</p>
+                    </div>
                   </div>
-                </div>
-              )}
+                ) : null;
+              })()}
             </>
           )}
         </CardContent>
