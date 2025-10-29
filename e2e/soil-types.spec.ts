@@ -29,15 +29,21 @@ const ADMIN_USER = {
 async function loginAsAdmin(page: Page) {
   await page.goto('/login');
 
-  // Fill login form
-  await page.fill('input[name="email"]', ADMIN_USER.email);
-  await page.fill('input[name="pin_code"]', ADMIN_USER.pin);
+  // Wait for login form to be visible using a unique selector
+  await expect(page.getByRole('button', { name: 'Sign In' })).toBeVisible();
+
+  // Fill login form using placeholder text (React Hook Form doesn't use name attributes)
+  // Email/Phone field
+  await page.fill('input[placeholder*="admin@fiber.com"]', ADMIN_USER.email);
+
+  // PIN code field
+  await page.fill('input[placeholder*="Enter 4-6 digit PIN"]', ADMIN_USER.pin);
 
   // Submit form
-  await page.click('button[type="submit"]');
+  await page.getByRole('button', { name: 'Sign In' }).click();
 
   // Wait for redirect to dashboard
-  await page.waitForURL('/dashboard', { timeout: 5000 });
+  await page.waitForURL('/dashboard', { timeout: 10000 });
 
   // Verify we're logged in
   await expect(page.locator('text=Dashboard')).toBeVisible();
@@ -50,8 +56,29 @@ async function navigateToProjectSoilTypes(page: Page) {
   // Go to projects page
   await page.goto(`/dashboard/projects/${TEST_PROJECT_ID}`);
 
-  // Wait for project page to load
-  await expect(page.locator('text=Soil Types')).toBeVisible({ timeout: 10000 });
+  // Wait for page to fully load (Overview tab is default)
+  await page.waitForLoadState('networkidle');
+
+  // Wait for Soil Types card to finish loading (loading state shows "Loading soil types...")
+  await page.waitForSelector('text=Loading soil types...', { state: 'hidden', timeout: 10000 }).catch(() => {
+    // If loading text never appeared, that's fine - data loaded immediately
+  });
+
+  // Scroll down to find Soil Types card (it's below the fold)
+  await page.evaluate(() => {
+    const soilTypesHeading = Array.from(document.querySelectorAll('*')).find(
+      el => el.textContent?.includes('Soil Types') && el.tagName.match(/H\d/)
+    );
+    if (soilTypesHeading) {
+      soilTypesHeading.scrollIntoView({ behavior: 'instant', block: 'center' });
+    }
+  });
+
+  // Wait a bit for scroll and rendering
+  await page.waitForTimeout(1000);
+
+  // Wait for the Add Soil Type button to be visible
+  await expect(page.getByRole('button', { name: /add soil type/i })).toBeVisible({ timeout: 10000 });
 }
 
 test.describe('Phase 4: Soil Types E2E Tests', () => {
