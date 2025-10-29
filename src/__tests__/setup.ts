@@ -1,6 +1,36 @@
 import { expect, afterEach, beforeAll, afterAll, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 import * as matchers from '@testing-library/jest-dom/matchers';
+
+// IMPORTANT: Mock localStorage and sessionStorage FIRST before importing MSW
+// MSW's cookie store tries to access localStorage on import
+const localStorageMock = {
+  getItem: vi.fn().mockReturnValue(null),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+  length: 0,
+  key: vi.fn(),
+};
+Object.defineProperty(global, 'localStorage', {
+  value: localStorageMock,
+  writable: true,
+});
+
+const sessionStorageMock = {
+  getItem: vi.fn().mockReturnValue(null),
+  setItem: vi.fn(),
+  removeItem: vi.fn(),
+  clear: vi.fn(),
+  length: 0,
+  key: vi.fn(),
+};
+Object.defineProperty(global, 'sessionStorage', {
+  value: sessionStorageMock,
+  writable: true,
+});
+
+// NOW we can safely import MSW server
 import { server } from './mocks/server';
 
 // Extend Vitest matchers with Testing Library matchers
@@ -39,28 +69,6 @@ Object.defineProperty(window, 'matchMedia', {
 Object.defineProperty(window, 'scrollTo', {
   writable: true,
   value: vi.fn(),
-});
-
-// Mock localStorage
-const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-};
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-});
-
-// Mock sessionStorage
-const sessionStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-};
-Object.defineProperty(window, 'sessionStorage', {
-  value: sessionStorageMock,
 });
 
 // Mock URL constructor
