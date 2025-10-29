@@ -5,6 +5,8 @@
  * implemented in Phase 1 Security Implementation
  *
  * Related: .claude/implementation-plans/PHASE1_COMPLETION_REPORT.md
+ *
+ * @vitest-environment node
  */
 
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
