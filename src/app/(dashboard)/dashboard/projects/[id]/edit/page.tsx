@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { CalendarIcon, ArrowLeft, Save, Building2, AlertTriangle } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 import { useProject, useUpdateProject } from "@/hooks/use-projects";
 import { usePermissions } from "@/hooks/use-auth";
-import type { UpdateProjectRequest, Language } from "@/types";
+import type { UpdateProjectRequest, Language, ProjectSoilType } from "@/types";
 import ProjectSoilTypesCard from "@/components/project-soil-types-card";
 import { useQuery } from "@tanstack/react-query";
 
@@ -45,11 +45,13 @@ export default function EditProjectPage() {
   const { data: project, isLoading, error } = useProject(projectId);
 
   // Fetch soil types for average price calculation
-  const { data: soilTypes = [] } = useQuery({
+  const { data: soilTypes = [] } = useQuery<ProjectSoilType[]>({
     queryKey: ["project-soil-types", projectId],
     queryFn: async () => {
       const response = await fetch(`/api/projects/${projectId}/soil-types`);
-      if (!response.ok) return [];
+      if (!response.ok) {
+        throw new Error(`Failed to fetch soil types: ${response.status}`);
+      }
       return response.json();
     },
     enabled: !!projectId,
@@ -72,10 +74,13 @@ export default function EditProjectPage() {
     },
   });
 
+  // Extract stable references
+  const { reset, setValue } = form;
+
   // Update form when project data loads
   useEffect(() => {
     if (project && !form.formState.isDirty) {
-      form.reset({
+      reset({
         name: project.name,
         customer: project.customer || "",
         city: project.city || "",
@@ -89,30 +94,30 @@ export default function EditProjectPage() {
         status: project.status,
       });
     }
-  }, [project, form]);
+  }, [project, reset, form.formState.isDirty]);
 
   // Calculate average price from soil types
   useEffect(() => {
     if (soilTypes && soilTypes.length > 0) {
       // Calculate weighted average based on quantity
-      const totalQuantity = soilTypes.reduce((sum: number, st: any) => sum + (st.quantity_meters || 0), 0);
+      const totalQuantity = soilTypes.reduce((sum: number, st: ProjectSoilType) => sum + (st.quantity_meters || 0), 0);
 
       if (totalQuantity > 0) {
-        const weightedSum = soilTypes.reduce((sum: number, st: any) => {
+        const weightedSum = soilTypes.reduce((sum: number, st: ProjectSoilType) => {
           return sum + (st.price_per_meter * (st.quantity_meters || 0));
         }, 0);
         const averagePrice = weightedSum / totalQuantity;
-        form.setValue('base_rate_per_m', Number(averagePrice.toFixed(2)));
+        setValue('base_rate_per_m', Number(averagePrice.toFixed(2)));
       } else {
         // If no quantities, calculate simple average
-        const avgPrice = soilTypes.reduce((sum: number, st: any) => sum + st.price_per_meter, 0) / soilTypes.length;
-        form.setValue('base_rate_per_m', Number(avgPrice.toFixed(2)));
+        const avgPrice = soilTypes.reduce((sum: number, st: ProjectSoilType) => sum + st.price_per_meter, 0) / soilTypes.length;
+        setValue('base_rate_per_m', Number(avgPrice.toFixed(2)));
       }
     } else if (soilTypes && soilTypes.length === 0) {
       // No soil types, set to 0
-      form.setValue('base_rate_per_m', 0);
+      setValue('base_rate_per_m', 0);
     }
-  }, [soilTypes, form]);
+  }, [soilTypes, setValue]);
 
   const onSubmit = async (data: UpdateProjectFormData) => {
     try {

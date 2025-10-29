@@ -39,6 +39,17 @@ export interface Project {
   pm_user?: User;
 }
 
+export interface ProjectSoilType {
+  id: UUID;
+  project_id: UUID;
+  soil_type_name: string;
+  price_per_meter: number;
+  quantity_meters?: number;
+  notes?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 // Infrastructure types
 export type SegmentSurface = 'asphalt' | 'concrete' | 'pavers' | 'green';
 export type SegmentArea = 'roadway' | 'sidewalk' | 'driveway' | 'green';

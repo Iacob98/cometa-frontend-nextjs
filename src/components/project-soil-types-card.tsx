@@ -26,17 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-
-interface SoilType {
-  id: string;
-  project_id: string;
-  soil_type_name: string;
-  price_per_meter: number;
-  quantity_meters?: number;
-  notes?: string;
-  created_at: string;
-  updated_at: string;
-}
+import type { ProjectSoilType } from "@/types";
 
 interface ProjectSoilTypesCardProps {
   projectId: string;
@@ -140,7 +130,7 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
     addSoilType.mutate(newSoilType);
   };
 
-  const totalCost = soilTypes.reduce((sum: number, st: SoilType) => {
+  const totalCost = soilTypes.reduce((sum: number, st: ProjectSoilType) => {
     const quantity = st.quantity_meters || 0;
     return sum + quantity * st.price_per_meter;
   }, 0);
@@ -201,7 +191,7 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {soilTypes.map((soilType: SoilType) => (
+                  {soilTypes.map((soilType: ProjectSoilType) => (
                     <TableRow key={soilType.id}>
                       <TableCell className="font-medium">
                         {soilType.soil_type_name}
