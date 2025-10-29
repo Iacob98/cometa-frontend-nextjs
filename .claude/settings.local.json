@@ -81,7 +81,8 @@
       "Bash(gh pr edit:*)",
       "Bash(PGPASSWORD=\"Iasaninja1973..\" psql:*)",
       "Bash(chmod:*)",
-      "Bash(/tmp/test_admin.sh:*)"
+      "Bash(/tmp/test_admin.sh:*)",
+      "Bash(npx vitest:*)"
     ],
     "deny": [],
     "ask": []

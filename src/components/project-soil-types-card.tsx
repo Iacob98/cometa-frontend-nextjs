@@ -210,6 +210,7 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
                           variant="ghost"
                           size="sm"
                           onClick={() => deleteSoilType.mutate(soilType.id)}
+                          aria-label={`Delete ${soilType.soil_type_name}`}
                         >
                           <Trash2 className="h-4 w-4 text-destructive" />
                         </Button>

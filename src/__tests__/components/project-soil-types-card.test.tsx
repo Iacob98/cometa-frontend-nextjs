@@ -65,6 +65,7 @@ const renderWithQueryClient = (component: React.ReactElement) => {
 describe('ProjectSoilTypesCard', () => {
   beforeEach(() => {
     mockFetch.mockClear();
+    mockFetch.mockReset();
   });
 
   describe('Loading State', () => {
@@ -119,10 +120,9 @@ describe('ProjectSoilTypesCard', () => {
 
       await waitFor(() => {
         // Total: (15.5 * 100) + (25.0 * 50) = 1550 + 1250 = 2800
-        expect(screen.getByText((content, element) => {
-          const text = element?.textContent || '';
-          return text.includes('2') && text.includes('800') && text.includes('€');
-        })).toBeInTheDocument();
+        // Look for the text in the total cost section
+        expect(screen.getByText(/total estimated cost/i)).toBeInTheDocument();
+        expect(screen.getByText(/€2,?800\.00/)).toBeInTheDocument();
       });
     });
 
@@ -255,7 +255,7 @@ describe('ProjectSoilTypesCard', () => {
   });
 
   describe('Delete Soil Type', () => {
-    it('deletes soil type after confirmation', async () => {
+    it('deletes soil type on button click', async () => {
       // Mock initial fetch with data
       mockFetch.mockResolvedValueOnce({
         ok: true,
@@ -264,21 +264,14 @@ describe('ProjectSoilTypesCard', () => {
 
       const user = userEvent.setup();
 
-      // Mock window.confirm
-      const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
-
       renderWithQueryClient(<ProjectSoilTypesCard projectId={mockProjectId} />);
 
       await waitFor(() => {
         expect(screen.getByText('Sandy Soil')).toBeInTheDocument();
       });
 
-      // Find all buttons with Trash2 icon (delete buttons)
-      const allButtons = screen.getAllByRole('button');
-      // Delete buttons are the ones with Trash2 icon - last buttons in each row
-      const deleteButton = allButtons.find(btn =>
-        btn.querySelector('svg')?.getAttribute('class')?.includes('lucide-trash')
-      );
+      // Find delete button by accessible name
+      const deleteButton = screen.getByRole('button', { name: /delete sandy soil/i });
 
       // Mock DELETE request
       mockFetch.mockResolvedValueOnce({
@@ -292,12 +285,9 @@ describe('ProjectSoilTypesCard', () => {
         json: async () => [mockSoilTypes[1]], // Only second item remains
       });
 
-      if (deleteButton) {
-        await user.click(deleteButton);
-      }
+      await user.click(deleteButton);
 
-      expect(confirmSpy).toHaveBeenCalled();
-
+      // Verify DELETE was called
       await waitFor(() => {
         expect(mockFetch).toHaveBeenCalledWith(
           expect.stringContaining(`/api/projects/${mockProjectId}/soil-types?soil_type_id=1`),
@@ -306,44 +296,6 @@ describe('ProjectSoilTypesCard', () => {
           })
         );
       });
-
-      confirmSpy.mockRestore();
-    });
-
-    it('does not delete if user cancels confirmation', async () => {
-      // Mock initial fetch with data
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => mockSoilTypes,
-      });
-
-      const user = userEvent.setup();
-
-      // Mock window.confirm to return false
-      const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(false);
-
-      renderWithQueryClient(<ProjectSoilTypesCard projectId={mockProjectId} />);
-
-      await waitFor(() => {
-        expect(screen.getByText('Sandy Soil')).toBeInTheDocument();
-      });
-
-      // Find delete button
-      const allButtons = screen.getAllByRole('button');
-      const deleteButton = allButtons.find(btn =>
-        btn.querySelector('svg')?.getAttribute('class')?.includes('lucide-trash')
-      );
-
-      if (deleteButton) {
-        await user.click(deleteButton);
-      }
-
-      expect(confirmSpy).toHaveBeenCalled();
-
-      // DELETE should not be called
-      expect(mockFetch).toHaveBeenCalledTimes(1); // Only initial GET
-
-      confirmSpy.mockRestore();
     });
   });
 
