@@ -40,11 +40,8 @@ const createWorkEntrySchema = z.object({
     "stage_4_cable",
     "stage_5_splice",
     "stage_6_test",
-    "stage_7_connect",
-    "stage_8_final",
-    "stage_9_backfill",
-    "stage_10_surface"
-  ]),
+    "stage_9_backfill"
+  ], { errorMap: () => ({ message: "Invalid stage code" }) }),
   meters_done_m: z.coerce.number().min(0, "Meters must be positive"),
   method: z.enum(["mole", "hand", "excavator", "trencher", "documentation"]).optional(),
   width_m: z.coerce.number().min(0).optional(),
@@ -132,12 +129,9 @@ export default function NewWorkEntryPage() {
     { value: "stage_2_excavation", label: "2. Excavation" },
     { value: "stage_3_conduit", label: "3. Conduit Installation" },
     { value: "stage_4_cable", label: "4. Cable Installation" },
-    { value: "stage_5_splice", label: "5. Splice/Connection" },
+    { value: "stage_5_splice", label: "5. Splicing" },
     { value: "stage_6_test", label: "6. Testing" },
-    { value: "stage_7_connect", label: "7. Connection" },
-    { value: "stage_8_final", label: "8. Final Inspection" },
     { value: "stage_9_backfill", label: "9. Backfilling" },
-    { value: "stage_10_surface", label: "10. Surface Restoration" },
   ];
 
   const methodOptions = [
