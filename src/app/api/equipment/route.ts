@@ -92,22 +92,78 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // ⚡ PERFORMANCE FIX: Use pre-computed view for available equipment
     if (status === "available") {
-      // For "available" status, get equipment that either:
-      // 1. Has status "available" OR
-      // 2. Does NOT have any active assignments (even if status is "issued_to_brigade")
+      // Use optimized database view (single query instead of 2)
+      query = supabase
+        .from('v_equipment_available')
+        .select(
+          `
+          id,
+          name,
+          type,
+          category,
+          inventory_no,
+          status,
+          rental_cost_per_day,
+          purchase_date,
+          warranty_until,
+          description,
+          notes,
+          owned,
+          current_location,
+          is_active,
+          created_at,
+          updated_at,
+          equipment_type_details (
+            id,
+            brand,
+            model,
+            serial_number,
+            manufacturer,
+            power_watts,
+            voltage_volts,
+            battery_type,
+            battery_capacity_ah,
+            ip_rating,
+            rpm,
+            splice_count,
+            arc_calibration_date,
+            avg_splice_loss_db,
+            firmware_version,
+            wavelength_nm,
+            dynamic_range_db,
+            fiber_type,
+            connector_type,
+            size,
+            certification,
+            inspection_due_date,
+            certification_expiry_date,
+            last_calibration_date,
+            calibration_interval_months,
+            calibration_certificate_no,
+            accuracy_rating,
+            measurement_unit
+          )
+        `,
+          { count: "exact" }
+        )
+        .order("name", { ascending: true })
+        .range(offset, offset + per_page - 1);
 
-      // First, get all equipment IDs with active assignments
-      const { data: activeAssignments } = await supabase
-        .from("equipment_assignments")
-        .select("equipment_id")
-        .eq("is_active", true);
-
-      const assignedEquipmentIds = activeAssignments?.map(a => a.equipment_id) || [];
-
-      // Filter out equipment that has active assignments
-      if (assignedEquipmentIds.length > 0) {
-        query = query.not("id", "in", `(${assignedEquipmentIds.join(",")})`);
+      // Apply additional filters to the view query
+      if (type) {
+        query = query.eq("type", type);
+      }
+      if (category) {
+        if (category === 'uncategorized') {
+          query = query.is("category", null);
+        } else {
+          query = query.eq("category", category);
+        }
+      }
+      if (owned && owned !== "all") {
+        query = query.eq("owned", owned === "true");
       }
     } else if (status) {
       // For other statuses, use direct filtering

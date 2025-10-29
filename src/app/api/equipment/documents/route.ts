@@ -109,35 +109,47 @@ try {
       );
     }
 
-    // Transform and add computed fields
-    const items = await Promise.all(
-      (data || []).map(async (item: any) => {
-        const daysUntilExpiry = item.expiry_date
-          ? Math.ceil(
-              (new Date(item.expiry_date).getTime() - new Date().getTime()) /
-                (1000 * 60 * 60 * 24)
-            )
-          : null;
+    // ⚡ PERFORMANCE FIX: Batch signed URL generation (was N+1 query)
+    // Transform items first without async operations
+    const items = (data || []).map((item: any) => {
+      const daysUntilExpiry = item.expiry_date
+        ? Math.ceil(
+            (new Date(item.expiry_date).getTime() - new Date().getTime()) /
+              (1000 * 60 * 60 * 24)
+          )
+        : null;
 
-        // Generate signed URL for file access (valid for 1 hour)
-        let fileUrl = null;
+      return {
+        ...item,
+        equipment_name: item.equipment?.name,
+        days_until_expiry: daysUntilExpiry,
+        is_expiring_soon: daysUntilExpiry !== null && daysUntilExpiry > 0 && daysUntilExpiry <= 60,
+        is_expired: daysUntilExpiry !== null && daysUntilExpiry < 0,
+      };
+    });
+
+    // Batch generate signed URLs (single API call instead of N calls)
+    const filePaths = items
+      .filter((item) => item.file_path)
+      .map((item) => item.file_path);
+
+    if (filePaths.length > 0) {
+      const { data: signedUrls } = await supabase.storage
+        .from(BUCKET_NAME)
+        .createSignedUrls(filePaths, 3600); // BULK operation
+
+      // Create URL map for O(1) lookups
+      const urlMap = new Map(
+        signedUrls?.map((url, idx) => [filePaths[idx], url.signedUrl]) || []
+      );
+
+      // Add URLs to items
+      items.forEach((item) => {
         if (item.file_path) {
-          const { data: urlData } = await supabase.storage
-            .from(BUCKET_NAME)
-            .createSignedUrl(item.file_path, 3600);
-          fileUrl = urlData?.signedUrl || null;
+          item.file_url = urlMap.get(item.file_path) || null;
         }
-
-        return {
-          ...item,
-          equipment_name: item.equipment?.name,
-          days_until_expiry: daysUntilExpiry,
-          is_expiring_soon: daysUntilExpiry !== null && daysUntilExpiry > 0 && daysUntilExpiry <= 60,
-          is_expired: daysUntilExpiry !== null && daysUntilExpiry < 0,
-          file_url: fileUrl,
-        };
-      })
-    );
+      });
+    }
 
     const response: PaginatedResponse<EquipmentDocument> = {
       items,

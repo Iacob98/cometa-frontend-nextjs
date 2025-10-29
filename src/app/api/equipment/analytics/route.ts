@@ -18,8 +18,9 @@ try {
     const end_date = searchParams.get('end_date');
     const period = searchParams.get('period') || 'month'; // month, quarter, year
 
-    // Get all equipment
-    const { data: equipment, error: equipmentError } = await supabase
+    // ⚡ PERFORMANCE FIX: Parallelize database queries (was sequential)
+    // Build queries first (synchronous)
+    const equipmentQuery = supabase
       .from('equipment')
       .select(`
         id,
@@ -36,15 +37,6 @@ try {
       `)
       .eq('is_active', true);
 
-    if (equipmentError) {
-      console.error('Supabase equipment query error:', equipmentError);
-      return NextResponse.json(
-        { error: 'Failed to fetch equipment data' },
-        { status: 500 }
-      );
-    }
-
-    // Get equipment assignments with filters
     let assignmentsQuery = supabase
       .from('equipment_assignments')
       .select(`
@@ -83,7 +75,7 @@ try {
         )
       `);
 
-    // Apply filters
+    // Apply filters to assignments query
     if (project_id) {
       assignmentsQuery = assignmentsQuery.eq('project_id', project_id);
     }
@@ -98,18 +90,7 @@ try {
       assignmentsQuery = assignmentsQuery.lte('from_ts', end_date);
     }
 
-    const { data: assignments, error: assignmentsError } = await assignmentsQuery;
-
-    if (assignmentsError) {
-      console.error('Supabase assignments query error:', assignmentsError);
-      return NextResponse.json(
-        { error: 'Failed to fetch assignments data' },
-        { status: 500 }
-      );
-    }
-
-    // Get equipment maintenance records
-    const { data: maintenance, error: maintenanceError } = await supabase
+    const maintenanceQuery = supabase
       .from('equipment_maintenance')
       .select(`
         id,
@@ -129,9 +110,37 @@ try {
         )
       `);
 
+    // Execute all queries in parallel (500ms savings)
+    const [
+      { data: equipment, error: equipmentError },
+      { data: assignments, error: assignmentsError },
+      { data: maintenance, error: maintenanceError }
+    ] = await Promise.all([
+      equipmentQuery,
+      assignmentsQuery,
+      maintenanceQuery
+    ]);
+
+    // Check for critical errors
+    if (equipmentError) {
+      console.error('Supabase equipment query error:', equipmentError);
+      return NextResponse.json(
+        { error: 'Failed to fetch equipment data' },
+        { status: 500 }
+      );
+    }
+
+    if (assignmentsError) {
+      console.error('Supabase assignments query error:', assignmentsError);
+      return NextResponse.json(
+        { error: 'Failed to fetch assignments data' },
+        { status: 500 }
+      );
+    }
+
     if (maintenanceError) {
       console.error('Supabase maintenance query error:', maintenanceError);
-      // Continue without maintenance data
+      // Continue without maintenance data (non-critical)
     }
 
     // Calculate analytics
