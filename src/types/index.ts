@@ -294,28 +294,29 @@ export interface Material {
   category?: string;
   unit: MaterialUnit;
   sku?: string;
-  default_price_eur?: number;
-  purchase_price_eur?: number;
-  unit_cost: number;
-  current_stock_qty: number;
-  reserved_qty?: number;
-  available_qty?: number; // Can be negative for over-allocation
-  total_qty?: number; // Alias for current_stock_qty for warehouse display
-  over_allocated_qty?: number; // Amount over-allocated beyond stock
-  is_over_allocated?: boolean; // Flag for over-allocation status
-  min_stock_level: number;
-  max_stock_level?: number;
-  supplier_id?: UUID;
+  // Database fields (match exact DB column names)
+  unit_price_eur: number; // DB: unit_price_eur
+  price_per_unit?: number; // DB: price_per_unit (alternative pricing)
+  current_stock: number; // DB: current_stock
+  reserved_stock: number; // DB: reserved_stock
+  min_stock_threshold: number; // DB: min_stock_threshold
+  reorder_level?: number; // DB: reorder_level
+  supplier_name?: string; // DB: supplier_name
+  // Additional fields
+  is_active?: boolean;
   description?: string;
-  specifications?: Record<string, any>;
-  storage_location?: string;
-  last_updated?: string;
   created_at: string;
   updated_at: string;
   supplier?: Supplier;
-  // Additional warehouse-specific fields for synchronization
-  price?: number; // Alias for default_price_eur
-  min_stock?: number; // Alias for min_stock_level
+  // Computed/frontend-only fields
+  available_stock?: number; // Computed: current_stock - reserved_stock
+  is_low_stock?: boolean; // Computed: current_stock <= min_stock_threshold
+  stock_status?: 'out_of_stock' | 'low' | 'reserved' | 'available'; // Computed
+  // Legacy aliases for backward compatibility
+  unit_cost?: number; // Alias for unit_price_eur
+  current_stock_qty?: number; // Alias for current_stock
+  reserved_qty?: number; // Alias for reserved_stock
+  min_stock_level?: number; // Alias for min_stock_threshold
 }
 
 export interface Supplier {
@@ -330,40 +331,79 @@ export interface Supplier {
   updated_at: string;
 }
 
+export type MaterialAllocationStatus =
+  | 'allocated'
+  | 'partially_used'
+  | 'fully_used'
+  | 'returned'
+  | 'lost';
+
 export interface MaterialAllocation {
   id: UUID;
   material_id: UUID;
-  project_id: UUID;
-  team_id?: UUID;
-  allocated_qty: number;
-  used_qty: number;
-  allocated_by: UUID;
-  allocated_at: string;
+  project_id?: UUID;
+  crew_id?: UUID;
+  // Database fields (match exact DB column names)
+  quantity_allocated: number; // DB: quantity_allocated
+  quantity_used: number; // DB: quantity_used
+  quantity_remaining: number; // DB: quantity_remaining
+  status: MaterialAllocationStatus; // DB: status
+  allocated_date: string; // DB: allocated_date
+  allocated_by: UUID; // DB: allocated_by
   notes?: string;
+  created_at: string;
+  updated_at: string;
+  // Relations
   material?: Material;
   project?: Project;
-  allocator?: User;
+  crew?: Crew;
+  allocated_by_user?: User;
+  // Legacy aliases for backward compatibility
+  allocated_qty?: number; // Alias for quantity_allocated
+  used_qty?: number; // Alias for quantity_used
+  allocated_at?: string; // Alias for allocated_date
+  allocator?: User; // Alias for allocated_by_user
+}
+
+export interface SupplierMaterial {
+  id: UUID;
+  supplier_id: UUID;
+  material_id: UUID;
+  supplier_sku?: string;
+  unit_price: number;
+  min_order_quantity?: number;
+  lead_time_days?: number;
+  notes?: string;
+  created_at: string;
+  updated_at: string;
+  // Relations
+  supplier?: Supplier;
+  material?: Material;
 }
 
 export interface MaterialOrder {
   id: UUID;
   project_id?: UUID;
-  warehouse_location?: string;
-  supplier_material_id: UUID;
+  // Database fields (match exact DB column names)
+  material_id: UUID; // DB: material_id (NOT supplier_material_id)
   quantity: number;
-  unit_price_eur: number;
-  delivery_cost_eur?: number;
-  total_cost_eur: number;
+  unit_price: number; // DB: unit_price (NOT unit_price_eur)
+  total_price: number; // DB: total_price
   status: MaterialOrderStatus;
   order_date: string;
   expected_delivery_date?: string;
   actual_delivery_date?: string;
+  supplier?: string; // DB: supplier (text field)
   notes?: string;
-  ordered_by?: UUID;
-  created_at?: string;
-  supplier_material?: any; // SupplierMaterial type
+  created_at: string;
+  updated_at: string;
+  // Relations
+  material?: Material;
   project?: Project;
-  orderer?: User;
+  // Legacy aliases for backward compatibility
+  supplier_material_id?: UUID; // Deprecated: use material_id
+  unit_price_eur?: number; // Alias for unit_price
+  total_cost_eur?: number; // Alias for total_price
 }
 
 export interface MaterialOrderItem {
@@ -388,7 +428,6 @@ export type MaterialUnit =
   | "other";
 
 export type MaterialOrderStatus =
-  | "draft"
   | "pending"
   | "ordered"
   | "delivered"
