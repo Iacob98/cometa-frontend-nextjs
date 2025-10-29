@@ -452,5 +452,52 @@ USING (true)  -- Bypass all checks for service role
 
 ---
 
-**Last Updated**: 2025-10-29 [current timestamp]
-**Next Update**: After Task 1.2 completion
+---
+
+## Phase 2 Progress (Added 2025-10-29)
+
+### Task 2.1: Unit Tests ⬜ In Progress
+
+**Started**: 2025-10-29
+**Status**: ⬜ 23/28 tests passing (82%)
+
+**Tests Created**:
+1. ✅ Calculation logic tests: 15/15 PASSED (100%)
+   - File: `src/__tests__/lib/project-calculations.test.ts`
+   - Duration: 7ms
+   - Coverage: Edge cases, simple average, weighted average, decimal precision, real-world scenarios
+
+2. ⚠️ Component tests: 8/13 PASSED (62%)
+   - File: `src/__tests__/components/project-soil-types-card.test.tsx`
+   - Duration: 6.14s
+   - Passing: Loading state, empty state, data display, add dialog validation, query cache
+   - Failing: Delete operations (2), error handling (2), form submission (1)
+
+3. ⏸️ API security tests: Not run (requires live server)
+   - File: `src/__tests__/api/soil-types-security.test.ts`
+   - 50+ test cases created
+   - Will be moved to Phase 3 (Integration Tests)
+
+**Test Infrastructure Created**:
+- `vitest.calculations.config.ts` - Pure function test config
+- `vitest.component.config.ts` - Component test config
+- `src/__tests__/component-setup.ts` - Minimal setup without MSW
+- Fixed MSW localStorage issue in `src/__tests__/setup.ts`
+
+**Documentation**:
+- Created comprehensive `.claude/implementation-plans/PHASE2_TEST_RESULTS.md`
+- Documented all test results, failures, root causes, and recommendations
+
+**Git Commits**:
+- `39281c3` - test: Add comprehensive test suite for Soil Types feature
+- `5013755` - test: Fix test infrastructure and run Phase 2 unit tests (82% passing)
+
+**Remaining Work**:
+- Fix 5 failing component tests (mock data shape issues)
+- Generate coverage report
+- Document final Phase 2 completion
+
+---
+
+**Last Updated**: 2025-10-29 15:35 UTC
+**Next Update**: After fixing component test failures
