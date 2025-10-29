@@ -1,0 +1,139 @@
+# WORK ENTRIES MODULE - COMPREHENSIVE AUDIT PRD
+
+## Overview
+Comprehensive audit and testing of Work Entries module to ensure data consistency, type safety, and proper functionality across database, API, and frontend.
+
+## Background
+Work Entries is a critical module for tracking field work:
+- GPS coordinates and photos (before/during/after)
+- Multi-stage work process (marking, excavation, conduit, cable, splice, test, connect, backfill, surface)
+- Work approval workflow (submit → review → approve/reject)
+- Real-time progress tracking by segment and cut
+
+## Goals
+1. Verify database schema alignment with TypeScript types
+2. Ensure all API endpoints are functional and tested
+3. Validate frontend components use correct data structures
+4. Test work approval workflow end-to-end
+5. Verify GPS and photo handling
+6. Ensure no discrepancies between Frontend ↔ Backend ↔ Database
+
+## Success Criteria
+- ✅ 100% database schema alignment with types
+- ✅ All critical API endpoints tested (>90% pass rate)
+- ✅ All work stages properly defined and functional
+- ✅ Photo upload/retrieval working correctly
+- ✅ GPS coordinate validation working
+- ✅ Approval workflow functional
+- ✅ 0 TypeScript errors
+- ✅ Performance < 2s for all endpoints
+
+## Scope
+
+### Database Tables
+- work_entries (main table)
+- files (photos: before/during/after)
+- stage_defs (work stage definitions) - removed in cleanup
+- work_stages (alternative?) - removed in cleanup
+- cuts (parent entity)
+- segments (grandparent)
+- projects (root entity)
+
+### API Routes
+- /api/work-entries (CRUD)
+- /api/work-entries/[id] (single entry)
+- /api/work-entries/[id]/approve (approval workflow)
+- /api/work-entries/[id]/photos (photo management)
+- /api/upload/work-photos (photo upload)
+
+### Frontend Pages
+- /dashboard/work-entries (list view)
+- /dashboard/work-entries/new (create)
+- /dashboard/work-entries/[id] (view/edit)
+
+### Types
+- WorkEntry interface
+- WorkStage types
+- WorkMethod types
+- WorkStatus types
+- File/Photo types
+
+## Audit Phases
+
+### Phase 1: Database Schema Analysis (1-2 hours)
+- Query work_entries table schema
+- Query files table schema
+- Check foreign key relationships
+- Identify CHECK constraints for enums
+- Verify GPS coordinate fields
+- Document current schema
+
+### Phase 2: Type Definition Analysis (1-2 hours)
+- Review WorkEntry interface in types/index.ts
+- Check work_stages.ts definitions
+- Compare with database schema
+- Identify mismatches
+- Check enum alignments
+
+### Phase 3: API Route Analysis (2-3 hours)
+- Audit all work-entries API routes
+- Check for empty files
+- Verify error handling
+- Test authentication
+- Check Supabase query patterns
+- Identify missing routes
+
+### Phase 4: Codebase Exploration (2-3 hours)
+- Use Explore agent to analyze:
+  - Work entry creation flow
+  - Photo upload mechanism
+  - Approval workflow
+  - GPS validation
+  - Stage progression logic
+- Document findings
+
+### Phase 5: Test Creation (3-4 hours)
+- Create comprehensive test suite
+- Test all CRUD operations
+- Test approval workflow
+- Test photo upload
+- Test GPS validation
+- Test stage transitions
+- Test performance
+
+### Phase 6: Fix Issues (2-4 hours)
+- Fix type mismatches
+- Implement missing functionality
+- Fix failing tests
+- Update documentation
+
+### Phase 7: Verification (1 hour)
+- Run all tests
+- Verify 100% critical coverage
+- TypeScript validation
+- Performance check
+- Final documentation
+
+## Timeline
+Total estimated: 12-19 hours
+
+## Deliverables
+1. WORK_ENTRIES_AUDIT_FINDINGS.md - Detailed issue report
+2. Comprehensive test suite (40+ tests)
+3. Fixed type definitions
+4. Implemented/fixed API routes
+5. WORK_ENTRIES_AUDIT_COMPLETED.md - Final report
+6. Updated types with database alignment
+
+## Risk Assessment
+- **High Risk**: Work entries are mission-critical for business
+- **Data Loss Risk**: Photo handling must be carefully tested
+- **Workflow Risk**: Approval process affects multiple users
+- **Performance Risk**: Large datasets with photos
+
+## Dependencies
+- Supabase PostgreSQL access (MCP)
+- Next.js API routes functional
+- Photo storage (Supabase buckets)
+- GPS coordinate validation logic
+- Authentication system working
