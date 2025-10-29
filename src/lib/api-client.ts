@@ -265,7 +265,7 @@ export class ProjectsApiClient extends BaseApiClient {
   }
 
   async updateProject(id: string, data: UpdateProjectRequest): Promise<Project> {
-    return this.patch<Project>(`/${id}`, data);
+    return this.put<Project>(`/${id}`, data);
   }
 
   async deleteProject(id: string): Promise<void> {

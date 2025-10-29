@@ -1,15 +1,26 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Edit, MapPin, Calendar, Users, TrendingUp, AlertTriangle, Building2, Phone, Globe, Settings, FileText, CheckCircle, Download, Eye, User, Mail, Shield, Wrench, Truck, HardHat, Zap } from "lucide-react";
+import { useState } from "react";
+import { ArrowLeft, Edit, Trash2, MapPin, Calendar, Users, TrendingUp, AlertTriangle, Building2, Phone, Globe, Settings, FileText, CheckCircle, Download, Eye, User, Mail, Shield, Wrench, Truck, HardHat, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
-import { useProject, useProjectStats } from "@/hooks/use-projects";
+import { useProject, useProjectStats, useDeleteProject } from "@/hooks/use-projects";
 import { usePermissions } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
 import { useProjectPreparation } from "@/hooks/use-project-preparation";
@@ -27,6 +38,8 @@ export default function ProjectDetailsPage() {
   const { data: project, isLoading, error } = useProject(projectId);
   const { data: preparation } = useProjectPreparation(projectId);
   const { data: stats, isLoading: statsLoading } = useProjectStats(projectId);
+  const deleteProject = useDeleteProject();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   // Fetch team data
   const { data: teamData, isLoading: teamLoading } = useQuery({
@@ -99,6 +112,15 @@ export default function ProjectDetailsPage() {
         return "Closed";
       default:
         return status;
+    }
+  };
+
+  const handleDeleteProject = async () => {
+    try {
+      await deleteProject.mutateAsync(projectId);
+      router.push('/dashboard/projects');
+    } catch (error) {
+      console.error('Failed to delete project:', error);
     }
   };
 
@@ -218,10 +240,19 @@ export default function ProjectDetailsPage() {
           </div>
         </div>
         {canManageProjects && (
-          <Button onClick={() => router.push(`/dashboard/projects/${project.id}/edit`)}>
-            <Edit className="mr-2 h-4 w-4" />
-            Edit Project
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={() => router.push(`/dashboard/projects/${project.id}/edit`)}>
+              <Edit className="mr-2 h-4 w-4" />
+              Edit Project
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => setShowDeleteDialog(true)}
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete Project
+            </Button>
+          </div>
         )}
       </div>
 
@@ -1086,6 +1117,34 @@ export default function ProjectDetailsPage() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the project
+              <strong> "{project?.name}"</strong> and all associated data including:
+              <ul className="list-disc list-inside mt-2 space-y-1">
+                <li>Work entries and progress data</li>
+                <li>Material allocations and costs</li>
+                <li>Team assignments</li>
+                <li>Documents and files</li>
+              </ul>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteProject}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Delete Project
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
