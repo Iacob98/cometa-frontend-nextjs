@@ -2,7 +2,7 @@
 
 **Start Date**: 2025-10-29
 **Status**: 🚧 In Progress
-**Progress**: 6/9 tasks completed (67%)
+**Progress**: 7/9 tasks completed (78%)
 
 ---
 
@@ -16,7 +16,7 @@
 | 1.3: Secure DELETE endpoint | ✅ Complete | 20 min | Added auth + role check (admin/pm only) |
 | 1.4: Remove PUT endpoint | ✅ Complete | 10 min | Removed 64 lines of unused code |
 | 1.5: Manual testing | ✅ Complete | 45 min | All 5 test scenarios passed + critical bug fix |
-| 1.6: RLS policies | ⬜ Pending | - | - |
+| 1.6: RLS policies | ✅ Complete | 20 min | 4 policies created, RLS enabled |
 | 1.7: Security tests | ⬜ Pending | - | - |
 | 1.8: Documentation | ⬜ Pending | - | - |
 
@@ -228,11 +228,12 @@ if (projectAccessError) {
 
 ## Summary Statistics
 
-**Total time spent**: 3 hours (180 minutes)
-**Tasks completed**: 6/9 (67%)
+**Total time spent**: 3 hours 20 minutes (200 minutes)
+**Tasks completed**: 7/9 (78%)
 **Lines of code added**: ~330 lines (auth utilities + security checks + bug fixes)
 **Lines of code removed**: 64 lines (unused PUT endpoint)
-**Net change**: +266 lines
+**Database migrations**: 1 file (008_add_project_soil_types_rls.sql - 127 lines)
+**Net change**: +393 lines total
 
 **Security vulnerabilities fixed**:
 - ❌ Anonymous access to GET → ✅ Requires auth + project access
@@ -242,6 +243,7 @@ if (projectAccessError) {
 - ❌ No security logging → ✅ All unauthorized attempts logged
 - ❌ JWT secret mismatch → ✅ Fixed inconsistency between login and validation
 - ❌ JWT payload interface mismatch → ✅ Fixed user_id vs id field inconsistency
+- ❌ No database-level protection → ✅ RLS enabled with 4 comprehensive policies
 
 **Critical bugs fixed during testing**:
 1. JWT_SECRET mismatch between login and api-auth (authentication completely broken)
@@ -254,7 +256,13 @@ if (projectAccessError) {
 - ✅ Role-based access control working correctly
 - ✅ Security logging verified in dev logs
 
-**Remaining work**: ~1.5-2 hours (RLS policies, automated tests, documentation)
+**Database security**:
+- ✅ RLS enabled on project_soil_types table
+- ✅ 4 policies created (admin, pm, crew, service_role)
+- ✅ Defense-in-depth protection at database level
+- ✅ Role-based access: admin > pm > crew (read-only)
+
+**Remaining work**: ~1-1.5 hours (automated tests, documentation)
 
 ### Task 1.5: Manual Testing ✅
 
@@ -310,6 +318,90 @@ if (projectAccessError) {
 
 ---
 
+### Task 1.6: Create RLS Policies ✅
+
+**Completed**: 2025-10-29 [timestamp]
+**Time**: 20 minutes
+
+**What was done**:
+1. Created SQL migration file: `database/migrations/008_add_project_soil_types_rls.sql`
+2. Enabled Row-Level Security on `project_soil_types` table
+3. Created 4 comprehensive RLS policies:
+   - **Admin policy**: Full access to all soil types (FOR ALL TO authenticated)
+   - **PM policy**: Full access to their project soil types (FOR ALL TO authenticated)
+   - **Crew policy**: Read-only access to assigned project soil types (FOR SELECT TO authenticated)
+   - **Service role policy**: Bypass RLS for API operations (FOR ALL TO service_role)
+
+**Files created**:
+- `database/migrations/008_add_project_soil_types_rls.sql` (127 lines)
+
+**Migration executed successfully**:
+```sql
+-- Results
+ALTER TABLE
+CREATE POLICY (x4)
+RLS enabled: t (true)
+4 policies active
+```
+
+**Policy Details**:
+
+**1. Admin Policy** - Full Access
+```sql
+USING (
+  EXISTS (
+    SELECT 1 FROM users
+    WHERE users.id = auth.uid()
+    AND users.role = 'admin'
+    AND users.is_active = true
+  )
+)
+```
+
+**2. PM Policy** - Manage Their Projects
+```sql
+USING (
+  EXISTS (
+    SELECT 1 FROM users
+    JOIN projects ON projects.pm_user_id = users.id
+    WHERE users.id = auth.uid()
+    AND users.role = 'pm'
+    AND users.is_active = true
+    AND projects.id = project_soil_types.project_id
+  )
+)
+```
+
+**3. Crew Policy** - Read-Only via Crew Assignment
+```sql
+USING (
+  EXISTS (
+    SELECT 1 FROM users
+    JOIN crew_members ON crew_members.user_id = users.id
+    JOIN crews ON crews.id = crew_members.crew_id
+    WHERE users.id = auth.uid()
+    AND users.is_active = true
+    AND crews.project_id = project_soil_types.project_id
+  )
+)
+```
+
+**4. Service Role Policy** - API Operations
+```sql
+USING (true)  -- Bypass all checks for service role
+```
+
+**Security Improvements**:
+- ✅ Database-level enforcement (defense in depth)
+- ✅ Complements application-level JWT auth
+- ✅ Prevents direct database access bypassing API
+- ✅ Service role can still perform admin operations
+- ✅ Role-based access: admin > pm > crew (read-only)
+
+**Note**: While RLS is now enabled, API routes still use service_role key which bypasses RLS. This is intentional as the application-level JWT auth (Task 1.1-1.3) provides the actual security layer. RLS serves as defense-in-depth protection.
+
+---
+
 ## Next Steps
 
 1. ✅ Create API auth utilities (Task 1.0)
@@ -318,7 +410,7 @@ if (projectAccessError) {
 4. ✅ Secure DELETE endpoint (Task 1.3)
 5. ✅ Remove unused PUT endpoint (Task 1.4)
 6. ✅ Complete manual testing + fix critical bugs (Task 1.5)
-7. ⬜ Create RLS policies (Task 1.6)
+7. ✅ Create RLS policies (Task 1.6)
 8. ⬜ Write automated security tests (Task 1.7)
 9. ⬜ Document Phase 1 completion (Task 1.8)
 
