@@ -28,7 +28,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const supabase = getSupabaseServerClient();
-try {
     const searchParams = request.nextUrl.searchParams;
     const equipment_id = searchParams.get('equipment_id');
     const from_date = searchParams.get('from_date');
@@ -120,7 +119,6 @@ export async function POST(request: NextRequest) {
 
   try {
     const supabase = getSupabaseServerClient();
-try {
     const body: CreateUsageLogRequest = await request.json();
 
     // Validate required fields

@@ -15,16 +15,14 @@ const BUCKET_NAME = 'equipment-documents';
 // GET /api/equipment/documents/[id] - Get document with signed URL
 export async function GET(
   request: NextRequest,
-  {
+  { params }: { params: { id: string } }
+) {
   // 🔒 SECURITY: Require view permission
   const authResult = await requireEquipmentPermission(request, 'view');
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const supabase = getSupabaseServerClient();
-params }: { params: { id: string } }
-) {
-  try {
     const { id } = params;
 
     const { data: document, error } = await supabase
@@ -70,16 +68,14 @@ params }: { params: { id: string } }
 // DELETE /api/equipment/documents/[id] - Delete document
 export async function DELETE(
   request: NextRequest,
-  {
+  { params }: { params: { id: string } }
+) {
   // 🔒 SECURITY: Require uploadDocuments permission
   const authResult = await requireEquipmentPermission(request, 'uploadDocuments');
   if (authResult instanceof NextResponse) return authResult;
 
   try {
     const supabase = getSupabaseServerClient();
-params }: { params: { id: string } }
-) {
-  try {
     const { id} = params;
 
     // Get document to delete from storage

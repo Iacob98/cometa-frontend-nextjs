@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const supabase = getSupabaseServerClient();
-try {
     const { searchParams } = new URL(request.url);
     const project_id = searchParams.get('project_id');
     const start_date = searchParams.get('start_date');

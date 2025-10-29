@@ -27,7 +27,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const supabase = getSupabaseServerClient();
-try {
     const searchParams = request.nextUrl.searchParams;
     const equipment_id = searchParams.get('equipment_id');
     const maintenance_type = searchParams.get('maintenance_type');
@@ -148,7 +147,6 @@ export async function POST(request: NextRequest) {
 
   try {
     const supabase = getSupabaseServerClient();
-try {
     const body: CreateMaintenanceScheduleRequest = await request.json();
 
     // Validate required fields

@@ -31,7 +31,6 @@ export async function GET(request: NextRequest) {
 
   try {
     const supabase = getSupabaseServerClient();
-try {
     const searchParams = request.nextUrl.searchParams;
     const equipment_id = searchParams.get('equipment_id');
     const document_type = searchParams.get('document_type');
@@ -177,7 +176,6 @@ export async function POST(request: NextRequest) {
 
   try {
     const supabase = getSupabaseServerClient();
-try {
     const formData = await request.formData();
     const equipment_id = formData.get('equipment_id') as string;
     const document_type = formData.get('document_type') as string;
