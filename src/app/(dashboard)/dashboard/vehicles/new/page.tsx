@@ -109,8 +109,8 @@ export default function NewVehiclePage() {
 
       await createVehicleMutation.mutateAsync(vehicleData);
 
-      // Navigate back to equipment page on success
-      router.push("/dashboard/equipment");
+      // Navigate back to vehicles page on success
+      router.push("/dashboard/vehicles");
     } catch (error) {
       console.error("Failed to create vehicle:", error);
       // Error handling is done in the mutation hook via toast

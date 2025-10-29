@@ -1670,7 +1670,7 @@ export type EquipmentCategory =
 export type EquipmentType = 'excavator' | 'trencher' | 'compactor' | 'generator' | 'pump' | 'vehicle' | 'tool' | 'safety' | 'measurement' | 'other';
 export type EquipmentStatus = 'available' | 'in_use' | 'maintenance' | 'out_of_service' | 'retired';
 export type OwnershipType = 'owned' | 'rented' | 'leased';
-export type VehicleType = 'truck' | 'van' | 'car' | 'trailer' | 'special';
+export type VehicleType = 'pkw' | 'lkw' | 'transporter' | 'pritsche' | 'anhänger' | 'excavator' | 'other';
 export type MaintenanceType = 'preventive' | 'corrective' | 'emergency' | 'inspection';
 export type MaintenanceStatus = 'scheduled' | 'in_progress' | 'completed' | 'cancelled' | 'overdue';
 

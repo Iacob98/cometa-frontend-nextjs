@@ -1,0 +1,231 @@
+# Vehicles Module - Comprehensive Audit & Testing PRD
+
+## Project Overview
+Perform a complete audit, validation, and testing of the Vehicles module in COMETA system to ensure data consistency between Frontend, Backend (API), and Database layers.
+
+## Objectives
+1. **Data Consistency Validation**: Ensure Frontend, API, and Database use consistent field names, types, and structures
+2. **API Validation**: Test all CRUD operations and verify proper error handling
+3. **Frontend Validation**: Verify components use correct data structures and variables
+4. **Type Safety**: Ensure TypeScript types match database schema and API responses
+5. **End-to-End Testing**: Create comprehensive E2E tests for critical user flows
+6. **Performance Testing**: Verify API and component performance under load
+7. **Documentation**: Document any inconsistencies and provide fixes
+
+## Current Architecture
+- **Database**: PostgreSQL (Supabase) - `vehicles` table
+- **API Layer**: Next.js API Routes - `/api/vehicles/*`
+- **Frontend**: React components in `src/app/(dashboard)/dashboard/vehicles/*`
+- **State Management**: TanStack Query via `src/hooks/use-vehicles.ts`
+- **Type Definitions**: `src/types/index.ts` - Vehicle, VehicleDocument types
+
+## Key Features to Validate
+1. Vehicle CRUD operations (Create, Read, Update, Delete)
+2. Vehicle document management (upload, view, download, delete)
+3. Vehicle assignments to crews
+4. Vehicle status tracking (available, in_use, maintenance, retired)
+5. Document expiration tracking and notifications
+6. Pagination and filtering
+7. Search functionality
+
+## Critical Data Fields to Validate
+### Vehicle Entity
+- id (UUID)
+- name (string)
+- type (vehicle type enum)
+- license_plate (string, unique)
+- vin (string, unique)
+- brand, model, year
+- status (enum: available, in_use, maintenance, retired)
+- ownership (owned, leased, rented)
+- current_location
+- mileage, fuel_type, insurance_expiry
+- last_maintenance_date, next_maintenance_date
+- notes, is_active
+- created_at, updated_at
+
+### Vehicle Document Entity
+- id (UUID)
+- vehicle_id (foreign key)
+- document_type (enum: registration, insurance, inspection, etc.)
+- document_name, file_path, file_url
+- issue_date, expiry_date
+- notes, is_active
+- uploaded_by_user_id
+- created_at, updated_at
+
+### Vehicle Assignment Entity
+- id (UUID)
+- vehicle_id (foreign key)
+- crew_id (foreign key)
+- project_id (foreign key, optional)
+- from_ts, to_ts (timestamps)
+- is_permanent (boolean)
+- notes, is_active
+
+## Validation Tasks
+
+### Phase 1: Database Schema Analysis (2-3 hours)
+1.1. Extract complete vehicles table schema from Supabase
+1.2. Extract vehicle_documents table schema
+1.3. Extract vehicle_assignments table schema
+1.4. Document all columns, types, constraints, indexes
+1.5. Identify any missing indexes or constraints
+1.6. Verify foreign key relationships
+
+### Phase 2: TypeScript Type Definitions Audit (2-3 hours)
+2.1. Analyze Vehicle type definition in src/types/index.ts
+2.2. Analyze VehicleDocument type definition
+2.3. Compare types with database schema
+2.4. Identify type mismatches (field names, types, optional vs required)
+2.5. Create comprehensive type corrections document
+2.6. Fix all type mismatches
+
+### Phase 3: API Layer Analysis (3-4 hours)
+3.1. Audit GET /api/vehicles - list vehicles with filters
+3.2. Audit POST /api/vehicles - create vehicle
+3.3. Audit GET /api/vehicles/[id] - get vehicle details
+3.4. Audit PUT /api/vehicles/[id] - update vehicle
+3.5. Audit DELETE /api/vehicles/[id] - delete vehicle
+3.6. Audit vehicle documents endpoints (CRUD)
+3.7. Audit vehicle assignments endpoints
+3.8. Verify all API responses match TypeScript types
+3.9. Test error handling for invalid inputs
+3.10. Test pagination and filtering logic
+3.11. Verify authentication and authorization
+
+### Phase 4: API Client & Hooks Analysis (2-3 hours)
+4.1. Audit VehiclesApiClient in src/lib/api-client.ts
+4.2. Verify method signatures match API endpoints
+4.3. Audit use-vehicles.ts hook
+4.4. Audit use-vehicle-documents.ts hook
+4.5. Verify TanStack Query configurations
+4.6. Check query key consistency
+4.7. Verify optimistic updates implementation
+4.8. Test error handling in hooks
+
+### Phase 5: Frontend Components Analysis (3-4 hours)
+5.1. Audit vehicles list page (page.tsx)
+5.2. Audit vehicle details page ([id]/page.tsx)
+5.3. Audit vehicle edit page ([id]/edit/page.tsx)
+5.4. Audit new vehicle page (new/page.tsx)
+5.5. Audit vehicle documents components
+5.6. Verify all components use correct type definitions
+5.7. Check for hardcoded values or magic strings
+5.8. Verify form validation logic
+5.9. Test data transformation logic
+5.10. Verify proper error display
+
+### Phase 6: Data Flow Validation (2-3 hours)
+6.1. Trace data flow: Database → API → Hook → Component
+6.2. Trace data flow: Component → Hook → API → Database
+6.3. Verify field name consistency across all layers
+6.4. Test edge cases (null values, empty strings, special characters)
+6.5. Verify date/time handling consistency
+6.6. Test enum value handling
+6.7. Document any data transformation issues
+
+### Phase 7: Unit Testing (4-5 hours)
+7.1. Create API endpoint unit tests (GET, POST, PUT, DELETE)
+7.2. Create pagination utility tests
+7.3. Create vehicle validation tests
+7.4. Create document upload tests
+7.5. Create assignment logic tests
+7.6. Achieve 80%+ code coverage for critical paths
+7.7. Test error scenarios thoroughly
+
+### Phase 8: Integration Testing (3-4 hours)
+8.1. Test vehicle creation with documents
+8.2. Test vehicle update with document changes
+8.3. Test vehicle assignment workflow
+8.4. Test document expiration notifications
+8.5. Test bulk operations
+8.6. Test concurrent updates
+8.7. Test database transaction rollbacks
+
+### Phase 9: E2E Testing with Playwright (4-5 hours)
+9.1. Create E2E test: Add new vehicle
+9.2. Create E2E test: Edit vehicle details
+9.3. Create E2E test: Upload vehicle document
+9.4. Create E2E test: Assign vehicle to crew
+9.5. Create E2E test: Filter and search vehicles
+9.6. Create E2E test: Delete vehicle
+9.7. Create E2E test: Document expiration workflow
+9.8. Create E2E test: Vehicle status changes
+
+### Phase 10: Performance Testing (2-3 hours)
+10.1. Test API response times with 100+ vehicles
+10.2. Test pagination performance
+10.3. Test search/filter performance
+10.4. Test concurrent user operations
+10.5. Test file upload performance
+10.6. Identify performance bottlenecks
+10.7. Create performance optimization recommendations
+
+### Phase 11: Security Audit (2-3 hours)
+11.1. Verify authentication on all endpoints
+11.2. Test authorization (role-based access)
+11.3. Test SQL injection vulnerabilities
+11.4. Test XSS vulnerabilities in forms
+11.5. Verify file upload security (type, size validation)
+11.6. Test CSRF protection
+11.7. Verify sensitive data is not exposed in API responses
+
+### Phase 12: Bug Fixes & Optimizations (4-6 hours)
+12.1. Fix all identified type mismatches
+12.2. Fix API response inconsistencies
+12.3. Fix frontend data handling issues
+12.4. Optimize database queries (add missing indexes)
+12.5. Optimize API response sizes
+12.6. Fix validation logic errors
+12.7. Implement missing error handling
+
+### Phase 13: Documentation (2-3 hours)
+13.1. Document vehicle module architecture
+13.2. Create API endpoint documentation
+13.3. Document type definitions and interfaces
+13.4. Create testing strategy document
+13.5. Document identified issues and fixes
+13.6. Create maintenance guidelines
+13.7. Update CLAUDE.md with vehicles module info
+
+### Phase 14: Final Validation & Reporting (2-3 hours)
+14.1. Run all unit tests and verify 80%+ coverage
+14.2. Run all E2E tests and verify 100% pass rate
+14.3. Run performance benchmarks
+14.4. Verify all TypeScript compilation succeeds
+14.5. Create comprehensive audit report
+14.6. Document remaining technical debt
+14.7. Create prioritized improvement roadmap
+
+## Success Criteria
+- ✅ 100% type consistency between DB, API, and Frontend
+- ✅ All CRUD operations working correctly
+- ✅ 80%+ unit test coverage
+- ✅ 100% E2E test pass rate
+- ✅ API response times < 500ms for 95th percentile
+- ✅ Zero TypeScript compilation errors
+- ✅ Zero runtime errors in production scenarios
+- ✅ Comprehensive documentation completed
+
+## Estimated Timeline
+- Total: 40-50 hours
+- Can be parallelized with multiple agents
+- Critical path: Phase 1-2-3 → Phase 4-5-6 → Phase 7-8-9 → Phase 10-11-12 → Phase 13-14
+
+## Tools & Technologies
+- Task Master AI for project management
+- TypeScript for type safety
+- Vitest for unit testing
+- Playwright for E2E testing
+- TanStack Query for state management
+- Supabase for database
+- Next.js API Routes for backend
+- Claude Code agents for parallel execution
+
+## Risk Mitigation
+- Regular commits after each phase completion
+- Comprehensive backup before making changes
+- Feature flags for risky changes
+- Rollback plan for failed deployments
+- Staging environment testing before production

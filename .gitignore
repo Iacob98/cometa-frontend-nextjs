@@ -46,10 +46,10 @@ coverage/
 .vercel
 .turbo
 
-# Task files
-# tasks.json
-# tasks/ 
-
 # Playwright test artifacts
 test-results/
 playwright-report/
+
+# Task files
+# tasks.json
+# tasks/ 
