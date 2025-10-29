@@ -4,17 +4,22 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { requireEquipmentPermission } from '@/lib/auth-middleware';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+
 
 // DELETE /api/equipment/reservations/[id] - Cancel reservation
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  {
+  // 🔒 SECURITY: Require reserve permission
+  const authResult = await requireEquipmentPermission(request, 'reserve');
+  if (authResult instanceof NextResponse) return authResult;
+
+  try {
+    const supabase = getSupabaseServerClient();
+params }: { params: { id: string } }
 ) {
   try {
     const { id } = params;

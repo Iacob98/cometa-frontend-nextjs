@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { requireEquipmentPermission } from '@/lib/auth-middleware';
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // 🔒 SECURITY: Require authentication
+  const authResult = await requireEquipmentPermission(request, 'view');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
     const { id: equipmentId } = await params;
 
     // Get single equipment from Supabase
@@ -136,7 +137,12 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // 🔒 SECURITY: Only admin and pm can update equipment
+  const authResult = await requireEquipmentPermission(request, 'update');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
     const { id: equipmentId } = await params;
     const body = await request.json();
     const {
@@ -224,7 +230,12 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // 🔒 SECURITY: Only admin can delete equipment
+  const authResult = await requireEquipmentPermission(request, 'delete');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
     const { id: equipmentId } = await params;
 
     // Check if equipment has active assignments

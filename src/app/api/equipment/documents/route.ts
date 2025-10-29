@@ -5,6 +5,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { requireEquipmentPermission } from '@/lib/auth-middleware';
+
 import { createClient } from '@supabase/supabase-js';
 import type {
   EquipmentDocument,
@@ -22,7 +25,13 @@ const EQUIPMENT_DOCS_PREFIX = 'equipment/';
 
 // GET /api/equipment/documents - List documents
 export async function GET(request: NextRequest) {
+  // 🔒 SECURITY: Require view permission
+  const authResult = await requireEquipmentPermission(request, 'view');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
+try {
     const searchParams = request.nextUrl.searchParams;
     const equipment_id = searchParams.get('equipment_id');
     const document_type = searchParams.get('document_type');
@@ -150,7 +159,13 @@ export async function GET(request: NextRequest) {
 
 // POST /api/equipment/documents - Upload new document
 export async function POST(request: NextRequest) {
+  // 🔒 SECURITY: Require uploadDocuments permission
+  const authResult = await requireEquipmentPermission(request, 'uploadDocuments');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
+try {
     const formData = await request.formData();
     const equipment_id = formData.get('equipment_id') as string;
     const document_type = formData.get('document_type') as string;

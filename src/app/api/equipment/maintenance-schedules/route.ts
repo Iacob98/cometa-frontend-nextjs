@@ -5,6 +5,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { requireEquipmentPermission } from '@/lib/auth-middleware';
+
 import { createClient } from '@supabase/supabase-js';
 import type {
   EquipmentMaintenanceSchedule,
@@ -18,7 +21,13 @@ const supabase = createClient(
 
 // GET /api/equipment/maintenance-schedules
 export async function GET(request: NextRequest) {
+  // 🔒 SECURITY: Require view permission
+  const authResult = await requireEquipmentPermission(request, 'view');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
+try {
     const searchParams = request.nextUrl.searchParams;
     const equipment_id = searchParams.get('equipment_id');
     const maintenance_type = searchParams.get('maintenance_type');
@@ -133,7 +142,13 @@ export async function GET(request: NextRequest) {
 
 // POST /api/equipment/maintenance-schedules
 export async function POST(request: NextRequest) {
+  // 🔒 SECURITY: Require manageMaintenance permission
+  const authResult = await requireEquipmentPermission(request, 'manageMaintenance');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
+try {
     const body: CreateMaintenanceScheduleRequest = await request.json();
 
     // Validate required fields

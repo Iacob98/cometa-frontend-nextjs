@@ -5,6 +5,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { requireEquipmentPermission } from '@/lib/auth-middleware';
+
 import { createClient } from '@supabase/supabase-js';
 import type {
   EquipmentReservation,
@@ -19,7 +22,13 @@ const supabase = createClient(
 
 // GET /api/equipment/reservations - List reservations
 export async function GET(request: NextRequest) {
+  // 🔒 SECURITY: Require view permission
+  const authResult = await requireEquipmentPermission(request, 'view');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
+try {
     const searchParams = request.nextUrl.searchParams;
     const equipment_id = searchParams.get('equipment_id');
     const project_id = searchParams.get('project_id');
@@ -135,7 +144,13 @@ export async function GET(request: NextRequest) {
 
 // POST /api/equipment/reservations - Create new reservation
 export async function POST(request: NextRequest) {
+  // 🔒 SECURITY: Require reserve permission
+  const authResult = await requireEquipmentPermission(request, 'reserve');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
+try {
     const body: CreateEquipmentReservationRequest = await request.json();
 
     // Validate required fields

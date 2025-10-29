@@ -10,6 +10,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { requireEquipmentPermission } from '@/lib/auth-middleware';
+
 import { createClient } from '@supabase/supabase-js';
 import type {
   PowerToolView,
@@ -37,7 +40,14 @@ const VIEW_NAMES: Record<ViewType, string> = {
 // GET /api/equipment/typed-views/[viewType]
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ viewType: ViewType }> }
+  {
+  // 🔒 SECURITY: Require view permission
+  const authResult = await requireEquipmentPermission(request, 'view');
+  if (authResult instanceof NextResponse) return authResult;
+
+  try {
+    const supabase = getSupabaseServerClient();
+params }: { params: Promise<{ viewType: ViewType }> }
 ) {
   try {
     const { viewType } = await params;

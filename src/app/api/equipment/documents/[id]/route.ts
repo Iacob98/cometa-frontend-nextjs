@@ -5,19 +5,24 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { requireEquipmentPermission } from '@/lib/auth-middleware';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+
 
 const BUCKET_NAME = 'equipment-documents';
 
 // GET /api/equipment/documents/[id] - Get document with signed URL
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  {
+  // 🔒 SECURITY: Require view permission
+  const authResult = await requireEquipmentPermission(request, 'view');
+  if (authResult instanceof NextResponse) return authResult;
+
+  try {
+    const supabase = getSupabaseServerClient();
+params }: { params: { id: string } }
 ) {
   try {
     const { id } = params;
@@ -65,7 +70,14 @@ export async function GET(
 // DELETE /api/equipment/documents/[id] - Delete document
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  {
+  // 🔒 SECURITY: Require uploadDocuments permission
+  const authResult = await requireEquipmentPermission(request, 'uploadDocuments');
+  if (authResult instanceof NextResponse) return authResult;
+
+  try {
+    const supabase = getSupabaseServerClient();
+params }: { params: { id: string } }
 ) {
   try {
     const { id} = params;

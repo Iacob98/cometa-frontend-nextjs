@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { requireEquipmentPermission } from '@/lib/auth-middleware';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+
 
 export async function GET(request: NextRequest) {
+  // 🔒 SECURITY: Require viewAnalytics permission
+  const authResult = await requireEquipmentPermission(request, 'viewAnalytics');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
+try {
     const { searchParams } = new URL(request.url);
     const project_id = searchParams.get('project_id');
     const start_date = searchParams.get('start_date');

@@ -5,6 +5,9 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { getSupabaseServerClient } from '@/lib/supabase-server';
+import { requireEquipmentPermission } from '@/lib/auth-middleware';
+
 import { createClient } from '@supabase/supabase-js';
 import type {
   EquipmentUsageLog,
@@ -19,7 +22,13 @@ const supabase = createClient(
 
 // GET /api/equipment/usage - List usage logs
 export async function GET(request: NextRequest) {
+  // 🔒 SECURITY: Require view permission
+  const authResult = await requireEquipmentPermission(request, 'view');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
+try {
     const searchParams = request.nextUrl.searchParams;
     const equipment_id = searchParams.get('equipment_id');
     const from_date = searchParams.get('from_date');
@@ -105,7 +114,13 @@ export async function GET(request: NextRequest) {
 
 // POST /api/equipment/usage - Create new usage log
 export async function POST(request: NextRequest) {
+  // 🔒 SECURITY: Require logUsage permission
+  const authResult = await requireEquipmentPermission(request, 'logUsage');
+  if (authResult instanceof NextResponse) return authResult;
+
   try {
+    const supabase = getSupabaseServerClient();
+try {
     const body: CreateUsageLogRequest = await request.json();
 
     // Validate required fields
