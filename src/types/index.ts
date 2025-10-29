@@ -146,6 +146,7 @@ export interface WorkEntry {
   was_rejected_before?: boolean;
   gps_lat?: number; // GPS Latitude (-90 to 90 degrees)
   gps_lon?: number; // GPS Longitude (-180 to 180 degrees)
+  status?: 'pending' | 'approved' | 'rejected'; // Computed field from API
   created_at?: string;
   updated_at?: string;
   // Relations

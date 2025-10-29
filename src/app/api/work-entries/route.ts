@@ -1,10 +1,46 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { z } from 'zod';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
+
+// Zod validation schema for work entry creation
+const createWorkEntrySchema = z.object({
+  project_id: z.string().uuid('Invalid project ID'),
+  user_id: z.string().uuid('Invalid user ID'),
+  crew_id: z.string().uuid('Invalid crew ID').optional().nullable(),
+  cabinet_id: z.string().uuid('Invalid cabinet ID').optional().nullable(),
+  segment_id: z.string().uuid('Invalid segment ID').optional().nullable(),
+  cut_id: z.string().uuid('Invalid cut ID').optional().nullable(),
+  house_id: z.string().uuid('Invalid house ID').optional().nullable(),
+  date: z.string().refine((val) => !isNaN(Date.parse(val)), {
+    message: 'Invalid date format',
+  }).refine((val) => new Date(val) <= new Date(), {
+    message: 'Date cannot be in the future',
+  }),
+  stage_code: z.enum([
+    'stage_1_marking',
+    'stage_2_excavation',
+    'stage_3_conduit',
+    'stage_4_cable',
+    'stage_5_splice',
+    'stage_6_test',
+    'stage_9_backfill'
+  ], { errorMap: () => ({ message: 'Invalid stage code' }) }),
+  meters_done_m: z.number().nonnegative('Meters done must be non-negative'),
+  method: z.enum(['mole', 'hand', 'excavator', 'trencher', 'documentation']).optional().nullable(),
+  width_m: z.number().positive('Width must be positive').optional().nullable(),
+  depth_m: z.number().positive('Depth must be positive').optional().nullable(),
+  cables_count: z.number().int().positive('Cables count must be a positive integer').optional().nullable(),
+  has_protection_pipe: z.boolean().optional().default(false),
+  soil_type: z.string().optional().nullable(),
+  notes: z.string().optional().nullable(),
+  gps_lat: z.number().min(-90).max(90).optional().nullable(),
+  gps_lon: z.number().min(-180).max(180).optional().nullable(),
+});
 
 export async function GET(request: NextRequest) {
   try {
@@ -95,8 +131,18 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Add computed status field to each work entry
+    const enrichedEntries = (workEntries || []).map(entry => ({
+      ...entry,
+      status: entry.approved
+        ? 'approved'
+        : entry.rejected_by
+          ? 'rejected'
+          : 'pending'
+    }));
+
     return NextResponse.json({
-      items: workEntries || [],
+      items: enrichedEntries,
       total: count || 0,
       page,
       per_page,
@@ -114,63 +160,27 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const {
-      project_id,
-      user_id,
-      crew_id,
-      cabinet_id,
-      segment_id,
-      cut_id,
-      house_id,
-      date,
-      stage_code,
-      meters_done_m,
-      method,
-      width_m,
-      depth_m,
-      cables_count,
-      has_protection_pipe,
-      soil_type,
-      notes
-    } = body;
 
-    // Validation
-    if (!project_id || !user_id || !stage_code || !date) {
+    // Validate request body with Zod
+    const validationResult = createWorkEntrySchema.safeParse(body);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.errors.map(err => ({
+        field: err.path.join('.'),
+        message: err.message
+      }));
       return NextResponse.json(
-        { error: 'Project ID, User ID, stage code, and date are required' },
+        { error: 'Validation failed', details: errors },
         { status: 400 }
       );
     }
 
-    if (meters_done_m === undefined || meters_done_m === null) {
-      return NextResponse.json(
-        { error: 'Meters done is required' },
-        { status: 400 }
-      );
-    }
+    const validatedData = validationResult.data;
 
     // Create work entry in Supabase
     const { data: workEntry, error } = await supabase
       .from('work_entries')
-      .insert([{
-        project_id,
-        user_id,
-        crew_id,
-        cabinet_id,
-        segment_id,
-        cut_id,
-        house_id,
-        date,
-        stage_code,
-        meters_done_m,
-        method,
-        width_m,
-        depth_m,
-        cables_count,
-        has_protection_pipe,
-        soil_type,
-        notes
-      }])
+      .insert([validatedData])
       .select(`
         id,
         project_id,
