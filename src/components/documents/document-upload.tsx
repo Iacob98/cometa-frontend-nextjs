@@ -188,7 +188,7 @@ export function DocumentUpload({
     enabled: !!userId,
   });
 
-  const categories = userDocumentsData?.categories || [];
+  const categories = userDocumentsData?.categories?.all || [];
   const classifyDocument = useClassifyDocument();
 
   const onDrop = useCallback(
