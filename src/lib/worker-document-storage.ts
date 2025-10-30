@@ -94,19 +94,47 @@ export async function uploadDocument(
     mimeType = file.type;
   }
 
+  // Determine safe content type for Supabase Storage
+  // Some MIME types are restricted, use application/octet-stream as fallback
+  const allowedMimeTypes = [
+    'application/pdf',
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'image/gif',
+    'image/webp',
+    'application/vnd.ms-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  ];
+
+  const safeContentType = allowedMimeTypes.includes(mimeType)
+    ? mimeType
+    : 'application/octet-stream';
+
+  console.log('📤 Uploading to Supabase Storage:', {
+    bucket: bucketName,
+    path: filePath,
+    originalMimeType: mimeType,
+    safeContentType,
+    size: fileSize,
+  });
+
   // Upload to Storage
   const { data: uploadData, error: uploadError } = await supabase.storage
     .from(bucketName)
     .upload(filePath, fileBuffer, {
-      contentType: mimeType,
+      contentType: safeContentType,
       upsert: false,
-      duplex: 'half',
     });
 
   if (uploadError) {
     console.error('Storage upload error:', uploadError);
     throw new Error(`Failed to upload file: ${uploadError.message}`);
   }
+
+  console.log('✅ File uploaded successfully to Storage:', filePath);
 
   // Insert metadata into appropriate table
   if (categoryType === 'legal') {
