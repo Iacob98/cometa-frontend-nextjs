@@ -25,6 +25,7 @@ import {
   Download,
   Eye
 } from 'lucide-react';
+import NVTInstallationPlan from '@/components/zone-layout/nvt-installation-plan';
 import {
   useCabinets,
   useCreateCabinet,
@@ -852,6 +853,15 @@ export default function ZoneLayout({ projectId }: ZoneLayoutProps) {
 
           {/* Installation Plans Content - only shown when cabinet is selected */}
           {selectedCabinetId && (
+            <NVTInstallationPlan
+              cabinetId={selectedCabinetId}
+              cabinetCode={cabinets?.find(c => c.id === selectedCabinetId)?.code}
+              cabinetName={cabinets?.find(c => c.id === selectedCabinetId)?.name}
+            />
+          )}
+
+          {/* Static Installation Instructions - kept for reference */}
+          {selectedCabinetId && false && (
             <Card>
               <CardHeader>
                 <CardTitle>Cabinet Installation Plans</CardTitle>
