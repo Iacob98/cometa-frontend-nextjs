@@ -23,7 +23,7 @@ export async function GET(
     // Get documents from shared storage
     const documents = getUserDocuments(id);
 
-    // Fetch categories from database
+    // Fetch categories from database (both legal and company types)
     const categoriesResult = await query(
       `SELECT
         id,
@@ -31,13 +31,21 @@ export async function GET(
         name_en,
         name_ru,
         name_de,
+        category_type,
         created_at
       FROM document_categories
-      ORDER BY name_en`,
+      ORDER BY category_type, name_en`,
       []
     );
 
-    const categories = categoriesResult.rows;
+    const allCategories = categoriesResult.rows;
+
+    // Split categories by type for easier filtering
+    const categories = {
+      legal: allCategories.filter((c: any) => c.category_type === 'legal'),
+      company: allCategories.filter((c: any) => c.category_type === 'company'),
+      all: allCategories
+    };
 
     const stats = {
       total: documents.length,
@@ -158,7 +166,7 @@ export async function POST(
     // Store the actual file content
     storeFile(documentId, fileBuffer);
 
-    // Fetch categories from database
+    // Fetch category from database
     const categoriesResult = await query(
       `SELECT
         id,
@@ -166,6 +174,7 @@ export async function POST(
         name_en,
         name_ru,
         name_de,
+        category_type,
         created_at
       FROM document_categories
       WHERE id = $1`,
