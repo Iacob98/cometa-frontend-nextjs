@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  getUserDocuments,
-  storeDocument,
-  storeFile
-} from '@/lib/document-storage';
 import { query } from '@/lib/db-client';
+import {
+  getUserDocuments as getSupabaseDocuments,
+  uploadDocument,
+} from '@/lib/worker-document-storage';
 
 export async function GET(
   _request: NextRequest,
@@ -20,8 +19,8 @@ export async function GET(
       );
     }
 
-    // Get documents from shared storage
-    const documents = getUserDocuments(id);
+    // Fetch documents from Supabase (both legal and company)
+    const { legalDocuments, companyDocuments } = await getSupabaseDocuments(id);
 
     // Fetch categories from database (both legal and company types)
     const categoriesResult = await query(
@@ -47,18 +46,20 @@ export async function GET(
       all: allCategories
     };
 
+    // Calculate statistics
+    const allDocuments = [...legalDocuments, ...companyDocuments];
     const stats = {
-      total: documents.length,
-      active: documents.filter(d => d.status === 'active').length,
-      expired: documents.filter(d => d.status === 'expired').length,
-      expiring_soon: documents.filter(d => d.status === 'expiring_soon').length,
-      critical_count: documents.filter(d => d.warningLevel === 'critical').length,
-      urgent_count: documents.filter(d => d.priority === 'urgent').length,
-      high_priority_count: documents.filter(d => d.priority === 'high').length
+      total: allDocuments.length,
+      legalCount: legalDocuments.length,
+      companyCount: companyDocuments.length,
     };
 
     return NextResponse.json({
-      documents,
+      documents: {
+        legal: legalDocuments,
+        company: companyDocuments,
+        all: allDocuments,
+      },
       categories,
       stats
     });
@@ -93,38 +94,19 @@ export async function POST(
     const formData = await request.formData();
     const file = formData.get('file') as File;
     const categoryId = formData.get('category_id') as string;
-    const documentNumber = formData.get('document_number') as string;
-    const issuingAuthority = formData.get('issuing_authority') as string;
-    const issueDate = formData.get('issue_date') as string;
-    const expiryDate = formData.get('expiry_date') as string;
-    const notes = formData.get('notes') as string;
+    const title = formData.get('title') as string;
+    const description = formData.get('description') as string;
 
     // Log received file data for debugging
-    console.log('📄 API: Получен документ для загрузки:', {
+    console.log('📄 API: Receiving document for upload:', {
       fileName: file?.name,
       fileSize: file?.size,
       fileType: file?.type,
-      fileConstructor: file?.constructor?.name,
-      hasArrayBuffer: typeof file?.arrayBuffer === 'function',
-      hasStream: typeof file?.stream === 'function',
-      isFile: file instanceof File,
       categoryId,
-      documentNumber,
-      issuingAuthority,
-      issueDate,
-      expiryDate,
-      notes,
+      title,
+      description,
       userId: id
     });
-
-    console.log('📋 API: Все FormData ключи:');
-    for (const [key, value] of formData.entries()) {
-      if (value instanceof File) {
-        console.log(`  ${key}: File(name="${value.name}", size=${value.size}, type="${value.type}")`);
-      } else {
-        console.log(`  ${key}: "${value}"`);
-      }
-    }
 
     if (!file) {
       return NextResponse.json(
@@ -140,96 +122,63 @@ export async function POST(
       );
     }
 
-    // Convert file to buffer and store it
-    let fileBuffer: Buffer;
-    try {
-      // Use the modern async arrayBuffer method which is standard for File objects
-      const arrayBuffer = await file.arrayBuffer();
-      fileBuffer = Buffer.from(arrayBuffer);
-
-      console.log('📁 File successfully converted to buffer:', {
-        originalSize: file.size,
-        bufferSize: fileBuffer.length,
-        fileName: file.name
-      });
-    } catch (error) {
-      console.error('Error reading file content:', error);
+    if (!title) {
       return NextResponse.json(
-        { error: 'Failed to read file content' },
+        { error: 'Title is required' },
         { status: 400 }
       );
     }
 
-    // Create document with proper category information
-    const documentId = `doc-${Date.now()}`;
-
-    // Store the actual file content
-    storeFile(documentId, fileBuffer);
-
-    // Fetch category from database
-    const categoriesResult = await query(
-      `SELECT
-        id,
-        code,
-        name_en,
-        name_ru,
-        name_de,
-        category_type,
-        created_at
-      FROM document_categories
-      WHERE id = $1`,
+    // Fetch category details to determine type and code
+    const categoryResult = await query(
+      `SELECT id, code, category_type
+       FROM document_categories
+       WHERE id = $1`,
       [categoryId]
     );
 
-    // Find matching category
-    const matchingCategory = categoriesResult.rows[0];
+    if (categoryResult.rows.length === 0) {
+      return NextResponse.json(
+        { error: 'Category not found' },
+        { status: 404 }
+      );
+    }
 
-    const newDocument = {
-      id: documentId,
-      user_id: id,
-      category_id: categoryId,
-      document_number: documentNumber || '',
-      file_name: file.name,
-      file_size: file.size,
-      file_type: file.type,
-      file_url: `/api/users/${id}/documents/${documentId}/download`,
-      status: 'active',
-      notes: notes || '',
-      issuing_authority: issuingAuthority || '',
-      issue_date: issueDate || null,
-      expiry_date: expiryDate || null,
-      is_verified: false,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      category: matchingCategory || {
-        id: categoryId,
-        code: categoryId.toUpperCase(),
-        name_en: categoryId,
-        name_ru: categoryId,
-        name_de: categoryId,
-        created_at: new Date().toISOString()
-      }
-    };
+    const category = categoryResult.rows[0];
 
-    // Store document metadata
-    storeDocument(id, newDocument);
-
-    console.log('✅ Документ сохранен:', {
-      documentId: newDocument.id,
-      fileName: newDocument.file_name,
+    // Upload document to Supabase Storage
+    const document = await uploadDocument({
       userId: id,
-      category: newDocument.category.name_ru || newDocument.category.name_en,
-      totalUserDocs: getUserDocuments(id).length
+      categoryId: category.id,
+      categoryCode: category.code,
+      categoryType: category.category_type,
+      file,
+      fileName: file.name,
+      title,
+      description: description || undefined,
+      metadata: {},
+    });
+
+    console.log('✅ Document uploaded successfully:', {
+      documentId: document.id,
+      fileName: document.fileName,
+      userId: id,
+      category: category.code,
+      categoryType: category.category_type,
     });
 
     return NextResponse.json({
+      success: true,
       message: 'Document uploaded successfully',
-      document: newDocument
+      document
     });
   } catch (error) {
     console.error('User documents POST API error:', error);
     return NextResponse.json(
-      { error: 'Failed to upload document' },
+      {
+        error: 'Failed to upload document',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
