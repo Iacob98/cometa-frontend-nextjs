@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
+import { uploadFile } from '@/lib/upload-utils';
 
+// Use service role key for admin operations
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 export async function GET(
@@ -209,7 +211,6 @@ export async function POST(
 ) {
   try {
     const { id: projectId } = await params;
-    const body = await request.json();
 
     if (!projectId) {
       return NextResponse.json(
@@ -218,16 +219,81 @@ export async function POST(
       );
     }
 
-    const { document_type, file_name, file_size, uploaded_by, notes } = body;
+    // Handle both JSON and FormData requests
+    const contentType = request.headers.get('content-type') || '';
+    let document_type, file, file_name, file_size, uploaded_by, notes, file_url, file_path;
 
-    if (!document_type || !file_name) {
-      return NextResponse.json(
-        { error: 'Document type and file name are required' },
-        { status: 400 }
-      );
+    if (contentType.includes('multipart/form-data')) {
+      // Handle FormData with file upload (NEW - correct way)
+      const formData = await request.formData();
+
+      document_type = formData.get('document_type') as string;
+      file = formData.get('file') as File;
+      uploaded_by = formData.get('uploaded_by') as string;
+      notes = formData.get('notes') as string;
+
+      if (!document_type || !file) {
+        return NextResponse.json(
+          { error: 'Document type and file are required' },
+          { status: 400 }
+        );
+      }
+
+      console.log('📤 Uploading project document to Supabase Storage:', {
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+        projectId: projectId,
+        documentType: document_type
+      });
+
+      // Upload file to Supabase Storage
+      const folderPath = `projects/${projectId}/${document_type}s`;
+
+      const uploadResult = await uploadFile(file, {
+        bucketName: 'project-documents',
+        folder: folderPath,
+        metadata: {
+          project_id: projectId,
+          document_type: document_type,
+          uploaded_by: uploaded_by || 'system',
+          notes: notes || '',
+          upload_source: 'admin_panel'
+        }
+      }, supabase);
+
+      if (!uploadResult.success) {
+        console.error('❌ File upload failed:', uploadResult.error);
+        return NextResponse.json(
+          { error: `File upload failed: ${uploadResult.error}` },
+          { status: 500 }
+        );
+      }
+
+      console.log('✅ File uploaded successfully:', uploadResult);
+
+      // Set file info from upload result
+      file_name = file.name;
+      file_size = file.size;
+      file_url = uploadResult.url!;
+      file_path = uploadResult.path!;
+
+    } else {
+      // Handle JSON requests (LEGACY - backward compatibility)
+      const body = await request.json();
+      ({ document_type, file_name, file_size, uploaded_by, notes, file_url, file_path } = body);
+
+      if (!document_type || !file_name) {
+        return NextResponse.json(
+          { error: 'Document type and file name are required' },
+          { status: 400 }
+        );
+      }
+
+      console.warn('⚠️ Using legacy JSON upload method without actual file upload');
     }
 
-    // Create document in database
+    // Create document in database with Storage paths
     const { data: newDocument, error: insertError } = await supabase
       .from('documents')
       .insert({
@@ -239,7 +305,9 @@ export async function POST(
         document_type: document_type,
         description: notes || null,
         uploaded_by: uploaded_by || null,
-        is_active: true
+        is_active: true,
+        file_url: file_url || '',
+        file_path: file_path || ''
       })
       .select(`
         id,
@@ -251,17 +319,21 @@ export async function POST(
         description,
         upload_date,
         uploaded_by,
-        is_active
+        is_active,
+        file_url,
+        file_path
       `)
       .single();
 
     if (insertError) {
-      console.error('Document creation error:', insertError);
+      console.error('❌ Document creation error:', insertError);
       return NextResponse.json(
         { error: 'Failed to create document in database' },
         { status: 500 }
       );
     }
+
+    console.log('✅ Document created in database:', newDocument.id);
 
     // Transform for frontend compatibility
     const transformedDocument = {
@@ -269,7 +341,8 @@ export async function POST(
       project_id: projectId,
       document_type: newDocument.document_type,
       file_name: newDocument.original_filename,
-      file_path: `/documents/${newDocument.document_type}s/${newDocument.filename}`,
+      file_path: newDocument.file_path || `/documents/${newDocument.document_type}s/${newDocument.filename}`,
+      file_url: newDocument.file_url,
       file_size: newDocument.file_size,
       uploaded_at: newDocument.upload_date,
       uploaded_by: uploaded_by,
@@ -284,7 +357,7 @@ export async function POST(
       document: transformedDocument
     }, { status: 201 });
   } catch (error) {
-    console.error('Project documents POST error:', error);
+    console.error('❌ Project documents POST error:', error);
     return NextResponse.json(
       { error: 'Failed to upload document' },
       { status: 500 }
