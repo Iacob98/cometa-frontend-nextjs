@@ -5,6 +5,7 @@ import {
   storeDocument,
   storeFile
 } from '@/lib/document-storage';
+import { query } from '@/lib/db-pool';
 
 // Service role client for bypassing RLS
 const supabase = createClient(
@@ -29,59 +30,21 @@ export async function GET(
     // Get documents from shared storage
     const documents = getUserDocuments(id);
 
-    const categories = [
-      // Mock categories for testing - replace with actual database query when implemented
-      {
-        id: "work_permit",
-        code: "WORK_PERMIT",
-        name_en: "Work Permit",
-        name_ru: "Разрешение на работу",
-        name_de: "Arbeitserlaubnis",
-        required_for_work: true,
-        color: "#22c55e",
-        created_at: new Date().toISOString()
-      },
-      {
-        id: "passport",
-        code: "PASSPORT",
-        name_en: "Passport",
-        name_ru: "Паспорт",
-        name_de: "Reisepass",
-        required_for_work: true,
-        color: "#3b82f6",
-        created_at: new Date().toISOString()
-      },
-      {
-        id: "driver_license",
-        code: "DRIVER_LICENSE",
-        name_en: "Driver's License",
-        name_ru: "Водительские права",
-        name_de: "Führerschein",
-        required_for_work: false,
-        color: "#f59e0b",
-        created_at: new Date().toISOString()
-      },
-      {
-        id: "medical_certificate",
-        code: "MEDICAL_CERT",
-        name_en: "Medical Certificate",
-        name_ru: "Медицинская справка",
-        name_de: "Ärztliches Attest",
-        required_for_work: true,
-        color: "#ef4444",
-        created_at: new Date().toISOString()
-      },
-      {
-        id: "contract",
-        code: "CONTRACT",
-        name_en: "Employment Contract",
-        name_ru: "Трудовой договор",
-        name_de: "Arbeitsvertrag",
-        required_for_work: true,
-        color: "#8b5cf6",
-        created_at: new Date().toISOString()
-      }
-    ];
+    // Fetch categories from database
+    const categoriesResult = await query(
+      `SELECT
+        id,
+        code,
+        name_en,
+        name_ru,
+        name_de,
+        created_at
+      FROM document_categories
+      ORDER BY name_en`,
+      []
+    );
+
+    const categories = categoriesResult.rows;
 
     const stats = {
       total: documents.length,
@@ -202,63 +165,22 @@ export async function POST(
     // Store the actual file content
     storeFile(documentId, fileBuffer);
 
-    // Define categories (same as in GET method)
-    const categories = [
-      // Mock categories for testing - replace with actual database query when implemented
-      {
-        id: "work_permit",
-        code: "WORK_PERMIT",
-        name_en: "Work Permit",
-        name_ru: "Разрешение на работу",
-        name_de: "Arbeitserlaubnis",
-        required_for_work: true,
-        color: "#22c55e",
-        created_at: new Date().toISOString()
-      },
-      {
-        id: "passport",
-        code: "PASSPORT",
-        name_en: "Passport",
-        name_ru: "Паспорт",
-        name_de: "Reisepass",
-        required_for_work: true,
-        color: "#3b82f6",
-        created_at: new Date().toISOString()
-      },
-      {
-        id: "driver_license",
-        code: "DRIVER_LICENSE",
-        name_en: "Driver's License",
-        name_ru: "Водительские права",
-        name_de: "Führerschein",
-        required_for_work: false,
-        color: "#f59e0b",
-        created_at: new Date().toISOString()
-      },
-      {
-        id: "medical_certificate",
-        code: "MEDICAL_CERT",
-        name_en: "Medical Certificate",
-        name_ru: "Медицинская справка",
-        name_de: "Ärztliches Attest",
-        required_for_work: true,
-        color: "#ef4444",
-        created_at: new Date().toISOString()
-      },
-      {
-        id: "contract",
-        code: "CONTRACT",
-        name_en: "Employment Contract",
-        name_ru: "Трудовой договор",
-        name_de: "Arbeitsvertrag",
-        required_for_work: true,
-        color: "#8b5cf6",
-        created_at: new Date().toISOString()
-      }
-    ];
+    // Fetch categories from database
+    const categoriesResult = await query(
+      `SELECT
+        id,
+        code,
+        name_en,
+        name_ru,
+        name_de,
+        created_at
+      FROM document_categories
+      WHERE id = $1`,
+      [categoryId]
+    );
 
     // Find matching category
-    const matchingCategory = categories.find(cat => cat.id === categoryId);
+    const matchingCategory = categoriesResult.rows[0];
 
     const newDocument = {
       id: documentId,
@@ -283,8 +205,6 @@ export async function POST(
         name_en: categoryId,
         name_ru: categoryId,
         name_de: categoryId,
-        required_for_work: false,
-        color: "#6b7280",
         created_at: new Date().toISOString()
       }
     };
