@@ -121,11 +121,12 @@ export function DocumentUpload({
     const formData = new FormData();
     formData.append('file', file.file); // Use the original File object
     formData.append('category_id', file.category || '');
+    formData.append('title', file.name || file.file.name); // Required field - use file name as default title
     formData.append('document_number', file.documentNumber || '');
     formData.append('issuing_authority', file.issuingAuthority || '');
     formData.append('issue_date', file.issueDate || '');
     formData.append('expiry_date', file.expiryDate || '');
-    formData.append('notes', file.description || '');
+    formData.append('description', file.description || ''); // Changed from 'notes' to 'description' to match API
 
     console.log('FormData prepared:', {
       fileName: file.name,
