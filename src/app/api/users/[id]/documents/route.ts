@@ -48,10 +48,19 @@ export async function GET(
 
     // Calculate statistics
     const allDocuments = [...legalDocuments, ...companyDocuments];
+
+    // Count documents by status
+    const activeCount = allDocuments.filter(d => d.status === 'active').length;
+    const expiredCount = allDocuments.filter(d => d.status === 'expired').length;
+    const expiringSoonCount = allDocuments.filter(d => d.status === 'expiring_soon').length;
+
     const stats = {
       total: allDocuments.length,
       legalCount: legalDocuments.length,
       companyCount: companyDocuments.length,
+      active: activeCount,
+      expired: expiredCount,
+      expiring_soon: expiringSoonCount,
     };
 
     return NextResponse.json({

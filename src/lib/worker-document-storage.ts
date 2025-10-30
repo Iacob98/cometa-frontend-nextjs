@@ -195,6 +195,27 @@ export async function uploadDocument(
 }
 
 /**
+ * Calculate document status based on expiry date
+ */
+function calculateDocumentStatus(expiryDate?: string | null): 'active' | 'expired' | 'expiring_soon' | 'pending' {
+  if (!expiryDate) {
+    return 'active'; // No expiry date means always active
+  }
+
+  const now = new Date();
+  const expiry = new Date(expiryDate);
+  const daysUntilExpiry = Math.floor((expiry.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+  if (daysUntilExpiry < 0) {
+    return 'expired';
+  } else if (daysUntilExpiry <= 30) {
+    return 'expiring_soon';
+  } else {
+    return 'active';
+  }
+}
+
+/**
  * Get all documents for a user
  * Fetches from both documents and files tables
  */
@@ -202,7 +223,7 @@ export async function getUserDocuments(userId: string): Promise<{
   legalDocuments: any[];
   companyDocuments: any[];
 }> {
-  // Fetch legal documents
+  // Fetch legal documents with category
   const { data: legalDocs, error: legalError } = await supabase
     .from('documents')
     .select(
@@ -218,7 +239,17 @@ export async function getUserDocuments(userId: string): Promise<{
     console.error('Error fetching legal documents:', legalError);
   }
 
-  // Fetch company documents
+  // Transform legal documents to include status and proper structure
+  const transformedLegalDocs = (legalDocs || []).map((doc: any) => ({
+    ...doc,
+    file_name: doc.original_filename || doc.filename,
+    user_id: doc.uploaded_by,
+    category_id: doc.category_id,
+    status: calculateDocumentStatus(doc.expiry_date),
+    is_verified: doc.is_verified || false,
+  }));
+
+  // Fetch company documents from files table
   const { data: companyDocs, error: companyError } = await supabase
     .from('files')
     .select('*')
@@ -230,9 +261,57 @@ export async function getUserDocuments(userId: string): Promise<{
     console.error('Error fetching company documents:', companyError);
   }
 
+  // Fetch categories for company documents
+  const { data: categories } = await supabase
+    .from('document_categories')
+    .select('*')
+    .eq('category_type', 'company');
+
+  const categoryMap = new Map(
+    (categories || []).map((cat: any) => [cat.code, cat])
+  );
+
+  // Transform company documents to match expected structure
+  const transformedCompanyDocs = (companyDocs || []).map((doc: any) => {
+    // Get category from map using the category code stored in files table
+    const category = categoryMap.get(doc.category?.toUpperCase()) || {
+      id: null,
+      code: doc.category || 'PERSONAL_DOCUMENT',
+      name_en: 'Personal Document',
+      name_ru: 'Личный документ',
+      name_de: 'Persönliches Dokument',
+      color: '#6b7280',
+      category_type: 'company',
+    };
+
+    return {
+      id: doc.id,
+      user_id: doc.user_id,
+      category_id: category.id,
+      document_number: doc.metadata?.document_number || null,
+      issuing_authority: doc.metadata?.issuing_authority || null,
+      issue_date: doc.metadata?.issue_date || null,
+      expiry_date: doc.metadata?.expiry_date || null,
+      status: calculateDocumentStatus(doc.metadata?.expiry_date),
+      file_url: doc.file_url,
+      file_name: doc.original_filename || doc.filename,
+      file_size: doc.file_size,
+      file_type: doc.mime_type,
+      file_path: doc.file_path,
+      bucket_name: doc.bucket_name,
+      notes: doc.description || doc.metadata?.notes || null,
+      is_verified: doc.metadata?.is_verified || false,
+      verified_by: doc.metadata?.verified_by || null,
+      verified_at: doc.metadata?.verified_at || null,
+      created_at: doc.created_at,
+      updated_at: doc.updated_at,
+      category,
+    };
+  });
+
   return {
-    legalDocuments: legalDocs || [],
-    companyDocuments: companyDocs || [],
+    legalDocuments: transformedLegalDocs,
+    companyDocuments: transformedCompanyDocs,
   };
 }
 
