@@ -557,24 +557,24 @@ export default function WorkerDocumentsDialog({
                 </TabsList>
 
                 <TabsContent value="all" className="mt-6">
-                  <DocumentsByCategory documents={data.documents} />
+                  <DocumentsByCategory documents={data.documents.all || []} />
                 </TabsContent>
 
                 <TabsContent value="active" className="mt-6">
                   <DocumentsByCategory
-                    documents={data.documents.filter(doc => doc.status === 'active')}
+                    documents={(data.documents.all || []).filter(doc => doc.status === 'active')}
                   />
                 </TabsContent>
 
                 <TabsContent value="expiring" className="mt-6">
                   <DocumentsByCategory
-                    documents={data.documents.filter(doc => doc.status === 'expiring_soon')}
+                    documents={(data.documents.all || []).filter(doc => doc.status === 'expiring_soon')}
                   />
                 </TabsContent>
 
                 <TabsContent value="expired" className="mt-6">
                   <DocumentsByCategory
-                    documents={data.documents.filter(doc => doc.status === 'expired')}
+                    documents={(data.documents.all || []).filter(doc => doc.status === 'expired')}
                   />
                 </TabsContent>
               </Tabs>
