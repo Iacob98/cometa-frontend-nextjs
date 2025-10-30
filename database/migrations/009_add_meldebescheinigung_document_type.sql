@@ -21,42 +21,28 @@ CHECK (code = ANY (ARRAY[
   'OTHER'::text
 ]));
 
--- Step 3: Insert the new document category
-INSERT INTO document_categories (
-  id,
-  code,
-  name_en,
-  name_ru,
-  name_de,
-  description,
-  icon,
-  color,
-  required_for_work,
-  max_validity_years,
-  renewal_notice_days,
-  created_at
-) VALUES (
-  gen_random_uuid(),
-  'REGISTRATION_MELDEBESCHEINIGUNG',
-  'Registration Certificate (Meldebescheinigung)',
-  'Регистрационное свидетельство (Meldebescheinigung)',
-  'Meldebescheinigung',
-  'German residence registration certificate required for legal work',
-  'FileText',
-  '#10b981', -- Green color for registration documents
-  true, -- Required for work in Germany
-  NULL, -- No expiry (registration is ongoing)
-  90, -- 90 days notice before renewal needed
-  NOW()
-) ON CONFLICT (code) DO NOTHING;
+-- Step 3: Insert all standard document categories including Meldebescheinigung
+INSERT INTO document_categories (id, code, name_en, name_ru, name_de, created_at)
+VALUES
+  (gen_random_uuid(), 'WORK_PERMIT', 'Work Permit', 'Разрешение на работу', 'Arbeitserlaubnis', NOW()),
+  (gen_random_uuid(), 'RESIDENCE_PERMIT', 'Residence Permit', 'Вид на жительство', 'Aufenthaltserlaubnis', NOW()),
+  (gen_random_uuid(), 'PASSPORT', 'Passport', 'Паспорт', 'Reisepass', NOW()),
+  (gen_random_uuid(), 'VISA', 'Visa', 'Виза', 'Visum', NOW()),
+  (gen_random_uuid(), 'HEALTH_INSURANCE', 'Health Insurance', 'Медицинская страховка', 'Krankenversicherung', NOW()),
+  (gen_random_uuid(), 'DRIVER_LICENSE', 'Driver License', 'Водительские права', 'Führerschein', NOW()),
+  (gen_random_uuid(), 'QUALIFICATION_CERT', 'Qualification Certificate', 'Квалификационное свидетельство', 'Qualifikationsbescheinigung', NOW()),
+  (gen_random_uuid(), 'REGISTRATION_MELDEBESCHEINIGUNG', 'Registration Certificate (Meldebescheinigung)', 'Регистрационное свидетельство (Meldebescheinigung)', 'Meldebescheinigung', NOW()),
+  (gen_random_uuid(), 'OTHER', 'Other Document', 'Другой документ', 'Sonstiges Dokument', NOW())
+ON CONFLICT (code) DO UPDATE SET
+  name_en = EXCLUDED.name_en,
+  name_ru = EXCLUDED.name_ru,
+  name_de = EXCLUDED.name_de;
 
--- Verification query
+-- Verification query - show all categories
 SELECT
   code,
   name_en,
   name_ru,
-  name_de,
-  color,
-  required_for_work
+  name_de
 FROM document_categories
-WHERE code = 'REGISTRATION_MELDEBESCHEINIGUNG';
+ORDER BY code;
