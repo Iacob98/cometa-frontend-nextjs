@@ -9,12 +9,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { FileText, Upload, Eye, Download, X, AlertCircle } from 'lucide-react';
-import { useHousingUnitPlan, useUploadHousingUnitPlan, useDeleteHousingUnitPlan } from '@/hooks/use-housing-unit-plan';
+import { useHousePlan, useUploadHousePlan, useDeleteHousePlan } from '@/hooks/use-house-plan';
 import { toast } from 'sonner';
 
-interface HousingUnitConnectionPlanProps {
-  housingUnitId: string;
-  unitNumber?: string;
+interface HouseConnectionPlanProps {
+  houseId: string;
+  houseNumber?: string;
   address?: string;
 }
 
@@ -27,10 +27,10 @@ const PLAN_TYPES = [
   { value: 'other', label: 'Other', color: 'bg-gray-100 text-gray-800' },
 ];
 
-export default function HousingUnitConnectionPlan({ housingUnitId, unitNumber, address }: HousingUnitConnectionPlanProps) {
-  const { data, isLoading } = useHousingUnitPlan(housingUnitId);
-  const uploadMutation = useUploadHousingUnitPlan();
-  const deleteMutation = useDeleteHousingUnitPlan();
+export default function HouseConnectionPlan({ houseId, houseNumber, address }: HouseConnectionPlanProps) {
+  const { data, isLoading } = useHousePlan(houseId);
+  const uploadMutation = useUploadHousePlan();
+  const deleteMutation = useDeleteHousePlan();
 
   const [showUploadForm, setShowUploadForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -65,7 +65,7 @@ export default function HousingUnitConnectionPlan({ housingUnitId, unitNumber, a
 
     try {
       await uploadMutation.mutateAsync({
-        housingUnitId,
+        houseId,
         title: formData.title,
         description: formData.description,
         planType: formData.plan_type,
@@ -90,7 +90,7 @@ export default function HousingUnitConnectionPlan({ housingUnitId, unitNumber, a
 
     if (confirm(`Are you sure you want to delete the connection plan "${data.plan.title}"?`)) {
       try {
-        await deleteMutation.mutateAsync(housingUnitId);
+        await deleteMutation.mutateAsync(houseId);
       } catch (error) {
         // Error handling is done in the mutation
       }
@@ -116,7 +116,7 @@ export default function HousingUnitConnectionPlan({ housingUnitId, unitNumber, a
     return <div>Loading connection plan...</div>;
   }
 
-  const unitLabel = unitNumber || address || 'Housing Unit';
+  const houseLabel = address || houseNumber || 'House';
 
   return (
     <Card>
@@ -125,10 +125,10 @@ export default function HousingUnitConnectionPlan({ housingUnitId, unitNumber, a
           <div>
             <CardTitle className="flex items-center gap-2">
               <FileText className="w-5 h-5" />
-              Connection Plan for {unitLabel}
+              Connection Plan for {houseLabel}
             </CardTitle>
             <CardDescription>
-              Upload and manage the connection plan document for this housing unit
+              Upload and manage the connection plan document for this house
             </CardDescription>
           </div>
           {!data?.plan && (
@@ -293,7 +293,7 @@ export default function HousingUnitConnectionPlan({ housingUnitId, unitNumber, a
             <AlertCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
             <h3 className="text-lg font-medium mb-2">No Connection Plan</h3>
             <p className="text-gray-600 mb-4">
-              Upload a connection plan document for this housing unit to help guide the installation process.
+              Upload a connection plan document for this house to help guide the fiber optic installation process.
             </p>
             <Button onClick={() => setShowUploadForm(true)}>
               <Upload className="w-4 h-4 mr-2" />
