@@ -119,6 +119,9 @@ export function useLogin() {
 
       toast.success(`Welcome back, ${tokenResponse.user.first_name}!`);
 
+      // Clear all cached queries to force fresh data with new token
+      queryClient.clear();
+
       // Redirect to dashboard after successful login
       if (typeof window !== "undefined") {
         window.location.href = "/dashboard";
