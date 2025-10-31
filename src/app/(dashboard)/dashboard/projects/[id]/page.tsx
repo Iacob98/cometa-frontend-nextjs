@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { useProject, useProjectStats, useDeleteProject } from "@/hooks/use-projects";
-import { usePermissions } from "@/hooks/use-auth";
+import { usePermissions, getStoredToken } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
 import { useProjectPreparation } from "@/hooks/use-project-preparation";
 import ProjectPreparationTab from "@/components/project-preparation/project-preparation-tab";
@@ -78,7 +78,14 @@ export default function ProjectDetailsPage() {
   const { data: soilTypesData } = useQuery({
     queryKey: ['project-soil-types', projectId],
     queryFn: async () => {
-      const response = await fetch(`/api/projects/${projectId}/soil-types`);
+      const token = getStoredToken();
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      const response = await fetch(`/api/projects/${projectId}/soil-types`, { headers });
       if (!response.ok) throw new Error('Failed to fetch soil types');
       return response.json();
     },
