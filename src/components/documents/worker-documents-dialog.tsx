@@ -335,11 +335,11 @@ function DocumentCard({ document }: { document: WorkerDocument }) {
 
       {/* Edit Dialog */}
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="w-full max-w-[95vw] sm:max-w-md md:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Редактировать документ</DialogTitle>
+            <DialogTitle className="text-base sm:text-lg">Редактировать документ</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4 p-3 sm:p-4">
             <div>
               <Label htmlFor="document_number">Номер документа <span className="text-muted-foreground text-xs">(Optional)</span></Label>
               <Input
@@ -360,7 +360,7 @@ function DocumentCard({ document }: { document: WorkerDocument }) {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <Label htmlFor="issue_date">Дата выдачи <span className="text-muted-foreground text-xs">(Optional)</span></Label>
                 <Input
@@ -393,7 +393,7 @@ function DocumentCard({ document }: { document: WorkerDocument }) {
               />
             </div>
 
-            <div className="flex justify-end gap-2 pt-4">
+            <div className="flex flex-col sm:flex-row justify-end gap-2 pt-4">
               <Button
                 variant="outline"
                 onClick={() => setShowEditDialog(false)}
@@ -474,118 +474,125 @@ export default function WorkerDocumentsDialog({
       <DialogTrigger asChild>
         {trigger || defaultTrigger}
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <div className="flex items-center justify-between">
+      <DialogContent className="w-full max-w-[95vw] sm:max-w-[90vw] md:max-w-2xl lg:max-w-4xl max-h-[95vh] overflow-hidden flex flex-col">
+        <DialogHeader className="flex-shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <DialogTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
+              <DialogTitle className="flex items-center gap-2 text-base sm:text-lg">
+                <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
                 Документы работника: {userName}
               </DialogTitle>
-              <DialogDescription>
+              <DialogDescription className="text-xs sm:text-sm">
                 Просмотр всех документов работника (страховка, разрешения, удостоверения)
               </DialogDescription>
             </div>
             <Button
               onClick={() => setShowUpload(true)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 text-xs sm:text-sm w-full sm:w-auto"
+              size="sm"
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
               Добавить документ
             </Button>
           </div>
         </DialogHeader>
 
-        {isLoading && (
-          <div className="flex justify-center py-8">
-            <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-          </div>
-        )}
-
-        {error && (
-          <div className="text-center py-8">
-            <p className="text-destructive">Ошибка загрузки документов</p>
-          </div>
-        )}
-
-        {data && (
-          <div className="space-y-6">
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold">{data.stats.total}</div>
-                  <div className="text-sm text-muted-foreground">Всего</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-green-600">{data.stats.active}</div>
-                  <div className="text-sm text-muted-foreground">Действительных</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-yellow-600">{data.stats.expiring_soon}</div>
-                  <div className="text-sm text-muted-foreground">Истекают скоро</div>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-4 text-center">
-                  <div className="text-2xl font-bold text-red-600">{data.stats.expired}</div>
-                  <div className="text-sm text-muted-foreground">Истёкших</div>
-                </CardContent>
-              </Card>
+        <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6">
+          {isLoading && (
+            <div className="flex justify-center py-8">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
             </div>
+          )}
 
-            {/* Documents */}
-            {data.documents.length === 0 ? (
-              <div className="text-center py-8">
-                <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
-                <h3 className="mt-2 text-sm font-semibold">Нет документов</h3>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  У этого работника пока нет загруженных документов.
-                </p>
+          {error && (
+            <div className="text-center py-8">
+              <p className="text-destructive text-sm">Ошибка загрузки документов</p>
+            </div>
+          )}
+
+          {data && (
+            <div className="space-y-4 sm:space-y-6">
+              {/* Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+              <Card>
+                <CardContent className="p-3 sm:p-4 text-center">
+                  <div className="text-lg sm:text-2xl font-bold">{data.stats.total}</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Всего</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-3 sm:p-4 text-center">
+                  <div className="text-lg sm:text-2xl font-bold text-green-600">{data.stats.active}</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Действительных</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-3 sm:p-4 text-center">
+                  <div className="text-lg sm:text-2xl font-bold text-yellow-600">{data.stats.expiring_soon}</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Истекают скоро</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-3 sm:p-4 text-center">
+                  <div className="text-lg sm:text-2xl font-bold text-red-600">{data.stats.expired}</div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">Истёкших</div>
+                </CardContent>
+              </Card>
               </div>
-            ) : (
-              <Tabs defaultValue="all" className="w-full">
-                <TabsList className="grid w-full grid-cols-4">
-                  <TabsTrigger value="all">Все ({data.stats.total})</TabsTrigger>
-                  <TabsTrigger value="active">Действительные ({data.stats.active})</TabsTrigger>
-                  <TabsTrigger value="expiring">Истекают ({data.stats.expiring_soon})</TabsTrigger>
-                  <TabsTrigger value="expired">Истёкшие ({data.stats.expired})</TabsTrigger>
-                </TabsList>
 
-                <TabsContent value="all" className="mt-6">
+              {/* Documents */}
+              {data.documents.length === 0 ? (
+                <div className="text-center py-8">
+                  <FileText className="mx-auto h-8 w-8 sm:h-12 sm:w-12 text-muted-foreground" />
+                  <h3 className="mt-2 text-xs sm:text-sm font-semibold">Нет документов</h3>
+                  <p className="mt-1 text-xs sm:text-sm text-muted-foreground">
+                    У этого работника пока нет загруженных документов.
+                  </p>
+                </div>
+              ) : (
+                <Tabs defaultValue="all" className="w-full">
+                  <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-1">
+                    <TabsTrigger value="all" className="text-xs sm:text-sm">Все ({data.stats.total})</TabsTrigger>
+                    <TabsTrigger value="active" className="text-xs sm:text-sm">
+                      <span className="hidden sm:inline">Действительные </span>
+                      <span className="sm:hidden">Активн. </span>
+                      ({data.stats.active})
+                    </TabsTrigger>
+                    <TabsTrigger value="expiring" className="text-xs sm:text-sm">Истекают ({data.stats.expiring_soon})</TabsTrigger>
+                    <TabsTrigger value="expired" className="text-xs sm:text-sm">Истёкшие ({data.stats.expired})</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="all" className="mt-4 sm:mt-6">
                   <DocumentsByCategory documents={data.documents.all || []} />
                 </TabsContent>
 
-                <TabsContent value="active" className="mt-6">
-                  <DocumentsByCategory
-                    documents={(data.documents.all || []).filter(doc => doc.status === 'active')}
-                  />
-                </TabsContent>
+                  <TabsContent value="active" className="mt-4 sm:mt-6">
+                    <DocumentsByCategory
+                      documents={(data.documents.all || []).filter(doc => doc.status === 'active')}
+                    />
+                  </TabsContent>
 
-                <TabsContent value="expiring" className="mt-6">
-                  <DocumentsByCategory
-                    documents={(data.documents.all || []).filter(doc => doc.status === 'expiring_soon')}
-                  />
-                </TabsContent>
+                  <TabsContent value="expiring" className="mt-4 sm:mt-6">
+                    <DocumentsByCategory
+                      documents={(data.documents.all || []).filter(doc => doc.status === 'expiring_soon')}
+                    />
+                  </TabsContent>
 
-                <TabsContent value="expired" className="mt-6">
-                  <DocumentsByCategory
-                    documents={(data.documents.all || []).filter(doc => doc.status === 'expired')}
-                  />
-                </TabsContent>
-              </Tabs>
-            )}
-          </div>
-        )}
+                  <TabsContent value="expired" className="mt-4 sm:mt-6">
+                    <DocumentsByCategory
+                      documents={(data.documents.all || []).filter(doc => doc.status === 'expired')}
+                    />
+                  </TabsContent>
+                </Tabs>
+              )}
+            </div>
+          )}
+        </div>
       </DialogContent>
 
       {/* Upload Document Dialog */}
       <Dialog open={showUpload} onOpenChange={setShowUpload}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="w-full max-w-[95vw] sm:max-w-[85vw] md:max-w-xl">
           <DialogHeader>
             <DialogTitle>Загрузить документ для {userName}</DialogTitle>
             <DialogDescription>
