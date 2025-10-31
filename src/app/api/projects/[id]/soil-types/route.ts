@@ -184,6 +184,97 @@ export async function POST(request: NextRequest, { params }: Context) {
   }
 }
 
+// PUT /api/projects/[id]/soil-types?soil_type_id=... - Update a soil type
+export async function PUT(request: NextRequest, { params }: Context) {
+  try {
+    // SECURITY: Validate authentication and role - only PM and admin can update
+    const authResult = await validateApiAuth(request);
+    const roleError = requireRole(authResult, ['admin', 'pm']);
+    if (roleError) {
+      const { id: projectId } = await params;
+      logUnauthorizedAccess(
+        authResult.user?.id,
+        `soil-types-update-${projectId}`,
+        request
+      );
+      return roleError;
+    }
+
+    // SECURITY: Validate project access
+    const { id: projectId } = await params;
+    const projectAccessError = await requireProjectAccess(authResult, projectId, supabase);
+    if (projectAccessError) {
+      logUnauthorizedAccess(
+        authResult.user?.id,
+        `soil-types-update-${projectId}`,
+        request
+      );
+      return projectAccessError;
+    }
+
+    const url = new URL(request.url)
+    const soilTypeId = url.searchParams.get('soil_type_id')
+
+    if (!soilTypeId) {
+      return NextResponse.json(
+        { error: 'soil_type_id is required' },
+        { status: 400 }
+      )
+    }
+
+    const body = await request.json()
+    const { soil_type_name, price_per_meter, quantity_meters, notes } = body
+
+    // Validation
+    if (!soil_type_name || !price_per_meter) {
+      return NextResponse.json(
+        { error: 'Missing required fields: soil_type_name, price_per_meter' },
+        { status: 400 }
+      )
+    }
+
+    if (price_per_meter <= 0) {
+      return NextResponse.json(
+        { error: 'price_per_meter must be greater than 0' },
+        { status: 400 }
+      )
+    }
+
+    const { data: soilType, error } = await supabase
+      .from('project_soil_types')
+      .update({
+        soil_type_name,
+        price_per_meter,
+        quantity_meters: quantity_meters || null,
+        notes: notes || null
+      })
+      .eq('id', soilTypeId)
+      .eq('project_id', projectId) // Ensure soil type belongs to project
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Soil type update error:', error)
+      return NextResponse.json(
+        { error: 'Failed to update soil type' },
+        { status: 500 }
+      )
+    }
+
+    // Recalculate project totals after update
+    await recalculateProjectTotals(projectId)
+
+    return NextResponse.json(soilType)
+
+  } catch (error) {
+    console.error('Project soil type update error:', error)
+    return NextResponse.json(
+      { error: 'Failed to update soil type' },
+      { status: 500 }
+    )
+  }
+}
+
 // DELETE /api/projects/[id]/soil-types?soil_type_id=... - Delete a soil type
 export async function DELETE(request: NextRequest, { params }: Context) {
   try {

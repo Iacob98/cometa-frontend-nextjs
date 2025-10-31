@@ -37,7 +37,15 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingSoilType, setEditingSoilType] = useState<ProjectSoilType | null>(null);
   const [newSoilType, setNewSoilType] = useState({
+    soil_type_name: "",
+    price_per_meter: "",
+    quantity_meters: "",
+    notes: "",
+  });
+  const [editFormData, setEditFormData] = useState({
     soil_type_name: "",
     price_per_meter: "",
     quantity_meters: "",
@@ -107,6 +115,50 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
     },
   });
 
+  // Update soil type mutation
+  const updateSoilType = useMutation({
+    mutationFn: async (data: { id: string; updates: typeof editFormData }) => {
+      const token = getStoredToken();
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      const response = await fetch(
+        `/api/projects/${projectId}/soil-types?soil_type_id=${data.id}`,
+        {
+          method: "PUT",
+          headers,
+          body: JSON.stringify({
+            soil_type_name: data.updates.soil_type_name,
+            price_per_meter: parseFloat(data.updates.price_per_meter),
+            quantity_meters: data.updates.quantity_meters ? parseFloat(data.updates.quantity_meters) : undefined,
+            notes: data.updates.notes || undefined,
+          }),
+        }
+      );
+      if (!response.ok) throw new Error("Failed to update soil type");
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["project-soil-types", projectId] });
+      setIsEditDialogOpen(false);
+      setEditingSoilType(null);
+      toast({
+        title: "Success",
+        description: "Soil type updated successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update soil type",
+        variant: "destructive",
+      });
+    },
+  });
+
   // Delete soil type mutation
   const deleteSoilType = useMutation({
     mutationFn: async (soilTypeId: string) => {
@@ -150,6 +202,34 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
       return;
     }
     addSoilType.mutate(newSoilType);
+  };
+
+  const handleEditClick = (soilType: ProjectSoilType) => {
+    setEditingSoilType(soilType);
+    setEditFormData({
+      soil_type_name: soilType.soil_type_name,
+      price_per_meter: soilType.price_per_meter.toString(),
+      quantity_meters: soilType.quantity_meters?.toString() || "",
+      notes: soilType.notes || "",
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  const handleUpdateSoilType = () => {
+    if (!editFormData.soil_type_name || !editFormData.price_per_meter) {
+      toast({
+        title: "Validation Error",
+        description: "Soil type name and price per meter are required",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!editingSoilType) return;
+
+    updateSoilType.mutate({
+      id: editingSoilType.id,
+      updates: editFormData,
+    });
   };
 
   if (isLoading) {
@@ -228,14 +308,24 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
                         {soilType.notes || "—"}
                       </TableCell>
                       <TableCell>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => deleteSoilType.mutate(soilType.id)}
-                          aria-label={`Delete ${soilType.soil_type_name}`}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleEditClick(soilType)}
+                            aria-label={`Edit ${soilType.soil_type_name}`}
+                          >
+                            <Edit2 className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => deleteSoilType.mutate(soilType.id)}
+                            aria-label={`Delete ${soilType.soil_type_name}`}
+                          >
+                            <Trash2 className="h-4 w-4 text-destructive" />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -329,6 +419,78 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
             </Button>
             <Button onClick={handleAddSoilType} disabled={addSoilType.isPending}>
               {addSoilType.isPending ? "Adding..." : "Add Soil Type"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Soil Type Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Soil Type</DialogTitle>
+            <DialogDescription>
+              Update soil type information
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="edit_soil_type_name">Soil Type Name *</Label>
+              <Input
+                id="edit_soil_type_name"
+                placeholder="e.g., Sand, Clay, Rock"
+                value={editFormData.soil_type_name}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, soil_type_name: e.target.value })
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit_price_per_meter">Price per Meter (€) *</Label>
+              <Input
+                id="edit_price_per_meter"
+                type="number"
+                step="0.01"
+                min="0.01"
+                placeholder="e.g., 12.50"
+                value={editFormData.price_per_meter}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, price_per_meter: e.target.value })
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit_quantity_meters">Quantity (meters)</Label>
+              <Input
+                id="edit_quantity_meters"
+                type="number"
+                step="0.01"
+                min="0"
+                placeholder="e.g., 500"
+                value={editFormData.quantity_meters}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, quantity_meters: e.target.value })
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="edit_notes">Notes</Label>
+              <Input
+                id="edit_notes"
+                placeholder="Additional notes"
+                value={editFormData.notes}
+                onChange={(e) =>
+                  setEditFormData({ ...editFormData, notes: e.target.value })
+                }
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleUpdateSoilType} disabled={updateSoilType.isPending}>
+              {updateSoilType.isPending ? "Updating..." : "Update Soil Type"}
             </Button>
           </DialogFooter>
         </DialogContent>
