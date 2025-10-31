@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { getStoredToken } from "@/hooks/use-auth";
 import type { ProjectSoilType } from "@/types";
 
 interface ProjectSoilTypesCardProps {
@@ -47,7 +48,14 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
   const { data: soilTypes = [], isLoading } = useQuery({
     queryKey: ["project-soil-types", projectId],
     queryFn: async () => {
-      const response = await fetch(`/api/projects/${projectId}/soil-types`);
+      const token = getStoredToken();
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      const response = await fetch(`/api/projects/${projectId}/soil-types`, { headers });
       if (!response.ok) throw new Error("Failed to fetch soil types");
       return response.json();
     },
@@ -56,9 +64,16 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
   // Add soil type mutation
   const addSoilType = useMutation({
     mutationFn: async (data: typeof newSoilType) => {
+      const token = getStoredToken();
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
       const response = await fetch(`/api/projects/${projectId}/soil-types`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({
           soil_type_name: data.soil_type_name,
           price_per_meter: parseFloat(data.price_per_meter),
@@ -95,9 +110,16 @@ export default function ProjectSoilTypesCard({ projectId }: ProjectSoilTypesCard
   // Delete soil type mutation
   const deleteSoilType = useMutation({
     mutationFn: async (soilTypeId: string) => {
+      const token = getStoredToken();
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
       const response = await fetch(
         `/api/projects/${projectId}/soil-types?soil_type_id=${soilTypeId}`,
-        { method: "DELETE" }
+        { method: "DELETE", headers }
       );
       if (!response.ok) throw new Error("Failed to delete soil type");
       return response.json();

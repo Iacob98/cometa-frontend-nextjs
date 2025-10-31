@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { useProject, useUpdateProject } from "@/hooks/use-projects";
-import { usePermissions } from "@/hooks/use-auth";
+import { usePermissions, getStoredToken } from "@/hooks/use-auth";
 import type { UpdateProjectRequest, Language, ProjectSoilType } from "@/types";
 import ProjectSoilTypesCard from "@/components/project-soil-types-card";
 import { useQuery } from "@tanstack/react-query";
@@ -48,7 +48,14 @@ export default function EditProjectPage() {
   const { data: soilTypes = [] } = useQuery<ProjectSoilType[]>({
     queryKey: ["project-soil-types", projectId],
     queryFn: async () => {
-      const response = await fetch(`/api/projects/${projectId}/soil-types`);
+      const token = getStoredToken();
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+      };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      const response = await fetch(`/api/projects/${projectId}/soil-types`, { headers });
       if (!response.ok) {
         throw new Error(`Failed to fetch soil types: ${response.status}`);
       }
