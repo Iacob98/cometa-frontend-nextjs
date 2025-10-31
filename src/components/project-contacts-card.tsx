@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Users, Plus, Trash2, Mail, Phone as PhoneIcon, Briefcase } from "lucide-react";
+import { Users, Plus, Trash2, Mail, Phone as PhoneIcon, Briefcase, Edit2 } from "lucide-react";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -50,7 +50,18 @@ export default function ProjectContactsCard({ projectId }: ProjectContactsCardPr
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingContact, setEditingContact] = useState<Contact | null>(null);
   const [newContact, setNewContact] = useState({
+    first_name: "",
+    last_name: "",
+    department: "",
+    phone: "",
+    email: "",
+    position: "",
+    notes: "",
+  });
+  const [editFormData, setEditFormData] = useState({
     first_name: "",
     last_name: "",
     department: "",
@@ -115,6 +126,46 @@ export default function ProjectContactsCard({ projectId }: ProjectContactsCardPr
     },
   });
 
+  // Update contact mutation
+  const updateContact = useMutation({
+    mutationFn: async (data: { id: string; updates: typeof editFormData }) => {
+      const response = await fetch(
+        `/api/projects/${projectId}/contacts?contact_id=${data.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            first_name: data.updates.first_name,
+            last_name: data.updates.last_name,
+            department: data.updates.department || undefined,
+            phone: data.updates.phone || undefined,
+            email: data.updates.email || undefined,
+            position: data.updates.position || undefined,
+            notes: data.updates.notes || undefined,
+          }),
+        }
+      );
+      if (!response.ok) throw new Error("Failed to update contact");
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["project-contacts", projectId] });
+      setIsEditDialogOpen(false);
+      setEditingContact(null);
+      toast({
+        title: "Success",
+        description: "Contact updated successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update contact",
+        variant: "destructive",
+      });
+    },
+  });
+
   // Delete contact mutation
   const deleteContact = useMutation({
     mutationFn: async (contactId: string) => {
@@ -151,6 +202,37 @@ export default function ProjectContactsCard({ projectId }: ProjectContactsCardPr
       return;
     }
     addContact.mutate(newContact);
+  };
+
+  const handleEditClick = (contact: Contact) => {
+    setEditingContact(contact);
+    setEditFormData({
+      first_name: contact.first_name,
+      last_name: contact.last_name,
+      department: contact.department || "",
+      phone: contact.phone || "",
+      email: contact.email || "",
+      position: contact.position || "",
+      notes: contact.notes || "",
+    });
+    setIsEditDialogOpen(true);
+  };
+
+  const handleUpdateContact = () => {
+    if (!editFormData.first_name || !editFormData.last_name) {
+      toast({
+        title: "Validation Error",
+        description: "First name and last name are required",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!editingContact) return;
+
+    updateContact.mutate({
+      id: editingContact.id,
+      updates: editFormData,
+    });
   };
 
   if (isLoading) {
@@ -252,13 +334,24 @@ export default function ProjectContactsCard({ projectId }: ProjectContactsCardPr
                       )}
                     </TableCell>
                     <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => deleteContact.mutate(contact.id)}
-                      >
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                      </Button>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleEditClick(contact)}
+                          aria-label={`Edit ${contact.first_name} ${contact.last_name}`}
+                        >
+                          <Edit2 className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => deleteContact.mutate(contact.id)}
+                          aria-label={`Delete ${contact.first_name} ${contact.last_name}`}
+                        >
+                          <Trash2 className="h-4 w-4 text-destructive" />
+                        </Button>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -352,6 +445,99 @@ export default function ProjectContactsCard({ projectId }: ProjectContactsCardPr
             </Button>
             <Button onClick={handleAddContact} disabled={addContact.isPending}>
               {addContact.isPending ? "Adding..." : "Add Contact"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Contact Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Contact</DialogTitle>
+            <DialogDescription>Update contact information</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit_first_name">First Name *</Label>
+                <Input
+                  id="edit_first_name"
+                  placeholder="e.g., John"
+                  value={editFormData.first_name}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, first_name: e.target.value })
+                  }
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit_last_name">Last Name *</Label>
+                <Input
+                  id="edit_last_name"
+                  placeholder="e.g., Smith"
+                  value={editFormData.last_name}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, last_name: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit_department">Department</Label>
+                <Input
+                  id="edit_department"
+                  placeholder="e.g., Engineering"
+                  value={editFormData.department}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, department: e.target.value })
+                  }
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit_position">Position</Label>
+                <Input
+                  id="edit_position"
+                  placeholder="e.g., Project Coordinator"
+                  value={editFormData.position}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, position: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit_phone">Phone</Label>
+                <Input
+                  id="edit_phone"
+                  placeholder="e.g., +49 30 12345678"
+                  value={editFormData.phone}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, phone: e.target.value })
+                  }
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="edit_email">Email</Label>
+                <Input
+                  id="edit_email"
+                  type="email"
+                  placeholder="e.g., john.smith@example.com"
+                  value={editFormData.email}
+                  onChange={(e) =>
+                    setEditFormData({ ...editFormData, email: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleUpdateContact} disabled={updateContact.isPending}>
+              {updateContact.isPending ? "Updating..." : "Update Contact"}
             </Button>
           </DialogFooter>
         </DialogContent>

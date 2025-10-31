@@ -91,6 +91,66 @@ export async function POST(request: NextRequest, { params }: Context) {
   }
 }
 
+// PUT /api/projects/[id]/contacts?contact_id=... - Update a contact
+export async function PUT(request: NextRequest, { params }: Context) {
+  try {
+    const { id: projectId } = await params
+    const url = new URL(request.url)
+    const contactId = url.searchParams.get('contact_id')
+
+    if (!contactId) {
+      return NextResponse.json(
+        { error: 'contact_id is required' },
+        { status: 400 }
+      )
+    }
+
+    const body = await request.json()
+    const { first_name, last_name, department, phone, email, position, notes } = body
+
+    // Validation
+    if (!first_name || !last_name) {
+      return NextResponse.json(
+        { error: 'Missing required fields: first_name, last_name' },
+        { status: 400 }
+      )
+    }
+
+    const { data: contact, error } = await supabase
+      .from('project_contacts')
+      .update({
+        first_name,
+        last_name,
+        department: department || null,
+        phone: phone || null,
+        email: email || null,
+        position: position || null,
+        notes: notes || null,
+      })
+      .eq('id', contactId)
+      .eq('project_id', projectId) // Ensure contact belongs to project
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Contact update error:', error)
+      return NextResponse.json(
+        { error: 'Failed to update contact' },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json(contact)
+
+  } catch (error) {
+    console.error('Project contact update error:', error)
+    return NextResponse.json(
+      { error: 'Failed to update contact' },
+      { status: 500 }
+    )
+  }
+}
+
 // DELETE /api/projects/[id]/contacts?contact_id=... - Delete a contact
 export async function DELETE(request: NextRequest, { params }: Context) {
   try {
