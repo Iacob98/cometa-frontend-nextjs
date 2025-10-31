@@ -36,6 +36,41 @@ export async function GET(
 
     const house = result.rows[0];
 
+    // VALIDATION: Log house plan check for debugging
+    const addressDisplay = [house.street, house.city].filter(Boolean).join(', ') || 'No address';
+
+    console.log('🔍 House Plan Validation Check:', {
+      requested_house_id: houseId,
+      house_address: addressDisplay,
+      house_number: house.house_number || 'none',
+      has_plan: !!house.plan_file_path,
+      plan_filename: house.plan_filename || null,
+      plan_uploaded_at: house.plan_uploaded_at || null,
+    });
+
+    // VALIDATION: Check if other houses in project have plans
+    if (!house.plan_file_path && house.project_id) {
+      const housesWithPlans = await query(
+        `SELECT id, house_number, street, city, plan_filename, plan_uploaded_at
+         FROM houses
+         WHERE project_id = $1 AND plan_file_path IS NOT NULL
+         LIMIT 5`,
+        [house.project_id]
+      );
+
+      if (housesWithPlans.rows.length > 0) {
+        console.log('⚠️ VALIDATION: Other houses in this project have plans:',
+          housesWithPlans.rows.map(h => ({
+            id: h.id,
+            address: [h.street, h.city].filter(Boolean).join(', '),
+            house_number: h.house_number,
+            plan_filename: h.plan_filename,
+            uploaded_at: h.plan_uploaded_at,
+          }))
+        );
+      }
+    }
+
     // Structure the response
     const response: {
       house: any;
@@ -138,7 +173,6 @@ export async function POST(
 
     // Generate unique filename
     const timestamp = Date.now();
-    const fileExtension = file.name.split('.').pop();
     const uniqueFileName = `${timestamp}-${file.name}`;
 
     // Storage path: projects/{project_id}/houses/{house_id}/plans/{filename}
@@ -146,7 +180,7 @@ export async function POST(
 
     // Upload to Supabase Storage
     const fileBuffer = Buffer.from(await file.arrayBuffer());
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from('project-documents')
       .upload(filePath, fileBuffer, {
         contentType: file.type,

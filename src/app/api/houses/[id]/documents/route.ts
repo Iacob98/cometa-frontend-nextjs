@@ -248,6 +248,37 @@ export async function POST(
 
     console.log('Document linked to house:', houseDocument.id);
 
+    // SYNCHRONIZATION: If document_type is 'plan', also update houses.plan_* fields
+    if (document_type === 'plan' || document_type === 'connection_plan') {
+      console.log('🔄 Synchronizing plan document to houses.plan_* fields...');
+
+      // Get public URL for the plan
+      const { data: publicUrlData } = supabase.storage
+        .from(BUCKET_NAME)
+        .getPublicUrl(uploadData.path);
+
+      const { error: updateError } = await supabase
+        .from('houses')
+        .update({
+          plan_title: description || file.name.replace(/\.[^/.]+$/, ''), // Remove file extension
+          plan_description: description,
+          plan_type: 'connection_plan',
+          plan_filename: file.name,
+          plan_file_size: file.size,
+          plan_file_url: publicUrlData.publicUrl,
+          plan_file_path: uploadData.path,
+          plan_uploaded_at: new Date().toISOString()
+        })
+        .eq('id', house_id);
+
+      if (updateError) {
+        console.error('⚠️ Failed to sync plan to houses table:', updateError);
+        // Don't fail the request - document is still saved
+      } else {
+        console.log('✅ Plan synchronized to houses.plan_* fields');
+      }
+    }
+
     // Generate download URL
     const { data: signedUrl } = await supabase.storage
       .from(BUCKET_NAME)

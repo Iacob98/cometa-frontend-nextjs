@@ -295,6 +295,24 @@ export default function HouseConnectionPlan({ houseId, houseNumber, address }: H
             <p className="text-gray-600 mb-4">
               Upload a connection plan document for this house to help guide the fiber optic installation process.
             </p>
+
+            {/* VALIDATION: Show house ID for debugging */}
+            {data?.house && (
+              <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-xs text-blue-800 font-mono">
+                  <strong>House ID:</strong> {data.house.id}
+                </p>
+                {data.house.street && (
+                  <p className="text-xs text-blue-700 mt-1">
+                    <strong>Address:</strong> {data.house.street}{data.house.city ? `, ${data.house.city}` : ''}
+                  </p>
+                )}
+                <p className="text-xs text-blue-600 mt-2">
+                  ℹ️ If you uploaded a plan but don't see it here, the plan might be uploaded for a different house. Check the server logs or contact admin.
+                </p>
+              </div>
+            )}
+
             <Button onClick={() => setShowUploadForm(true)}>
               <Upload className="w-4 h-4 mr-2" />
               Upload Connection Plan
