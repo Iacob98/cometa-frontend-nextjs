@@ -37,6 +37,15 @@ export interface HousingUnit {
   house_number?: string;
   postal_code?: string;
   full_address?: string;
+  // Connection Plan fields
+  plan_title?: string;
+  plan_description?: string;
+  plan_type?: 'connection_plan' | 'wiring_diagram' | 'technical_drawing' | 'installation_guide' | 'as_built' | 'other';
+  plan_filename?: string;
+  plan_file_size?: number;
+  plan_file_url?: string;
+  plan_file_path?: string;
+  plan_uploaded_at?: string;
 }
 
 export interface CreateHousingUnitData {
