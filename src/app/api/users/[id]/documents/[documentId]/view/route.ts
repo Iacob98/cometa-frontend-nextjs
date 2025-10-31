@@ -58,7 +58,8 @@ export async function GET(
         uploaded_by,
         filename,
         original_filename,
-        file_type
+        file_type,
+        file_path
       FROM documents
       WHERE id = $1 AND uploaded_by = $2`,
       [documentId, userId]
@@ -69,12 +70,20 @@ export async function GET(
 
       console.log('📄 Found document in documents table:', {
         id: doc.id,
-        fileName: doc.original_filename
+        fileName: doc.original_filename,
+        filePath: doc.file_path
       });
 
-      // Construct file path for legal documents
-      // Assuming structure: {userId}/{filename}
-      const filePath = `${userId}/${doc.filename}`;
+      // Use the file_path stored in the database
+      const filePath = doc.file_path;
+
+      if (!filePath) {
+        console.error('❌ No file_path stored for document:', doc.id);
+        return NextResponse.json(
+          { error: 'Document file path not found' },
+          { status: 404 }
+        );
+      }
 
       // Create signed URL (valid for 3600 seconds = 1 hour for viewing)
       const signedUrl = await createSignedUrl('documents', filePath, 3600);

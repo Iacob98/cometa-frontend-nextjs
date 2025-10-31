@@ -148,6 +148,7 @@ export async function uploadDocument(
         original_filename: fileName,
         file_size: fileSize,
         file_type: mimeType,
+        file_path: filePath,
         description: description || null,
       })
       .select()
