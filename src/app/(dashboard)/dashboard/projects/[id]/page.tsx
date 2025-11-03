@@ -1131,43 +1131,55 @@ export default function ProjectDetailsPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="flex-1 overflow-auto">
-            {viewingDocument?.is_image ? (
-              <img
-                src={viewingDocument.file_path}
-                alt={viewingDocument.file_name}
-                className="max-w-full h-auto mx-auto"
-              />
-            ) : viewingDocument?.is_pdf ? (
-              <iframe
-                src={viewingDocument.file_path}
-                className="w-full h-96"
-                title={viewingDocument.file_name}
-              />
-            ) : (
-              <div className="text-center py-8">
-                <FileText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
-                <p className="text-muted-foreground">
-                  Preview not available for this file type
-                </p>
-                <Button
-                  onClick={() => {
-                    if (viewingDocument?.file_path) {
-                      const link = document.createElement('a');
-                      link.href = viewingDocument.file_path;
-                      link.download = viewingDocument.file_name || 'download';
-                      link.target = '_blank';
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    }
-                  }}
-                  className="mt-4"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download File
-                </Button>
-              </div>
-            )}
+            {(() => {
+              const fileName = viewingDocument?.file_name?.toLowerCase() || '';
+              const isImage = fileName.match(/\.(jpg|jpeg|png|gif|webp|svg)$/);
+              const isPdf = fileName.match(/\.pdf$/);
+
+              if (isImage) {
+                return (
+                  <img
+                    src={viewingDocument.file_path}
+                    alt={viewingDocument.file_name}
+                    className="max-w-full h-auto mx-auto"
+                  />
+                );
+              } else if (isPdf) {
+                return (
+                  <iframe
+                    src={viewingDocument.file_path}
+                    className="w-full h-96"
+                    title={viewingDocument.file_name}
+                  />
+                );
+              } else {
+                return (
+                  <div className="text-center py-8">
+                    <FileText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                    <p className="text-muted-foreground">
+                      Preview not available for this file type
+                    </p>
+                    <Button
+                      onClick={() => {
+                        if (viewingDocument?.file_path) {
+                          const link = document.createElement('a');
+                          link.href = viewingDocument.file_path;
+                          link.download = viewingDocument.file_name || 'download';
+                          link.target = '_blank';
+                          document.body.appendChild(link);
+                          link.click();
+                          document.body.removeChild(link);
+                        }
+                      }}
+                      className="mt-4"
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      Download File
+                    </Button>
+                  </div>
+                );
+              }
+            })()}
           </div>
           <div className="flex justify-end gap-2 mt-4">
             <Button
