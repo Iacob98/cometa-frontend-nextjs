@@ -122,12 +122,12 @@ export default function NVTInstallationPlan({ cabinetId, cabinetCode, cabinetNam
     }
   };
 
-  const handleDelete = async () => {
-    if (!data?.plan) return;
+  const handleDelete = async (planId: string, planTitle: string) => {
+    if (!data?.cabinet) return;
 
-    if (confirm(`Are you sure you want to delete the installation plan "${data.plan.title}"?`)) {
+    if (confirm(`Are you sure you want to delete the installation plan "${planTitle}"?`)) {
       try {
-        await deleteMutation.mutateAsync(cabinetId);
+        await deleteMutation.mutateAsync({ cabinetId: data.cabinet.id, planId });
       } catch (error) {
         // Error handling is done in the mutation
       }
@@ -173,7 +173,7 @@ export default function NVTInstallationPlan({ cabinetId, cabinetCode, cabinetNam
             className="flex items-center gap-2"
           >
             <Upload className="w-4 h-4" />
-            {data?.plan ? 'Upload More Plans' : 'Upload Plan'}
+            {data?.plans && data.plans.length > 0 ? 'Upload More Plans' : 'Upload Plan'}
           </Button>
         </div>
       </CardHeader>
@@ -297,71 +297,73 @@ export default function NVTInstallationPlan({ cabinetId, cabinetCode, cabinetNam
           </div>
         )}
 
-        {/* Display Existing Plan */}
-        {data?.plan ? (
+        {/* Display Existing Plans */}
+        {data?.plans && data.plans.length > 0 ? (
           <div className="space-y-4">
-            <Card className="hover:shadow-md transition-shadow">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <Badge className={getPlanTypeInfo(data.plan.plan_type).color}>
-                      {getPlanTypeInfo(data.plan.plan_type).label}
-                    </Badge>
-                    <h4 className="font-semibold mt-2 mb-1">{data.plan.title}</h4>
-                    {data.plan.description && (
-                      <p className="text-sm text-gray-600 mb-2">{data.plan.description}</p>
-                    )}
-                    <div className="text-xs text-gray-500 space-y-1">
-                      <p>File: {data.plan.filename}</p>
-                      <p>Size: {formatFileSize(data.plan.file_size)}</p>
-                      <p>Uploaded: {new Date(data.plan.uploaded_at).toLocaleDateString()}</p>
+            {data.plans.map((plan) => (
+              <Card key={plan.id} className="hover:shadow-md transition-shadow">
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <Badge className={getPlanTypeInfo(plan.plan_type).color}>
+                        {getPlanTypeInfo(plan.plan_type).label}
+                      </Badge>
+                      <h4 className="font-semibold mt-2 mb-1">{plan.title}</h4>
+                      {plan.description && (
+                        <p className="text-sm text-gray-600 mb-2">{plan.description}</p>
+                      )}
+                      <div className="text-xs text-gray-500 space-y-1">
+                        <p>File: {plan.filename}</p>
+                        <p>Size: {formatFileSize(plan.file_size)}</p>
+                        <p>Uploaded: {new Date(plan.uploaded_at).toLocaleDateString()}</p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-1 ml-4">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        title="View"
+                        onClick={() => window.open(plan.file_url, '_blank')}
+                      >
+                        <Eye className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        title="Download"
+                        onClick={() => {
+                          const link = document.createElement('a');
+                          link.href = plan.file_url;
+                          link.download = plan.filename;
+                          link.target = '_blank';
+                          document.body.appendChild(link);
+                          link.click();
+                          document.body.removeChild(link);
+                        }}
+                      >
+                        <Download className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        title="Delete"
+                        onClick={() => handleDelete(plan.id, plan.title)}
+                        disabled={deleteMutation.isPending}
+                      >
+                        <X className="w-4 h-4 text-red-500" />
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex flex-col gap-1 ml-4">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      title="View"
-                      onClick={() => window.open(data.plan!.file_url, '_blank')}
-                    >
-                      <Eye className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      title="Download"
-                      onClick={() => {
-                        const link = document.createElement('a');
-                        link.href = data.plan!.file_url;
-                        link.download = data.plan!.filename;
-                        link.target = '_blank';
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                      }}
-                    >
-                      <Download className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      title="Delete"
-                      onClick={handleDelete}
-                      disabled={deleteMutation.isPending}
-                    >
-                      <X className="w-4 h-4 text-red-500" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         ) : !showUploadForm ? (
           <div className="text-center py-8">
             <AlertCircle className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-            <h3 className="text-lg font-medium mb-2">No Installation Plan</h3>
+            <h3 className="text-lg font-medium mb-2">No Installation Plans</h3>
             <p className="text-gray-600 mb-4">
-              Upload an installation plan document for this NVT point to help guide the installation process.
+              Upload installation plan documents for this NVT point to help guide the installation process.
             </p>
             <Button onClick={() => setShowUploadForm(true)}>
               <Upload className="w-4 h-4 mr-2" />

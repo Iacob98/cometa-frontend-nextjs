@@ -2,9 +2,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 export interface CabinetPlan {
+  id: string;
   title: string;
   description?: string;
-  plan_type: 'network_design' | 'technical_drawing' | 'site_layout' | 'installation_guide' | 'as_built' | 'other';
+  plan_type: string;
   filename: string;
   file_size: number;
   file_url: string;
@@ -20,7 +21,7 @@ export interface CabinetPlanResponse {
     name?: string;
     address?: string;
   };
-  plan: CabinetPlan | null;
+  plans: CabinetPlan[];
 }
 
 /**
@@ -101,16 +102,16 @@ export function useUploadCabinetPlan() {
 }
 
 /**
- * Delete installation plan from a specific NVT point (cabinet)
+ * Delete specific installation plan from a NVT point (cabinet)
  */
 export function useDeleteCabinetPlan() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (cabinetId: string) => {
-      console.log(`🗑️ Deleting plan for NVT ${cabinetId}`);
+    mutationFn: async ({ cabinetId, planId }: { cabinetId: string; planId: string }) => {
+      console.log(`🗑️ Deleting plan ${planId} for NVT ${cabinetId}`);
 
-      const response = await fetch(`/api/cabinets/${cabinetId}/plan`, {
+      const response = await fetch(`/api/cabinets/${cabinetId}/plan/${planId}`, {
         method: 'DELETE',
       });
 
@@ -121,10 +122,10 @@ export function useDeleteCabinetPlan() {
 
       return response.json();
     },
-    onSuccess: (_, cabinetId) => {
+    onSuccess: (_, variables) => {
       toast.success('Plan deleted successfully');
       queryClient.invalidateQueries({
-        queryKey: ['cabinet-plan', cabinetId],
+        queryKey: ['cabinet-plan', variables.cabinetId],
       });
     },
     onError: (error: Error) => {
