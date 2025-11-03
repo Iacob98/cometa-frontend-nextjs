@@ -19,6 +19,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 import { useProject, useProjectStats, useDeleteProject } from "@/hooks/use-projects";
 import { usePermissions, getStoredToken } from "@/hooks/use-auth";
@@ -40,6 +47,7 @@ export default function ProjectDetailsPage() {
   const { data: stats, isLoading: statsLoading } = useProjectStats(projectId);
   const deleteProject = useDeleteProject();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [viewingDocument, setViewingDocument] = useState<any>(null);
 
   // Fetch team data
   const { data: teamData, isLoading: teamLoading } = useQuery({
@@ -1020,20 +1028,7 @@ export default function ProjectDetailsPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              onClick={() => {
-                                // For PDF files, try to open in new tab for preview
-                                if (doc.file_name?.toLowerCase().includes('.pdf')) {
-                                  window.open(doc.file_path, '_blank');
-                                } else {
-                                  // For other files, download directly
-                                  const link = document.createElement('a');
-                                  link.href = doc.file_path;
-                                  link.download = doc.file_name;
-                                  document.body.appendChild(link);
-                                  link.click();
-                                  document.body.removeChild(link);
-                                }
-                              }}
+                              onClick={() => setViewingDocument(doc)}
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
@@ -1042,8 +1037,9 @@ export default function ProjectDetailsPage() {
                               size="sm"
                               onClick={() => {
                                 const link = document.createElement('a');
-                                link.href = doc.file_path + '?download=true';
-                                link.download = doc.file_name;
+                                link.href = doc.file_path;
+                                link.download = doc.file_name || 'download';
+                                link.target = '_blank';
                                 document.body.appendChild(link);
                                 link.click();
                                 document.body.removeChild(link);
@@ -1124,6 +1120,79 @@ export default function ProjectDetailsPage() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Document Preview Dialog */}
+      <Dialog open={!!viewingDocument} onOpenChange={(open) => !open && setViewingDocument(null)}>
+        <DialogContent className="max-w-4xl max-h-[80vh]">
+          <DialogHeader>
+            <DialogTitle>{viewingDocument?.file_name || 'Document Preview'}</DialogTitle>
+            <DialogDescription>
+              {viewingDocument?.size_formatted || 'Unknown size'} • Uploaded by {viewingDocument?.uploaded_by_name || 'Unknown'}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex-1 overflow-auto">
+            {viewingDocument?.is_image ? (
+              <img
+                src={viewingDocument.file_path}
+                alt={viewingDocument.file_name}
+                className="max-w-full h-auto mx-auto"
+              />
+            ) : viewingDocument?.is_pdf ? (
+              <iframe
+                src={viewingDocument.file_path}
+                className="w-full h-96"
+                title={viewingDocument.file_name}
+              />
+            ) : (
+              <div className="text-center py-8">
+                <FileText className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                <p className="text-muted-foreground">
+                  Preview not available for this file type
+                </p>
+                <Button
+                  onClick={() => {
+                    if (viewingDocument?.file_path) {
+                      const link = document.createElement('a');
+                      link.href = viewingDocument.file_path;
+                      link.download = viewingDocument.file_name || 'download';
+                      link.target = '_blank';
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }
+                  }}
+                  className="mt-4"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download File
+                </Button>
+              </div>
+            )}
+          </div>
+          <div className="flex justify-end gap-2 mt-4">
+            <Button
+              variant="outline"
+              onClick={() => {
+                if (viewingDocument?.file_path) {
+                  const link = document.createElement('a');
+                  link.href = viewingDocument.file_path;
+                  link.download = viewingDocument.file_name || 'download';
+                  link.target = '_blank';
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }
+              }}
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download
+            </Button>
+            <Button variant="default" onClick={() => setViewingDocument(null)}>
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
