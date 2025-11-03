@@ -112,20 +112,22 @@ export function DocumentList({
                 Upload Documents
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-              <DialogHeader>
+            <DialogContent className="max-w-4xl h-[85vh] flex flex-col p-0">
+              <DialogHeader className="px-6 pt-6 pb-4 border-b flex-shrink-0">
                 <DialogTitle>Upload Documents</DialogTitle>
                 <DialogDescription>
                   Upload and organize your project documents
                 </DialogDescription>
               </DialogHeader>
-              <DocumentUpload
-                projectId={projectId}
-                houseId={houseId}
-                workEntryId={workEntryId}
-                teamId={teamId}
-                onUploadComplete={handleUploadComplete}
-              />
+              <div className="flex-1 overflow-y-auto px-6 pb-6">
+                <DocumentUpload
+                  projectId={projectId}
+                  houseId={houseId}
+                  workEntryId={workEntryId}
+                  teamId={teamId}
+                  onUploadComplete={handleUploadComplete}
+                />
+              </div>
             </DialogContent>
           </Dialog>
         )}
@@ -258,20 +260,22 @@ export function DocumentList({
                       Upload Documents
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
-                    <DialogHeader>
+                  <DialogContent className="max-w-4xl h-[85vh] flex flex-col p-0">
+                    <DialogHeader className="px-6 pt-6 pb-4 border-b flex-shrink-0">
                       <DialogTitle>Upload Documents</DialogTitle>
                       <DialogDescription>
                         Upload and organize your project documents
                       </DialogDescription>
                     </DialogHeader>
-                    <DocumentUpload
-                      projectId={projectId}
-                      houseId={houseId}
-                      workEntryId={workEntryId}
-                      teamId={teamId}
-                      onUploadComplete={handleUploadComplete}
-                    />
+                    <div className="flex-1 overflow-y-auto px-6 pb-6">
+                      <DocumentUpload
+                        projectId={projectId}
+                        houseId={houseId}
+                        workEntryId={workEntryId}
+                        teamId={teamId}
+                        onUploadComplete={handleUploadComplete}
+                      />
+                    </div>
                   </DialogContent>
                 </Dialog>
               )}

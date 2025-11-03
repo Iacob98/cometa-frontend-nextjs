@@ -18,13 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   useUploadDocument,
   useDocumentCategories,
@@ -371,15 +365,7 @@ export function DocumentUpload({
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Upload Documents</CardTitle>
-        <CardDescription>
-          Drag and drop files or click to select. Maximum {maxFiles} files,{" "}
-          {formatFileSize(maxFileSize)} each.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+    <div className="w-full space-y-4 pt-4">
         {/* Drop Zone */}
         <div
           {...getRootProps()}
@@ -618,7 +604,6 @@ export function DocumentUpload({
             </div>
           </div>
         )}
-      </CardContent>
-    </Card>
+    </div>
   );
 }
