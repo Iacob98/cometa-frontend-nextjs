@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { query } from '@/lib/db-pool';
+import { query } from '@/lib/db-client';
 
 // GET - Fetch all users with bauleiter role
 export async function GET(request: NextRequest) {

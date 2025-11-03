@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { query } from '@/lib/db-pool';
+import { query } from '@/lib/db-client';
 
 // GET - Fetch current bauleiter for a project
 export async function GET(
