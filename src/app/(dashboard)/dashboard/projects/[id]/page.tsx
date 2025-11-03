@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { ArrowLeft, Edit, Trash2, MapPin, Calendar, Users, TrendingUp, AlertTriangle, Building2, Phone, Globe, Settings, FileText, CheckCircle, Download, Eye, User, Mail, Shield, Wrench, Truck, HardHat, Zap } from "lucide-react";
+import { ArrowLeft, Edit, Trash2, MapPin, Calendar, Users, TrendingUp, AlertTriangle, Building2, Phone, Globe, Settings, FileText, CheckCircle, Download, Eye, User, Mail, Shield, Wrench, Truck, HardHat, Zap, ZoomIn, ZoomOut, RotateCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -48,6 +48,11 @@ export default function ProjectDetailsPage() {
   const deleteProject = useDeleteProject();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [viewingDocument, setViewingDocument] = useState<any>(null);
+  const [imageZoom, setImageZoom] = useState(100);
+  const [imageRotation, setImageRotation] = useState(0);
+  const [imagePosition, setImagePosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
   // Fetch team data
   const { data: teamData, isLoading: teamLoading } = useQuery({
@@ -1122,7 +1127,18 @@ export default function ProjectDetailsPage() {
       </Tabs>
 
       {/* Document Preview Dialog */}
-      <Dialog open={!!viewingDocument} onOpenChange={(open) => !open && setViewingDocument(null)}>
+      <Dialog
+        open={!!viewingDocument}
+        onOpenChange={(open) => {
+          if (!open) {
+            setViewingDocument(null);
+            setImageZoom(100);
+            setImageRotation(0);
+            setImagePosition({ x: 0, y: 0 });
+            setIsDragging(false);
+          }
+        }}
+      >
         <DialogContent className="max-w-7xl w-[95vw] h-[90vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>{viewingDocument?.file_name || 'Document Preview'}</DialogTitle>
@@ -1130,6 +1146,59 @@ export default function ProjectDetailsPage() {
               {viewingDocument?.size_formatted || 'Unknown size'} • Uploaded by {viewingDocument?.uploaded_by_name || 'Unknown'}
             </DialogDescription>
           </DialogHeader>
+
+          {/* Zoom Controls - Only show for images */}
+          {(() => {
+            const fileName = viewingDocument?.file_name?.toLowerCase() || '';
+            const isImage = fileName.match(/\.(jpg|jpeg|png|gif|webp|svg)$/);
+
+            if (isImage) {
+              return (
+                <div className="flex items-center justify-center gap-2 py-2 border-b">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setImageZoom(Math.max(25, imageZoom - 25))}
+                    disabled={imageZoom <= 25}
+                  >
+                    <ZoomOut className="h-4 w-4" />
+                  </Button>
+                  <span className="text-sm font-medium min-w-[60px] text-center">
+                    {imageZoom}%
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setImageZoom(Math.min(400, imageZoom + 25))}
+                    disabled={imageZoom >= 400}
+                  >
+                    <ZoomIn className="h-4 w-4" />
+                  </Button>
+                  <div className="w-px h-6 bg-border mx-2" />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setImageRotation((imageRotation + 90) % 360)}
+                  >
+                    <RotateCw className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setImageZoom(100);
+                      setImageRotation(0);
+                      setImagePosition({ x: 0, y: 0 });
+                    }}
+                  >
+                    Reset
+                  </Button>
+                </div>
+              );
+            }
+            return null;
+          })()}
+
           <div className="flex-1 overflow-auto min-h-0">
             {(() => {
               const fileName = viewingDocument?.file_name?.toLowerCase() || '';
@@ -1138,12 +1207,47 @@ export default function ProjectDetailsPage() {
 
               if (isImage) {
                 return (
-                  <div className="w-full h-full flex items-center justify-center p-4">
+                  <div className="w-full h-full flex items-center justify-center p-4 overflow-hidden">
                     <img
                       src={viewingDocument.file_path}
                       alt={viewingDocument.file_name}
-                      className="max-w-full max-h-full object-contain"
-                      style={{ maxHeight: 'calc(90vh - 200px)' }}
+                      className="object-contain transition-transform duration-200 select-none"
+                      style={{
+                        maxHeight: 'calc(90vh - 280px)',
+                        maxWidth: '100%',
+                        transform: `translate(${imagePosition.x}px, ${imagePosition.y}px) scale(${imageZoom / 100}) rotate(${imageRotation}deg)`,
+                        cursor: isDragging ? 'grabbing' : (imageZoom > 100 ? 'grab' : 'default')
+                      }}
+                      onWheel={(e) => {
+                        e.preventDefault();
+                        const delta = e.deltaY > 0 ? -25 : 25;
+                        setImageZoom(Math.max(25, Math.min(400, imageZoom + delta)));
+                      }}
+                      onMouseDown={(e) => {
+                        if (imageZoom > 100) {
+                          setIsDragging(true);
+                          setDragStart({
+                            x: e.clientX - imagePosition.x,
+                            y: e.clientY - imagePosition.y
+                          });
+                          e.preventDefault();
+                        }
+                      }}
+                      onMouseMove={(e) => {
+                        if (isDragging && imageZoom > 100) {
+                          setImagePosition({
+                            x: e.clientX - dragStart.x,
+                            y: e.clientY - dragStart.y
+                          });
+                        }
+                      }}
+                      onMouseUp={() => {
+                        setIsDragging(false);
+                      }}
+                      onMouseLeave={() => {
+                        setIsDragging(false);
+                      }}
+                      draggable={false}
                     />
                   </div>
                 );
