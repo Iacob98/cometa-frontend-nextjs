@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
         email,
         phone,
         role,
-        lang_pref,
+        language_preference,
         is_active,
         created_at
        FROM users

@@ -35,6 +35,7 @@ export const PREDEFINED_SKILLS = [
 export const USER_ROLES = [
   "admin",
   "pm", // project manager
+  "bauleiter", // construction supervisor
   "foreman",
   "crew", // field worker
   "viewer"

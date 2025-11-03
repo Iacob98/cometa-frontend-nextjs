@@ -4,10 +4,10 @@ import { query } from '@/lib/db-client';
 // GET - Fetch current bauleiter for a project
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     const result = await query(
       `SELECT
@@ -17,7 +17,7 @@ export async function GET(
         u.email,
         u.phone,
         u.role,
-        u.lang_pref
+        u.language_preference
        FROM projects p
        LEFT JOIN users u ON p.bauleiter_id = u.id
        WHERE p.id = $1 AND u.id IS NOT NULL`,
@@ -41,10 +41,10 @@ export async function GET(
 // POST - Assign bauleiter to project
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
     const { bauleiter_id } = body;
 
@@ -93,7 +93,7 @@ export async function POST(
         u.email,
         u.phone,
         u.role,
-        u.lang_pref
+        u.language_preference
        FROM users u
        WHERE u.id = $1`,
       [bauleiter_id]
@@ -115,10 +115,10 @@ export async function POST(
 // DELETE - Unassign bauleiter from project
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
     const result = await query(
       `UPDATE projects
