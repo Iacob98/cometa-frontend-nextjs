@@ -1123,14 +1123,14 @@ export default function ProjectDetailsPage() {
 
       {/* Document Preview Dialog */}
       <Dialog open={!!viewingDocument} onOpenChange={(open) => !open && setViewingDocument(null)}>
-        <DialogContent className="max-w-4xl max-h-[80vh]">
+        <DialogContent className="max-w-7xl w-[95vw] h-[90vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>{viewingDocument?.file_name || 'Document Preview'}</DialogTitle>
             <DialogDescription>
               {viewingDocument?.size_formatted || 'Unknown size'} • Uploaded by {viewingDocument?.uploaded_by_name || 'Unknown'}
             </DialogDescription>
           </DialogHeader>
-          <div className="flex-1 overflow-auto">
+          <div className="flex-1 overflow-auto min-h-0">
             {(() => {
               const fileName = viewingDocument?.file_name?.toLowerCase() || '';
               const isImage = fileName.match(/\.(jpg|jpeg|png|gif|webp|svg)$/);
@@ -1138,17 +1138,20 @@ export default function ProjectDetailsPage() {
 
               if (isImage) {
                 return (
-                  <img
-                    src={viewingDocument.file_path}
-                    alt={viewingDocument.file_name}
-                    className="max-w-full h-auto mx-auto"
-                  />
+                  <div className="w-full h-full flex items-center justify-center p-4">
+                    <img
+                      src={viewingDocument.file_path}
+                      alt={viewingDocument.file_name}
+                      className="max-w-full max-h-full object-contain"
+                      style={{ maxHeight: 'calc(90vh - 200px)' }}
+                    />
+                  </div>
                 );
               } else if (isPdf) {
                 return (
                   <iframe
                     src={viewingDocument.file_path}
-                    className="w-full h-96"
+                    className="w-full h-full min-h-[600px]"
                     title={viewingDocument.file_name}
                   />
                 );
