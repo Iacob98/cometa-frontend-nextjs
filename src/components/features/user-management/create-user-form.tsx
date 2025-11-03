@@ -347,6 +347,7 @@ export default function CreateUserForm({
                         <SelectContent>
                           <SelectItem value="admin">Administrator</SelectItem>
                           <SelectItem value="pm">Project Manager</SelectItem>
+                          <SelectItem value="bauleiter">Bauleiter</SelectItem>
                           <SelectItem value="foreman">Foreman</SelectItem>
                           <SelectItem value="crew">Field Worker</SelectItem>
                           <SelectItem value="viewer">Viewer (Read-only)</SelectItem>

@@ -37,12 +37,15 @@ const UTILITY_KINDS = [
 ];
 
 const PLAN_TYPES = [
-  { value: 'site_plan', label: 'Site Plan', color: 'bg-blue-100 text-blue-800' },
-  { value: 'network_design', label: 'Network Design', color: 'bg-green-100 text-green-800' },
-  { value: 'cable_routing', label: 'Cable Routing', color: 'bg-purple-100 text-purple-800' },
-  { value: 'excavation_plan', label: 'Excavation Plan', color: 'bg-orange-100 text-orange-800' },
-  { value: 'technical_drawing', label: 'Technical Drawing', color: 'bg-red-100 text-red-800' },
-  { value: 'other', label: 'Other', color: 'bg-gray-100 text-gray-800' },
+  { value: 'lageplan_gesamtprojekt', label: 'Lageplan Gesamtprojekt', color: 'bg-blue-100 text-blue-800' },
+  { value: 'gesamt_verlegeplan', label: 'Gesamt-Verlegeplan', color: 'bg-green-100 text-green-800' },
+  { value: 'gesamt_fremdleitungsplan', label: 'Gesamt-Fremdleitungsplan', color: 'bg-purple-100 text-purple-800' },
+  { value: 'gesamt_verkehrsfuehrung', label: 'Gesamt-Verkehrsführung (VAO Gesamt)', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'grabungs_oberflaechenplan', label: 'Grabungs- & Oberflächenplan', color: 'bg-orange-100 text-orange-800' },
+  { value: 'fotodokumentation', label: 'Fotodokumentation', color: 'bg-pink-100 text-pink-800' },
+  { value: 'genehmigungen', label: 'Genehmigungen', color: 'bg-cyan-100 text-cyan-800' },
+  { value: 'technische_details', label: 'Technische Details', color: 'bg-red-100 text-red-800' },
+  { value: 'andere', label: 'Andere', color: 'bg-gray-100 text-gray-800' },
 ];
 
 export default function UtilityContacts({ projectId }: UtilityContactsProps) {
@@ -445,22 +448,32 @@ export default function UtilityContacts({ projectId }: UtilityContactsProps) {
                 return (
                   <Card key={plan.id} className="hover:shadow-md transition-shadow">
                     <CardContent className="p-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex-1">
+                      <div className="flex items-start justify-between gap-3 mb-2">
+                        <div className="flex-1 min-w-0">
                           <Badge className={planTypeInfo.color}>
                             {planTypeInfo.label}
                           </Badge>
-                          <h4 className="font-semibold mt-2 mb-1">{plan.title}</h4>
+                          <h4 className="font-semibold mt-2 mb-1 truncate" title={plan.title}>
+                            {plan.title}
+                          </h4>
                           {plan.description && (
-                            <p className="text-sm text-gray-600 mb-2">{plan.description}</p>
+                            <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                              {plan.description}
+                            </p>
                           )}
                           <div className="text-xs text-gray-500 space-y-1">
-                            <p>File: {plan.filename}</p>
-                            <p>Size: {formatFileSize(plan.file_size)}</p>
-                            <p>Uploaded: {new Date(plan.uploaded_at).toLocaleDateString()}</p>
+                            <p className="truncate" title={plan.filename}>
+                              <span className="font-medium">File:</span> {plan.filename}
+                            </p>
+                            <p>
+                              <span className="font-medium">Size:</span> {formatFileSize(plan.file_size)}
+                            </p>
+                            <p>
+                              <span className="font-medium">Uploaded:</span> {new Date(plan.uploaded_at).toLocaleDateString()}
+                            </p>
                           </div>
                         </div>
-                        <div className="flex flex-col gap-1 ml-2">
+                        <div className="flex flex-col gap-1 flex-shrink-0">
                           <Button
                             variant="ghost"
                             size="sm"

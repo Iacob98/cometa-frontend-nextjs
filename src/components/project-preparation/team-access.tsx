@@ -10,9 +10,16 @@ import {
   Users,
   Plus,
   Trash2,
-  Shield
+  Shield,
+  UserCheck
 } from 'lucide-react';
 import { useProjectTeams, useGlobalTeams, useUpdateTeam } from '@/hooks/use-teams';
+import {
+  useProjectBauleiter,
+  useBauleiters,
+  useAssignBauleiter,
+  useUnassignBauleiter
+} from '@/hooks/use-project-bauleiter';
 import { toast } from 'sonner';
 
 interface TeamAccessProps {
@@ -21,10 +28,16 @@ interface TeamAccessProps {
 
 export default function TeamAccess({ projectId }: TeamAccessProps) {
   const { data: projectTeams, isLoading: projectTeamsLoading } = useProjectTeams(projectId);
-  const { data: globalTeams, isLoading: globalTeamsLoading } = useGlobalTeams();
+  const { data: globalTeams } = useGlobalTeams();
   const updateTeamMutation = useUpdateTeam();
 
+  const { data: projectBauleiter, isLoading: bauleiterLoading } = useProjectBauleiter(projectId);
+  const { data: bauleiters } = useBauleiters();
+  const assignBauleiterMutation = useAssignBauleiter();
+  const unassignBauleiterMutation = useUnassignBauleiter();
+
   const [showAssignDialog, setShowAssignDialog] = useState(false);
+  const [showBauleiterDialog, setShowBauleiterDialog] = useState(false);
 
   const handleUnassignTeam = async (teamId: string, teamName: string) => {
     if (confirm(`Are you sure you want to unassign team "${teamName}" from this project?`)) {
@@ -65,17 +78,148 @@ export default function TeamAccess({ projectId }: TeamAccessProps) {
     }
   };
 
+  const handleAssignBauleiter = async (bauleiter_id: string) => {
+    try {
+      assignBauleiterMutation.mutate(
+        { projectId, bauleiter_id },
+        {
+          onSuccess: () => {
+            setShowBauleiterDialog(false);
+          }
+        }
+      );
+    } catch (error) {
+      // Error is already handled by the mutation
+    }
+  };
+
+  const handleUnassignBauleiter = async () => {
+    if (confirm('Are you sure you want to unassign the Bauleiter from this project?')) {
+      try {
+        unassignBauleiterMutation.mutate(projectId);
+      } catch (error) {
+        // Error is already handled by the mutation
+      }
+    }
+  };
+
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-semibold">Project Teams</h3>
+          <h3 className="text-lg font-semibold">Project Teams & Bauleiter</h3>
           <p className="text-gray-600">
-            Manage project teams. Foremen automatically get Work Entry access rights.
+            Manage project teams and assign a Bauleiter (construction supervisor).
           </p>
         </div>
       </div>
+
+      {/* Bauleiter Section */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="flex items-center gap-2">
+                <UserCheck className="w-5 h-5" />
+                Project Bauleiter
+              </CardTitle>
+              <CardDescription>
+                Assign a construction supervisor to this project
+              </CardDescription>
+            </div>
+            {!projectBauleiter && (
+              <Dialog open={showBauleiterDialog} onOpenChange={setShowBauleiterDialog}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <Plus className="w-4 h-4" />
+                    Assign Bauleiter
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Assign Bauleiter to Project</DialogTitle>
+                    <DialogDescription>
+                      Select a Bauleiter to assign to this project
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="space-y-4 py-4">
+                    {!bauleiters || bauleiters.length === 0 ? (
+                      <div className="text-center py-8 text-gray-500">
+                        <UserCheck className="mx-auto h-8 w-8 mb-2 text-gray-400" />
+                        <p>No Bauleiters available</p>
+                        <p className="text-sm">Create users with Bauleiter role first</p>
+                      </div>
+                    ) : (
+                      <div className="grid gap-2">
+                        {bauleiters.map((bauleiter) => (
+                          <Button
+                            key={bauleiter.id}
+                            variant="ghost"
+                            className="justify-start h-auto p-3 border border-gray-200 hover:border-blue-300"
+                            onClick={() => handleAssignBauleiter(bauleiter.id)}
+                          >
+                            <div className="flex items-center justify-between w-full">
+                              <div className="text-left">
+                                <div className="font-medium">
+                                  {bauleiter.first_name} {bauleiter.last_name}
+                                </div>
+                                <div className="text-sm text-gray-600">
+                                  {bauleiter.email || bauleiter.phone || 'No contact'}
+                                </div>
+                              </div>
+                              <Shield className="w-5 h-5 text-blue-600" />
+                            </div>
+                          </Button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </DialogContent>
+              </Dialog>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent>
+          {bauleiterLoading ? (
+            <div>Loading bauleiter...</div>
+          ) : projectBauleiter ? (
+            <div className="flex items-center justify-between p-4 border rounded-lg bg-blue-50">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-600 rounded-full">
+                  <UserCheck className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <div className="font-medium text-blue-900">
+                    {projectBauleiter.first_name} {projectBauleiter.last_name}
+                  </div>
+                  <div className="text-sm text-blue-700">
+                    {projectBauleiter.email || projectBauleiter.phone || 'No contact'}
+                  </div>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleUnassignBauleiter}
+                disabled={unassignBauleiterMutation.isPending}
+              >
+                <Trash2 className="w-4 h-4 text-red-500" />
+                Unassign
+              </Button>
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <UserCheck className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+              <h3 className="text-lg font-medium mb-2">No Bauleiter Assigned</h3>
+              <p className="text-gray-600 mb-4">
+                Assign a construction supervisor to oversee this project.
+              </p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
           <div className="flex items-center justify-between">
             <h4 className="text-md font-medium">Teams Assigned to Project</h4>
             <div className="flex items-center gap-2">

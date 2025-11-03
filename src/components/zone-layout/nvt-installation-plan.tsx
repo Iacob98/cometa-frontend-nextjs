@@ -19,12 +19,13 @@ interface NVTInstallationPlanProps {
 }
 
 const PLAN_TYPES = [
-  { value: 'network_design', label: 'Network Design', color: 'bg-green-100 text-green-800' },
-  { value: 'technical_drawing', label: 'Technical Drawing', color: 'bg-red-100 text-red-800' },
-  { value: 'site_layout', label: 'Site Layout', color: 'bg-blue-100 text-blue-800' },
-  { value: 'installation_guide', label: 'Installation Guide', color: 'bg-purple-100 text-purple-800' },
-  { value: 'as_built', label: 'As-Built Drawing', color: 'bg-orange-100 text-orange-800' },
-  { value: 'other', label: 'Other', color: 'bg-gray-100 text-gray-800' },
+  { value: 'verlegeplan', label: 'Verlegeplan', color: 'bg-green-100 text-green-800' },
+  { value: 'fremdleitungsplan', label: 'Fremdleitungsplan', color: 'bg-purple-100 text-purple-800' },
+  { value: 'verkehrsanordnung', label: 'Verkehrsanordnung (VAO)', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'nvt_standortsicherung', label: 'NVT Standortsicherung', color: 'bg-blue-100 text-blue-800' },
+  { value: 'hausanschluss_liste', label: 'Hausanschluss-Liste', color: 'bg-orange-100 text-orange-800' },
+  { value: 'technische_details', label: 'Technische Details', color: 'bg-red-100 text-red-800' },
+  { value: 'andere', label: 'Andere', color: 'bg-gray-100 text-gray-800' },
 ];
 
 export default function NVTInstallationPlan({ cabinetId, cabinetCode, cabinetName }: NVTInstallationPlanProps) {
@@ -37,49 +38,85 @@ export default function NVTInstallationPlan({ cabinetId, cabinetCode, cabinetNam
     title: '',
     description: '',
     plan_type: '',
-    file: null as File | null,
+    files: [] as File[],
   });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const newFiles = Array.from(e.target.files || []);
+    if (newFiles.length === 0) return;
 
-    // Validate file size (max 50MB)
+    // Validate file sizes (max 50MB each)
     const maxSize = 50 * 1024 * 1024; // 50MB
-    if (file.size > maxSize) {
-      toast.error('File size must be less than 50MB');
-      e.target.value = '';
-      return;
+    const validFiles = newFiles.filter(file => {
+      if (file.size > maxSize) {
+        toast.error(`File "${file.name}" is too large. Maximum size is 50MB`);
+        return false;
+      }
+      return true;
+    });
+
+    if (validFiles.length > 0) {
+      // ADD new files to existing files instead of replacing
+      setFormData(prev => ({ ...prev, files: [...prev.files, ...validFiles] }));
     }
 
-    setFormData(prev => ({ ...prev, file }));
+    // Reset input to allow selecting the same file again
+    e.target.value = '';
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setFormData(prev => ({
+      ...prev,
+      files: prev.files.filter((_, i) => i !== index)
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.title || !formData.plan_type || !formData.file) {
-      toast.error('Please fill in all required fields and select a file');
+    if (!formData.title || !formData.plan_type || formData.files.length === 0) {
+      toast.error('Please fill in all required fields and select at least one file');
       return;
     }
 
     try {
-      await uploadMutation.mutateAsync({
-        cabinetId,
-        title: formData.title,
-        description: formData.description,
-        planType: formData.plan_type,
-        file: formData.file,
-      });
+      let successCount = 0;
+      let failCount = 0;
+
+      // Upload each file separately
+      for (const file of formData.files) {
+        try {
+          await uploadMutation.mutateAsync({
+            cabinetId,
+            title: `${formData.title}${formData.files.length > 1 ? ` - ${file.name}` : ''}`,
+            description: formData.description,
+            planType: formData.plan_type,
+            file: file,
+          });
+          successCount++;
+        } catch (error) {
+          console.error('File upload error:', error);
+          failCount++;
+        }
+      }
 
       // Reset form
       setFormData({
         title: '',
         description: '',
         plan_type: '',
-        file: null,
+        files: [],
       });
       setShowUploadForm(false);
+
+      // Show appropriate success/error message
+      if (failCount === 0) {
+        toast.success(`${successCount} file(s) uploaded successfully`);
+      } else if (successCount > 0) {
+        toast.warning(`${successCount} file(s) uploaded, ${failCount} failed`);
+      } else {
+        toast.error('All file uploads failed');
+      }
     } catch (error) {
       // Error handling is done in the mutation
     }
@@ -125,26 +162,24 @@ export default function NVTInstallationPlan({ cabinetId, cabinetCode, cabinetNam
           <div>
             <CardTitle className="flex items-center gap-2">
               <FileText className="w-5 h-5" />
-              Installation Plan for {cabinetLabel}
+              Installation Plans for {cabinetLabel}
             </CardTitle>
             <CardDescription>
-              Upload and manage the installation plan document for this NVT point
+              Upload and manage installation plan documents for this NVT point
             </CardDescription>
           </div>
-          {!data?.plan && (
-            <Button
-              onClick={() => setShowUploadForm(!showUploadForm)}
-              className="flex items-center gap-2"
-            >
-              <Upload className="w-4 h-4" />
-              Upload Plan
-            </Button>
-          )}
+          <Button
+            onClick={() => setShowUploadForm(!showUploadForm)}
+            className="flex items-center gap-2"
+          >
+            <Upload className="w-4 h-4" />
+            {data?.plan ? 'Upload More Plans' : 'Upload Plan'}
+          </Button>
         </div>
       </CardHeader>
       <CardContent>
         {/* Upload Form */}
-        {showUploadForm && !data?.plan && (
+        {showUploadForm && (
           <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 mb-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -191,22 +226,55 @@ export default function NVTInstallationPlan({ cabinetId, cabinetCode, cabinetNam
               </div>
 
               <div>
-                <Label htmlFor="plan-file">File *</Label>
-                <Input
-                  id="plan-file"
-                  type="file"
-                  onChange={handleFileChange}
-                  accept=".pdf,.jpg,.jpeg,.png,.gif,.dwg,.dxf"
-                  required
-                />
-                {formData.file && (
-                  <p className="text-sm text-green-600 mt-2">
-                    Selected: {formData.file.name} ({formatFileSize(formData.file.size)})
+                <Label htmlFor="plan-file">Files *</Label>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <label htmlFor="plan-file-input" className="cursor-pointer">
+                      <div className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm font-medium">
+                        <Upload className="w-4 h-4" />
+                        <span>Add Files</span>
+                      </div>
+                    </label>
+                    <Input
+                      id="plan-file-input"
+                      type="file"
+                      onChange={handleFileChange}
+                      accept=".pdf,.jpg,.jpeg,.png,.gif,.dwg,.dxf"
+                      className="hidden"
+                      multiple
+                    />
+                    <span className="text-sm text-gray-500">
+                      Click "Add Files" to select one or more files
+                    </span>
+                  </div>
+
+                  {formData.files.length > 0 && (
+                    <div className="space-y-2">
+                      {formData.files.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between gap-2 p-2 bg-green-50 border border-green-200 rounded">
+                          <div className="flex items-center gap-2 text-sm text-green-700">
+                            <FileText className="w-4 h-4 flex-shrink-0" />
+                            <span className="truncate">{file.name} ({formatFileSize(file.size)})</span>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleRemoveFile(index)}
+                          >
+                            <X className="w-4 h-4 text-red-500" />
+                          </Button>
+                        </div>
+                      ))}
+                      <p className="text-xs text-green-600 font-medium">
+                        {formData.files.length} file(s) selected - You can add more files
+                      </p>
+                    </div>
+                  )}
+                  <p className="text-sm text-gray-500">
+                    Supported formats: PDF, Images (JPG, PNG, GIF), CAD files (DWG, DXF)
                   </p>
-                )}
-                <p className="text-sm text-gray-500 mt-1">
-                  Supported formats: PDF, Images (JPG, PNG, GIF), CAD files (DWG, DXF)
-                </p>
+                </div>
               </div>
 
               <div className="flex gap-2">
@@ -219,7 +287,7 @@ export default function NVTInstallationPlan({ cabinetId, cabinetCode, cabinetNam
                   variant="outline"
                   onClick={() => {
                     setShowUploadForm(false);
-                    setFormData({ title: '', description: '', plan_type: '', file: null });
+                    setFormData({ title: '', description: '', plan_type: '', files: [] });
                   }}
                 >
                   Cancel

@@ -2,7 +2,7 @@
 export type UUID = string;
 
 // User types
-export type UserRole = 'admin' | 'pm' | 'foreman' | 'crew' | 'viewer' | 'worker';
+export type UserRole = 'admin' | 'pm' | 'bauleiter' | 'foreman' | 'crew' | 'viewer' | 'worker';
 export type Language = 'ru' | 'en' | 'de' | 'uz' | 'tr';
 
 export interface User {

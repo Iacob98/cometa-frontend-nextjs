@@ -105,10 +105,10 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
     queryKey: ['supplier-materials', facilityForm.supplier_id],
     queryFn: async () => {
       if (!facilityForm.supplier_id) return [];
-      const response = await fetch(`/api/materials?supplier_id=${facilityForm.supplier_id}&per_page=10`);
+      const response = await fetch(`/api/suppliers/${facilityForm.supplier_id}/materials`);
       if (!response.ok) return [];
       const data = await response.json();
-      return data.items || [];
+      return data || [];
     },
     enabled: !!facilityForm.supplier_id,
   });
@@ -538,11 +538,11 @@ export default function FacilitiesManagement({ projectId }: FacilitiesManagement
                             <div className="mt-4 pt-3 border-t border-blue-200">
                               <h5 className="font-medium text-blue-900 mb-2 text-sm">Available Materials:</h5>
                               <div className="space-y-2 max-h-40 overflow-y-auto">
-                                {supplierMaterials.slice(0, 5).map((material: any) => (
-                                  <div key={material.id} className="flex justify-between items-center text-xs bg-white p-2 rounded border">
-                                    <span className="font-medium text-gray-700">{material.name}</span>
+                                {supplierMaterials.slice(0, 5).map((item: any) => (
+                                  <div key={item.id} className="flex justify-between items-center text-xs bg-white p-2 rounded border">
+                                    <span className="font-medium text-gray-700">{item.material?.name || item.material_name || 'Unknown'}</span>
                                     <span className="text-blue-600">
-                                      €{material.unit_price_eur ? material.unit_price_eur.toFixed(2) : 'N/A'}/{material.unit}
+                                      €{item.unit_price ? item.unit_price.toFixed(2) : 'N/A'}/{item.material?.unit || item.material_unit || 'unit'}
                                     </span>
                                   </div>
                                 ))}
