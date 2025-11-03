@@ -365,12 +365,12 @@ export function DocumentUpload({
   };
 
   return (
-    <div className="w-full space-y-4 pt-4">
+    <div className="w-full space-y-3">
         {/* Drop Zone */}
         <div
           {...getRootProps()}
           className={cn(
-            "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors",
+            "border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors",
             isDragActive
               ? "border-primary bg-primary/10"
               : "border-muted-foreground/25 hover:border-primary/50"
@@ -394,15 +394,15 @@ export function DocumentUpload({
 
         {/* File List */}
         {files.length > 0 && (
-          <div className="space-y-4">
-            <h4 className="font-medium">Files to Upload ({files.length})</h4>
+          <div className="space-y-3">
+            <h4 className="font-medium text-sm">Files to Upload ({files.length})</h4>
             {files.map((file, index) => {
               const FileIconComponent = getFileIcon(file.type);
               const progress = uploadProgress[file.name] || 0;
               const isError = progress === -1;
 
               return (
-                <Card key={`${file.name}-${file.size}`} className="p-4">
+                <Card key={`${file.name}-${file.size}`} className="p-3">
                   <div className="flex items-start gap-4">
                     {/* File Icon/Preview */}
                     <div className="flex-shrink-0">
@@ -421,13 +421,13 @@ export function DocumentUpload({
                     </div>
 
                     {/* File Details */}
-                    <div className="flex-1 space-y-3">
+                    <div className="flex-1 space-y-2">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="font-medium truncate max-w-xs">
+                          <p className="font-medium truncate max-w-xs text-sm">
                             {file.name}
                           </p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-xs text-muted-foreground">
                             {formatFileSize(file.size)}
                           </p>
                         </div>
@@ -442,9 +442,9 @@ export function DocumentUpload({
                       </div>
 
                       {/* Metadata Form */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                         <div>
-                          <Label htmlFor={`category-${index}`}>Category</Label>
+                          <Label htmlFor={`category-${index}`} className="text-xs">Category</Label>
                           <Select
                             value={file.category || ""}
                             onValueChange={(value) =>
@@ -466,7 +466,7 @@ export function DocumentUpload({
                         </div>
 
                         <div>
-                          <Label htmlFor={`access-${index}`}>Access Level</Label>
+                          <Label htmlFor={`access-${index}`} className="text-xs">Access Level</Label>
                           <Select
                             value={file.accessLevel || "project"}
                             onValueChange={(value) =>
@@ -474,7 +474,7 @@ export function DocumentUpload({
                             }
                             disabled={uploading}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger className="h-8">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -488,7 +488,7 @@ export function DocumentUpload({
                         </div>
 
                         <div>
-                          <Label htmlFor={`document-number-${index}`}>Document Number <span className="text-muted-foreground text-xs">(Optional)</span></Label>
+                          <Label htmlFor={`document-number-${index}`} className="text-xs">Document Number <span className="text-muted-foreground">(Optional)</span></Label>
                           <Input
                             id={`document-number-${index}`}
                             placeholder="Document number..."
@@ -497,11 +497,12 @@ export function DocumentUpload({
                               updateFileMetadata(index, "documentNumber", e.target.value)
                             }
                             disabled={uploading}
+                            className="h-8 text-sm"
                           />
                         </div>
 
                         <div>
-                          <Label htmlFor={`issuing-authority-${index}`}>Issuing Authority <span className="text-muted-foreground text-xs">(Optional)</span></Label>
+                          <Label htmlFor={`issuing-authority-${index}`} className="text-xs">Issuing Authority <span className="text-muted-foreground">(Optional)</span></Label>
                           <Input
                             id={`issuing-authority-${index}`}
                             placeholder="Issuing authority..."
@@ -510,11 +511,12 @@ export function DocumentUpload({
                               updateFileMetadata(index, "issuingAuthority", e.target.value)
                             }
                             disabled={uploading}
+                            className="h-8 text-sm"
                           />
                         </div>
 
                         <div>
-                          <Label htmlFor={`issue-date-${index}`}>Issue Date <span className="text-muted-foreground text-xs">(Optional)</span></Label>
+                          <Label htmlFor={`issue-date-${index}`} className="text-xs">Issue Date <span className="text-muted-foreground">(Optional)</span></Label>
                           <Input
                             id={`issue-date-${index}`}
                             type="date"
@@ -523,11 +525,12 @@ export function DocumentUpload({
                               updateFileMetadata(index, "issueDate", e.target.value)
                             }
                             disabled={uploading}
+                            className="h-8 text-sm"
                           />
                         </div>
 
                         <div>
-                          <Label htmlFor={`expiry-date-${index}`}>Expiry Date <span className="text-muted-foreground text-xs">(Optional)</span></Label>
+                          <Label htmlFor={`expiry-date-${index}`} className="text-xs">Expiry Date <span className="text-muted-foreground">(Optional)</span></Label>
                           <Input
                             id={`expiry-date-${index}`}
                             type="date"
@@ -536,12 +539,13 @@ export function DocumentUpload({
                               updateFileMetadata(index, "expiryDate", e.target.value)
                             }
                             disabled={uploading}
+                            className="h-8 text-sm"
                           />
                         </div>
                       </div>
 
                       <div>
-                        <Label htmlFor={`description-${index}`}>Description</Label>
+                        <Label htmlFor={`description-${index}`} className="text-xs">Description</Label>
                         <Textarea
                           id={`description-${index}`}
                           placeholder="Optional description..."
@@ -551,6 +555,7 @@ export function DocumentUpload({
                           }
                           disabled={uploading}
                           rows={2}
+                          className="text-sm resize-none"
                         />
                       </div>
 
