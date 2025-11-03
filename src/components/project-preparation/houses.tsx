@@ -1150,7 +1150,13 @@ export default function Houses({ projectId }: HousesProps) {
                   size="sm"
                   onClick={() => {
                     if (viewingDocument?.url) {
-                      window.open(viewingDocument.url, '_blank');
+                      const link = document.createElement('a');
+                      link.href = viewingDocument.url;
+                      link.download = viewingDocument.filename || 'download';
+                      link.target = '_blank';
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
                     }
                   }}
                 >
