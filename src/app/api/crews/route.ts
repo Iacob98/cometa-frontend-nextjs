@@ -79,20 +79,36 @@ export async function GET(request: NextRequest) {
     }
 
     // Format response to ensure proper structure for frontend
-    const formattedCrews = (crews || []).map((crew: any) => ({
-      id: crew.id,
-      name: crew.name,
-      description: crew.description || '',
-      status: crew.status || 'active',
-      project_id: crew.project_id,
-      foreman: crew.leader ? {
+    const formattedCrews = (crews || []).map((crew: any) => {
+      // Find foreman by checking user.role (not crew_members.role)
+      const foremanMember = (crew.crew_members || []).find((member: any) =>
+        member.user && member.user.role === 'foreman'
+      );
+
+      // Use leader if set, otherwise use foreman from members
+      const foremanData = crew.leader ? {
         id: crew.leader.id,
         full_name: `${crew.leader.first_name} ${crew.leader.last_name}`,
         first_name: crew.leader.first_name,
         last_name: crew.leader.last_name,
         email: crew.leader.email,
         role: crew.leader.role
-      } : null,
+      } : (foremanMember?.user ? {
+        id: foremanMember.user.id,
+        full_name: `${foremanMember.user.first_name} ${foremanMember.user.last_name}`,
+        first_name: foremanMember.user.first_name,
+        last_name: foremanMember.user.last_name,
+        email: foremanMember.user.email,
+        role: foremanMember.user.role
+      } : null);
+
+      return {
+      id: crew.id,
+      name: crew.name,
+      description: crew.description || '',
+      status: crew.status || 'active',
+      project_id: crew.project_id,
+      foreman: foremanData,
       members: [
         // Add leader as first member if exists
         ...(crew.leader ? [{
@@ -144,7 +160,8 @@ export async function GET(request: NextRequest) {
       member_count: (crew.crew_members?.length || 0) + (crew.leader_user_id ? 1 : 0),
       created_at: crew.created_at,
       updated_at: crew.updated_at
-    }));
+    };
+    });
 
     return NextResponse.json({
       crews: formattedCrews,

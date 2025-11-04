@@ -321,10 +321,10 @@ export default function TeamAccess({ projectId }: TeamAccessProps) {
                             {team.name}
                           </TableCell>
                           <TableCell>
-                            {team.foreman_name ? (
+                            {team.foreman?.full_name ? (
                               <div className="flex items-center gap-2">
                                 <Shield className="w-4 h-4 text-blue-600" />
-                                {team.foreman_name}
+                                {team.foreman.full_name}
                               </div>
                             ) : (
                               <span className="text-gray-400">Not assigned</span>
