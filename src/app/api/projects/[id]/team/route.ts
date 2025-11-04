@@ -62,6 +62,12 @@ export async function GET(
       const activeMembers = (crew.crew_members || []).filter((member: any) => member.is_active);
       totalMembers += activeMembers.length;
 
+      // Find foreman by checking user.role (not crew_members.role)
+      const foremanMember = activeMembers.find((member: any) =>
+        member.users && member.users.role === 'foreman'
+      );
+
+      // Also check for leader role in crew_members table
       const leaderMember = activeMembers.find((member: any) => member.role === 'leader');
 
       return {
@@ -71,9 +77,9 @@ export async function GET(
         status: crew.status,
         leader_user_id: crew.leader_user_id,
         leader: leaderMember?.users || null,
-        foreman: leaderMember ? {
-          ...leaderMember.users,
-          full_name: `${leaderMember.users.first_name} ${leaderMember.users.last_name}`.trim()
+        foreman: foremanMember ? {
+          ...foremanMember.users,
+          full_name: `${foremanMember.users.first_name} ${foremanMember.users.last_name}`.trim()
         } : null,
         members: activeMembers.map((member: any) => ({
           id: member.id,
