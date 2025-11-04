@@ -13,7 +13,8 @@ import {
   Eye,
   X,
   Plus,
-  Edit
+  Edit,
+  FileCheck
 } from "lucide-react";
 
 import {
@@ -31,6 +32,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DocumentUpload } from "./document-upload";
 
 import type { DocumentsResponse, WorkerDocument, DocumentStatus } from "@/types";
@@ -447,6 +449,190 @@ function DocumentsByCategory({ documents }: { documents: WorkerDocument[] }) {
   );
 }
 
+// Component for registering document metadata without file upload
+function RegisterDocumentMetadataDialog({
+  userId,
+  userName,
+  open,
+  onOpenChange,
+  onComplete,
+  categories
+}: {
+  userId: string;
+  userName: string;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onComplete: () => void;
+  categories: any[];
+}) {
+  const [formData, setFormData] = useState({
+    category_id: '',
+    title: '',
+    description: '',
+    document_number: '',
+    issue_authority: '',
+    issue_date: '',
+    expiry_date: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.category_id || !formData.title) {
+      alert('Пожалуйста, заполните категорию и название');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`/api/users/${userId}/documents/metadata`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to register document metadata');
+      }
+
+      console.log(`✅ Запись документа успешно создана для работника: ${userName}`);
+
+      // Reset form
+      setFormData({
+        category_id: '',
+        title: '',
+        description: '',
+        document_number: '',
+        issue_authority: '',
+        issue_date: '',
+        expiry_date: '',
+      });
+
+      onComplete();
+    } catch (error) {
+      console.error('Error registering document metadata:', error);
+      alert('Ошибка при создании записи документа');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="w-full max-w-[95vw] sm:max-w-[85vw] md:max-w-xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Зарегистрировать документ для {userName}</DialogTitle>
+          <DialogDescription>
+            Создайте запись документа без загрузки файла (для документов, которые хранятся в другом месте)
+          </DialogDescription>
+        </DialogHeader>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="col-span-2">
+              <Label htmlFor="category">Категория *</Label>
+              <Select
+                value={formData.category_id}
+                onValueChange={(value) => setFormData(prev => ({ ...prev, category_id: value }))}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Выберите категорию" />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      {category.name_de || category.name_ru || category.name_en}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="title">Название документа *</Label>
+              <Input
+                id="title"
+                value={formData.title}
+                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                placeholder="Например: Паспорт РФ"
+                required
+              />
+            </div>
+
+            <div className="col-span-2">
+              <Label htmlFor="description">Описание</Label>
+              <Textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                placeholder="Дополнительная информация о документе"
+                rows={2}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="document_number">Номер документа</Label>
+              <Input
+                id="document_number"
+                value={formData.document_number}
+                onChange={(e) => setFormData(prev => ({ ...prev, document_number: e.target.value }))}
+                placeholder="Номер"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="issue_authority">Кем выдан</Label>
+              <Input
+                id="issue_authority"
+                value={formData.issue_authority}
+                onChange={(e) => setFormData(prev => ({ ...prev, issue_authority: e.target.value }))}
+                placeholder="Орган выдачи"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="issue_date">Дата выдачи</Label>
+              <Input
+                id="issue_date"
+                type="date"
+                value={formData.issue_date}
+                onChange={(e) => setFormData(prev => ({ ...prev, issue_date: e.target.value }))}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="expiry_date">Дата истечения</Label>
+              <Input
+                id="expiry_date"
+                type="date"
+                value={formData.expiry_date}
+                onChange={(e) => setFormData(prev => ({ ...prev, expiry_date: e.target.value }))}
+              />
+            </div>
+          </div>
+
+          <div className="flex gap-2 justify-end">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              disabled={isSubmitting}
+            >
+              Отмена
+            </Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Сохранение...' : 'Сохранить'}
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function WorkerDocumentsDialog({
   userId,
   userName,
@@ -454,6 +640,7 @@ export default function WorkerDocumentsDialog({
 }: WorkerDocumentsDialogProps) {
   const [open, setOpen] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
+  const [showRegisterMetadata, setShowRegisterMetadata] = useState(false);
   const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery({
@@ -486,14 +673,25 @@ export default function WorkerDocumentsDialog({
                 Просмотр всех документов работника (страховка, разрешения, удостоверения)
               </DialogDescription>
             </div>
-            <Button
-              onClick={() => setShowUpload(true)}
-              className="flex items-center gap-2 text-xs sm:text-sm w-full sm:w-auto"
-              size="sm"
-            >
-              <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
-              Добавить документ
-            </Button>
+            <div className="flex gap-2 w-full sm:w-auto">
+              <Button
+                onClick={() => setShowUpload(true)}
+                className="flex items-center gap-2 text-xs sm:text-sm flex-1 sm:flex-initial"
+                size="sm"
+              >
+                <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
+                С файлом
+              </Button>
+              <Button
+                onClick={() => setShowRegisterMetadata(true)}
+                variant="outline"
+                className="flex items-center gap-2 text-xs sm:text-sm flex-1 sm:flex-initial"
+                size="sm"
+              >
+                <FileCheck className="h-3 w-3 sm:h-4 sm:w-4" />
+                Только запись
+              </Button>
+            </div>
           </div>
         </DialogHeader>
 
@@ -592,7 +790,7 @@ export default function WorkerDocumentsDialog({
 
       {/* Upload Document Dialog */}
       <Dialog open={showUpload} onOpenChange={setShowUpload}>
-        <DialogContent className="w-full max-w-[95vw] sm:max-w-[85vw] md:max-w-xl">
+        <DialogContent className="w-full max-w-[95vw] sm:max-w-[85vw] md:max-w-xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Загрузить документ для {userName}</DialogTitle>
             <DialogDescription>
@@ -616,6 +814,21 @@ export default function WorkerDocumentsDialog({
           />
         </DialogContent>
       </Dialog>
+
+      {/* Register Metadata Only Dialog */}
+      <RegisterDocumentMetadataDialog
+        userId={userId}
+        userName={userName}
+        open={showRegisterMetadata}
+        onOpenChange={setShowRegisterMetadata}
+        onComplete={() => {
+          setShowRegisterMetadata(false);
+          queryClient.invalidateQueries({
+            queryKey: ['worker-documents', userId]
+          });
+        }}
+        categories={data?.categories?.all || []}
+      />
     </Dialog>
   );
 }

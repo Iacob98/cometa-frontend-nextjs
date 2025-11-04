@@ -370,23 +370,23 @@ export function DocumentUpload({
         <div
           {...getRootProps()}
           className={cn(
-            "border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors",
+            "border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors",
             isDragActive
               ? "border-primary bg-primary/10"
               : "border-muted-foreground/25 hover:border-primary/50"
           )}
         >
           <input {...getInputProps()} />
-          <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+          <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
           {isDragActive ? (
-            <p className="text-primary">Drop the files here...</p>
+            <p className="text-primary text-sm">Drop the files here...</p>
           ) : (
             <div>
-              <p className="text-muted-foreground mb-2">
+              <p className="text-muted-foreground mb-1 text-sm">
                 Drag and drop files here, or click to select files
               </p>
-              <p className="text-sm text-muted-foreground">
-                Supported: {acceptedFileTypes.join(", ")}
+              <p className="text-xs text-muted-foreground">
+                Supported: PDF, Images, Office docs
               </p>
             </div>
           )}
@@ -394,37 +394,37 @@ export function DocumentUpload({
 
         {/* File List */}
         {files.length > 0 && (
-          <div className="space-y-3">
-            <h4 className="font-medium text-sm">Files to Upload ({files.length})</h4>
+          <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2">
+            <h4 className="font-medium text-sm sticky top-0 bg-background py-1">Files to Upload ({files.length})</h4>
             {files.map((file, index) => {
               const FileIconComponent = getFileIcon(file.type);
               const progress = uploadProgress[file.name] || 0;
               const isError = progress === -1;
 
               return (
-                <Card key={`${file.name}-${file.size}`} className="p-3">
-                  <div className="flex items-start gap-4">
+                <Card key={`${file.name}-${file.size}`} className="p-2">
+                  <div className="flex items-start gap-3">
                     {/* File Icon/Preview */}
                     <div className="flex-shrink-0">
                       {file.preview ? (
                         <img
                           src={file.preview}
                           alt={file.name}
-                          className="w-16 h-16 object-cover rounded"
+                          className="w-12 h-12 object-cover rounded"
                           onLoad={() => URL.revokeObjectURL(file.preview!)}
                         />
                       ) : (
-                        <div className="w-16 h-16 bg-muted rounded flex items-center justify-center">
-                          <FileIconComponent className="w-8 h-8 text-muted-foreground" />
+                        <div className="w-12 h-12 bg-muted rounded flex items-center justify-center">
+                          <FileIconComponent className="w-6 h-6 text-muted-foreground" />
                         </div>
                       )}
                     </div>
 
                     {/* File Details */}
-                    <div className="flex-1 space-y-2">
+                    <div className="flex-1 space-y-1.5">
                       <div className="flex items-start justify-between">
-                        <div>
-                          <p className="font-medium truncate max-w-xs text-sm">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium truncate text-xs">
                             {file.name}
                           </p>
                           <p className="text-xs text-muted-foreground">
@@ -436,13 +436,14 @@ export function DocumentUpload({
                           size="sm"
                           onClick={() => removeFile(index)}
                           disabled={uploading}
+                          className="h-6 w-6 p-0"
                         >
-                          <X className="w-4 h-4" />
+                          <X className="w-3 h-3" />
                         </Button>
                       </div>
 
                       {/* Metadata Form */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-1.5">
                         <div>
                           <Label htmlFor={`category-${index}`} className="text-xs">Category</Label>
                           <Select
@@ -452,12 +453,12 @@ export function DocumentUpload({
                             }
                             disabled={uploading}
                           >
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select category" />
+                            <SelectTrigger className="h-7 text-xs">
+                              <SelectValue placeholder="Select..." />
                             </SelectTrigger>
                             <SelectContent>
                               {categories?.map((category: any) => (
-                                <SelectItem key={category.id} value={category.id}>
+                                <SelectItem key={category.id} value={category.id} className="text-xs">
                                   {category.name_en || category.name_ru || category.code}
                                 </SelectItem>
                               ))}
@@ -466,7 +467,7 @@ export function DocumentUpload({
                         </div>
 
                         <div>
-                          <Label htmlFor={`access-${index}`} className="text-xs">Access Level</Label>
+                          <Label htmlFor={`access-${index}`} className="text-xs">Access</Label>
                           <Select
                             value={file.accessLevel || "project"}
                             onValueChange={(value) =>
@@ -474,49 +475,49 @@ export function DocumentUpload({
                             }
                             disabled={uploading}
                           >
-                            <SelectTrigger className="h-8">
+                            <SelectTrigger className="h-7 text-xs">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="public">Public</SelectItem>
-                              <SelectItem value="project">Project</SelectItem>
-                              <SelectItem value="team">Team</SelectItem>
-                              <SelectItem value="private">Private</SelectItem>
-                              <SelectItem value="admin">Admin Only</SelectItem>
+                              <SelectItem value="public" className="text-xs">Public</SelectItem>
+                              <SelectItem value="project" className="text-xs">Project</SelectItem>
+                              <SelectItem value="team" className="text-xs">Team</SelectItem>
+                              <SelectItem value="private" className="text-xs">Private</SelectItem>
+                              <SelectItem value="admin" className="text-xs">Admin</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
 
                         <div>
-                          <Label htmlFor={`document-number-${index}`} className="text-xs">Document Number <span className="text-muted-foreground">(Optional)</span></Label>
+                          <Label htmlFor={`document-number-${index}`} className="text-xs">Doc # <span className="text-muted-foreground">(Opt)</span></Label>
                           <Input
                             id={`document-number-${index}`}
-                            placeholder="Document number..."
+                            placeholder="Number..."
                             value={file.documentNumber || ""}
                             onChange={(e) =>
                               updateFileMetadata(index, "documentNumber", e.target.value)
                             }
                             disabled={uploading}
-                            className="h-8 text-sm"
+                            className="h-7 text-xs"
                           />
                         </div>
 
                         <div>
-                          <Label htmlFor={`issuing-authority-${index}`} className="text-xs">Issuing Authority <span className="text-muted-foreground">(Optional)</span></Label>
+                          <Label htmlFor={`issuing-authority-${index}`} className="text-xs">Authority <span className="text-muted-foreground">(Opt)</span></Label>
                           <Input
                             id={`issuing-authority-${index}`}
-                            placeholder="Issuing authority..."
+                            placeholder="Authority..."
                             value={file.issuingAuthority || ""}
                             onChange={(e) =>
                               updateFileMetadata(index, "issuingAuthority", e.target.value)
                             }
                             disabled={uploading}
-                            className="h-8 text-sm"
+                            className="h-7 text-xs"
                           />
                         </div>
 
                         <div>
-                          <Label htmlFor={`issue-date-${index}`} className="text-xs">Issue Date <span className="text-muted-foreground">(Optional)</span></Label>
+                          <Label htmlFor={`issue-date-${index}`} className="text-xs">Issue <span className="text-muted-foreground">(Opt)</span></Label>
                           <Input
                             id={`issue-date-${index}`}
                             type="date"
@@ -525,12 +526,12 @@ export function DocumentUpload({
                               updateFileMetadata(index, "issueDate", e.target.value)
                             }
                             disabled={uploading}
-                            className="h-8 text-sm"
+                            className="h-7 text-xs"
                           />
                         </div>
 
                         <div>
-                          <Label htmlFor={`expiry-date-${index}`} className="text-xs">Expiry Date <span className="text-muted-foreground">(Optional)</span></Label>
+                          <Label htmlFor={`expiry-date-${index}`} className="text-xs">Expiry <span className="text-muted-foreground">(Opt)</span></Label>
                           <Input
                             id={`expiry-date-${index}`}
                             type="date"
@@ -539,23 +540,23 @@ export function DocumentUpload({
                               updateFileMetadata(index, "expiryDate", e.target.value)
                             }
                             disabled={uploading}
-                            className="h-8 text-sm"
+                            className="h-7 text-xs"
                           />
                         </div>
                       </div>
 
-                      <div>
+                      <div className="col-span-2">
                         <Label htmlFor={`description-${index}`} className="text-xs">Description</Label>
                         <Textarea
                           id={`description-${index}`}
-                          placeholder="Optional description..."
+                          placeholder="Optional..."
                           value={file.description || ""}
                           onChange={(e) =>
                             updateFileMetadata(index, "description", e.target.value)
                           }
                           disabled={uploading}
-                          rows={2}
-                          className="text-sm resize-none"
+                          rows={1}
+                          className="text-xs resize-none h-7"
                         />
                       </div>
 

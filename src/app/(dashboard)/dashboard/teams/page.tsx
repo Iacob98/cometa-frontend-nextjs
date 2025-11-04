@@ -29,7 +29,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { useTeams, useDeleteCrew, useCreateTeam, useUpdateTeam, useForemenUsers } from "@/hooks/use-teams";
 import { useUsers, useCreateUser, useUpdateUser, useDeleteUser } from "@/hooks/use-users";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import WorkerDocumentsDialog from "@/components/documents/worker-documents-dialog";
 import { usePermissions } from "@/hooks/use-auth";
 import CreateUserForm from "@/components/features/user-management/create-user-form";
@@ -45,6 +45,96 @@ const teamSchema = z.object({
 });
 
 type TeamFormData = z.infer<typeof teamSchema>;
+
+// Component to display user documents summary
+function UserDocumentsSummary({ userId }: { userId: string }) {
+  const { data, isLoading } = useQuery({
+    queryKey: ['worker-documents', userId],
+    queryFn: async () => {
+      const response = await fetch(`/api/users/${userId}/documents`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch documents');
+      }
+      return response.json();
+    },
+  });
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <FileText className="h-4 w-4" />
+          Dokumente
+        </CardTitle>
+        <CardDescription>
+          Benutzerdokumente, Verträge und Zertifikate
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {isLoading ? (
+          <div className="text-center py-4">
+            <div className="h-6 w-6 mx-auto animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          </div>
+        ) : !data?.documents?.all || data.documents.all.length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground">
+            <FileText className="mx-auto h-12 w-12 mb-4" />
+            <p>Noch keine Dokumente hochgeladen</p>
+            <p className="text-xs mt-2">Klicken Sie auf „Dokumente verwalten", um Dokumente hinzuzufügen</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {/* Stats Row */}
+            <div className="grid grid-cols-4 gap-3">
+              <div className="text-center p-3 bg-muted rounded-lg">
+                <div className="text-2xl font-bold">{data.stats.total}</div>
+                <div className="text-xs text-muted-foreground">Gesamt</div>
+              </div>
+              <div className="text-center p-3 bg-green-50 rounded-lg">
+                <div className="text-2xl font-bold text-green-600">{data.stats.active}</div>
+                <div className="text-xs text-muted-foreground">Aktiv</div>
+              </div>
+              <div className="text-center p-3 bg-yellow-50 rounded-lg">
+                <div className="text-2xl font-bold text-yellow-600">{data.stats.expiring_soon}</div>
+                <div className="text-xs text-muted-foreground">Läuft ab</div>
+              </div>
+              <div className="text-center p-3 bg-red-50 rounded-lg">
+                <div className="text-2xl font-bold text-red-600">{data.stats.expired}</div>
+                <div className="text-xs text-muted-foreground">Abgelaufen</div>
+              </div>
+            </div>
+
+            {/* Recent Documents */}
+            <div className="space-y-2">
+              <div className="text-sm font-medium">Letzte Dokumente ({Math.min(data.documents.all.length, 3)})</div>
+              {data.documents.all.slice(0, 3).map((doc: any) => (
+                <div key={doc.id} className="flex items-center justify-between p-2 border rounded">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: doc.category.color }}
+                    />
+                    <div className="text-sm">
+                      <div className="font-medium">{doc.category.name_de || doc.category.name_en}</div>
+                      <div className="text-xs text-muted-foreground">{doc.file_name}</div>
+                    </div>
+                  </div>
+                  <Badge variant={doc.status === 'active' ? 'default' : doc.status === 'expired' ? 'destructive' : 'secondary'}>
+                    {doc.status}
+                  </Badge>
+                </div>
+              ))}
+              {data.documents.all.length > 3 && (
+                <div className="text-xs text-center text-muted-foreground pt-2">
+                  +{data.documents.all.length - 3} weitere Dokumente
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function TeamsPage() {
   const router = useRouter();
@@ -1579,24 +1669,7 @@ export default function TeamsPage() {
               </Card>
 
               {/* Documents Section */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <FileText className="h-4 w-4" />
-                    Documents
-                  </CardTitle>
-                  <CardDescription>
-                    User documents, contracts, and certifications
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-8 text-muted-foreground">
-                    <FileText className="mx-auto h-12 w-12 mb-4" />
-                    <p>Document management integration will be implemented</p>
-                    <p className="text-xs mt-2">This will connect to the existing document system</p>
-                  </div>
-                </CardContent>
-              </Card>
+              <UserDocumentsSummary userId={selectedUser.id} />
 
               {/* Action Buttons */}
               <div className="flex gap-2 pt-4 border-t">
