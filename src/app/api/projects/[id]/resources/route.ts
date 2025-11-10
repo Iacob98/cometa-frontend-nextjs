@@ -195,7 +195,8 @@ export async function GET(request: NextRequest, { params }: Context) {
       ...(crewEquipmentRes.data || []).map(e => {
         const costs = calculateResourceCosts(e)
         return {
-          id: e.id,
+          assignment_id: e.id, // ID назначения для удаления
+          id: e.equipment?.id, // ID оборудования
           ...e.equipment, // Flatten equipment data to top level
           crew: e.crew,
           from_ts: e.from_ts,
@@ -211,7 +212,8 @@ export async function GET(request: NextRequest, { params }: Context) {
       ...(directEquipmentRes.data || []).map(e => {
         const costs = calculateResourceCosts(e)
         return {
-          id: e.id,
+          assignment_id: e.id, // ID назначения для удаления
+          id: e.equipment?.id, // ID оборудования
           ...e.equipment, // Flatten equipment data to top level
           from_ts: e.from_ts,
           to_ts: e.to_ts,
@@ -229,7 +231,8 @@ export async function GET(request: NextRequest, { params }: Context) {
       ...(crewVehiclesRes.data || []).map(v => {
         const costs = calculateResourceCosts(v)
         return {
-          id: v.id,
+          assignment_id: v.id, // ID назначения для удаления
+          id: v.vehicle?.id, // ID транспорта
           ...v.vehicle, // Flatten vehicle data to top level
           crew: v.crew,
           from_ts: v.from_ts,
@@ -245,7 +248,8 @@ export async function GET(request: NextRequest, { params }: Context) {
       ...(directVehiclesRes.data || []).map(v => {
         const costs = calculateResourceCosts(v)
         return {
-          id: v.id,
+          assignment_id: v.id, // ID назначения для удаления
+          id: v.vehicle?.id, // ID транспорта
           ...v.vehicle, // Flatten vehicle data to top level
           from_ts: v.from_ts,
           to_ts: v.to_ts,

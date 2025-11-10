@@ -222,3 +222,49 @@ export async function PUT(request: NextRequest) {
     );
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const assignment_id = searchParams.get("assignment_id");
+
+    if (!assignment_id) {
+      return NextResponse.json(
+        { error: "Assignment ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // Delete the assignment permanently
+    const { error } = await supabase
+      .from("equipment_assignments")
+      .delete()
+      .eq("id", assignment_id);
+
+    if (error) {
+      console.error("Supabase equipment assignment deletion error:", error);
+      if (error.code === 'PGRST116') {
+        return NextResponse.json(
+          { error: "Equipment assignment not found" },
+          { status: 404 }
+        );
+      }
+      return NextResponse.json(
+        { error: "Failed to delete equipment assignment" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "Equipment assignment deleted successfully"
+    });
+
+  } catch (error) {
+    console.error("Equipment assignment DELETE error:", error);
+    return NextResponse.json(
+      { error: "Failed to delete equipment assignment" },
+      { status: 500 }
+    );
+  }
+}

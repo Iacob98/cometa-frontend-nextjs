@@ -215,12 +215,12 @@ export default function Resources({ projectId }: ResourcesProps) {
     }
   };
 
-  const handleRemoveResource = async (resourceId: string, resourceType: 'vehicle' | 'equipment', resourceName: string) => {
+  const handleRemoveResource = async (assignmentId: string, resourceType: 'vehicle' | 'equipment', resourceName: string) => {
     if (confirm(`Are you sure you want to remove ${resourceName} from this project?`)) {
       try {
         await removeResourceAssignment.mutateAsync({
           projectId,
-          resourceId,
+          assignmentId,
           resourceType
         });
         // No need for manual refetch - the mutation handles cache invalidation
@@ -470,7 +470,7 @@ export default function Resources({ projectId }: ResourcesProps) {
                                     <Button
                                       size="sm"
                                       variant="destructive"
-                                      onClick={() => handleRemoveResource(vehicle.id, 'vehicle', `${vehicle.brand} ${vehicle.model}`)}
+                                      onClick={() => handleRemoveResource(vehicle.assignment_id, 'vehicle', `${vehicle.brand} ${vehicle.model}`)}
                                       disabled={removeResourceAssignment.isPending}
                                     >
                                       <Trash2 className="w-4 h-4" />
@@ -548,7 +548,7 @@ export default function Resources({ projectId }: ResourcesProps) {
                                     <Button
                                       size="sm"
                                       variant="destructive"
-                                      onClick={() => handleRemoveResource(equipment.id, 'equipment', equipment.name)}
+                                      onClick={() => handleRemoveResource(equipment.assignment_id, 'equipment', equipment.name)}
                                       disabled={removeResourceAssignment.isPending}
                                     >
                                       <Trash2 className="w-4 h-4" />

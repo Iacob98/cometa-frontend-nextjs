@@ -401,13 +401,25 @@ export function useRemoveResourceAssignment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ projectId, resourceId, resourceType }: {
+    mutationFn: async ({ projectId, assignmentId, resourceType }: {
       projectId: string;
-      resourceId: string;
+      assignmentId: string; // ID назначения, а не ресурса
       resourceType: 'vehicle' | 'equipment';
     }) => {
-      // TODO: Implement proper resource assignment removal API
-      throw new Error('Resource assignment removal feature is not yet implemented');
+      const endpoint = resourceType === 'vehicle'
+        ? '/api/resources/vehicle-assignments'
+        : '/api/resources/equipment-assignments';
+
+      const response = await fetch(`${endpoint}?assignment_id=${assignmentId}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to remove resource assignment');
+      }
+
+      return response.json();
     },
     onSuccess: (data, variables) => {
       // Invalidate and refetch project resources
