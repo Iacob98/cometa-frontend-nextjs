@@ -27,13 +27,14 @@ interface UtilityContactsProps {
 }
 
 const UTILITY_KINDS = [
-  { value: 'power', label: ' Power', color: 'bg-yellow-100 text-yellow-800' },
-  { value: 'water', label: 'Water', color: 'bg-blue-100 text-blue-800' },
-  { value: 'gas', label: ' Gas', color: 'bg-red-100 text-red-800' },
-  { value: 'telecom', label: 'Telecom', color: 'bg-purple-100 text-purple-800' },
-  { value: 'road', label: 'Road', color: 'bg-gray-100 text-gray-800' },
-  { value: 'municipality', label: 'Municipality', color: 'bg-green-100 text-green-800' },
-  { value: 'emergency', label: 'Emergency', color: 'bg-red-100 text-red-800' },
+  { value: 'power', label: 'Strom', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'water', label: 'Wasser', color: 'bg-blue-100 text-blue-800' },
+  { value: 'gas', label: 'Gas', color: 'bg-red-100 text-red-800' },
+  { value: 'telecom', label: 'Internet', color: 'bg-purple-100 text-purple-800' },
+  { value: 'road', label: 'Straße', color: 'bg-gray-100 text-gray-800' },
+  { value: 'municipality', label: 'Gemeinde', color: 'bg-green-100 text-green-800' },
+  { value: 'emergency', label: 'Notfall', color: 'bg-red-100 text-red-800' },
+  { value: 'other', label: 'Andere', color: 'bg-slate-100 text-slate-800' },
 ];
 
 const PLAN_TYPES = [
