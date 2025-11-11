@@ -268,7 +268,7 @@ export default function TeamAccess({ projectId }: TeamAccessProps) {
                               </div>
                               <div className="text-right text-sm text-gray-500">
                                 <div>{team.member_count || 0} members</div>
-                                {team.is_active && (
+                                {team.status === 'active' && (
                                   <div className="text-green-600">Active</div>
                                 )}
                               </div>
@@ -332,9 +332,9 @@ export default function TeamAccess({ projectId }: TeamAccessProps) {
                           </TableCell>
                           <TableCell>
                             <Badge
-                              variant={team.is_active ? "default" : "secondary"}
+                              variant={team.status === 'active' ? "default" : "secondary"}
                             >
-                              {team.is_active ? "Active" : "Inactive"}
+                              {team.status === 'active' ? "Active" : "Inactive"}
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -382,7 +382,7 @@ export default function TeamAccess({ projectId }: TeamAccessProps) {
               <Card>
                 <CardContent className="p-4">
                   <div className="text-2xl font-bold">
-                    {projectTeams.filter(t => t.is_active).length}
+                    {projectTeams.filter(t => t.status === 'active').length}
                   </div>
                   <div className="text-sm text-gray-600">Active Teams</div>
                 </CardContent>
