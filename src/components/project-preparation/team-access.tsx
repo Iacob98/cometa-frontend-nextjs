@@ -374,7 +374,7 @@ export default function TeamAccess({ projectId }: TeamAccessProps) {
               <Card>
                 <CardContent className="p-4">
                   <div className="text-2xl font-bold">
-                    {projectTeams.filter(t => t.foreman_name).length}
+                    {projectTeams.filter(t => t.foreman?.full_name).length}
                   </div>
                   <div className="text-sm text-gray-600">With Foremen</div>
                 </CardContent>
