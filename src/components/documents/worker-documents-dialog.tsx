@@ -340,6 +340,9 @@ function DocumentCard({ document }: { document: WorkerDocument }) {
         <DialogContent className="w-full max-w-[95vw] sm:max-w-md md:max-w-lg">
           <DialogHeader>
             <DialogTitle className="text-base sm:text-lg">Редактировать документ</DialogTitle>
+            <DialogDescription>
+              Обновите метаданные документа (номер, дата выдачи, срок действия)
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-3 sm:space-y-4 p-3 sm:p-4">
             <div>
