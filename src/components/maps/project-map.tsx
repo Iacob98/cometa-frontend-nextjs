@@ -13,6 +13,7 @@ import {
   Settings,
   Eye,
   EyeOff,
+  Camera,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,12 +34,14 @@ import {
   useProjectGeoLayers,
   useProjectGeoMeasurements,
 } from "@/hooks/use-geospatial";
+import { usePhotosWithCoordinates, type PhotoFilters } from "@/hooks/use-photo-markers";
 import { useAuth } from "@/hooks/use-auth";
 import type { UUID, GeospatialFeature } from "@/types";
 
 // Dynamic imports to avoid SSR issues with Leaflet
 const MapBase = dynamic(() => import("./map-base"), { ssr: false });
 const FeatureLayer = dynamic(() => import("./feature-layer"), { ssr: false });
+const PhotoLayer = dynamic(() => import("./photo-layer"), { ssr: false });
 const GPSTracker = dynamic(() => import("./gps-tracker"), { ssr: false });
 const MeasurementTools = dynamic(() => import("./measurement-tools"), { ssr: false });
 
@@ -50,6 +53,8 @@ interface ProjectMapProps {
   showControls?: boolean;
   showMeasurementTools?: boolean;
   showGPSTracking?: boolean;
+  showPhotos?: boolean;
+  photoFilters?: PhotoFilters;
   defaultCenter?: [number, number];
   defaultZoom?: number;
 }
@@ -60,6 +65,7 @@ interface LayerVisibility {
   measurements: boolean;
   gpsTracking: boolean;
   annotations: boolean;
+  photos: boolean;
 }
 
 interface MapSettings {
@@ -95,6 +101,8 @@ export function ProjectMap({
   showControls = true,
   showMeasurementTools = true,
   showGPSTracking = true,
+  showPhotos = true,
+  photoFilters = {},
   defaultCenter = [52.52, 13.405],
   defaultZoom = 13,
 }: ProjectMapProps) {
@@ -106,6 +114,7 @@ export function ProjectMap({
     measurements: false,
     gpsTracking: false,
     annotations: false,
+    photos: true,
   });
   const [mapSettings, setMapSettings] = useState<MapSettings>({
     tileLayer: "osm",
@@ -120,6 +129,7 @@ export function ProjectMap({
   const { data: featuresData, isLoading: featuresLoading } = useProjectGeospatialFeatures(projectId);
   const { data: routesData, isLoading: routesLoading } = useProjectGeoRoutes(projectId);
   const { data: measurementsData, isLoading: measurementsLoading } = useProjectGeoMeasurements(projectId);
+  const { data: photosData, isLoading: photosLoading } = usePhotosWithCoordinates(projectId, photoFilters);
 
   // Team members for GPS tracking
   const teamMembers = useMemo(() => {
@@ -151,10 +161,11 @@ export function ProjectMap({
 
   const getLoadingMessage = () => {
     const loading = [];
-    if (featuresLoading) loading.push("features");
-    if (routesLoading) loading.push("routes");
-    if (measurementsLoading) loading.push("measurements");
-    return loading.length > 0 ? `Loading ${loading.join(", ")}...` : null;
+    if (featuresLoading) loading.push("объекты");
+    if (routesLoading) loading.push("маршруты");
+    if (measurementsLoading) loading.push("измерения");
+    if (photosLoading) loading.push("фото");
+    return loading.length > 0 ? `Загрузка: ${loading.join(", ")}...` : null;
   };
 
   const getDataCounts = () => {
@@ -162,6 +173,7 @@ export function ProjectMap({
       features: featuresData?.total || 0,
       routes: routesData?.total || 0,
       measurements: measurementsData?.total || 0,
+      photos: photosData?.total || 0,
     };
   };
 
@@ -192,6 +204,15 @@ export function ProjectMap({
             onFeatureEdit={handleFeatureEdit}
             selectedFeatureId={selectedFeatureId}
             editable={user?.role === "admin" || user?.role === "pm"}
+          />
+        )}
+
+        {/* Photo Markers */}
+        {showPhotos && layerVisibility.photos && photosData?.photos && (
+          <PhotoLayer
+            photos={photosData.photos}
+            visible={true}
+            fitBounds={false}
           />
         )}
 
@@ -227,7 +248,7 @@ export function ProjectMap({
             onClick={() => setShowControlPanel(!showControlPanel)}
           >
             <Settings className="w-4 h-4 mr-1" />
-            {showControlPanel ? "Hide" : "Controls"}
+            {showControlPanel ? "Скрыть" : "Управление"}
           </Button>
 
           {/* Control Panel */}
@@ -236,18 +257,18 @@ export function ProjectMap({
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm flex items-center gap-2">
                   <Layers className="w-4 h-4" />
-                  Map Controls
+                  Управление картой
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Layer Visibility */}
                 <div className="space-y-2">
-                  <Label className="text-xs font-medium">Layers</Label>
+                  <Label className="text-xs font-medium">Слои</Label>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <MapPin className="w-3 h-3" />
-                        <span className="text-xs">Features</span>
+                        <span className="text-xs">Объекты</span>
                         <Badge variant="secondary" className="text-xs">
                           {dataCounts.features}
                         </Badge>
@@ -262,7 +283,7 @@ export function ProjectMap({
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Navigation className="w-3 h-3" />
-                        <span className="text-xs">Routes</span>
+                        <span className="text-xs">Маршруты</span>
                         <Badge variant="secondary" className="text-xs">
                           {dataCounts.routes}
                         </Badge>
@@ -277,7 +298,7 @@ export function ProjectMap({
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <Ruler className="w-3 h-3" />
-                        <span className="text-xs">Measurements</span>
+                        <span className="text-xs">Измерения</span>
                         <Badge variant="secondary" className="text-xs">
                           {dataCounts.measurements}
                         </Badge>
@@ -293,11 +314,28 @@ export function ProjectMap({
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <MapPin className="w-3 h-3" />
-                          <span className="text-xs">GPS Tracking</span>
+                          <span className="text-xs">GPS-трекинг</span>
                         </div>
                         <Switch
                           checked={layerVisibility.gpsTracking}
                           onCheckedChange={() => toggleLayer("gpsTracking")}
+                          size="sm"
+                        />
+                      </div>
+                    )}
+
+                    {showPhotos && (
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Camera className="w-3 h-3" />
+                          <span className="text-xs">Фото</span>
+                          <Badge variant="secondary" className="text-xs">
+                            {dataCounts.photos}
+                          </Badge>
+                        </div>
+                        <Switch
+                          checked={layerVisibility.photos}
+                          onCheckedChange={() => toggleLayer("photos")}
                           size="sm"
                         />
                       </div>
@@ -307,7 +345,7 @@ export function ProjectMap({
 
                 {/* Map Settings */}
                 <div className="space-y-2">
-                  <Label className="text-xs font-medium">Map Style</Label>
+                  <Label className="text-xs font-medium">Стиль карты</Label>
                   <Select
                     value={mapSettings.tileLayer}
                     onValueChange={(value: keyof typeof TILE_LAYERS) =>
@@ -329,10 +367,10 @@ export function ProjectMap({
 
                 {/* Map Options */}
                 <div className="space-y-2">
-                  <Label className="text-xs font-medium">Options</Label>
+                  <Label className="text-xs font-medium">Опции</Label>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs">Show Scale</span>
+                      <span className="text-xs">Показать масштаб</span>
                       <Switch
                         checked={mapSettings.showScale}
                         onCheckedChange={(checked) =>
@@ -342,7 +380,7 @@ export function ProjectMap({
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-xs">Cluster Markers</span>
+                      <span className="text-xs">Кластеризация</span>
                       <Switch
                         checked={mapSettings.clusteredMarkers}
                         onCheckedChange={(checked) =>
@@ -372,9 +410,9 @@ export function ProjectMap({
       <div className="absolute bottom-4 right-4 z-[1000]">
         <Card className="p-2">
           <div className="text-xs space-y-1">
-            <div className="font-medium">Project Map</div>
+            <div className="font-medium">Карта проекта</div>
             <div className="text-muted-foreground">
-              {dataCounts.features} features • {dataCounts.routes} routes
+              {dataCounts.features} объектов • {dataCounts.routes} маршрутов • {dataCounts.photos} фото
             </div>
           </div>
         </Card>
