@@ -19,28 +19,28 @@ import { useCreateMaterial } from "@/hooks/use-materials";
 import type { MaterialUnit } from "@/types";
 
 const createMaterialSchema = z.object({
-  name: z.string().min(1, "Material name is required"),
+  name: z.string().min(1, "Название материала обязательно"),
   description: z.string().optional(),
-  unit: z.string().min(1, "Unit is required"),
+  unit: z.string().min(1, "Единица измерения обязательна"),
   sku: z.string().optional(),
-  default_price_eur: z.coerce.number().min(0, "Price must be non-negative").optional(),
-  purchase_price_eur: z.coerce.number().min(0, "Purchase price must be non-negative").optional(),
-  initial_stock: z.coerce.number().min(0, "Initial stock must be non-negative").optional(),
-  min_stock_level: z.coerce.number().min(0, "Minimum stock level must be non-negative").optional(),
+  default_price_eur: z.coerce.number().min(0, "Цена должна быть неотрицательной").optional(),
+  purchase_price_eur: z.coerce.number().min(0, "Закупочная цена должна быть неотрицательной").optional(),
+  initial_stock: z.coerce.number().min(0, "Начальный запас должен быть неотрицательным").optional(),
+  min_stock_level: z.coerce.number().min(0, "Минимальный уровень должен быть неотрицательным").optional(),
 });
 
 type CreateMaterialFormData = z.infer<typeof createMaterialSchema>;
 
 const materialUnits: { value: MaterialUnit; label: string }[] = [
-  { value: "pcs", label: "Pieces (pcs)" },
-  { value: "m", label: "Meters (m)" },
-  { value: "m2", label: "Square meters (m²)" },
-  { value: "kg", label: "Kilograms (kg)" },
-  { value: "t", label: "Tons (t)" },
-  { value: "l", label: "Liters (L)" },
-  { value: "m3", label: "Cubic meters (m³)" },
-  { value: "roll", label: "Rolls" },
-  { value: "other", label: "Other" },
+  { value: "pcs", label: "Штуки (шт.)" },
+  { value: "m", label: "Метры (м)" },
+  { value: "m2", label: "Квадратные метры (м²)" },
+  { value: "kg", label: "Килограммы (кг)" },
+  { value: "t", label: "Тонны (т)" },
+  { value: "l", label: "Литры (л)" },
+  { value: "m3", label: "Кубические метры (м³)" },
+  { value: "roll", label: "Рулоны" },
+  { value: "other", label: "Другое" },
 ];
 
 export default function NewMaterialPage() {
@@ -82,12 +82,12 @@ export default function NewMaterialPage() {
             className="flex items-center space-x-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>Назад</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Create New Material</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Создать новый материал</h1>
             <p className="text-muted-foreground">
-              Add a new material to your inventory system
+              Добавить новый материал в систему учёта
             </p>
           </div>
         </div>
@@ -100,10 +100,10 @@ export default function NewMaterialPage() {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Package className="h-5 w-5" />
-                <span>Material Information</span>
+                <span>Информация о материале</span>
               </CardTitle>
               <CardDescription>
-                Enter the basic information for the new material
+                Введите основную информацию о новом материале
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -115,10 +115,10 @@ export default function NewMaterialPage() {
                       name="name"
                       render={({ field }) => (
                         <FormItem className="md:col-span-2">
-                          <FormLabel>Material Name *</FormLabel>
+                          <FormLabel>Название материала *</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="e.g., Single Mode Fiber Cable 12-strand"
+                              placeholder="напр., Одномодовый оптоволоконный кабель 12-жильный"
                               {...field}
                             />
                           </FormControl>
@@ -132,15 +132,15 @@ export default function NewMaterialPage() {
                       name="sku"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>SKU</FormLabel>
+                          <FormLabel>Артикул</FormLabel>
                           <FormControl>
                             <Input
-                              placeholder="e.g., FOC-SM-12"
+                              placeholder="напр., FOC-SM-12"
                               {...field}
                             />
                           </FormControl>
                           <FormDescription>
-                            Stock Keeping Unit (optional)
+                            Складской учётный номер (необязательно)
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -152,11 +152,11 @@ export default function NewMaterialPage() {
                       name="unit"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Unit of Measurement *</FormLabel>
+                          <FormLabel>Единица измерения *</FormLabel>
                           <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select unit" />
+                                <SelectValue placeholder="Выберите единицу" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -177,10 +177,10 @@ export default function NewMaterialPage() {
                       name="description"
                       render={({ field }) => (
                         <FormItem className="md:col-span-2">
-                          <FormLabel>Description</FormLabel>
+                          <FormLabel>Описание</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Detailed description of the material, specifications, etc."
+                              placeholder="Подробное описание материала, характеристики и т.д."
                               rows={3}
                               {...field}
                             />
@@ -193,14 +193,14 @@ export default function NewMaterialPage() {
 
                   <div className="space-y-4">
                     <div className="border-t pt-4">
-                      <h3 className="text-lg font-medium mb-4">Pricing</h3>
+                      <h3 className="text-lg font-medium mb-4">Ценообразование</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <FormField
                           control={form.control}
                           name="purchase_price_eur"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Purchase Price (EUR)</FormLabel>
+                              <FormLabel>Закупочная цена (EUR)</FormLabel>
                               <FormControl>
                                 <Input
                                   type="number"
@@ -211,7 +211,7 @@ export default function NewMaterialPage() {
                                 />
                               </FormControl>
                               <FormDescription>
-                                Cost price from supplier
+                                Себестоимость от поставщика
                               </FormDescription>
                               <FormMessage />
                             </FormItem>
@@ -223,7 +223,7 @@ export default function NewMaterialPage() {
                           name="default_price_eur"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Selling Price (EUR)</FormLabel>
+                              <FormLabel>Цена продажи (EUR)</FormLabel>
                               <FormControl>
                                 <Input
                                   type="number"
@@ -234,7 +234,7 @@ export default function NewMaterialPage() {
                                 />
                               </FormControl>
                               <FormDescription>
-                                Default selling price
+                                Цена продажи по умолчанию
                               </FormDescription>
                               <FormMessage />
                             </FormItem>
@@ -244,14 +244,14 @@ export default function NewMaterialPage() {
                     </div>
 
                     <div className="border-t pt-4">
-                      <h3 className="text-lg font-medium mb-4">Inventory</h3>
+                      <h3 className="text-lg font-medium mb-4">Склад</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <FormField
                           control={form.control}
                           name="initial_stock"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Initial Stock Quantity</FormLabel>
+                              <FormLabel>Начальный запас</FormLabel>
                               <FormControl>
                                 <Input
                                   type="number"
@@ -262,7 +262,7 @@ export default function NewMaterialPage() {
                                 />
                               </FormControl>
                               <FormDescription>
-                                Starting inventory amount
+                                Начальное количество на складе
                               </FormDescription>
                               <FormMessage />
                             </FormItem>
@@ -274,7 +274,7 @@ export default function NewMaterialPage() {
                           name="min_stock_level"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Minimum Stock Level</FormLabel>
+                              <FormLabel>Минимальный уровень запаса</FormLabel>
                               <FormControl>
                                 <Input
                                   type="number"
@@ -285,7 +285,7 @@ export default function NewMaterialPage() {
                                 />
                               </FormControl>
                               <FormDescription>
-                                Alert when stock falls below this level
+                                Предупреждение при падении запаса ниже этого уровня
                               </FormDescription>
                               <FormMessage />
                             </FormItem>
@@ -302,7 +302,7 @@ export default function NewMaterialPage() {
                       onClick={() => router.back()}
                     >
                       <X className="mr-2 h-4 w-4" />
-                      Cancel
+                      Отмена
                     </Button>
                     <Button
                       type="submit"
@@ -313,7 +313,7 @@ export default function NewMaterialPage() {
                       ) : (
                         <Save className="mr-2 h-4 w-4" />
                       )}
-                      Create Material
+                      Создать материал
                     </Button>
                   </div>
                 </form>
@@ -326,31 +326,31 @@ export default function NewMaterialPage() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Quick Tips</CardTitle>
+              <CardTitle>Полезные советы</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm">
               <div>
-                <h4 className="font-medium">Material Name</h4>
+                <h4 className="font-medium">Название материала</h4>
                 <p className="text-muted-foreground">
-                  Use descriptive names that include key specifications like "Single Mode Fiber Cable 12-strand"
+                  Используйте описательные названия с ключевыми характеристиками, напр. «Одномодовый оптоволоконный кабель 12-жильный»
                 </p>
               </div>
               <div>
-                <h4 className="font-medium">SKU</h4>
+                <h4 className="font-medium">Артикул</h4>
                 <p className="text-muted-foreground">
-                  Create unique identifiers for easy tracking and ordering
+                  Создайте уникальные идентификаторы для удобного отслеживания и заказа
                 </p>
               </div>
               <div>
-                <h4 className="font-medium">Units</h4>
+                <h4 className="font-medium">Единицы измерения</h4>
                 <p className="text-muted-foreground">
-                  Choose the most appropriate unit for purchasing and usage tracking
+                  Выберите наиболее подходящую единицу для закупок и учёта расхода
                 </p>
               </div>
               <div>
-                <h4 className="font-medium">Pricing</h4>
+                <h4 className="font-medium">Цены</h4>
                 <p className="text-muted-foreground">
-                  Purchase price helps track costs, selling price is used for project estimates
+                  Закупочная цена помогает отслеживать затраты, цена продажи используется для смет проектов
                 </p>
               </div>
             </CardContent>
@@ -358,18 +358,18 @@ export default function NewMaterialPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Categories</CardTitle>
+              <CardTitle>Категории</CardTitle>
             </CardHeader>
             <CardContent className="text-sm">
               <p className="text-muted-foreground">
-                Materials are automatically categorized based on their names:
+                Материалы автоматически категоризируются по названиям:
               </p>
               <ul className="mt-2 space-y-1 text-muted-foreground">
-                <li>• Cables - Fiber, copper cables</li>
-                <li>• Connectors - SC, LC, splice closures</li>
-                <li>• Tools - Installation equipment</li>
-                <li>• Conduits - Ducts, pipes</li>
-                <li>• Equipment - Hardware devices</li>
+                <li>• Кабели — оптоволокно, медь</li>
+                <li>• Коннекторы — SC, LC, муфты</li>
+                <li>• Инструменты — монтажное оборудование</li>
+                <li>• Каналы — трубы, лотки</li>
+                <li>• Оборудование — аппаратные устройства</li>
               </ul>
             </CardContent>
           </Card>

@@ -124,9 +124,9 @@ export default function MaterialDetailPage() {
         data: editForm,
       });
       setIsEditing(false);
-      toast.success("Material updated successfully");
+      toast.success("Материал успешно обновлён");
     } catch (error) {
-      toast.error("Failed to update material");
+      toast.error("Не удалось обновить материал");
     }
   };
 
@@ -148,10 +148,10 @@ export default function MaterialDetailPage() {
   const handleDelete = async () => {
     try {
       await deleteMaterial.mutateAsync(materialId);
-      toast.success("Material deleted successfully");
+      toast.success("Материал успешно удалён");
       router.push("/dashboard/materials");
     } catch (error) {
-      toast.error("Failed to delete material");
+      toast.error("Не удалось удалить материал");
     }
   };
 
@@ -162,11 +162,11 @@ export default function MaterialDetailPage() {
     const minThreshold = material.min_stock_threshold || 0;
 
     if (currentStock <= 0) {
-      return { status: "Out of Stock", color: "red" };
+      return { status: "Нет в наличии", color: "red" };
     } else if (currentStock <= minThreshold) {
-      return { status: "Low Stock", color: "yellow" };
+      return { status: "Мало на складе", color: "yellow" };
     } else {
-      return { status: "In Stock", color: "green" };
+      return { status: "В наличии", color: "green" };
     }
   };
 
@@ -187,11 +187,11 @@ export default function MaterialDetailPage() {
       <div className="p-6">
         <div className="text-center">
           <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Material Not Found</h2>
-          <p className="text-gray-600 mb-4">The material you're looking for doesn't exist.</p>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Материал не найден</h2>
+          <p className="text-gray-600 mb-4">Материал, который вы ищете, не существует.</p>
           <Button onClick={() => router.push("/dashboard/materials")}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Materials
+            К материалам
           </Button>
         </div>
       </div>
@@ -210,7 +210,7 @@ export default function MaterialDetailPage() {
             onClick={() => router.push("/dashboard/materials")}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            Назад
           </Button>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
@@ -226,7 +226,7 @@ export default function MaterialDetailPage() {
                 material.name
               )}
             </h1>
-            <p className="text-gray-600">Material Details</p>
+            <p className="text-gray-600">Детали материала</p>
           </div>
         </div>
 
@@ -235,25 +235,25 @@ export default function MaterialDetailPage() {
             <>
               <Button variant="outline" onClick={handleCancel}>
                 <X className="h-4 w-4 mr-2" />
-                Cancel
+                Отмена
               </Button>
               <Button onClick={handleSave} disabled={updateMaterial.isPending}>
                 <Save className="h-4 w-4 mr-2" />
-                Save Changes
+                Сохранить
               </Button>
             </>
           ) : (
             <>
               <Button variant="outline" onClick={handleEdit}>
                 <Edit className="h-4 w-4 mr-2" />
-                Edit
+                Редактировать
               </Button>
               <Button
                 variant="destructive"
                 onClick={() => setShowDeleteDialog(true)}
               >
                 <Trash2 className="h-4 w-4 mr-2" />
-                Delete
+                Удалить
               </Button>
             </>
           )}
@@ -264,7 +264,7 @@ export default function MaterialDetailPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Current Stock</CardTitle>
+            <CardTitle className="text-sm font-medium">Текущий запас</CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -281,7 +281,7 @@ export default function MaterialDetailPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Available</CardTitle>
+            <CardTitle className="text-sm font-medium">Доступно</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -289,14 +289,14 @@ export default function MaterialDetailPage() {
               {material.current_stock || 0} {material.unit}
             </div>
             <p className="text-xs text-muted-foreground">
-              {material.reserved_qty} reserved
+              {material.reserved_qty} зарезервировано
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Unit Price</CardTitle>
+            <CardTitle className="text-sm font-medium">Цена за единицу</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -304,20 +304,20 @@ export default function MaterialDetailPage() {
               €{(material.default_price_eur || 0).toFixed(2)}
             </div>
             <p className="text-xs text-muted-foreground">
-              Purchase: €{(material.purchase_price_eur || 0).toFixed(2)}
+              Закупка: €{(material.purchase_price_eur || 0).toFixed(2)}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Category</CardTitle>
+            <CardTitle className="text-sm font-medium">Категория</CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{material.category}</div>
             <p className="text-xs text-muted-foreground">
-              SKU: {material.sku || "N/A"}
+              Артикул: {material.sku || "Н/Д"}
             </p>
           </CardContent>
         </Card>
@@ -326,23 +326,23 @@ export default function MaterialDetailPage() {
       {/* Main Content */}
       <Tabs defaultValue="details" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="details">Details</TabsTrigger>
-          <TabsTrigger value="history">History</TabsTrigger>
-          <TabsTrigger value="allocations">Allocations</TabsTrigger>
+          <TabsTrigger value="details">Детали</TabsTrigger>
+          <TabsTrigger value="history">История</TabsTrigger>
+          <TabsTrigger value="allocations">Распределения</TabsTrigger>
         </TabsList>
 
         <TabsContent value="details" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Material Information</CardTitle>
+              <CardTitle>Информация о материале</CardTitle>
               <CardDescription>
-                Basic information about this material
+                Основная информация о материале
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
+                  <Label htmlFor="name">Название</Label>
                   {isEditing ? (
                     <Input
                       id="name"
@@ -357,7 +357,7 @@ export default function MaterialDetailPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="sku">SKU</Label>
+                  <Label htmlFor="sku">Артикул</Label>
                   {isEditing ? (
                     <Input
                       id="sku"
@@ -367,12 +367,12 @@ export default function MaterialDetailPage() {
                       }
                     />
                   ) : (
-                    <p className="text-sm text-gray-900">{material.sku || "N/A"}</p>
+                    <p className="text-sm text-gray-900">{material.sku || "Н/Д"}</p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="unit">Unit</Label>
+                  <Label htmlFor="unit">Единица измерения</Label>
                   {isEditing ? (
                     <Select
                       value={editForm.unit}
@@ -384,12 +384,12 @@ export default function MaterialDetailPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="piece">Piece</SelectItem>
-                        <SelectItem value="meter">Meter</SelectItem>
-                        <SelectItem value="kg">Kilogram</SelectItem>
-                        <SelectItem value="liter">Liter</SelectItem>
-                        <SelectItem value="box">Box</SelectItem>
-                        <SelectItem value="roll">Roll</SelectItem>
+                        <SelectItem value="piece">Штука</SelectItem>
+                        <SelectItem value="meter">Метр</SelectItem>
+                        <SelectItem value="kg">Килограмм</SelectItem>
+                        <SelectItem value="liter">Литр</SelectItem>
+                        <SelectItem value="box">Коробка</SelectItem>
+                        <SelectItem value="roll">Рулон</SelectItem>
                       </SelectContent>
                     </Select>
                   ) : (
@@ -398,12 +398,12 @@ export default function MaterialDetailPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="category">Category</Label>
+                  <Label htmlFor="category">Категория</Label>
                   <p className="text-sm text-gray-900">{material.category}</p>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="default_price">Default Price (EUR)</Label>
+                  <Label htmlFor="default_price">Цена продажи (EUR)</Label>
                   {isEditing ? (
                     <Input
                       id="default_price"
@@ -425,7 +425,7 @@ export default function MaterialDetailPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="purchase_price">Purchase Price (EUR)</Label>
+                  <Label htmlFor="purchase_price">Закупочная цена (EUR)</Label>
                   {isEditing ? (
                     <Input
                       id="purchase_price"
@@ -447,7 +447,7 @@ export default function MaterialDetailPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="min_stock">Minimum Stock Level</Label>
+                  <Label htmlFor="min_stock">Минимальный уровень запаса</Label>
                   {isEditing ? (
                     <Input
                       id="min_stock"
@@ -468,15 +468,15 @@ export default function MaterialDetailPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="storage">Storage Location</Label>
+                  <Label htmlFor="storage">Место хранения</Label>
                   <p className="text-sm text-gray-900">
-                    {material.storage_location || "Main Warehouse"}
+                    {material.storage_location || "Основной склад"}
                   </p>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">Описание</Label>
                 {isEditing ? (
                   <Textarea
                     id="description"
@@ -488,7 +488,7 @@ export default function MaterialDetailPage() {
                   />
                 ) : (
                   <p className="text-sm text-gray-900">
-                    {material.description || "No description available"}
+                    {material.description || "Описание отсутствует"}
                   </p>
                 )}
               </div>
@@ -499,16 +499,16 @@ export default function MaterialDetailPage() {
         <TabsContent value="history" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Stock Movement History</CardTitle>
+              <CardTitle>История движения запасов</CardTitle>
               <CardDescription>
-                Recent stock movements for this material
+                Последние операции с этим материалом
               </CardDescription>
             </CardHeader>
             <CardContent>
               {transactionsLoading ? (
                 <div className="text-center py-8">
                   <History className="h-12 w-12 text-gray-400 mx-auto mb-4 animate-pulse" />
-                  <p className="text-gray-600">Loading transaction history...</p>
+                  <p className="text-gray-600">Загрузка истории транзакций...</p>
                 </div>
               ) : transactions?.items?.length > 0 ? (
                 <div className="space-y-4">
@@ -533,9 +533,9 @@ export default function MaterialDetailPage() {
                           </div>
                           <div>
                             <p className="font-medium">
-                              {transaction.transaction_type === 'receive' ? 'Received' :
-                               transaction.transaction_type === 'issue' ? 'Issued' :
-                               'Movement'}
+                              {transaction.transaction_type === 'receive' ? 'Получено' :
+                               transaction.transaction_type === 'issue' ? 'Выдано' :
+                               'Перемещение'}
                             </p>
                             <p className="text-sm text-gray-500">
                               {new Date(transaction.created_at).toLocaleDateString('ru-RU')} {new Date(transaction.created_at).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
@@ -570,10 +570,10 @@ export default function MaterialDetailPage() {
                 <div className="text-center py-8">
                   <History className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600">
-                    No transaction history found for this material
+                    История транзакций для этого материала не найдена
                   </p>
                   <p className="text-sm text-gray-500 mt-1">
-                    History will appear here when material orders are received
+                    История появится здесь при поступлении заказов материалов
                   </p>
                 </div>
               )}
@@ -584,16 +584,16 @@ export default function MaterialDetailPage() {
         <TabsContent value="allocations" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Current Allocations</CardTitle>
+              <CardTitle>Текущие распределения</CardTitle>
               <CardDescription>
-                Materials currently allocated to projects
+                Материалы, распределённые по проектам
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8">
                 <Truck className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-600">
-                  Material allocations will be loaded from the database
+                  Распределения материалов будут загружены из базы данных
                 </p>
               </div>
             </CardContent>
@@ -605,20 +605,20 @@ export default function MaterialDetailPage() {
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Material</AlertDialogTitle>
+            <AlertDialogTitle>Удалить материал</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{material.name}"? This action cannot be undone.
-              This will also remove all associated warehouse entries.
+              Вы уверены, что хотите удалить «{material.name}»? Это действие нельзя отменить.
+              Также будут удалены все связанные складские записи.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               className="bg-red-600 hover:bg-red-700"
               disabled={deleteMaterial.isPending}
             >
-              {deleteMaterial.isPending ? "Deleting..." : "Delete"}
+              {deleteMaterial.isPending ? "Удаление..." : "Удалить"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

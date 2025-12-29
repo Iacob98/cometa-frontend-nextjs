@@ -25,19 +25,19 @@ import type { CreateMaterialOrderRequest } from "@/types";
 
 const createOrderSchema = z.object({
   destination_type: z.enum(["project", "warehouse"], {
-    required_error: "Destination type is required",
+    required_error: "Тип назначения обязателен",
   }).default("warehouse"),
   project_id: z.string().optional(),
   warehouse_location: z.string().optional(),
-  supplier_id: z.string().min(1, "Supplier is required"),
+  supplier_id: z.string().min(1, "Поставщик обязателен"),
   expected_delivery_date: z.string().optional(),
   notes: z.string().optional(),
   deduct_from_budget: z.boolean().default(false),
   items: z.array(z.object({
-    material_id: z.string().min(1, "Material is required"),
-    quantity: z.coerce.number().positive("Quantity must be positive"),
-    unit_cost: z.coerce.number().positive("Unit cost must be positive").optional(),
-  })).min(1, "At least one item is required"),
+    material_id: z.string().min(1, "Материал обязателен"),
+    quantity: z.coerce.number().positive("Количество должно быть положительным"),
+    unit_cost: z.coerce.number().positive("Цена за единицу должна быть положительной").optional(),
+  })).min(1, "Требуется хотя бы одна позиция"),
 }).refine((data) => {
   if (data.destination_type === "project" && !data.project_id) {
     return false;
@@ -47,7 +47,7 @@ const createOrderSchema = z.object({
   }
   return true;
 }, {
-  message: "Please select a destination",
+  message: "Пожалуйста, выберите назначение",
   path: ["project_id"],
 });
 
@@ -149,12 +149,12 @@ export default function OrderMaterialsPage() {
             className="flex items-center space-x-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>Назад</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Order Materials</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Заказать материалы</h1>
             <p className="text-muted-foreground">
-              Create a material order for delivery to a project or warehouse
+              Создать заказ материалов для доставки на проект или склад
             </p>
           </div>
         </div>
@@ -167,10 +167,10 @@ export default function OrderMaterialsPage() {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <ShoppingCart className="h-5 w-5" />
-                <span>Order Details</span>
+                <span>Детали заказа</span>
               </CardTitle>
               <CardDescription>
-                Select destination, supplier, and materials to order
+                Выберите назначение, поставщика и материалы для заказа
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -259,11 +259,11 @@ export default function OrderMaterialsPage() {
                       name="supplier_id"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Supplier *</FormLabel>
+                          <FormLabel>Поставщик *</FormLabel>
                           <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select supplier" />
+                                <SelectValue placeholder="Выберите поставщика" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -284,7 +284,7 @@ export default function OrderMaterialsPage() {
                       name="expected_delivery_date"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Expected Delivery Date</FormLabel>
+                          <FormLabel>Ожидаемая дата доставки</FormLabel>
                           <FormControl>
                             <Input
                               type="date"
@@ -300,7 +300,7 @@ export default function OrderMaterialsPage() {
                   {/* Materials List */}
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-medium">Materials</h3>
+                      <h3 className="text-lg font-medium">Материалы</h3>
                       <Button
                         type="button"
                         variant="outline"
@@ -309,19 +309,19 @@ export default function OrderMaterialsPage() {
                         disabled={!selectedSupplierId}
                       >
                         <Plus className="mr-2 h-4 w-4" />
-                        Add Item
+                        Добавить позицию
                       </Button>
                     </div>
 
                     {!selectedSupplierId && (
                       <div className="text-center py-8 text-muted-foreground">
-                        Please select a supplier to add materials
+                        Выберите поставщика для добавления материалов
                       </div>
                     )}
 
                     {selectedSupplierId && supplierMaterials.length === 0 && (
                       <div className="text-center py-8 text-muted-foreground">
-                        No materials available from this supplier
+                        У этого поставщика нет доступных материалов
                       </div>
                     )}
 
@@ -330,10 +330,10 @@ export default function OrderMaterialsPage() {
                         <Table>
                           <TableHeader>
                             <TableRow>
-                              <TableHead>Material</TableHead>
-                              <TableHead>Quantity</TableHead>
-                              <TableHead>Unit Cost (€)</TableHead>
-                              <TableHead>Total (€)</TableHead>
+                              <TableHead>Материал</TableHead>
+                              <TableHead>Количество</TableHead>
+                              <TableHead>Цена за ед. (€)</TableHead>
+                              <TableHead>Сумма (€)</TableHead>
                               <TableHead className="w-[50px]"></TableHead>
                             </TableRow>
                           </TableHeader>
@@ -364,7 +364,7 @@ export default function OrderMaterialsPage() {
                                           }} value={field.value}>
                                             <FormControl>
                                               <SelectTrigger>
-                                                <SelectValue placeholder="Select material" />
+                                                <SelectValue placeholder="Выберите материал" />
                                               </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
@@ -386,10 +386,10 @@ export default function OrderMaterialsPage() {
                                     />
                                     {selectedMaterial && (
                                       <div className="mt-1 text-xs text-muted-foreground">
-                                        Unit: {selectedMaterial.unit}
+                                        Ед.: {selectedMaterial.unit}
                                         {selectedMaterial.min_order_quantity > 1 && (
                                           <span className="ml-1">
-                                            (Min: {selectedMaterial.min_order_quantity})
+                                            (Мин.: {selectedMaterial.min_order_quantity})
                                           </span>
                                         )}
                                       </div>
@@ -465,10 +465,10 @@ export default function OrderMaterialsPage() {
                     name="notes"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Notes</FormLabel>
+                        <FormLabel>Примечания</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Additional notes for this order..."
+                            placeholder="Дополнительные примечания к заказу..."
                             rows={3}
                             {...field}
                           />
@@ -510,7 +510,7 @@ export default function OrderMaterialsPage() {
                       variant="outline"
                       onClick={() => router.back()}
                     >
-                      Cancel
+                      Отмена
                     </Button>
                     <Button
                       type="submit"
@@ -521,7 +521,7 @@ export default function OrderMaterialsPage() {
                       ) : (
                         <Package className="mr-2 h-4 w-4" />
                       )}
-                      Create Order
+                      Создать заказ
                     </Button>
                   </div>
                 </form>
@@ -535,12 +535,12 @@ export default function OrderMaterialsPage() {
           {/* Order Summary */}
           <Card>
             <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
+              <CardTitle>Сводка заказа</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {selectedProject && (
                 <div>
-                  <h4 className="font-medium text-sm">Project</h4>
+                  <h4 className="font-medium text-sm">Проект</h4>
                   <p className="text-sm text-muted-foreground">{selectedProject.name}</p>
                   <p className="text-xs text-muted-foreground">{selectedProject.customer}</p>
                 </div>
@@ -548,7 +548,7 @@ export default function OrderMaterialsPage() {
 
               {selectedSupplier && (
                 <div>
-                  <h4 className="font-medium text-sm">Supplier</h4>
+                  <h4 className="font-medium text-sm">Поставщик</h4>
                   <p className="text-sm text-muted-foreground">{selectedSupplier.org_name}</p>
                   <p className="text-xs text-muted-foreground">{selectedSupplier.contact_person}</p>
                 </div>
@@ -556,11 +556,11 @@ export default function OrderMaterialsPage() {
 
               <div className="pt-2 border-t">
                 <div className="flex justify-between items-center">
-                  <span className="font-medium">Total Cost</span>
+                  <span className="font-medium">Общая стоимость</span>
                   <span className="text-lg font-bold">€{calculateTotal().toFixed(2)}</span>
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Excludes delivery costs
+                  Без учёта стоимости доставки
                 </p>
               </div>
             </CardContent>
@@ -569,25 +569,25 @@ export default function OrderMaterialsPage() {
           {/* Help */}
           <Card>
             <CardHeader>
-              <CardTitle>Order Information</CardTitle>
+              <CardTitle>Информация о заказе</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm">
               <div>
-                <h4 className="font-medium">Order Process</h4>
+                <h4 className="font-medium">Процесс заказа</h4>
                 <p className="text-muted-foreground">
-                  Orders are created with "pending" status and can be tracked through delivery
+                  Заказы создаются со статусом «Ожидает» и могут отслеживаться до доставки
                 </p>
               </div>
               <div>
-                <h4 className="font-medium">Costs</h4>
+                <h4 className="font-medium">Затраты</h4>
                 <p className="text-muted-foreground">
-                  Order costs will be deducted from the project budget automatically
+                  Стоимость заказа будет автоматически списана с бюджета проекта
                 </p>
               </div>
               <div>
-                <h4 className="font-medium">Delivery</h4>
+                <h4 className="font-medium">Доставка</h4>
                 <p className="text-muted-foreground">
-                  Check with supplier for delivery costs and minimum order requirements
+                  Уточните у поставщика стоимость доставки и минимальные требования к заказу
                 </p>
               </div>
             </CardContent>

@@ -19,10 +19,10 @@ import { useProjects } from "@/hooks/use-projects";
 import { useCreateAllocation } from "@/hooks/materials/use-material-allocations";
 
 const createAllocationSchema = z.object({
-  material_id: z.string().min(1, "Material is required"),
-  project_id: z.string().min(1, "Project is required"),
-  quantity_allocated: z.coerce.number().min(0.001, "Quantity must be greater than 0"),
-  allocated_date: z.string().min(1, "Allocation date is required"),
+  material_id: z.string().min(1, "Материал обязателен"),
+  project_id: z.string().min(1, "Проект обязателен"),
+  quantity_allocated: z.coerce.number().min(0.001, "Количество должно быть больше 0"),
+  allocated_date: z.string().min(1, "Дата распределения обязательна"),
   notes: z.string().optional(),
 });
 
@@ -94,12 +94,12 @@ export default function MaterialsAllocatePage() {
             className="flex items-center space-x-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>Назад</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Allocate Material</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Распределить материал</h1>
             <p className="text-muted-foreground">
-              Assign materials from inventory to a project
+              Назначить материалы со склада на проект
             </p>
           </div>
         </div>
@@ -112,10 +112,10 @@ export default function MaterialsAllocatePage() {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Package className="h-5 w-5" />
-                <span>Allocation Details</span>
+                <span>Детали распределения</span>
               </CardTitle>
               <CardDescription>
-                Select material and project for allocation
+                Выберите материал и проект для распределения
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -127,11 +127,11 @@ export default function MaterialsAllocatePage() {
                     name="material_id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Material *</FormLabel>
+                        <FormLabel>Материал *</FormLabel>
                         <Select onValueChange={handleMaterialChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select material" />
+                              <SelectValue placeholder="Выберите материал" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -144,7 +144,7 @@ export default function MaterialsAllocatePage() {
                                     <div className="flex justify-between items-center w-full">
                                       <span>{material.name}</span>
                                       <span className="text-sm text-muted-foreground ml-2">
-                                        {available.toFixed(2)} {material.unit} available
+                                        {available.toFixed(2)} {material.unit} доступно
                                       </span>
                                     </div>
                                   </SelectItem>
@@ -160,19 +160,19 @@ export default function MaterialsAllocatePage() {
                   {/* Material Info */}
                   {material && (
                     <div className="rounded-lg border p-4 bg-muted/50">
-                      <h4 className="font-medium mb-2">Material Information</h4>
+                      <h4 className="font-medium mb-2">Информация о материале</h4>
                       <div className="grid grid-cols-2 gap-4 text-sm">
                         <div>
-                          <span className="text-muted-foreground">Unit:</span> {material.unit}
+                          <span className="text-muted-foreground">Единица:</span> {material.unit}
                         </div>
                         <div>
-                          <span className="text-muted-foreground">Price:</span> €{material.default_price_eur.toFixed(2)}/{material.unit}
+                          <span className="text-muted-foreground">Цена:</span> €{material.default_price_eur.toFixed(2)}/{material.unit}
                         </div>
                         <div>
-                          <span className="text-muted-foreground">Available:</span> {availableQty.toFixed(2)} {material.unit}
+                          <span className="text-muted-foreground">Доступно:</span> {availableQty.toFixed(2)} {material.unit}
                         </div>
                         <div>
-                          <span className="text-muted-foreground">Category:</span> {material.category}
+                          <span className="text-muted-foreground">Категория:</span> {material.category}
                         </div>
                       </div>
                     </div>
@@ -184,7 +184,7 @@ export default function MaterialsAllocatePage() {
                     name="quantity_allocated"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Quantity to Allocate *</FormLabel>
+                        <FormLabel>Количество для распределения *</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
@@ -196,7 +196,7 @@ export default function MaterialsAllocatePage() {
                           />
                         </FormControl>
                         <FormDescription>
-                          Maximum available: {availableQty.toFixed(3)} {material?.unit || 'units'}
+                          Максимум доступно: {availableQty.toFixed(3)} {material?.unit || 'ед.'}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -209,11 +209,11 @@ export default function MaterialsAllocatePage() {
                     name="project_id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Project *</FormLabel>
+                        <FormLabel>Проект *</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select project" />
+                              <SelectValue placeholder="Выберите проект" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -240,7 +240,7 @@ export default function MaterialsAllocatePage() {
                     name="allocated_date"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Allocation Date *</FormLabel>
+                        <FormLabel>Дата распределения *</FormLabel>
                         <FormControl>
                           <Input type="date" {...field} />
                         </FormControl>
@@ -255,10 +255,10 @@ export default function MaterialsAllocatePage() {
                     name="notes"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Notes (optional)</FormLabel>
+                        <FormLabel>Примечания (необязательно)</FormLabel>
                         <FormControl>
                           <Textarea
-                            placeholder="Additional notes about this allocation..."
+                            placeholder="Дополнительные примечания к распределению..."
                             rows={3}
                             {...field}
                           />
@@ -276,7 +276,7 @@ export default function MaterialsAllocatePage() {
                       onClick={() => router.back()}
                     >
                       <X className="mr-2 h-4 w-4" />
-                      Cancel
+                      Отмена
                     </Button>
                     <Button
                       type="submit"
@@ -287,7 +287,7 @@ export default function MaterialsAllocatePage() {
                       ) : (
                         <Save className="mr-2 h-4 w-4" />
                       )}
-                      Allocate Material
+                      Распределить материал
                     </Button>
                   </div>
                 </form>
@@ -304,40 +304,40 @@ export default function MaterialsAllocatePage() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Calculator className="h-5 w-5" />
-                  <span>Allocation Summary</span>
+                  <span>Сводка распределения</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Material:</span>
+                    <span className="text-sm text-muted-foreground">Материал:</span>
                     <span className="text-sm font-medium">{material.name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Quantity:</span>
+                    <span className="text-sm text-muted-foreground">Количество:</span>
                     <span className="text-sm font-medium">{quantity_allocated} {material.unit}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Unit Price:</span>
+                    <span className="text-sm text-muted-foreground">Цена за единицу:</span>
                     <span className="text-sm font-medium">€{material.default_price_eur.toFixed(2)}</span>
                   </div>
                   <div className="border-t pt-2">
                     <div className="flex justify-between">
-                      <span className="text-sm font-medium">Total Cost:</span>
+                      <span className="text-sm font-medium">Общая стоимость:</span>
                       <span className="text-sm font-bold">€{totalCost.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="border-t pt-4">
-                  <h4 className="text-sm font-medium mb-2">Stock Impact</h4>
+                  <h4 className="text-sm font-medium mb-2">Влияние на запас</h4>
                   <div className="space-y-1">
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Current Available:</span>
+                      <span className="text-muted-foreground">Сейчас доступно:</span>
                       <span>{availableQty.toFixed(2)} {material.unit}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">After Allocation:</span>
+                      <span className="text-muted-foreground">После распределения:</span>
                       <span className={remainingStock < 0 ? "text-red-600 font-medium" : ""}>
                         {remainingStock.toFixed(2)} {material.unit}
                       </span>
@@ -349,10 +349,10 @@ export default function MaterialsAllocatePage() {
                   <div className="rounded-lg border border-red-200 bg-red-50 p-3">
                     <div className="flex items-center space-x-2">
                       <AlertTriangle className="h-4 w-4 text-red-600" />
-                      <span className="text-sm text-red-800 font-medium">Insufficient Stock</span>
+                      <span className="text-sm text-red-800 font-medium">Недостаточно запасов</span>
                     </div>
                     <p className="text-xs text-red-700 mt-1">
-                      The requested quantity exceeds available stock.
+                      Запрошенное количество превышает доступный запас.
                     </p>
                   </div>
                 )}
@@ -363,25 +363,25 @@ export default function MaterialsAllocatePage() {
           {/* Quick Tips */}
           <Card>
             <CardHeader>
-              <CardTitle>Quick Tips</CardTitle>
+              <CardTitle>Полезные советы</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm">
               <div>
-                <h4 className="font-medium">Material Selection</h4>
+                <h4 className="font-medium">Выбор материала</h4>
                 <p className="text-muted-foreground">
-                  Only materials with available stock are shown in the dropdown.
+                  В списке отображаются только материалы с доступным запасом.
                 </p>
               </div>
               <div>
-                <h4 className="font-medium">Stock Tracking</h4>
+                <h4 className="font-medium">Отслеживание запасов</h4>
                 <p className="text-muted-foreground">
-                  Allocated materials are automatically reserved and deducted from available stock.
+                  Распределённые материалы автоматически резервируются и вычитаются из доступного запаса.
                 </p>
               </div>
               <div>
-                <h4 className="font-medium">Project Assignment</h4>
+                <h4 className="font-medium">Назначение на проект</h4>
                 <p className="text-muted-foreground">
-                  Materials are allocated to specific projects for better tracking and cost management.
+                  Материалы назначаются на конкретные проекты для лучшего отслеживания и управления затратами.
                 </p>
               </div>
             </CardContent>
