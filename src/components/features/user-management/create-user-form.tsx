@@ -148,9 +148,9 @@ export default function CreateUserForm({
       ? (data: CreateUserFormData) => updateUser(initialData.id, data)
       : createUser,
     onSuccess: (data) => {
-      const actionText = editMode ? "updated" : "created";
-      toast.success(`User ${actionText} successfully!`, {
-        description: `${data.first_name} ${data.last_name} has been ${actionText}.`,
+      const actionText = editMode ? "обновлён" : "создан";
+      toast.success(`Пользователь ${actionText}!`, {
+        description: `${data.first_name} ${data.last_name} успешно ${actionText}.`,
       });
 
       // Invalidate users query to refresh the list
@@ -166,8 +166,8 @@ export default function CreateUserForm({
       onSuccess?.(data);
     },
     onError: (error) => {
-      const actionText = editMode ? "update" : "create";
-      toast.error(`Failed to ${actionText} user`, {
+      const actionText = editMode ? "обновить" : "создать";
+      toast.error(`Не удалось ${actionText} пользователя`, {
         description: error.message,
       });
     },
@@ -212,12 +212,12 @@ export default function CreateUserForm({
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <User className="h-5 w-5" />
-          {editMode ? "Edit User" : "Create New User"}
+          {editMode ? "Редактировать пользователя" : "Создать пользователя"}
         </CardTitle>
         <CardDescription>
           {editMode
-            ? "Update user information, roles, and system access."
-            : "Add a new user to the COMETA system. PIN codes will be automatically generated if not provided."
+            ? "Обновите информацию, роли и доступ пользователя."
+            : "Добавьте нового пользователя в систему COMETA. PIN-код будет сгенерирован автоматически, если не указан."
           }
         </CardDescription>
       </CardHeader>
@@ -228,7 +228,7 @@ export default function CreateUserForm({
             <div className="space-y-4">
               <h3 className="text-lg font-medium flex items-center gap-2">
                 <User className="h-4 w-4" />
-                Personal Information
+                Личная информация
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -237,10 +237,10 @@ export default function CreateUserForm({
                   name="first_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>First Name</FormLabel>
+                      <FormLabel>Имя</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter first name"
+                          placeholder="Введите имя"
                           {...field}
                           disabled={userMutation.isPending}
                         />
@@ -255,10 +255,10 @@ export default function CreateUserForm({
                   name="last_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Last Name</FormLabel>
+                      <FormLabel>Фамилия</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Enter last name"
+                          placeholder="Введите фамилию"
                           {...field}
                           disabled={userMutation.isPending}
                         />
@@ -276,18 +276,18 @@ export default function CreateUserForm({
                   <FormItem>
                     <FormLabel className="flex items-center gap-2">
                       <Mail className="h-4 w-4" />
-                      Email Address (Optional)
+                      Email (необязательно)
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="Enter email address"
+                        placeholder="Введите email"
                         {...field}
                         disabled={userMutation.isPending}
                       />
                     </FormControl>
                     <FormDescription>
-                      Either email or phone number is required for login.
+                      Для входа требуется email или номер телефона.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -301,18 +301,18 @@ export default function CreateUserForm({
                   <FormItem>
                     <FormLabel className="flex items-center gap-2">
                       <Phone className="h-4 w-4" />
-                      Phone Number (Optional)
+                      Телефон (необязательно)
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="tel"
-                        placeholder="Enter phone number"
+                        placeholder="Введите номер телефона"
                         {...field}
                         disabled={userMutation.isPending}
                       />
                     </FormControl>
                     <FormDescription>
-                      Either email or phone number is required for login.
+                      Для входа требуется email или номер телефона.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -324,7 +324,7 @@ export default function CreateUserForm({
             <div className="space-y-4">
               <h3 className="text-lg font-medium flex items-center gap-2">
                 <Shield className="h-4 w-4" />
-                System Access
+                Доступ к системе
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -333,7 +333,7 @@ export default function CreateUserForm({
                   name="role"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Role</FormLabel>
+                      <FormLabel>Роль</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
@@ -341,20 +341,20 @@ export default function CreateUserForm({
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select user role" />
+                            <SelectValue placeholder="Выберите роль" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="admin">Administrator</SelectItem>
-                          <SelectItem value="pm">Project Manager</SelectItem>
-                          <SelectItem value="bauleiter">Bauleiter</SelectItem>
-                          <SelectItem value="foreman">Foreman</SelectItem>
-                          <SelectItem value="crew">Field Worker</SelectItem>
-                          <SelectItem value="viewer">Viewer (Read-only)</SelectItem>
+                          <SelectItem value="admin">Администратор</SelectItem>
+                          <SelectItem value="pm">Менеджер проекта</SelectItem>
+                          <SelectItem value="bauleiter">Прораб</SelectItem>
+                          <SelectItem value="foreman">Бригадир</SelectItem>
+                          <SelectItem value="crew">Рабочий</SelectItem>
+                          <SelectItem value="viewer">Наблюдатель (только чтение)</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormDescription>
-                        Determines what the user can access in the system.
+                        Определяет права доступа пользователя в системе.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -368,19 +368,19 @@ export default function CreateUserForm({
                     <FormItem>
                       <FormLabel className="flex items-center gap-2">
                         <Code className="h-4 w-4" />
-                        PIN Code (Optional)
+                        PIN-код (необязательно)
                       </FormLabel>
                       <FormControl>
                         <Input
                           type="text"
-                          placeholder="Leave empty for auto-generation"
+                          placeholder="Оставьте пустым для автогенерации"
                           maxLength={6}
                           {...field}
                           disabled={userMutation.isPending}
                         />
                       </FormControl>
                       <FormDescription>
-                        4-6 digits. If empty, will be generated automatically.
+                        4-6 цифр. Если пусто, будет сгенерирован автоматически.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -395,7 +395,7 @@ export default function CreateUserForm({
                   <FormItem>
                     <FormLabel className="flex items-center gap-2">
                       <Globe className="h-4 w-4" />
-                      Language Preference
+                      Язык интерфейса
                     </FormLabel>
                     <Select
                       onValueChange={field.onChange}
@@ -408,11 +408,11 @@ export default function CreateUserForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="de">German (Deutsch)</SelectItem>
-                        <SelectItem value="en">English</SelectItem>
-                        <SelectItem value="ru">Russian (Русский)</SelectItem>
-                        <SelectItem value="uz">Uzbek (O'zbek)</SelectItem>
-                        <SelectItem value="tr">Turkish (Türkçe)</SelectItem>
+                        <SelectItem value="de">Немецкий (Deutsch)</SelectItem>
+                        <SelectItem value="en">Английский (English)</SelectItem>
+                        <SelectItem value="ru">Русский</SelectItem>
+                        <SelectItem value="uz">Узбекский (O'zbek)</SelectItem>
+                        <SelectItem value="tr">Турецкий (Türkçe)</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -423,12 +423,12 @@ export default function CreateUserForm({
 
             {/* Skills */}
             <div className="space-y-4">
-              <h3 className="text-lg font-medium">Skills & Competencies</h3>
+              <h3 className="text-lg font-medium">Навыки и компетенции</h3>
 
               {/* Selected Skills */}
               {selectedSkills.length > 0 && (
                 <div>
-                  <Label className="text-sm font-medium">Selected Skills:</Label>
+                  <Label className="text-sm font-medium">Выбранные навыки:</Label>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {selectedSkills.map((skill) => (
                       <Badge key={skill} variant="secondary" className="pr-1">
@@ -451,10 +451,10 @@ export default function CreateUserForm({
 
               {/* Add Custom Skill */}
               <div>
-                <Label className="text-sm font-medium">Add Custom Skill:</Label>
+                <Label className="text-sm font-medium">Добавить свой навык:</Label>
                 <div className="flex gap-2 mt-2">
                   <Input
-                    placeholder="Enter skill name"
+                    placeholder="Введите название навыка"
                     value={customSkill}
                     onChange={(e) => setCustomSkill(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addCustomSkill())}
@@ -476,11 +476,11 @@ export default function CreateUserForm({
               {skillsLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Loading skills...
+                  Загрузка навыков...
                 </div>
               ) : (
                 <div>
-                  <Label className="text-sm font-medium">Select from predefined skills:</Label>
+                  <Label className="text-sm font-medium">Выберите из списка:</Label>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-2 max-h-60 overflow-y-auto">
                     {availableSkills.map((skill) => (
                       <div key={skill} className="flex items-center space-x-2">
@@ -512,7 +512,7 @@ export default function CreateUserForm({
                   onClick={onCancel}
                   disabled={userMutation.isPending}
                 >
-                  Cancel
+                  Отмена
                 </Button>
               )}
               <Button
@@ -523,10 +523,10 @@ export default function CreateUserForm({
                 {userMutation.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {editMode ? "Updating User..." : "Creating User..."}
+                    {editMode ? "Сохранение..." : "Создание..."}
                   </>
                 ) : (
-                  editMode ? "Update User" : "Create User"
+                  editMode ? "Сохранить" : "Создать пользователя"
                 )}
               </Button>
             </div>

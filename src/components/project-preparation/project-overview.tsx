@@ -24,14 +24,14 @@ export default function ProjectOverview({ projectId }: ProjectOverviewProps) {
   const [reason, setReason] = useState('');
 
   if (isLoading || !preparation) {
-    return <div>Loading project overview...</div>;
+    return <div>Загрузка информации о проекте...</div>;
   }
 
   const { project, potential_revenue } = preparation;
 
   const handleStatusChange = async () => {
     if (!newStatus) {
-      toast.error('Please select a status');
+      toast.error('Пожалуйста, выберите статус');
       return;
     }
 
@@ -84,40 +84,40 @@ export default function ProjectOverview({ projectId }: ProjectOverviewProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <MapPin className="w-5 h-5" />
-            Basic Project Information
+            Основная информация о проекте
           </CardTitle>
           <CardDescription>
-            Core project details and contact information
+            Основные данные проекта и контактная информация
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label className="text-sm font-medium">Project Name</Label>
+              <Label className="text-sm font-medium">Название проекта</Label>
               <p className="text-lg font-semibold">{project.name}</p>
             </div>
             <div>
-              <Label className="text-sm font-medium">Customer</Label>
-              <p className="text-lg">{project.customer || 'Not specified'}</p>
+              <Label className="text-sm font-medium">Заказчик</Label>
+              <p className="text-lg">{project.customer || 'Не указано'}</p>
             </div>
             <div>
-              <Label className="text-sm font-medium">City</Label>
-              <p className="text-lg">{project.city || 'Not specified'}</p>
+              <Label className="text-sm font-medium">Город</Label>
+              <p className="text-lg">{project.city || 'Не указано'}</p>
             </div>
             <div>
-              <Label className="text-sm font-medium">Address</Label>
-              <p className="text-lg">{project.address || 'Not specified'}</p>
+              <Label className="text-sm font-medium">Адрес</Label>
+              <p className="text-lg">{project.address || 'Не указано'}</p>
             </div>
             <div>
-              <Label className="text-sm font-medium">24/7 Contact</Label>
-              <p className="text-lg">{project.contact_24h || 'Not specified'}</p>
+              <Label className="text-sm font-medium">Круглосуточный контакт</Label>
+              <p className="text-lg">{project.contact_24h || 'Не указано'}</p>
             </div>
             <div>
-              <Label className="text-sm font-medium">Project Manager</Label>
+              <Label className="text-sm font-medium">Менеджер проекта</Label>
               <p className="text-lg">
-                {project.manager_name || project.manager?.full_name || 'Not assigned'}
+                {project.manager_name || project.manager?.full_name || 'Не назначен'}
                 {!(project.manager_name || project.manager?.full_name) && (
-                  <span className="text-red-500 ml-2">No PM assigned</span>
+                  <span className="text-red-500 ml-2">Менеджер не назначен</span>
                 )}
               </p>
             </div>
@@ -130,10 +130,10 @@ export default function ProjectOverview({ projectId }: ProjectOverviewProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Euro className="w-5 h-5" />
-            Planning & Revenue Information
+            Планирование и доход
           </CardTitle>
           <CardDescription>
-            Project timeline and potential revenue calculation
+            Сроки проекта и расчёт потенциального дохода
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -141,30 +141,30 @@ export default function ProjectOverview({ projectId }: ProjectOverviewProps) {
             <div>
               <Label className="text-sm font-medium flex items-center gap-1">
                 <Calendar className="w-4 h-4" />
-                Start Date
+                Дата начала
               </Label>
-              <p className="text-lg">{project.start_date || 'Not set'}</p>
+              <p className="text-lg">{project.start_date || 'Не установлено'}</p>
             </div>
             <div>
               <Label className="text-sm font-medium flex items-center gap-1">
                 <Calendar className="w-4 h-4" />
-                Planned End Date
+                Плановая дата окончания
               </Label>
-              <p className="text-lg">{project.end_date_plan || 'Not set'}</p>
+              <p className="text-lg">{project.end_date_plan || 'Не установлено'}</p>
             </div>
             <div>
-              <Label className="text-sm font-medium">Total Length</Label>
-              <p className="text-lg font-semibold">{(project.total_length_m || 0).toLocaleString()} m</p>
+              <Label className="text-sm font-medium">Общая длина</Label>
+              <p className="text-lg font-semibold">{(project.total_length_m || 0).toLocaleString()} м</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label className="text-sm font-medium">Base Rate per Meter</Label>
-              <p className="text-lg font-semibold">€{(project.base_rate_per_m || 0).toLocaleString()}/m</p>
+              <Label className="text-sm font-medium">Базовая ставка за метр</Label>
+              <p className="text-lg font-semibold">€{(project.base_rate_per_m || 0).toLocaleString()}/м</p>
             </div>
             <div>
-              <Label className="text-sm font-medium">Potential Revenue</Label>
+              <Label className="text-sm font-medium">Потенциальный доход</Label>
               <p className="text-2xl font-bold text-green-600">
                 €{(potential_revenue || 0).toLocaleString()}
               </p>
@@ -178,16 +178,16 @@ export default function ProjectOverview({ projectId }: ProjectOverviewProps) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             {getStatusIcon(project.status)}
-            Project Status Management
+            Управление статусом проекта
           </CardTitle>
           <CardDescription>
-            Current status and status change controls
+            Текущий статус и управление изменением статуса
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <Label className="text-sm font-medium">Current Status</Label>
+              <Label className="text-sm font-medium">Текущий статус</Label>
               <div className="flex items-center gap-2 mt-1">
                 {getStatusIcon(project.status)}
                 <Badge className={getStatusColor(project.status)}>
@@ -199,35 +199,35 @@ export default function ProjectOverview({ projectId }: ProjectOverviewProps) {
               variant="outline"
               onClick={() => setShowStatusForm(!showStatusForm)}
             >
-              Change Status
+              Изменить статус
             </Button>
           </div>
 
           {showStatusForm && (
             <div className="border rounded-lg p-4 space-y-4 bg-gray-50">
               <div>
-                <Label htmlFor="new-status">New Status</Label>
+                <Label htmlFor="new-status">Новый статус</Label>
                 <Select value={newStatus} onValueChange={setNewStatus}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select new status" />
+                    <SelectValue placeholder="Выберите новый статус" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="draft"> Draft</SelectItem>
-                    <SelectItem value="planning">Planning</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="waiting_invoice"> Waiting Invoice</SelectItem>
-                    <SelectItem value="closed"> Closed</SelectItem>
+                    <SelectItem value="draft">Черновик</SelectItem>
+                    <SelectItem value="planning">Планирование</SelectItem>
+                    <SelectItem value="active">Активный</SelectItem>
+                    <SelectItem value="waiting_invoice">Ожидание счёта</SelectItem>
+                    <SelectItem value="closed">Закрыт</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div>
-                <Label htmlFor="reason">Reason for Change</Label>
+                <Label htmlFor="reason">Причина изменения</Label>
                 <Textarea
                   id="reason"
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
-                  placeholder="Describe the reason for the status change..."
+                  placeholder="Опишите причину изменения статуса..."
                   rows={3}
                 />
               </div>
@@ -237,7 +237,7 @@ export default function ProjectOverview({ projectId }: ProjectOverviewProps) {
                   onClick={handleStatusChange}
                   disabled={updateStatusMutation.isPending}
                 >
-                   Save Status
+                  Сохранить статус
                 </Button>
                 <Button
                   variant="outline"
@@ -247,7 +247,7 @@ export default function ProjectOverview({ projectId }: ProjectOverviewProps) {
                     setReason('');
                   }}
                 >
-                  Cancel
+                  Отмена
                 </Button>
               </div>
             </div>

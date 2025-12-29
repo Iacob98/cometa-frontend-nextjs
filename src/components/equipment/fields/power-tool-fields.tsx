@@ -17,10 +17,10 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
       <CardHeader>
         <CardTitle className="flex items-center">
           <Wrench className="h-5 w-5 mr-2" />
-          Power Tool Specifications
+          Характеристики электроинструмента
         </CardTitle>
         <CardDescription>
-          Specifications for drills, grinders, saws, compressors, etc.
+          Спецификации для дрелей, шлифовальных машин, пил, компрессоров и т.д.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -31,7 +31,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             name="type_details.power_watts"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Power (W) *</FormLabel>
+                <FormLabel>Мощность (Вт) *</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -41,7 +41,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
-                <FormDescription>Nominal power consumption in watts</FormDescription>
+                <FormDescription>Номинальное потребление энергии в ваттах</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -53,7 +53,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             name="type_details.voltage_volts"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Voltage (V)</FormLabel>
+                <FormLabel>Напряжение (В)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -63,7 +63,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
-                <FormDescription>Rated voltage</FormDescription>
+                <FormDescription>Номинальное напряжение</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -75,18 +75,18 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             name="type_details.battery_type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Battery Type</FormLabel>
+                <FormLabel>Тип аккумулятора</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value ?? undefined}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select battery type" />
+                      <SelectValue placeholder="Выберите тип аккумулятора" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     <SelectItem value="Li-ion">Li-ion</SelectItem>
                     <SelectItem value="NiMH">NiMH</SelectItem>
                     <SelectItem value="NiCd">NiCd</SelectItem>
-                    <SelectItem value="Corded">Corded (No Battery)</SelectItem>
+                    <SelectItem value="Corded">Сетевой (без аккумулятора)</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -100,7 +100,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             name="type_details.rpm"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>RPM</FormLabel>
+                <FormLabel>Обороты/мин</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -110,7 +110,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
-                <FormDescription>Revolutions per minute</FormDescription>
+                <FormDescription>Обороты в минуту</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -122,11 +122,11 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             name="type_details.ip_rating"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>IP Rating</FormLabel>
+                <FormLabel>Степень защиты IP</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value ?? undefined}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select IP rating" />
+                      <SelectValue placeholder="Выберите степень защиты" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -137,7 +137,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     <SelectItem value="IP68">IP68</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormDescription>Dust and water protection rating</FormDescription>
+                <FormDescription>Степень защиты от пыли и воды</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -149,7 +149,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             name="type_details.weight_kg"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Weight (kg)</FormLabel>
+                <FormLabel>Вес (кг)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -160,7 +160,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
-                <FormDescription>Physical weight</FormDescription>
+                <FormDescription>Физический вес</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -172,21 +172,21 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             name="type_details.tool_type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tool Type</FormLabel>
+                <FormLabel>Тип инструмента</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value ?? undefined}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select tool type" />
+                      <SelectValue placeholder="Выберите тип инструмента" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Drill">Drill</SelectItem>
-                    <SelectItem value="Angle Grinder">Angle Grinder</SelectItem>
-                    <SelectItem value="Circular Saw">Circular Saw</SelectItem>
-                    <SelectItem value="Impact Driver">Impact Driver</SelectItem>
-                    <SelectItem value="Rotary Hammer">Rotary Hammer</SelectItem>
-                    <SelectItem value="Compressor">Compressor</SelectItem>
-                    <SelectItem value="Other">Other</SelectItem>
+                    <SelectItem value="Drill">Дрель</SelectItem>
+                    <SelectItem value="Angle Grinder">Болгарка</SelectItem>
+                    <SelectItem value="Circular Saw">Дисковая пила</SelectItem>
+                    <SelectItem value="Impact Driver">Ударный гайковёрт</SelectItem>
+                    <SelectItem value="Rotary Hammer">Перфоратор</SelectItem>
+                    <SelectItem value="Compressor">Компрессор</SelectItem>
+                    <SelectItem value="Other">Другое</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -200,7 +200,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
             name="type_details.inspection_interval_days"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Inspection Interval (days)</FormLabel>
+                <FormLabel>Интервал проверки (дней)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -210,7 +210,7 @@ export function PowerToolFields({ form }: PowerToolFieldsProps) {
                     onChange={(e) => field.onChange(e.target.value ? Number(e.target.value) : undefined)}
                   />
                 </FormControl>
-                <FormDescription>For DGUV compliance checks</FormDescription>
+                <FormDescription>Для проверок соответствия DGUV</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

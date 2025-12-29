@@ -19,7 +19,7 @@ import { useProjects } from "@/hooks/use-projects";
 
 // Validation schema for creating teams
 const createTeamSchema = z.object({
-  name: z.string().min(1, "Team name is required"),
+  name: z.string().min(1, "Название команды обязательно"),
   description: z.string().optional(),
   foreman_user_id: z.string().optional(),
   project_id: z.string().optional(),
@@ -88,12 +88,12 @@ export default function NewTeamPage() {
             className="flex items-center space-x-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>Назад</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Create New Team</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Создать команду</h1>
             <p className="text-muted-foreground">
-              Set up a new work crew with basic information
+              Создайте новую рабочую бригаду с базовой информацией
             </p>
           </div>
         </div>
@@ -105,10 +105,10 @@ export default function NewTeamPage() {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <Users className="h-5 w-5" />
-              <span>Team Information</span>
+              <span>Информация о команде</span>
             </CardTitle>
             <CardDescription>
-              Basic team details and leadership assignment
+              Основная информация о команде и назначение руководителя
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -119,10 +119,10 @@ export default function NewTeamPage() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Team Name *</FormLabel>
+                      <FormLabel>Название команды *</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g., Installation Team Alpha"
+                          placeholder="напр., Монтажная бригада Альфа"
                           {...field}
                         />
                       </FormControl>
@@ -136,10 +136,10 @@ export default function NewTeamPage() {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Description</FormLabel>
+                      <FormLabel>Описание</FormLabel>
                       <FormControl>
                         <Textarea
-                          placeholder="Brief description of team purpose and responsibilities"
+                          placeholder="Краткое описание назначения и обязанностей команды"
                           {...field}
                         />
                       </FormControl>
@@ -153,15 +153,15 @@ export default function NewTeamPage() {
                   name="foreman_user_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Team Leader / Foreman</FormLabel>
+                      <FormLabel>Руководитель команды / Бригадир</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select team leader" />
+                            <SelectValue placeholder="Выберите руководителя" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="none">No leader assigned</SelectItem>
+                          <SelectItem value="none">Руководитель не назначен</SelectItem>
                           {foremen.map((user) => (
                             <SelectItem key={user.id} value={user.id}>
                               {user.full_name} ({user.role})
@@ -179,17 +179,17 @@ export default function NewTeamPage() {
                   name="project_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Assign to Project</FormLabel>
+                      <FormLabel>Назначить на проект</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select project (optional)" />
+                            <SelectValue placeholder="Выберите проект (необязательно)" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="none">No project assigned</SelectItem>
+                          <SelectItem value="none">Проект не назначен</SelectItem>
                           {projectsLoading ? (
-                            <SelectItem value="loading" disabled>Loading projects...</SelectItem>
+                            <SelectItem value="loading" disabled>Загрузка проектов...</SelectItem>
                           ) : (
                             projects.map((project) => (
                               <SelectItem key={project.id} value={project.id}>
@@ -211,7 +211,7 @@ export default function NewTeamPage() {
                     onClick={() => router.back()}
                   >
                     <X className="mr-2 h-4 w-4" />
-                    Cancel
+                    Отмена
                   </Button>
                   <Button type="submit" disabled={createCrew.isPending}>
                     {createCrew.isPending ? (
@@ -219,7 +219,7 @@ export default function NewTeamPage() {
                     ) : (
                       <Save className="mr-2 h-4 w-4" />
                     )}
-                    Create Team
+                    Создать команду
                   </Button>
                 </div>
               </form>

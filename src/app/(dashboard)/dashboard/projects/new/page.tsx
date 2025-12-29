@@ -19,38 +19,38 @@ import type { CreateProjectRequest, Language } from "@/types";
 
 // Soil type options
 const SOIL_TYPES = [
-  { value: "sand", label: "Sand (Песок)" },
-  { value: "clay", label: "Clay (Глина)" },
-  { value: "gravel", label: "Gravel (Гравий)" },
-  { value: "soil", label: "Soil (Земля)" },
-  { value: "rock", label: "Rock (Камень)" },
-  { value: "asphalt", label: "Asphalt (Асфальт)" },
-  { value: "concrete", label: "Concrete (Бетон)" },
-  { value: "paving_stone", label: "Paving Stone (Брусчатка)" },
-  { value: "mixed", label: "Mixed (Смешанный)" },
-  { value: "other", label: "Other (Другое)" },
+  { value: "sand", label: "Песок" },
+  { value: "clay", label: "Глина" },
+  { value: "gravel", label: "Гравий" },
+  { value: "soil", label: "Земля" },
+  { value: "rock", label: "Камень" },
+  { value: "asphalt", label: "Асфальт" },
+  { value: "concrete", label: "Бетон" },
+  { value: "paving_stone", label: "Брусчатка" },
+  { value: "mixed", label: "Смешанный" },
+  { value: "other", label: "Другое" },
 ] as const;
 
 // Validation schema
 const soilTypeSchema = z.object({
-  soil_type_name: z.string().min(1, "Soil type name is required"),
-  price_per_meter: z.coerce.number().min(0.01, "Price must be greater than 0"),
+  soil_type_name: z.string().min(1, "Тип грунта обязателен"),
+  price_per_meter: z.coerce.number().min(0.01, "Цена должна быть больше 0"),
   quantity_meters: z.coerce.number().optional(),
   notes: z.string().optional(),
 });
 
 const contactSchema = z.object({
-  first_name: z.string().min(1, "First name is required"),
-  last_name: z.string().min(1, "Last name is required"),
+  first_name: z.string().min(1, "Имя обязательно"),
+  last_name: z.string().min(1, "Фамилия обязательна"),
   department: z.string().optional(),
   phone: z.string().optional(),
-  email: z.string().email("Invalid email").optional().or(z.literal("")),
+  email: z.string().email("Неверный формат email").optional().or(z.literal("")),
   position: z.string().optional(),
   notes: z.string().optional(),
 });
 
 const createProjectSchema = z.object({
-  name: z.string().min(1, "Project name is required").max(255, "Project name too long"),
+  name: z.string().min(1, "Название проекта обязательно").max(255, "Название слишком длинное"),
   customer: z.string().optional(),
   city: z.string().optional(),
   address: z.string().optional(),
@@ -154,11 +154,11 @@ export default function NewProjectPage() {
   };
 
   const languages: { value: Language; label: string }[] = [
-    { value: "de", label: "German (Deutsch)" },
-    { value: "en", label: "English" },
-    { value: "ru", label: "Russian (Русский)" },
-    { value: "uz", label: "Uzbek (Oʻzbek)" },
-    { value: "tr", label: "Turkish (Türkçe)" },
+    { value: "de", label: "Немецкий (Deutsch)" },
+    { value: "en", label: "Английский (English)" },
+    { value: "ru", label: "Русский" },
+    { value: "uz", label: "Узбекский (Oʻzbek)" },
+    { value: "tr", label: "Турецкий (Türkçe)" },
   ];
 
   return (
@@ -173,12 +173,12 @@ export default function NewProjectPage() {
             className="flex items-center space-x-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>Назад</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Create New Project</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Создать проект</h1>
             <p className="text-muted-foreground">
-              Set up a new fiber optic construction project
+              Настройка нового проекта по прокладке оптоволокна
             </p>
           </div>
         </div>
@@ -193,10 +193,10 @@ export default function NewProjectPage() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Building2 className="h-5 w-5" />
-                  <span>Basic Information</span>
+                  <span>Основная информация</span>
                 </CardTitle>
                 <CardDescription>
-                  Enter the fundamental details about the project
+                  Введите основные данные о проекте
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -205,15 +205,15 @@ export default function NewProjectPage() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project Name *</FormLabel>
+                      <FormLabel>Название проекта *</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g., Fiber Installation Berlin District 1"
+                          placeholder="напр., Прокладка оптоволокна Берлин Район 1"
                           {...field}
                         />
                       </FormControl>
                       <FormDescription>
-                        A clear, descriptive name for the project
+                        Понятное, описательное название проекта
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -226,10 +226,10 @@ export default function NewProjectPage() {
                     name="customer"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Customer</FormLabel>
+                        <FormLabel>Заказчик</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="e.g., Deutsche Telekom"
+                            placeholder="напр., Deutsche Telekom"
                             {...field}
                           />
                         </FormControl>
@@ -243,9 +243,9 @@ export default function NewProjectPage() {
                     name="city"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>City</FormLabel>
+                        <FormLabel>Город</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., Berlin" {...field} />
+                          <Input placeholder="напр., Берлин" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -258,15 +258,15 @@ export default function NewProjectPage() {
                   name="address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project Address</FormLabel>
+                      <FormLabel>Адрес проекта</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g., Hauptstraße 123, 10115 Berlin"
+                          placeholder="напр., Hauptstraße 123, 10115 Berlin"
                           {...field}
                         />
                       </FormControl>
                       <FormDescription>
-                        Primary address or area where the work will be performed
+                        Основной адрес или район выполнения работ
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -278,15 +278,15 @@ export default function NewProjectPage() {
                   name="contact_24h"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>24h Emergency Contact</FormLabel>
+                      <FormLabel>Экстренный контакт 24ч</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g., +49 30 12345678"
+                          placeholder="напр., +49 30 12345678"
                           {...field}
                         />
                       </FormControl>
                       <FormDescription>
-                        Contact number for emergencies during the project
+                        Контактный номер для экстренных ситуаций
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -298,11 +298,11 @@ export default function NewProjectPage() {
                   name="language_default"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Default Language</FormLabel>
+                      <FormLabel>Язык по умолчанию</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select project language" />
+                            <SelectValue placeholder="Выберите язык проекта" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -314,7 +314,7 @@ export default function NewProjectPage() {
                         </SelectContent>
                       </Select>
                       <FormDescription>
-                        Primary language used for project documentation and interface
+                        Основной язык документации и интерфейса проекта
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -326,18 +326,18 @@ export default function NewProjectPage() {
                   name="pm_user_id"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Project Manager</FormLabel>
+                      <FormLabel>Менеджер проекта</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select project manager (optional)" />
+                            <SelectValue placeholder="Выберите менеджера (необязательно)" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="none">No project manager assigned</SelectItem>
+                          <SelectItem value="none">Менеджер не назначен</SelectItem>
                           {isLoadingPMs ? (
                             <SelectItem value="loading" disabled>
-                              Loading project managers...
+                              Загрузка менеджеров...
                             </SelectItem>
                           ) : (
                             projectManagers?.items?.map((pm) => (
@@ -349,7 +349,7 @@ export default function NewProjectPage() {
                         </SelectContent>
                       </Select>
                       <FormDescription>
-                        Choose a project manager to oversee this project
+                        Выберите менеджера для управления проектом
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -363,17 +363,17 @@ export default function NewProjectPage() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Layers className="h-5 w-5" />
-                  <span>Soil Types (Optional)</span>
+                  <span>Типы грунта (необязательно)</span>
                 </CardTitle>
                 <CardDescription>
-                  Define soil types with pricing per meter for this project
+                  Укажите типы грунта с ценой за метр для проекта
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 {soilTypeFields.map((field, index) => (
                   <div key={field.id} className="p-4 border rounded-lg space-y-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-sm">Soil Type #{index + 1}</span>
+                      <span className="font-medium text-sm">Тип грунта #{index + 1}</span>
                       <Button
                         type="button"
                         variant="ghost"
@@ -391,11 +391,11 @@ export default function NewProjectPage() {
                         name={`soil_types.${index}.soil_type_name`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Soil Type *</FormLabel>
+                            <FormLabel>Тип грунта *</FormLabel>
                             <Select onValueChange={field.onChange} value={field.value}>
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select soil type" />
+                                  <SelectValue placeholder="Выберите тип грунта" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -416,13 +416,13 @@ export default function NewProjectPage() {
                         name={`soil_types.${index}.price_per_meter`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Price per Meter (€) *</FormLabel>
+                            <FormLabel>Цена за метр (€) *</FormLabel>
                             <FormControl>
                               <Input
                                 type="number"
                                 step="0.01"
                                 min="0.01"
-                                placeholder="e.g., 12.50"
+                                placeholder="напр., 12.50"
                                 {...field}
                               />
                             </FormControl>
@@ -438,13 +438,13 @@ export default function NewProjectPage() {
                         name={`soil_types.${index}.quantity_meters`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Quantity (meters)</FormLabel>
+                            <FormLabel>Количество (метры)</FormLabel>
                             <FormControl>
                               <Input
                                 type="number"
                                 step="0.01"
                                 min="0"
-                                placeholder="e.g., 500"
+                                placeholder="напр., 500"
                                 {...field}
                                 value={field.value || ""}
                               />
@@ -459,9 +459,9 @@ export default function NewProjectPage() {
                         name={`soil_types.${index}.notes`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Notes</FormLabel>
+                            <FormLabel>Заметки</FormLabel>
                             <FormControl>
-                              <Input placeholder="Additional notes" {...field} value={field.value || ""} />
+                              <Input placeholder="Дополнительные заметки" {...field} value={field.value || ""} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -486,7 +486,7 @@ export default function NewProjectPage() {
                   className="w-full"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Soil Type
+                  Добавить тип грунта
                 </Button>
               </CardContent>
             </Card>
@@ -496,17 +496,17 @@ export default function NewProjectPage() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Users className="h-5 w-5" />
-                  <span>Project Contacts (Optional)</span>
+                  <span>Контакты проекта (необязательно)</span>
                 </CardTitle>
                 <CardDescription>
-                  Add key contacts for this project
+                  Добавьте ключевые контакты для проекта
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 {contactFields.map((field, index) => (
                   <div key={field.id} className="p-4 border rounded-lg space-y-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-medium text-sm">Contact #{index + 1}</span>
+                      <span className="font-medium text-sm">Контакт #{index + 1}</span>
                       <Button
                         type="button"
                         variant="ghost"
@@ -524,9 +524,9 @@ export default function NewProjectPage() {
                         name={`contacts.${index}.first_name`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>First Name *</FormLabel>
+                            <FormLabel>Имя *</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g., John" {...field} />
+                              <Input placeholder="напр., Иван" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -538,9 +538,9 @@ export default function NewProjectPage() {
                         name={`contacts.${index}.last_name`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Last Name *</FormLabel>
+                            <FormLabel>Фамилия *</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g., Smith" {...field} />
+                              <Input placeholder="напр., Петров" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -554,9 +554,9 @@ export default function NewProjectPage() {
                         name={`contacts.${index}.department`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Department</FormLabel>
+                            <FormLabel>Отдел</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g., Engineering" {...field} />
+                              <Input placeholder="напр., Инженерный" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -568,9 +568,9 @@ export default function NewProjectPage() {
                         name={`contacts.${index}.phone`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Phone</FormLabel>
+                            <FormLabel>Телефон</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g., +49 30 12345678" {...field} />
+                              <Input placeholder="напр., +49 30 12345678" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -586,7 +586,7 @@ export default function NewProjectPage() {
                           <FormItem>
                             <FormLabel>Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g., john.smith@example.com" {...field} />
+                              <Input placeholder="напр., ivan.petrov@example.com" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -598,9 +598,9 @@ export default function NewProjectPage() {
                         name={`contacts.${index}.position`}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Position</FormLabel>
+                            <FormLabel>Должность</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g., Project Coordinator" {...field} />
+                              <Input placeholder="напр., Координатор проекта" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -628,7 +628,7 @@ export default function NewProjectPage() {
                   className="w-full"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Contact
+                  Добавить контакт
                 </Button>
               </CardContent>
             </Card>
@@ -638,10 +638,10 @@ export default function NewProjectPage() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <CalendarIcon className="h-5 w-5" />
-                  <span>Project Timeline</span>
+                  <span>Сроки проекта</span>
                 </CardTitle>
                 <CardDescription>
-                  Set the planned start and end dates (optional)
+                  Укажите планируемые даты начала и окончания (необязательно)
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -651,7 +651,7 @@ export default function NewProjectPage() {
                     name="start_date"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Planned Start Date</FormLabel>
+                        <FormLabel>Планируемая дата начала</FormLabel>
                         <FormControl>
                           <Input type="date" {...field} />
                         </FormControl>
@@ -665,7 +665,7 @@ export default function NewProjectPage() {
                     name="end_date_plan"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Planned End Date</FormLabel>
+                        <FormLabel>Планируемая дата окончания</FormLabel>
                         <FormControl>
                           <Input type="date" {...field} />
                         </FormControl>
@@ -684,7 +684,7 @@ export default function NewProjectPage() {
                 variant="outline"
                 onClick={() => router.back()}
               >
-                Cancel
+                Отмена
               </Button>
               <Button
                 type="submit"
@@ -696,7 +696,7 @@ export default function NewProjectPage() {
                 ) : (
                   <Save className="h-4 w-4" />
                 )}
-                <span>Create Project</span>
+                <span>Создать проект</span>
               </Button>
             </div>
           </form>

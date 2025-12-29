@@ -39,8 +39,8 @@ const SafeComponent = ({ Component, projectId, stepName }: { Component: any, pro
       console.error(`Component ${stepName} is undefined`);
       return (
         <div className="p-6 bg-red-50 border border-red-200 rounded-lg">
-          <h3 className="text-lg font-medium text-red-800 mb-2">Component Not Found</h3>
-          <p className="text-red-600">Component {stepName} is not properly imported</p>
+          <h3 className="text-lg font-medium text-red-800 mb-2">Компонент не найден</h3>
+          <p className="text-red-600">Компонент {stepName} неправильно импортирован</p>
         </div>
       );
     }
@@ -49,8 +49,8 @@ const SafeComponent = ({ Component, projectId, stepName }: { Component: any, pro
     console.error(`Error rendering ${stepName}:`, error);
     return (
       <div className="p-6 bg-yellow-50 border border-yellow-200 rounded-lg">
-        <h3 className="text-lg font-medium text-yellow-800 mb-2">Component Error</h3>
-        <p className="text-yellow-600">Error rendering {stepName}</p>
+        <h3 className="text-lg font-medium text-yellow-800 mb-2">Ошибка компонента</h3>
+        <p className="text-yellow-600">Ошибка отображения {stepName}</p>
         <p className="text-sm text-yellow-500 mt-2">{error?.toString()}</p>
       </div>
     );
@@ -60,64 +60,64 @@ const SafeComponent = ({ Component, projectId, stepName }: { Component: any, pro
 const PREPARATION_STEPS = [
   {
     id: 0,
-    title: 'Project Creation',
-    description: 'Basic project information and setup',
+    title: 'Создание проекта',
+    description: 'Основная информация и настройка проекта',
     icon: FileText,
     component: ProjectOverview,
   },
   {
     id: 1,
-    title: 'Plans & Communications',
-    description: 'Utility contacts and communication setup',
+    title: 'Планы и коммуникации',
+    description: 'Контакты коммунальных служб и настройка связи',
     icon: Phone,
     component: UtilityContacts,
   },
   {
     id: 2,
-    title: 'Zone Layout',
-    description: 'Zone mapping and material planning',
+    title: 'Разметка зон',
+    description: 'Разметка зон и планирование материалов',
     icon: MapPin,
     component: ZoneLayout,
   },
   {
     id: 3,
-    title: 'Facilities & Housing',
-    description: 'Setup facilities and housing arrangements',
+    title: 'Объекты и жильё',
+    description: 'Настройка объектов и жилищных условий',
     icon: Building,
     component: FacilitiesManagement,
   },
   {
     id: 4,
-    title: 'Teams & Access',
-    description: 'Team assignments and access management',
+    title: 'Команды и доступ',
+    description: 'Назначение команд и управление доступом',
     icon: Users,
     component: TeamAccess,
   },
   {
     id: 5,
-    title: 'Resources',
-    description: 'Vehicle and equipment management',
+    title: 'Ресурсы',
+    description: 'Управление транспортом и оборудованием',
     icon: Truck,
     component: Resources,
   },
   {
     id: 6,
-    title: 'Materials',
-    description: 'Material allocation and ordering',
+    title: 'Материалы',
+    description: 'Распределение и заказ материалов',
     icon: Package,
     component: Materials,
   },
   {
     id: 7,
-    title: 'Houses',
-    description: 'House connection tracking',
+    title: 'Дома',
+    description: 'Отслеживание подключения домов',
     icon: Home,
     component: Houses,
   },
   {
     id: 8,
-    title: 'Readiness',
-    description: 'Final readiness checks and activation',
+    title: 'Готовность',
+    description: 'Финальные проверки и активация',
     icon: CheckCircle,
     component: Readiness,
   },
@@ -185,9 +185,9 @@ export default function ProjectPreparationTab({ projectId }: ProjectPreparationT
         <CardContent className="p-6">
           <div className="text-center">
             <AlertCircle className="mx-auto h-12 w-12 text-red-500 mb-4" />
-            <h3 className="text-lg font-medium mb-2">Error Loading Project</h3>
+            <h3 className="text-lg font-medium mb-2">Ошибка загрузки проекта</h3>
             <p className="text-gray-600">
-              {error?.message || 'Failed to load project preparation data'}
+              {error?.message || 'Не удалось загрузить данные подготовки проекта'}
             </p>
           </div>
         </CardContent>
@@ -206,7 +206,7 @@ export default function ProjectPreparationTab({ projectId }: ProjectPreparationT
             <div className="flex items-center space-x-2">
               <CheckCircle className="w-5 h-5 text-green-500" />
               <div>
-                <p className="text-sm font-medium">Preparation Progress</p>
+                <p className="text-sm font-medium">Прогресс подготовки</p>
                 <p className="text-2xl font-bold">{preparation_progress}%</p>
                 <Progress value={preparation_progress} className="mt-2" />
               </div>
@@ -219,8 +219,8 @@ export default function ProjectPreparationTab({ projectId }: ProjectPreparationT
             <div className="flex items-center space-x-2">
               <Package className="w-5 h-5 text-blue-500" />
               <div>
-                <p className="text-sm font-medium">Total Length</p>
-                <p className="text-2xl font-bold">{(project.total_length_m || 0).toLocaleString()}m</p>
+                <p className="text-sm font-medium">Общая длина</p>
+                <p className="text-2xl font-bold">{(project.total_length_m || 0).toLocaleString()} м</p>
               </div>
             </div>
           </CardContent>
@@ -231,8 +231,8 @@ export default function ProjectPreparationTab({ projectId }: ProjectPreparationT
             <div className="flex items-center space-x-2">
               <Truck className="w-5 h-5 text-purple-500" />
               <div>
-                <p className="text-sm font-medium">Base Rate</p>
-                <p className="text-2xl font-bold">€{project.base_rate_per_m}/m</p>
+                <p className="text-sm font-medium">Базовая ставка</p>
+                <p className="text-2xl font-bold">€{project.base_rate_per_m}/м</p>
               </div>
             </div>
           </CardContent>
@@ -243,7 +243,7 @@ export default function ProjectPreparationTab({ projectId }: ProjectPreparationT
             <div className="flex items-center space-x-2">
               <Building className="w-5 h-5 text-orange-500" />
               <div>
-                <p className="text-sm font-medium">Potential Revenue</p>
+                <p className="text-sm font-medium">Потенциальный доход</p>
                 <p className="text-2xl font-bold">€{(potential_revenue || 0).toLocaleString()}</p>
               </div>
             </div>
@@ -254,9 +254,9 @@ export default function ProjectPreparationTab({ projectId }: ProjectPreparationT
       {/* Step Navigation */}
       <Card>
         <CardHeader>
-          <CardTitle>Preparation Steps</CardTitle>
+          <CardTitle>Шаги подготовки</CardTitle>
           <CardDescription>
-            Complete each step to prepare the project for activation
+            Завершите каждый шаг для подготовки проекта к активации
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -304,7 +304,7 @@ export default function ProjectPreparationTab({ projectId }: ProjectPreparationT
             })()}
             <div>
               <CardTitle>
-                Step {activeStep}: {PREPARATION_STEPS[activeStep].title}
+                Шаг {activeStep}: {PREPARATION_STEPS[activeStep].title}
               </CardTitle>
               <CardDescription>
                 {PREPARATION_STEPS[activeStep].description}
@@ -335,13 +335,13 @@ export default function ProjectPreparationTab({ projectId }: ProjectPreparationT
           onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
           disabled={activeStep === 0}
         >
-          Previous Step
+          Предыдущий шаг
         </Button>
         <Button
           onClick={() => setActiveStep(Math.min(PREPARATION_STEPS.length - 1, activeStep + 1))}
           disabled={activeStep === PREPARATION_STEPS.length - 1}
         >
-          Next Step
+          Следующий шаг
         </Button>
       </div>
     </div>
