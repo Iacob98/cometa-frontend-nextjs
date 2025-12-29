@@ -39,22 +39,22 @@ interface NavItem {
 
 const navigation: NavItem[] = [
   {
-    title: "Dashboard",
+    title: "Панель управления",
     href: "/dashboard",
     icon: Home,
   },
   {
-    title: "Projects",
+    title: "Проекты",
     href: "/dashboard/projects",
     icon: Building2,
     children: [
       {
-        title: "All Projects",
+        title: "Все проекты",
         href: "/dashboard/projects",
         icon: Building2,
       },
       {
-        title: "Create Project",
+        title: "Создать проект",
         href: "/dashboard/projects/new",
         icon: Building2,
         roles: ["admin", "pm"],
@@ -62,69 +62,69 @@ const navigation: NavItem[] = [
     ],
   },
   {
-    title: "Work Entries",
+    title: "Рабочие записи",
     href: "/dashboard/work-entries",
     icon: ClipboardList,
   },
   {
-    title: "Notifications",
+    title: "Уведомления",
     href: "/dashboard/notifications",
     icon: Bell,
   },
   {
-    title: "Teams",
+    title: "Команды",
     href: "/dashboard/teams",
     icon: Users,
     roles: ["admin", "pm", "foreman"],
   },
   {
-    title: "Materials",
+    title: "Материалы",
     href: "/dashboard/materials/inventory",
     icon: Package,
     roles: ["admin", "pm"],
   },
   {
-    title: "Equipment",
+    title: "Оборудование",
     href: "/dashboard/equipment",
     icon: Truck,
     roles: ["admin", "pm"],
   },
   {
-    title: "Vehicles",
+    title: "Транспорт",
     href: "/dashboard/vehicles",
     icon: Car,
     roles: ["admin", "pm"],
   },
   {
-    title: "Financial",
+    title: "Финансы",
     href: "/dashboard/financial",
     icon: DollarSign,
     roles: ["admin", "pm"],
   },
   {
-    title: "Activity Log",
+    title: "Журнал активности",
     href: "/dashboard/activities",
     icon: Activity,
     roles: ["admin", "pm"],
   },
   {
-    title: "Calendar",
+    title: "Календарь",
     href: "/dashboard/calendar",
     icon: Calendar,
   },
   {
-    title: "Documents",
+    title: "Документы",
     href: "/dashboard/documents",
     icon: FileText,
   },
   {
-    title: "Geospatial",
+    title: "Геоданные",
     href: "/dashboard/geospatial",
     icon: Map,
     roles: ["admin", "pm", "foreman"],
   },
   {
-    title: "Settings",
+    title: "Настройки",
     href: "/dashboard/settings",
     icon: Settings,
     roles: ["admin"],
@@ -249,7 +249,7 @@ export function Sidebar() {
       <div className="border-t p-4">
         <div className="text-xs text-muted-foreground">
           <p>COMETA v2.0</p>
-          <p>Phase 1 Migration</p>
+          <p>Система управления</p>
         </div>
       </div>
     </div>

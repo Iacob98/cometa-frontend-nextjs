@@ -62,16 +62,16 @@ export default function WorkEntriesPage() {
 
   const getStageLabel = (stageCode: StageCode) => {
     const stageLabels: Record<StageCode, string> = {
-      stage_1_marking: "Marking",
-      stage_2_excavation: "Excavation",
-      stage_3_conduit: "Conduit Installation",
-      stage_4_cable: "Cable Installation",
-      stage_5_splice: "Splice/Connection",
-      stage_6_test: "Testing",
-      stage_7_connect: "Connection",
-      stage_8_final: "Final Inspection",
-      stage_9_backfill: "Backfilling",
-      stage_10_surface: "Surface Restoration",
+      stage_1_marking: "Разметка",
+      stage_2_excavation: "Раскопка",
+      stage_3_conduit: "Укладка кабелепровода",
+      stage_4_cable: "Укладка кабеля",
+      stage_5_splice: "Сращивание/Соединение",
+      stage_6_test: "Тестирование",
+      stage_7_connect: "Подключение",
+      stage_8_final: "Финальная проверка",
+      stage_9_backfill: "Засыпка",
+      stage_10_surface: "Восстановление поверхности",
     };
     return stageLabels[stageCode] || stageCode;
   };
@@ -88,12 +88,12 @@ export default function WorkEntriesPage() {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">Work Entries</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Рабочие записи</h1>
         </div>
         <Card>
           <CardContent className="py-8">
             <div className="text-center text-muted-foreground">
-              Failed to load work entries. Please try again later.
+              Не удалось загрузить рабочие записи. Попробуйте позже.
             </div>
           </CardContent>
         </Card>
@@ -106,23 +106,23 @@ export default function WorkEntriesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Work Entries</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Рабочие записи</h1>
           <p className="text-muted-foreground">
-            Track and manage field work progress across all projects
+            Отслеживание и управление полевыми работами по всем проектам
           </p>
         </div>
         <Button onClick={() => router.push("/dashboard/work-entries/new")}>
           <Plus className="mr-2 h-4 w-4" />
-          New Work Entry
+          Новая запись
         </Button>
       </div>
 
       <Tabs defaultValue="all" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="all">All Work Entries</TabsTrigger>
+          <TabsTrigger value="all">Все записи</TabsTrigger>
           {canApproveWork && (
             <TabsTrigger value="pending">
-              Pending Approval ({pendingApprovals.length})
+              Ожидают одобрения ({pendingApprovals.length})
             </TabsTrigger>
           )}
         </TabsList>
@@ -131,9 +131,9 @@ export default function WorkEntriesPage() {
           {/* Filters */}
           <Card>
             <CardHeader>
-              <CardTitle>Filter Work Entries</CardTitle>
+              <CardTitle>Фильтр записей</CardTitle>
               <CardDescription>
-                Search and filter work entries by various criteria
+                Поиск и фильтрация рабочих записей по различным критериям
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -142,7 +142,7 @@ export default function WorkEntriesPage() {
                   <div className="relative">
                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                      placeholder="Search by project, notes, or worker..."
+                      placeholder="Поиск по проекту, заметкам или работнику..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="pl-8"
@@ -151,30 +151,30 @@ export default function WorkEntriesPage() {
                 </div>
                 <Select value={stageFilter} onValueChange={(value: StageCode | "all") => setStageFilter(value)}>
                   <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Filter by stage" />
+                    <SelectValue placeholder="Фильтр по этапу" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Stages</SelectItem>
-                    <SelectItem value="stage_1_marking">Marking</SelectItem>
-                    <SelectItem value="stage_2_excavation">Excavation</SelectItem>
-                    <SelectItem value="stage_3_conduit">Conduit Installation</SelectItem>
-                    <SelectItem value="stage_4_cable_pulling">Cable Pulling</SelectItem>
-                    <SelectItem value="stage_5_closure">Closure</SelectItem>
-                    <SelectItem value="stage_6_testing">Testing</SelectItem>
-                    <SelectItem value="stage_7_backfill">Backfilling</SelectItem>
-                    <SelectItem value="stage_8_restoration">Surface Restoration</SelectItem>
-                    <SelectItem value="stage_9_documentation">Documentation</SelectItem>
-                    <SelectItem value="stage_10_quality_check">Quality Check</SelectItem>
+                    <SelectItem value="all">Все этапы</SelectItem>
+                    <SelectItem value="stage_1_marking">Разметка</SelectItem>
+                    <SelectItem value="stage_2_excavation">Раскопка</SelectItem>
+                    <SelectItem value="stage_3_conduit">Укладка кабелепровода</SelectItem>
+                    <SelectItem value="stage_4_cable_pulling">Протяжка кабеля</SelectItem>
+                    <SelectItem value="stage_5_closure">Муфтирование</SelectItem>
+                    <SelectItem value="stage_6_testing">Тестирование</SelectItem>
+                    <SelectItem value="stage_7_backfill">Засыпка</SelectItem>
+                    <SelectItem value="stage_8_restoration">Восстановление поверхности</SelectItem>
+                    <SelectItem value="stage_9_documentation">Документация</SelectItem>
+                    <SelectItem value="stage_10_quality_check">Контроль качества</SelectItem>
                   </SelectContent>
                 </Select>
                 <Select value={approvalFilter} onValueChange={(value: "all" | "approved" | "pending") => setApprovalFilter(value)}>
                   <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Filter by approval" />
+                    <SelectValue placeholder="Фильтр по статусу" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="approved">Approved</SelectItem>
-                    <SelectItem value="pending">Pending Approval</SelectItem>
+                    <SelectItem value="all">Все статусы</SelectItem>
+                    <SelectItem value="approved">Одобрено</SelectItem>
+                    <SelectItem value="pending">Ожидает одобрения</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -186,7 +186,7 @@ export default function WorkEntriesPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Building2 className="h-5 w-5" />
-                Work Entries ({workEntriesResponse?.total || 0})
+                Рабочие записи ({workEntriesResponse?.total || 0})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -203,31 +203,31 @@ export default function WorkEntriesPage() {
               ) : workEntries.length === 0 ? (
                 <div className="text-center py-8">
                   <Building2 className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-2 text-sm font-semibold">No work entries found</h3>
+                  <h3 className="mt-2 text-sm font-semibold">Записи не найдены</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
                     {searchQuery || stageFilter !== "all" || approvalFilter !== "all"
-                      ? "No work entries match your current filters."
-                      : "Get started by creating your first work entry."}
+                      ? "Нет записей, соответствующих фильтрам."
+                      : "Начните с создания первой рабочей записи."}
                   </p>
                   <Button
                     className="mt-4"
                     onClick={() => router.push("/dashboard/work-entries/new")}
                   >
                     <Plus className="mr-2 h-4 w-4" />
-                    Create Work Entry
+                    Создать запись
                   </Button>
                 </div>
               ) : (
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Date & Worker</TableHead>
-                      <TableHead>Stage & Progress</TableHead>
-                      <TableHead>Project</TableHead>
-                      <TableHead>Location</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Photos</TableHead>
-                      <TableHead className="w-[100px]">Actions</TableHead>
+                      <TableHead>Дата и работник</TableHead>
+                      <TableHead>Этап и прогресс</TableHead>
+                      <TableHead>Проект</TableHead>
+                      <TableHead>Локация</TableHead>
+                      <TableHead>Статус</TableHead>
+                      <TableHead>Фото</TableHead>
+                      <TableHead className="w-[100px]">Действия</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -246,7 +246,7 @@ export default function WorkEntriesPage() {
                               <span>
                                 {entry.user
                                   ? `${entry.user.first_name || ''} ${entry.user.last_name || ''}`.trim()
-                                  : "Unknown"}
+                                  : "Неизвестно"}
                               </span>
                             </div>
                           </div>
@@ -260,13 +260,13 @@ export default function WorkEntriesPage() {
                               {entry.house_id && (
                                 <Badge variant="secondary" className="bg-blue-100 text-blue-700 border-blue-300 text-xs">
                                   <Home className="h-2.5 w-2.5 mr-1" />
-                                  House
+                                  Дом
                                 </Badge>
                               )}
                               {entry.was_rejected_before && !entry.rejected_by && (
                                 <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">
                                   <AlertTriangle className="h-2.5 w-2.5 mr-1" />
-                                  Resubmitted
+                                  Повторно
                                 </Badge>
                               )}
                             </div>
@@ -293,7 +293,7 @@ export default function WorkEntriesPage() {
                           {entry.house_id ? (
                             <div className="text-sm flex items-center space-x-1 text-blue-700">
                               <Home className="h-3.5 w-3.5" />
-                              <span className="font-medium">House Connection</span>
+                              <span className="font-medium">Подключение дома</span>
                             </div>
                           ) : (
                             <div className="text-sm flex items-center space-x-1">
@@ -302,7 +302,7 @@ export default function WorkEntriesPage() {
                                 {entry.segment?.name ||
                                  entry.cabinet?.name ||
                                  entry.cabinet?.address ||
-                                 (entry.cabinet_id ? `Cabinet ${entry.cabinet_id.slice(0, 8)}...` : "—")}
+                                 (entry.cabinet_id ? `Шкаф ${entry.cabinet_id.slice(0, 8)}...` : "—")}
                               </span>
                             </div>
                           )}
@@ -311,12 +311,12 @@ export default function WorkEntriesPage() {
                           {entry.approved_at ? (
                             <div className="flex items-center space-x-1 text-green-600">
                               <CheckCircle className="h-4 w-4" />
-                              <span className="text-sm">Approved</span>
+                              <span className="text-sm">Одобрено</span>
                             </div>
                           ) : (
                             <div className="flex items-center space-x-1 text-amber-600">
                               <Clock className="h-4 w-4" />
-                              <span className="text-sm">Pending</span>
+                              <span className="text-sm">Ожидает</span>
                             </div>
                           )}
                         </TableCell>
@@ -330,17 +330,17 @@ export default function WorkEntriesPage() {
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
+                                <span className="sr-only">Открыть меню</span>
                                 <Filter className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuLabel>Действия</DropdownMenuLabel>
                               <DropdownMenuItem
                                 onClick={() => router.push(`/dashboard/work-entries/${entry.id}`)}
                               >
                                 <Eye className="mr-2 h-4 w-4" />
-                                View Details
+                                Подробнее
                               </DropdownMenuItem>
                               {canApproveWork && !entry.approved_at && (
                                 <>
@@ -350,7 +350,7 @@ export default function WorkEntriesPage() {
                                     disabled={approveWorkEntry.isPending}
                                   >
                                     <CheckCircle className="mr-2 h-4 w-4" />
-                                    Approve Entry
+                                    Одобрить запись
                                   </DropdownMenuItem>
                                 </>
                               )}
@@ -372,19 +372,19 @@ export default function WorkEntriesPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Clock className="h-5 w-5" />
-                  Pending Approvals ({pendingApprovals.length})
+                  Ожидают одобрения ({pendingApprovals.length})
                 </CardTitle>
                 <CardDescription>
-                  Work entries waiting for your approval
+                  Рабочие записи, ожидающие вашего одобрения
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 {pendingApprovals.length === 0 ? (
                   <div className="text-center py-8">
                     <CheckCircle className="mx-auto h-12 w-12 text-muted-foreground" />
-                    <h3 className="mt-2 text-sm font-semibold">No pending approvals</h3>
+                    <h3 className="mt-2 text-sm font-semibold">Нет записей на одобрение</h3>
                     <p className="mt-1 text-sm text-muted-foreground">
-                      All work entries have been approved.
+                      Все рабочие записи уже одобрены.
                     </p>
                   </div>
                 ) : (
@@ -397,19 +397,19 @@ export default function WorkEntriesPage() {
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
                             <span className="font-medium">
-                              {getStageLabel(entry.stage_code as StageCode)} - {entry.meters_done_m}m
+                              {getStageLabel(entry.stage_code as StageCode)} - {entry.meters_done_m}м
                             </span>
                             {entry.was_rejected_before && (
                               <Badge variant="outline" className="border-orange-500 text-orange-600 text-xs">
                                 <AlertTriangle className="h-2.5 w-2.5 mr-1" />
-                                Resubmitted
+                                Повторно
                               </Badge>
                             )}
                           </div>
                           <div className="text-sm text-muted-foreground">
                             {entry.user
                               ? `${entry.user.first_name || ''} ${entry.user.last_name || ''}`.trim()
-                              : "Unknown"} • {new Date(entry.date).toLocaleDateString()}
+                              : "Неизвестно"} • {new Date(entry.date).toLocaleDateString('ru-RU')}
                           </div>
                         </div>
                         <div className="flex space-x-2">
@@ -419,7 +419,7 @@ export default function WorkEntriesPage() {
                             onClick={() => router.push(`/dashboard/work-entries/${entry.id}`)}
                           >
                             <Eye className="mr-2 h-4 w-4" />
-                            View
+                            Просмотр
                           </Button>
                           <Button
                             size="sm"
@@ -427,7 +427,7 @@ export default function WorkEntriesPage() {
                             disabled={approveWorkEntry.isPending}
                           >
                             <CheckCircle className="mr-2 h-4 w-4" />
-                            Approve
+                            Одобрить
                           </Button>
                         </div>
                       </div>

@@ -38,7 +38,7 @@ import AssignUserToTeamDialog from "@/components/teams/assign-user-to-team-dialo
 
 // Validation schema for creating/editing teams
 const teamSchema = z.object({
-  name: z.string().min(1, "Team name is required"),
+  name: z.string().min(1, "Название команды обязательно"),
   foreman_user_id: z.string().optional(),
   project_id: z.string().optional(),
   description: z.string().optional(),
@@ -64,10 +64,10 @@ function UserDocumentsSummary({ userId }: { userId: string }) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileText className="h-4 w-4" />
-          Dokumente
+          Документы
         </CardTitle>
         <CardDescription>
-          Benutzerdokumente, Verträge und Zertifikate
+          Документы пользователя, договоры и сертификаты
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -78,8 +78,8 @@ function UserDocumentsSummary({ userId }: { userId: string }) {
         ) : !data?.documents?.all || data.documents.all.length === 0 ? (
           <div className="text-center py-8 text-muted-foreground">
             <FileText className="mx-auto h-12 w-12 mb-4" />
-            <p>Noch keine Dokumente hochgeladen</p>
-            <p className="text-xs mt-2">Klicken Sie auf „Dokumente verwalten", um Dokumente hinzuzufügen</p>
+            <p>Документы ещё не загружены</p>
+            <p className="text-xs mt-2">Нажмите «Управление документами», чтобы добавить документы</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -87,25 +87,25 @@ function UserDocumentsSummary({ userId }: { userId: string }) {
             <div className="grid grid-cols-4 gap-3">
               <div className="text-center p-3 bg-muted rounded-lg">
                 <div className="text-2xl font-bold">{data.stats.total}</div>
-                <div className="text-xs text-muted-foreground">Gesamt</div>
+                <div className="text-xs text-muted-foreground">Всего</div>
               </div>
               <div className="text-center p-3 bg-green-50 rounded-lg">
                 <div className="text-2xl font-bold text-green-600">{data.stats.active}</div>
-                <div className="text-xs text-muted-foreground">Aktiv</div>
+                <div className="text-xs text-muted-foreground">Активно</div>
               </div>
               <div className="text-center p-3 bg-yellow-50 rounded-lg">
                 <div className="text-2xl font-bold text-yellow-600">{data.stats.expiring_soon}</div>
-                <div className="text-xs text-muted-foreground">Läuft ab</div>
+                <div className="text-xs text-muted-foreground">Истекает</div>
               </div>
               <div className="text-center p-3 bg-red-50 rounded-lg">
                 <div className="text-2xl font-bold text-red-600">{data.stats.expired}</div>
-                <div className="text-xs text-muted-foreground">Abgelaufen</div>
+                <div className="text-xs text-muted-foreground">Просрочено</div>
               </div>
             </div>
 
             {/* Recent Documents */}
             <div className="space-y-2">
-              <div className="text-sm font-medium">Letzte Dokumente ({Math.min(data.documents.all.length, 3)})</div>
+              <div className="text-sm font-medium">Последние документы ({Math.min(data.documents.all.length, 3)})</div>
               {data.documents.all.slice(0, 3).map((doc: any) => (
                 <div key={doc.id} className="flex items-center justify-between p-2 border rounded">
                   <div className="flex items-center gap-2">
@@ -119,13 +119,13 @@ function UserDocumentsSummary({ userId }: { userId: string }) {
                     </div>
                   </div>
                   <Badge variant={doc.status === 'active' ? 'default' : doc.status === 'expired' ? 'destructive' : 'secondary'}>
-                    {doc.status}
+                    {doc.status === 'active' ? 'Активно' : doc.status === 'expired' ? 'Просрочено' : doc.status}
                   </Badge>
                 </div>
               ))}
               {data.documents.all.length > 3 && (
                 <div className="text-xs text-center text-muted-foreground pt-2">
-                  +{data.documents.all.length - 3} weitere Dokumente
+                  +{data.documents.all.length - 3} ещё документов
                 </div>
               )}
             </div>
@@ -246,7 +246,7 @@ export default function TeamsPage() {
   });
 
   const handleDeleteCrew = async (crewId: string, crewName: string) => {
-    if (confirm(`Are you sure you want to delete "${crewName}"? This action cannot be undone.`)) {
+    if (confirm(`Вы уверены, что хотите удалить "${crewName}"? Это действие нельзя отменить.`)) {
       await deleteCrew.mutateAsync(crewId);
     }
   };
@@ -406,12 +406,12 @@ export default function TeamsPage() {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">Teams</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Команды</h1>
         </div>
         <Card>
           <CardContent className="py-8">
             <div className="text-center text-muted-foreground">
-              Failed to load teams. Please try again later.
+              Не удалось загрузить команды. Попробуйте позже.
             </div>
           </CardContent>
         </Card>
@@ -424,9 +424,9 @@ export default function TeamsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Teams</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Команды</h1>
           <p className="text-muted-foreground">
-            Manage work crews and team assignments
+            Управление рабочими бригадами и назначениями
           </p>
         </div>
         {canManageTeams && (
@@ -439,11 +439,11 @@ export default function TeamsPage() {
               }}
             >
               <UserPlus className="mr-2 h-4 w-4" />
-              Add Team Member
+              Добавить участника
             </Button>
             <Button onClick={() => setShowCreateTeamDialog(true)}>
               <Plus className="mr-2 h-4 w-4" />
-              New Team
+              Новая команда
             </Button>
           </div>
         )}
@@ -451,26 +451,26 @@ export default function TeamsPage() {
 
       <Tabs defaultValue="crews" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="crews">Work Crews ({crews?.length || 0})</TabsTrigger>
-          <TabsTrigger value="available">Available Workers ({availableWorkers.length})</TabsTrigger>
-          <TabsTrigger value="all-users">All Users ({users.length})</TabsTrigger>
-          <TabsTrigger value="overview">Team Overview</TabsTrigger>
+          <TabsTrigger value="crews">Бригады ({crews?.length || 0})</TabsTrigger>
+          <TabsTrigger value="available">Свободные работники ({availableWorkers.length})</TabsTrigger>
+          <TabsTrigger value="all-users">Все пользователи ({users.length})</TabsTrigger>
+          <TabsTrigger value="overview">Обзор команд</TabsTrigger>
         </TabsList>
 
         <TabsContent value="crews" className="space-y-6">
           {/* Search */}
           <Card>
             <CardHeader>
-              <CardTitle>Filter Teams</CardTitle>
+              <CardTitle>Фильтр команд</CardTitle>
               <CardDescription>
-                Search teams by name or foreman
+                Поиск команд по названию или бригадиру
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="relative">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search teams by name, foreman, or project..."
+                  placeholder="Поиск по названию, бригадиру или проекту..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-8"
@@ -499,9 +499,9 @@ export default function TeamsPage() {
                   <CardContent className="py-8">
                     <div className="text-center">
                       <Users className="mx-auto h-12 w-12 text-muted-foreground" />
-                      <h3 className="mt-2 text-sm font-semibold">No teams found</h3>
+                      <h3 className="mt-2 text-sm font-semibold">Команды не найдены</h3>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        Get started by creating your first work crew.
+                        Начните с создания первой рабочей бригады.
                       </p>
                       {canManageTeams && (
                         <Button
@@ -509,7 +509,7 @@ export default function TeamsPage() {
                           onClick={() => router.push("/dashboard/teams/new")}
                         >
                           <Plus className="mr-2 h-4 w-4" />
-                          Create Team
+                          Создать команду
                         </Button>
                       )}
                     </div>
@@ -532,23 +532,23 @@ export default function TeamsPage() {
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
+                                <span className="sr-only">Открыть меню</span>
                                 <Edit className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuLabel>Действия</DropdownMenuLabel>
                               <DropdownMenuItem
                                 onClick={() => router.push(`/dashboard/teams/${crew.id}`)}
                               >
                                 <Eye className="mr-2 h-4 w-4" />
-                                View Details
+                                Подробнее
                               </DropdownMenuItem>
                               <DropdownMenuItem
                                 onClick={() => handleEditTeam(crew)}
                               >
                                 <Edit className="mr-2 h-4 w-4" />
-                                Edit Team
+                                Редактировать
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
@@ -556,7 +556,7 @@ export default function TeamsPage() {
                                 onClick={() => handleDeleteCrew(crew.id, crew.name)}
                               >
                                 <Trash2 className="mr-2 h-4 w-4" />
-                                Delete Team
+                                Удалить команду
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -567,7 +567,7 @@ export default function TeamsPage() {
                       {/* Foreman */}
                       {crew.foreman && (
                         <div className="flex items-center space-x-3">
-                          <Badge variant="default">Foreman</Badge>
+                          <Badge variant="default">Бригадир</Badge>
                           <div>
                             <div className="font-medium text-sm">{crew.foreman.full_name}</div>
                             <div className="text-xs text-muted-foreground flex items-center space-x-1">
@@ -582,13 +582,13 @@ export default function TeamsPage() {
                       <div className="space-y-2">
                         <div className="text-sm font-medium flex items-center space-x-1">
                           <Users className="h-4 w-4" />
-                          <span>Team Members ({crew.member_count || 0})</span>
+                          <span>Участники ({crew.member_count || 0})</span>
                         </div>
                         {crew.members?.length ? (
                           <div className="space-y-1">
                             {crew.members.slice(0, 3).map((member) => (
                               <div key={member.id} className="flex items-center justify-between text-sm">
-                                <span>{member.user?.full_name || "Unknown"}</span>
+                                <span>{member.user?.full_name || "Неизвестно"}</span>
                                 <Badge variant={getRoleColor(member.user?.role || "")}>
                                   {member.user?.role || "—"}
                                 </Badge>
@@ -596,12 +596,12 @@ export default function TeamsPage() {
                             ))}
                             {crew.members.length > 3 && (
                               <div className="text-xs text-muted-foreground">
-                                +{crew.members.length - 3} more
+                                +{crew.members.length - 3} ещё
                               </div>
                             )}
                           </div>
                         ) : (
-                          <div className="text-sm text-muted-foreground">No members assigned</div>
+                          <div className="text-sm text-muted-foreground">Нет назначенных участников</div>
                         )}
                       </div>
 
@@ -610,7 +610,7 @@ export default function TeamsPage() {
                         <div className="pt-2 border-t">
                           <div className="text-xs text-muted-foreground flex items-center space-x-1">
                             <MapPin className="h-3 w-3" />
-                            <span>Assigned to Project {crew.project_id}</span>
+                            <span>Назначен на проект {crew.project_id}</span>
                           </div>
                         </div>
                       )}
@@ -624,7 +624,7 @@ export default function TeamsPage() {
                           onClick={() => router.push(`/dashboard/teams/${crew.id}`)}
                         >
                           <Eye className="mr-2 h-3 w-3" />
-                          View
+                          Просмотр
                         </Button>
                         {canManageTeams && (
                           <Button
@@ -634,7 +634,7 @@ export default function TeamsPage() {
                             onClick={() => handleEditTeam(crew)}
                           >
                             <Edit className="mr-2 h-3 w-3" />
-                            Edit
+                            Изменить
                           </Button>
                         )}
                       </div>
@@ -650,10 +650,10 @@ export default function TeamsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <UserPlus className="h-5 w-5" />
-                Available Workers ({availableWorkers.length})
+                Свободные работники ({availableWorkers.length})
               </CardTitle>
               <CardDescription>
-                Workers available for team assignment (excludes already assigned workers)
+                Работники, доступные для назначения в команду (исключая уже назначенных)
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -669,9 +669,9 @@ export default function TeamsPage() {
               ) : availableWorkers.length === 0 ? (
                 <div className="text-center py-8">
                   <UserPlus className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-2 text-sm font-semibold">All workers assigned</h3>
+                  <h3 className="mt-2 text-sm font-semibold">Все работники назначены</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    All available workers are currently assigned to teams. Check the "All Users" tab to see assignment status.
+                    Все доступные работники уже назначены в команды. Проверьте вкладку «Все пользователи» для просмотра статуса назначений.
                   </p>
                 </div>
               ) : (
@@ -681,33 +681,33 @@ export default function TeamsPage() {
                     <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg border">
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-medium">
-                          {selectedUsers.size} user{selectedUsers.size > 1 ? 's' : ''} selected
+                          Выбрано: {selectedUsers.size}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="outline" size="sm">
-                              Change Role
+                              Изменить роль
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuLabel>Assign Role</DropdownMenuLabel>
+                            <DropdownMenuLabel>Назначить роль</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => handleBulkAction("role_admin")}>
-                              Administrator
+                              Администратор
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleBulkAction("role_pm")}>
-                              Project Manager
+                              Менеджер проекта
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleBulkAction("role_foreman")}>
-                              Foreman
+                              Бригадир
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleBulkAction("role_crew")}>
-                              Crew Member
+                              Член бригады
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleBulkAction("role_viewer")}>
-                              Viewer
+                              Наблюдатель
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -717,14 +717,14 @@ export default function TeamsPage() {
                           onClick={() => handleBulkAction("delete")}
                         >
                           <Trash2 className="h-4 w-4 mr-1" />
-                          Delete Selected
+                          Удалить выбранных
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => setSelectedUsers(new Set())}
                         >
-                          Clear Selection
+                          Снять выделение
                         </Button>
                       </div>
                     </div>
@@ -742,15 +742,15 @@ export default function TeamsPage() {
                           onCheckedChange={(checked) =>
                             handleSelectAllUsers(checked as boolean)
                           }
-                          aria-label="Select all users"
+                          aria-label="Выбрать всех"
                         />
                       </TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Role</TableHead>
-                      <TableHead>PIN Code</TableHead>
-                      <TableHead>Skills</TableHead>
-                      <TableHead>Contact</TableHead>
-                      <TableHead className="w-[100px]">Actions</TableHead>
+                      <TableHead>Имя</TableHead>
+                      <TableHead>Роль</TableHead>
+                      <TableHead>PIN-код</TableHead>
+                      <TableHead>Навыки</TableHead>
+                      <TableHead>Контакт</TableHead>
+                      <TableHead className="w-[100px]">Действия</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -807,7 +807,7 @@ export default function TeamsPage() {
                                 )}
                               </>
                             ) : (
-                              <span className="text-muted-foreground text-sm">No skills</span>
+                              <span className="text-muted-foreground text-sm">Нет навыков</span>
                             )}
                           </div>
                         </TableCell>
@@ -833,7 +833,7 @@ export default function TeamsPage() {
                                 onClick={(e) => e.stopPropagation()}
                               >
                                 <UserPlus className="mr-2 h-3 w-3" />
-                                Assign
+                                Назначить
                               </Button>
                             </AssignUserToTeamDialog>
                           )}
@@ -852,16 +852,16 @@ export default function TeamsPage() {
           {/* Search */}
           <Card>
             <CardHeader>
-              <CardTitle>Filter Users</CardTitle>
+              <CardTitle>Фильтр пользователей</CardTitle>
               <CardDescription>
-                Search users by name, email, role, skills, or team
+                Поиск по имени, email, роли, навыкам или команде
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="relative">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search by name, email, role, skills, or team..."
+                  placeholder="Поиск по имени, email, роли, навыкам или команде..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-8"
@@ -874,10 +874,10 @@ export default function TeamsPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
-                All Users ({filteredUsers.length} {searchQuery && `of ${users.length}`})
+                Все пользователи ({filteredUsers.length} {searchQuery && `из ${users.length}`})
               </CardTitle>
               <CardDescription>
-                Complete user directory with all roles and management capabilities
+                Полный справочник пользователей со всеми ролями и возможностями управления
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -893,9 +893,9 @@ export default function TeamsPage() {
               ) : users.length === 0 ? (
                 <div className="text-center py-8">
                   <Users className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-2 text-sm font-semibold">No users found</h3>
+                  <h3 className="mt-2 text-sm font-semibold">Пользователи не найдены</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Get started by creating your first user account.
+                    Начните с создания первой учётной записи.
                   </p>
                 </div>
               ) : (
@@ -905,33 +905,33 @@ export default function TeamsPage() {
                     <div className="flex items-center justify-between p-3 bg-muted/50 rounded-lg border">
                       <div className="flex items-center gap-2">
                         <span className="text-sm font-medium">
-                          {selectedUsers.size} user{selectedUsers.size > 1 ? 's' : ''} selected
+                          Выбрано: {selectedUsers.size}
                         </span>
                       </div>
                       <div className="flex items-center gap-2">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="outline" size="sm">
-                              Change Role
+                              Изменить роль
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuLabel>Assign Role</DropdownMenuLabel>
+                            <DropdownMenuLabel>Назначить роль</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => handleBulkAction("role_admin")}>
-                              Administrator
+                              Администратор
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleBulkAction("role_pm")}>
-                              Project Manager
+                              Менеджер проекта
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleBulkAction("role_foreman")}>
-                              Foreman
+                              Бригадир
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleBulkAction("role_crew")}>
-                              Crew Member
+                              Член бригады
                             </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleBulkAction("role_viewer")}>
-                              Viewer
+                              Наблюдатель
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -941,14 +941,14 @@ export default function TeamsPage() {
                           onClick={() => handleBulkAction("delete")}
                         >
                           <Trash2 className="h-4 w-4 mr-1" />
-                          Delete Selected
+                          Удалить выбранных
                         </Button>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => setSelectedUsers(new Set())}
                         >
-                          Clear Selection
+                          Снять выделение
                         </Button>
                       </div>
                     </div>
@@ -966,17 +966,17 @@ export default function TeamsPage() {
                             onCheckedChange={(checked) =>
                               handleSelectAllUsers(checked as boolean)
                             }
-                            aria-label="Select all users"
+                            aria-label="Выбрать всех"
                           />
                         </TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Role</TableHead>
-                        <TableHead>PIN Code</TableHead>
-                        <TableHead>Skills</TableHead>
-                        <TableHead>Contact</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Team Status</TableHead>
-                        <TableHead className="w-[100px]">Actions</TableHead>
+                        <TableHead>Имя</TableHead>
+                        <TableHead>Роль</TableHead>
+                        <TableHead>PIN-код</TableHead>
+                        <TableHead>Навыки</TableHead>
+                        <TableHead>Контакт</TableHead>
+                        <TableHead>Статус</TableHead>
+                        <TableHead>Статус назначения</TableHead>
+                        <TableHead className="w-[100px]">Действия</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -1033,7 +1033,7 @@ export default function TeamsPage() {
                                   )}
                                 </>
                               ) : (
-                                <span className="text-muted-foreground text-sm">No skills</span>
+                                <span className="text-muted-foreground text-sm">Нет навыков</span>
                               )}
                             </div>
                           </TableCell>
@@ -1049,21 +1049,21 @@ export default function TeamsPage() {
                           </TableCell>
                           <TableCell>
                             <Badge variant={user.is_active ? "default" : "secondary"}>
-                              {user.is_active ? "Active" : "Inactive"}
+                              {user.is_active ? "Активен" : "Неактивен"}
                             </Badge>
                           </TableCell>
                           <TableCell>
                             {isUserAssignedToTeam(user.id) ? (
                               <Badge variant="default" className="bg-green-600">
-                                Assigned
+                                Назначен
                               </Badge>
                             ) : ["crew", "worker", "foreman"].includes(user.role) ? (
                               <Badge variant="outline">
-                                Available
+                                Свободен
                               </Badge>
                             ) : (
                               <Badge variant="secondary">
-                                N/A
+                                Н/Д
                               </Badge>
                             )}
                           </TableCell>
@@ -1076,11 +1076,11 @@ export default function TeamsPage() {
                                     size="sm"
                                     onClick={(e) => e.stopPropagation()}
                                   >
-                                    Actions
+                                    Действия
                                   </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end">
-                                  <DropdownMenuLabel>User Actions</DropdownMenuLabel>
+                                  <DropdownMenuLabel>Действия с пользователем</DropdownMenuLabel>
                                   <DropdownMenuItem
                                     onClick={(e) => {
                                       e.stopPropagation();
@@ -1088,7 +1088,7 @@ export default function TeamsPage() {
                                     }}
                                   >
                                     <Eye className="mr-2 h-4 w-4" />
-                                    View Details
+                                    Подробнее
                                   </DropdownMenuItem>
                                   <DropdownMenuItem
                                     onClick={(e) => {
@@ -1097,7 +1097,7 @@ export default function TeamsPage() {
                                     }}
                                   >
                                     <Edit className="mr-2 h-4 w-4" />
-                                    Edit User
+                                    Редактировать
                                   </DropdownMenuItem>
                                   {["crew", "worker", "foreman"].includes(user.role) && !isUserAssignedToTeam(user.id) && (
                                     <DropdownMenuItem
@@ -1108,7 +1108,7 @@ export default function TeamsPage() {
                                       }}
                                     >
                                       <UserPlus className="mr-2 h-4 w-4" />
-                                      Assign to Team
+                                      Назначить в команду
                                     </DropdownMenuItem>
                                   )}
                                   <DropdownMenuSeparator />
@@ -1120,7 +1120,7 @@ export default function TeamsPage() {
                                     }}
                                   >
                                     <Trash2 className="mr-2 h-4 w-4" />
-                                    Delete User
+                                    Удалить
                                   </DropdownMenuItem>
                                 </DropdownMenuContent>
                               </DropdownMenu>
@@ -1140,20 +1140,20 @@ export default function TeamsPage() {
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Teams</CardTitle>
+                <CardTitle className="text-sm font-medium">Всего команд</CardTitle>
                 <Users className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{crews?.length || 0}</div>
                 <p className="text-xs text-muted-foreground">
-                  Active work crews
+                  Активные бригады
                 </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Workers</CardTitle>
+                <CardTitle className="text-sm font-medium">Всего работников</CardTitle>
                 <UserPlus className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -1161,27 +1161,27 @@ export default function TeamsPage() {
                   {crews?.reduce((sum, crew) => sum + (crew.member_count || 0), 0) || 0}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Assigned to teams
+                  Назначено в команды
                 </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Available Workers</CardTitle>
+                <CardTitle className="text-sm font-medium">Свободные работники</CardTitle>
                 <UserPlus className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">{availableWorkers.length}</div>
                 <p className="text-xs text-muted-foreground">
-                  Not assigned to teams
+                  Не назначены в команды
                 </p>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+                <CardTitle className="text-sm font-medium">Активные проекты</CardTitle>
                 <MapPin className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
@@ -1189,7 +1189,7 @@ export default function TeamsPage() {
                   {new Set(crews?.filter(c => c.project_id).map(c => c.project_id)).size || 0}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  With assigned teams
+                  С назначенными командами
                 </p>
               </CardContent>
             </Card>
@@ -1197,15 +1197,15 @@ export default function TeamsPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Team Performance Overview</CardTitle>
+              <CardTitle>Обзор производительности команд</CardTitle>
               <CardDescription>
-                Team productivity and workload analysis
+                Анализ продуктивности и загруженности команд
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Skills Distribution */}
               <div className="space-y-4">
-                <h4 className="text-sm font-medium">Skills Distribution Across Teams</h4>
+                <h4 className="text-sm font-medium">Распределение навыков по командам</h4>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {(() => {
                     // Calculate skills distribution from all users
@@ -1226,7 +1226,7 @@ export default function TeamsPage() {
                       <div key={skill} className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">{skill}</span>
-                          <span className="text-muted-foreground">{count} workers</span>
+                          <span className="text-muted-foreground">{count} работников</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-2">
                           <div
@@ -1244,7 +1244,7 @@ export default function TeamsPage() {
 
               {/* Role Distribution */}
               <div className="space-y-4">
-                <h4 className="text-sm font-medium">Role Distribution</h4>
+                <h4 className="text-sm font-medium">Распределение по ролям</h4>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
                   {(() => {
                     const roles = ['admin', 'pm', 'foreman', 'crew', 'viewer'];
@@ -1279,7 +1279,7 @@ export default function TeamsPage() {
 
               {/* Team Assignment Status */}
               <div className="space-y-4">
-                <h4 className="text-sm font-medium">Team Assignment Status</h4>
+                <h4 className="text-sm font-medium">Статус назначения команд</h4>
                 <div className="grid gap-4 md:grid-cols-3">
                   <Card>
                     <CardContent className="p-4">
@@ -1287,9 +1287,9 @@ export default function TeamsPage() {
                         <div className="text-2xl font-bold text-green-600">
                           {crews?.reduce((sum, crew) => sum + (crew.member_count || 0), 0) || 0}
                         </div>
-                        <div className="text-sm text-muted-foreground">Assigned Workers</div>
+                        <div className="text-sm text-muted-foreground">Назначенные работники</div>
                         <div className="text-xs text-green-600 mt-1">
-                          {crews?.length || 0} active teams
+                          {crews?.length || 0} активных бригад
                         </div>
                       </div>
                     </CardContent>
@@ -1301,9 +1301,9 @@ export default function TeamsPage() {
                         <div className="text-2xl font-bold text-blue-600">
                           {availableWorkers.length}
                         </div>
-                        <div className="text-sm text-muted-foreground">Available Workers</div>
+                        <div className="text-sm text-muted-foreground">Свободные работники</div>
                         <div className="text-xs text-blue-600 mt-1">
-                          Ready for assignment
+                          Готовы к назначению
                         </div>
                       </div>
                     </CardContent>
@@ -1319,9 +1319,9 @@ export default function TeamsPage() {
                             return totalWorkers > 0 ? Math.round((assignedWorkers / totalWorkers) * 100) : 0;
                           })()}%
                         </div>
-                        <div className="text-sm text-muted-foreground">Utilization Rate</div>
+                        <div className="text-sm text-muted-foreground">Коэффициент загрузки</div>
                         <div className="text-xs text-purple-600 mt-1">
-                          Team efficiency
+                          Эффективность команды
                         </div>
                       </div>
                     </CardContent>
@@ -1331,7 +1331,7 @@ export default function TeamsPage() {
 
               {/* Recent Activity Summary */}
               <div className="space-y-4">
-                <h4 className="text-sm font-medium">Recent Team Activities</h4>
+                <h4 className="text-sm font-medium">Последняя активность команд</h4>
                 <div className="space-y-3">
                   {crews && crews.length > 0 ? (
                     crews.slice(0, 5).map((crew) => (
@@ -1341,18 +1341,18 @@ export default function TeamsPage() {
                           <div>
                             <div className="font-medium text-sm">{crew.name}</div>
                             <div className="text-xs text-muted-foreground">
-                              {crew.member_count || 0} members • Foreman: {crew.foreman?.full_name || "Not assigned"}
+                              {crew.member_count || 0} чел. • Бригадир: {crew.foreman?.full_name || "Не назначен"}
                             </div>
                           </div>
                         </div>
                         <Badge variant="secondary" className="text-xs">
-                          Active
+                          Активна
                         </Badge>
                       </div>
                     ))
                   ) : (
                     <div className="text-center py-4 text-muted-foreground text-sm">
-                      No team activities to display
+                      Нет активности для отображения
                     </div>
                   )}
                 </div>
@@ -1366,9 +1366,9 @@ export default function TeamsPage() {
       <Dialog open={showCreateUserDialog} onOpenChange={setShowCreateUserDialog}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Add New Team Member</DialogTitle>
+            <DialogTitle>Добавить нового сотрудника</DialogTitle>
             <DialogDescription>
-              Create a new team member account with automatic PIN generation and skills management. You can select any role and assign them to teams later.
+              Создание учётной записи сотрудника с автоматической генерацией PIN-кода и управлением навыками. Можно выбрать любую роль и назначить в команду позже.
             </DialogDescription>
           </DialogHeader>
           <CreateUserForm
@@ -1383,9 +1383,9 @@ export default function TeamsPage() {
       <Dialog open={showCreateTeamDialog} onOpenChange={setShowCreateTeamDialog}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Create New Team</DialogTitle>
+            <DialogTitle>Создать новую бригаду</DialogTitle>
             <DialogDescription>
-              Create a new work crew/team with a name and optional foreman assignment.
+              Создание рабочей бригады с названием и опциональным назначением бригадира.
             </DialogDescription>
           </DialogHeader>
           <Form {...createTeamForm}>
@@ -1395,9 +1395,9 @@ export default function TeamsPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Team Name *</FormLabel>
+                    <FormLabel>Название бригады *</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Alpha Team, Fiber Crew 1" {...field} />
+                      <Input placeholder="напр., Бригада Альфа, Кабельная бригада 1" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1409,15 +1409,15 @@ export default function TeamsPage() {
                 name="foreman_user_id"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Foreman (Optional)</FormLabel>
+                    <FormLabel>Бригадир (опционально)</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select foreman..." />
+                          <SelectValue placeholder="Выберите бригадира..." />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="none">No foreman assigned</SelectItem>
+                        <SelectItem value="none">Бригадир не назначен</SelectItem>
                         {foremenUsers?.map((user) => (
                           <SelectItem key={user.id} value={user.id}>
                             {user.first_name} {user.last_name} ({user.role})
@@ -1435,9 +1435,9 @@ export default function TeamsPage() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description (Optional)</FormLabel>
+                    <FormLabel>Описание (опционально)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Team specialization or notes..." {...field} />
+                      <Input placeholder="Специализация или заметки о бригаде..." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1453,7 +1453,7 @@ export default function TeamsPage() {
                     createTeamForm.reset();
                   }}
                 >
-                  Cancel
+                  Отмена
                 </Button>
                 <Button type="submit" disabled={createTeam.isPending}>
                   {createTeam.isPending ? (
@@ -1461,7 +1461,7 @@ export default function TeamsPage() {
                   ) : (
                     <Plus className="mr-2 h-4 w-4" />
                   )}
-                  Create Team
+                  Создать бригаду
                 </Button>
               </div>
             </form>
@@ -1473,9 +1473,9 @@ export default function TeamsPage() {
       <Dialog open={showEditTeamDialog} onOpenChange={setShowEditTeamDialog}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Edit Team</DialogTitle>
+            <DialogTitle>Редактировать бригаду</DialogTitle>
             <DialogDescription>
-              Update team information and assignments.
+              Обновление информации и назначений бригады.
             </DialogDescription>
           </DialogHeader>
           <Form {...editTeamForm}>
@@ -1485,9 +1485,9 @@ export default function TeamsPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Team Name *</FormLabel>
+                    <FormLabel>Название бригады *</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Alpha Team, Fiber Crew 1" {...field} />
+                      <Input placeholder="напр., Бригада Альфа, Кабельная бригада 1" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1499,15 +1499,15 @@ export default function TeamsPage() {
                 name="foreman_user_id"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Foreman</FormLabel>
+                    <FormLabel>Бригадир</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select foreman..." />
+                          <SelectValue placeholder="Выберите бригадира..." />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="none">No foreman assigned</SelectItem>
+                        <SelectItem value="none">Бригадир не назначен</SelectItem>
                         {foremenUsers?.map((user) => (
                           <SelectItem key={user.id} value={user.id}>
                             {user.first_name} {user.last_name} ({user.role})
@@ -1525,9 +1525,9 @@ export default function TeamsPage() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>Описание</FormLabel>
                     <FormControl>
-                      <Input placeholder="Team specialization or notes..." {...field} />
+                      <Input placeholder="Специализация или заметки о бригаде..." {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1544,7 +1544,7 @@ export default function TeamsPage() {
                     editTeamForm.reset();
                   }}
                 >
-                  Cancel
+                  Отмена
                 </Button>
                 <Button type="submit" disabled={updateTeam.isPending}>
                   {updateTeam.isPending ? (
@@ -1552,7 +1552,7 @@ export default function TeamsPage() {
                   ) : (
                     <Edit className="mr-2 h-4 w-4" />
                   )}
-                  Update Team
+                  Сохранить
                 </Button>
               </div>
             </form>
@@ -1566,10 +1566,10 @@ export default function TeamsPage() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Users className="h-5 w-5" />
-              User Details - {selectedUser?.full_name}
+              Информация о сотруднике - {selectedUser?.full_name}
             </DialogTitle>
             <DialogDescription>
-              Complete user profile information, skills, and management options
+              Полная информация о профиле, навыках и опциях управления
             </DialogDescription>
           </DialogHeader>
 
@@ -1580,12 +1580,12 @@ export default function TeamsPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Users className="h-4 w-4" />
-                    Personal Information
+                    Личная информация
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">Full Name</label>
+                    <label className="text-sm font-medium text-muted-foreground">ФИО</label>
                     <div className="text-sm">{selectedUser.full_name}</div>
                   </div>
                   <div className="space-y-2">
@@ -1596,14 +1596,14 @@ export default function TeamsPage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">Phone</label>
+                    <label className="text-sm font-medium text-muted-foreground">Телефон</label>
                     <div className="text-sm flex items-center gap-2">
                       <Phone className="h-3 w-3" />
                       {selectedUser.phone || "—"}
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">Language Preference</label>
+                    <label className="text-sm font-medium text-muted-foreground">Язык интерфейса</label>
                     <div className="text-sm flex items-center gap-2">
                       <Globe className="h-3 w-3" />
                       {selectedUser.lang_pref || "—"}
@@ -1617,18 +1617,18 @@ export default function TeamsPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Shield className="h-4 w-4" />
-                    System Access
+                    Доступ к системе
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="grid gap-4 md:grid-cols-3">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">Role</label>
+                    <label className="text-sm font-medium text-muted-foreground">Роль</label>
                     <Badge variant={getRoleColor(selectedUser.role)}>
                       {selectedUser.role}
                     </Badge>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">PIN Code</label>
+                    <label className="text-sm font-medium text-muted-foreground">PIN-код</label>
                     <div className="text-sm font-mono flex items-center gap-2">
                       <Code className="h-3 w-3" />
                       {selectedUser.pin_code ? (
@@ -1639,10 +1639,10 @@ export default function TeamsPage() {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">Created</label>
+                    <label className="text-sm font-medium text-muted-foreground">Дата создания</label>
                     <div className="text-sm flex items-center gap-2">
                       <Calendar className="h-3 w-3" />
-                      {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString() : "—"}
+                      {selectedUser.created_at ? new Date(selectedUser.created_at).toLocaleDateString('ru-RU') : "—"}
                     </div>
                   </div>
                 </CardContent>
@@ -1651,7 +1651,7 @@ export default function TeamsPage() {
               {/* Skills */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Skills & Competencies</CardTitle>
+                  <CardTitle>Навыки и компетенции</CardTitle>
                 </CardHeader>
                 <CardContent>
                   {selectedUser.skills && selectedUser.skills.length > 0 ? (
@@ -1663,7 +1663,7 @@ export default function TeamsPage() {
                       ))}
                     </div>
                   ) : (
-                    <div className="text-sm text-muted-foreground">No skills assigned</div>
+                    <div className="text-sm text-muted-foreground">Навыки не указаны</div>
                   )}
                 </CardContent>
               </Card>
@@ -1681,7 +1681,7 @@ export default function TeamsPage() {
                       onClick={() => handleEditUser(selectedUser)}
                     >
                       <Edit className="mr-2 h-4 w-4" />
-                      Edit User
+                      Редактировать
                     </Button>
                     <WorkerDocumentsDialog
                       userId={selectedUser.id}
@@ -1689,7 +1689,7 @@ export default function TeamsPage() {
                       trigger={
                         <Button variant="outline" className="flex-1">
                           <FileText className="mr-2 h-4 w-4" />
-                          Manage Documents
+                          Документы
                         </Button>
                       }
                     />
@@ -1704,7 +1704,7 @@ export default function TeamsPage() {
                         }}
                       >
                         <UserPlus className="mr-2 h-4 w-4" />
-                        Assign to Team
+                        Назначить в бригаду
                       </Button>
                     )}
                     <Button
@@ -1713,7 +1713,7 @@ export default function TeamsPage() {
                       onClick={() => handleDeleteUser(selectedUser)}
                     >
                       <Trash2 className="mr-2 h-4 w-4" />
-                      Delete
+                      Удалить
                     </Button>
                   </>
                 )}
@@ -1721,7 +1721,7 @@ export default function TeamsPage() {
                   variant="outline"
                   onClick={() => setShowUserDetailDialog(false)}
                 >
-                  Close
+                  Закрыть
                 </Button>
               </div>
             </div>
@@ -1733,9 +1733,9 @@ export default function TeamsPage() {
       <Dialog open={showEditUserDialog} onOpenChange={setShowEditUserDialog}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Edit User - {editingUser?.full_name}</DialogTitle>
+            <DialogTitle>Редактирование - {editingUser?.full_name}</DialogTitle>
             <DialogDescription>
-              Update user information, role, and skills. Changes will be saved immediately.
+              Обновление информации, роли и навыков пользователя. Изменения сохраняются немедленно.
             </DialogDescription>
           </DialogHeader>
           {editingUser && (
@@ -1762,10 +1762,10 @@ export default function TeamsPage() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-destructive">
               <Trash2 className="h-5 w-5" />
-              Delete User
+              Удаление пользователя
             </DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this user? This action cannot be undone.
+              Вы уверены, что хотите удалить этого пользователя? Это действие нельзя отменить.
             </DialogDescription>
           </DialogHeader>
 
@@ -1787,10 +1787,10 @@ export default function TeamsPage() {
               </div>
 
               <div className="mt-4 p-3 bg-destructive/10 rounded-lg border border-destructive/20">
-                <div className="text-sm text-destructive font-medium">⚠️ Warning</div>
+                <div className="text-sm text-destructive font-medium">⚠️ Внимание</div>
                 <div className="text-sm text-destructive/80 mt-1">
-                  This will permanently delete the user account and remove them from all teams.
-                  Any associated work entries and documents will remain but will no longer be linked to this user.
+                  Это действие безвозвратно удалит учётную запись пользователя и уберёт его из всех бригад.
+                  Связанные рабочие записи и документы останутся, но больше не будут привязаны к этому пользователю.
                 </div>
               </div>
             </div>
@@ -1805,7 +1805,7 @@ export default function TeamsPage() {
               }}
               disabled={deleteUser.isPending}
             >
-              Cancel
+              Отмена
             </Button>
             <Button
               variant="destructive"
@@ -1815,12 +1815,12 @@ export default function TeamsPage() {
               {deleteUser.isPending ? (
                 <>
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent mr-2" />
-                  Deleting...
+                  Удаление...
                 </>
               ) : (
                 <>
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete User
+                  Удалить пользователя
                 </>
               )}
             </Button>
@@ -1834,25 +1834,25 @@ export default function TeamsPage() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Users className="h-5 w-5" />
-              Confirm Bulk Action
+              Подтверждение массового действия
             </DialogTitle>
             <DialogDescription>
               {bulkAction === "delete"
-                ? `Are you sure you want to delete ${selectedUsers.size} user${
-                    selectedUsers.size > 1 ? "s" : ""
-                  }? This action cannot be undone.`
+                ? `Вы уверены, что хотите удалить ${selectedUsers.size} пользовател${
+                    selectedUsers.size === 1 ? "я" : selectedUsers.size < 5 ? "ей" : "ей"
+                  }? Это действие нельзя отменить.`
                 : bulkAction.startsWith("role_")
-                ? `Are you sure you want to change the role of ${selectedUsers.size} user${
-                    selectedUsers.size > 1 ? "s" : ""
-                  } to ${bulkAction.replace("role_", "")}?`
-                : "Please confirm this bulk action."}
+                ? `Вы уверены, что хотите изменить роль ${selectedUsers.size} пользовател${
+                    selectedUsers.size === 1 ? "я" : "ей"
+                  } на ${bulkAction.replace("role_", "")}?`
+                : "Пожалуйста, подтвердите это массовое действие."}
             </DialogDescription>
           </DialogHeader>
 
           <div className="py-4">
             <div className="bg-muted p-4 rounded-lg space-y-2">
               <div className="font-medium">
-                Selected Users ({selectedUsers.size}):
+                Выбранные пользователи ({selectedUsers.size}):
               </div>
               <div className="text-sm text-muted-foreground space-y-1 max-h-32 overflow-y-auto">
                 {Array.from(selectedUsers).map((userId) => {
@@ -1871,10 +1871,10 @@ export default function TeamsPage() {
 
             {bulkAction === "delete" && (
               <div className="mt-4 p-3 bg-destructive/10 rounded-lg border border-destructive/20">
-                <div className="text-sm text-destructive font-medium">⚠️ Warning</div>
+                <div className="text-sm text-destructive font-medium">⚠️ Внимание</div>
                 <div className="text-sm text-destructive/80 mt-1">
-                  This will permanently delete the selected users and remove them from all teams.
-                  Any associated work entries and documents will remain but will no longer be linked to these users.
+                  Это действие безвозвратно удалит выбранных пользователей и уберёт их из всех бригад.
+                  Связанные рабочие записи и документы останутся, но больше не будут привязаны к этим пользователям.
                 </div>
               </div>
             )}
@@ -1889,7 +1889,7 @@ export default function TeamsPage() {
               }}
               disabled={updateUser.isPending || deleteUser.isPending}
             >
-              Cancel
+              Отмена
             </Button>
             <Button
               variant={bulkAction === "delete" ? "destructive" : "default"}
@@ -1899,17 +1899,17 @@ export default function TeamsPage() {
               {updateUser.isPending || deleteUser.isPending ? (
                 <>
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent mr-2" />
-                  Processing...
+                  Обработка...
                 </>
               ) : bulkAction === "delete" ? (
                 <>
                   <Trash2 className="mr-2 h-4 w-4" />
-                  Delete Users
+                  Удалить пользователей
                 </>
               ) : (
                 <>
                   <Users className="mr-2 h-4 w-4" />
-                  Update Roles
+                  Изменить роли
                 </>
               )}
             </Button>

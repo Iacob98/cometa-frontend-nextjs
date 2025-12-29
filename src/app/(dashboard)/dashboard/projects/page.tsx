@@ -47,7 +47,7 @@ export default function ProjectsPage() {
   const projects = projectsResponse?.items || [];
 
   const handleDeleteProject = async (projectId: string, projectName: string) => {
-    if (confirm(`Are you sure you want to delete "${projectName}"? This action cannot be undone.`)) {
+    if (confirm(`Вы уверены, что хотите удалить "${projectName}"? Это действие нельзя отменить.`)) {
       await deleteProject.mutateAsync(projectId);
     }
   };
@@ -70,13 +70,13 @@ export default function ProjectsPage() {
   const getStatusLabel = (status: ProjectStatus) => {
     switch (status) {
       case "active":
-        return "Active";
+        return "Активный";
       case "draft":
-        return "Draft";
+        return "Черновик";
       case "waiting_invoice":
-        return "Waiting Invoice";
+        return "Ожидание счёта";
       case "closed":
-        return "Closed";
+        return "Закрыт";
       default:
         return status;
     }
@@ -86,12 +86,12 @@ export default function ProjectsPage() {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Проекты</h1>
         </div>
         <Card>
           <CardContent className="py-8">
             <div className="text-center text-muted-foreground">
-              Failed to load projects. Please try again later.
+              Не удалось загрузить проекты. Попробуйте позже.
             </div>
           </CardContent>
         </Card>
@@ -104,15 +104,15 @@ export default function ProjectsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Projects</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Проекты</h1>
           <p className="text-muted-foreground">
-            Manage your fiber optic construction projects
+            Управление проектами строительства оптоволоконных сетей
           </p>
         </div>
         {canManageProjects && (
           <Button onClick={() => router.push("/dashboard/projects/new")}>
             <Plus className="mr-2 h-4 w-4" />
-            New Project
+            Новый проект
           </Button>
         )}
       </div>
@@ -120,9 +120,9 @@ export default function ProjectsPage() {
       {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle>Filter Projects</CardTitle>
+          <CardTitle>Фильтр проектов</CardTitle>
           <CardDescription>
-            Search and filter projects by various criteria
+            Поиск и фильтрация проектов по различным критериям
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -131,7 +131,7 @@ export default function ProjectsPage() {
               <div className="relative">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search projects by name, customer, or city..."
+                  placeholder="Поиск по названию, заказчику или городу..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-8"
@@ -140,14 +140,14 @@ export default function ProjectsPage() {
             </div>
             <Select value={statusFilter} onValueChange={(value: ProjectStatus | "all") => setStatusFilter(value)}>
               <SelectTrigger className="w-48">
-                <SelectValue placeholder="Filter by status" />
+                <SelectValue placeholder="Фильтр по статусу" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="waiting_invoice">Waiting Invoice</SelectItem>
-                <SelectItem value="closed">Closed</SelectItem>
+                <SelectItem value="all">Все статусы</SelectItem>
+                <SelectItem value="draft">Черновик</SelectItem>
+                <SelectItem value="active">Активный</SelectItem>
+                <SelectItem value="waiting_invoice">Ожидание счёта</SelectItem>
+                <SelectItem value="closed">Закрыт</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -159,7 +159,7 @@ export default function ProjectsPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Building2 className="h-5 w-5" />
-            Projects ({projectsResponse?.total || 0})
+            Проекты ({projectsResponse?.total || 0})
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -176,11 +176,11 @@ export default function ProjectsPage() {
           ) : projects.length === 0 ? (
             <div className="text-center py-8">
               <Building2 className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-2 text-sm font-semibold">No projects found</h3>
+              <h3 className="mt-2 text-sm font-semibold">Проекты не найдены</h3>
               <p className="mt-1 text-sm text-muted-foreground">
                 {searchQuery || statusFilter !== "all"
-                  ? "No projects match your current filters."
-                  : "Get started by creating your first project."}
+                  ? "Нет проектов, соответствующих фильтрам."
+                  : "Начните с создания первого проекта."}
               </p>
               {canManageProjects && (
                 <Button
@@ -188,7 +188,7 @@ export default function ProjectsPage() {
                   onClick={() => router.push("/dashboard/projects/new")}
                 >
                   <Plus className="mr-2 h-4 w-4" />
-                  Create Project
+                  Создать проект
                 </Button>
               )}
             </div>
@@ -196,13 +196,13 @@ export default function ProjectsPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Project</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead>Timeline</TableHead>
-                  <TableHead>Progress</TableHead>
-                  <TableHead className="w-[100px]">Actions</TableHead>
+                  <TableHead>Проект</TableHead>
+                  <TableHead>Статус</TableHead>
+                  <TableHead>Заказчик</TableHead>
+                  <TableHead>Локация</TableHead>
+                  <TableHead>Сроки</TableHead>
+                  <TableHead>Прогресс</TableHead>
+                  <TableHead className="w-[100px]">Действия</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -242,12 +242,12 @@ export default function ProjectsPage() {
                         {project.start_date && (
                           <div className="flex items-center space-x-1">
                             <Calendar className="h-3 w-3 text-muted-foreground" />
-                            <span>{new Date(project.start_date).toLocaleDateString()}</span>
+                            <span>{new Date(project.start_date).toLocaleDateString('ru-RU')}</span>
                           </div>
                         )}
                         {project.end_date_plan && (
                           <div className="text-muted-foreground">
-                            → {new Date(project.end_date_plan).toLocaleDateString()}
+                            → {new Date(project.end_date_plan).toLocaleDateString('ru-RU')}
                           </div>
                         )}
                       </div>
@@ -266,17 +266,17 @@ export default function ProjectsPage() {
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
+                            <span className="sr-only">Открыть меню</span>
                             <Filter className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuLabel>Действия</DropdownMenuLabel>
                           <DropdownMenuItem
                             onClick={() => router.push(`/dashboard/projects/${project.id}`)}
                           >
                             <Eye className="mr-2 h-4 w-4" />
-                            View Details
+                            Просмотр
                           </DropdownMenuItem>
                           {canManageProjects && (
                             <>
@@ -284,7 +284,7 @@ export default function ProjectsPage() {
                                 onClick={() => router.push(`/dashboard/projects/${project.id}/edit`)}
                               >
                                 <Edit className="mr-2 h-4 w-4" />
-                                Edit Project
+                                Редактировать
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem
@@ -292,7 +292,7 @@ export default function ProjectsPage() {
                                 onClick={() => handleDeleteProject(project.id, project.name)}
                               >
                                 <Trash2 className="mr-2 h-4 w-4" />
-                                Delete Project
+                                Удалить
                               </DropdownMenuItem>
                             </>
                           )}

@@ -37,20 +37,20 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Welcome back, {user?.first_name}!
+            С возвращением, {user?.first_name}!
           </h1>
           <p className="text-muted-foreground">
-            Here&apos;s what&apos;s happening in your fiber optic construction projects today.
+            Обзор текущего состояния ваших проектов по строительству оптоволоконных сетей.
           </p>
           {hasError && (
             <div className="mt-2 flex items-center gap-2 text-amber-600">
               <AlertCircle className="h-4 w-4" />
-              <span className="text-sm">Using cached data - database connection issue</span>
+              <span className="text-sm">Используются кэшированные данные - проблема с подключением к базе данных</span>
             </div>
           )}
           {dashboardStats?.lastUpdated && (
             <p className="text-xs text-muted-foreground mt-1">
-              Last updated: {new Date(dashboardStats.lastUpdated).toLocaleTimeString()}
+              Обновлено: {new Date(dashboardStats.lastUpdated).toLocaleTimeString('ru-RU')}
             </p>
           )}
         </div>
@@ -62,7 +62,7 @@ export default function DashboardPage() {
           className="flex items-center gap-2"
         >
           <RefreshCw className={`h-4 w-4 ${statsLoading ? 'animate-spin' : ''}`} />
-          Refresh
+          Обновить
         </Button>
       </div>
 
@@ -70,7 +70,7 @@ export default function DashboardPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+            <CardTitle className="text-sm font-medium">Активные проекты</CardTitle>
             <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -80,14 +80,14 @@ export default function DashboardPage() {
               <div className="text-2xl font-bold">{stats.activeProjects}</div>
             )}
             <p className="text-xs text-muted-foreground">
-              {dashboardStats?.projects.total ? `of ${dashboardStats.projects.total} total projects` : 'Loading...'}
+              {dashboardStats?.projects.total ? `из ${dashboardStats.projects.total} всего` : 'Загрузка...'}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Work Entries</CardTitle>
+            <CardTitle className="text-sm font-medium">Рабочие записи</CardTitle>
             <ClipboardList className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -97,14 +97,14 @@ export default function DashboardPage() {
               <div className="text-2xl font-bold">{stats.totalWorkEntries}</div>
             )}
             <p className="text-xs text-muted-foreground">
-              {dashboardStats?.workEntries.thisWeek ? `+${dashboardStats.workEntries.thisWeek} this week` : 'Loading...'}
+              {dashboardStats?.workEntries.thisWeek ? `+${dashboardStats.workEntries.thisWeek} за неделю` : 'Загрузка...'}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Approvals</CardTitle>
+            <CardTitle className="text-sm font-medium">Ожидают одобрения</CardTitle>
             <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -114,14 +114,14 @@ export default function DashboardPage() {
               <div className="text-2xl font-bold">{stats.pendingApprovals}</div>
             )}
             <p className="text-xs text-muted-foreground">
-              {stats.pendingApprovals > 0 ? 'Requires attention' : 'All caught up!'}
+              {stats.pendingApprovals > 0 ? 'Требует внимания' : 'Всё обработано!'}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Workers</CardTitle>
+            <CardTitle className="text-sm font-medium">Активные работники</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -131,7 +131,7 @@ export default function DashboardPage() {
               <div className="text-2xl font-bold">{stats.activeWorkers}</div>
             )}
             <p className="text-xs text-muted-foreground">
-              {dashboardStats?.team.totalWorkers ? `of ${dashboardStats.team.totalWorkers} total workers` : 'Loading...'}
+              {dashboardStats?.team.totalWorkers ? `из ${dashboardStats.team.totalWorkers} всего` : 'Загрузка...'}
             </p>
           </CardContent>
         </Card>
@@ -143,7 +143,7 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5" />
-              Recent Activity
+              Последняя активность
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -179,7 +179,7 @@ export default function DashboardPage() {
                     <div className="flex-1 space-y-1">
                       <p className="text-sm">{activity.description}</p>
                       <p className="text-xs text-muted-foreground">
-                        by {activity.user?.name || 'Unknown User'} • {new Date(activity.created_at).toLocaleString()}
+                        {activity.user?.name || 'Неизвестный пользователь'} • {new Date(activity.created_at).toLocaleString('ru-RU')}
                       </p>
                     </div>
                   </div>
@@ -187,7 +187,7 @@ export default function DashboardPage() {
               ) : (
                 <div className="text-center py-6 text-muted-foreground">
                   <Activity className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">No recent activity</p>
+                  <p className="text-sm">Нет недавней активности</p>
                 </div>
               )}
             </div>
@@ -199,7 +199,7 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Building2 className="h-5 w-5" />
-              Project Status
+              Статус проектов
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -214,19 +214,19 @@ export default function DashboardPage() {
               ) : (
                 <>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Active</span>
+                    <span className="text-sm text-muted-foreground">Активные</span>
                     <Badge variant="default">{dashboardStats?.projects.active || 0}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Planning</span>
+                    <span className="text-sm text-muted-foreground">Планирование</span>
                     <Badge variant="secondary">{dashboardStats?.projects.planning || 0}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">Completed</span>
+                    <span className="text-sm text-muted-foreground">Завершённые</span>
                     <Badge variant="outline">{dashboardStats?.projects.completed || 0}</Badge>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-muted-foreground">On Hold</span>
+                    <span className="text-sm text-muted-foreground">Приостановлены</span>
                     <Badge variant="destructive">{dashboardStats?.projects.onHold || 0}</Badge>
                   </div>
                 </>
@@ -239,9 +239,9 @@ export default function DashboardPage() {
       {/* Quick Actions */}
       <Card>
         <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
+          <CardTitle>Быстрые действия</CardTitle>
           <CardDescription>
-            Common tasks you can perform based on your role
+            Часто используемые действия в зависимости от вашей роли
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -249,24 +249,24 @@ export default function DashboardPage() {
             {canCreateWork && (
               <Button variant="outline">
                 <ClipboardList className="mr-2 h-4 w-4" />
-                Create Work Entry
+                Создать запись
               </Button>
             )}
             {(isAdmin || isProjectManager) && (
               <Button variant="outline">
                 <Building2 className="mr-2 h-4 w-4" />
-                New Project
+                Новый проект
               </Button>
             )}
             {(isAdmin || isProjectManager) && (
               <Button variant="outline">
                 <Users className="mr-2 h-4 w-4" />
-                Manage Teams
+                Управление командами
               </Button>
             )}
             <Button variant="outline">
               <TrendingUp className="mr-2 h-4 w-4" />
-              View Reports
+              Отчёты
             </Button>
           </div>
         </CardContent>

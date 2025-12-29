@@ -47,9 +47,9 @@ import { useUpdateOrderStatus } from "@/hooks/materials/use-material-orders";
 
 const stockAdjustmentSchema = z.object({
   quantity: z.coerce.number().refine((val) => val !== 0, {
-    message: "Adjustment quantity cannot be zero",
+    message: "Количество корректировки не может быть нулём",
   }),
-  reason: z.string().min(1, "Reason is required"),
+  reason: z.string().min(1, "Укажите причину"),
 });
 
 type StockAdjustmentFormData = z.infer<typeof stockAdjustmentSchema>;
@@ -234,24 +234,24 @@ export default function InventoryManagementPage() {
     const available = material.current_stock_qty - material.reserved_qty;
 
     if (available <= 0) {
-      return { status: "out", label: "Out of Stock", color: "bg-red-100 text-red-800 border-red-200" };
+      return { status: "out", label: "Нет в наличии", color: "bg-red-100 text-red-800 border-red-200" };
     } else if (available <= material.min_stock_level && material.min_stock_level > 0) {
-      return { status: "low", label: "Low Stock", color: "bg-yellow-100 text-yellow-800 border-yellow-200" };
+      return { status: "low", label: "Мало на складе", color: "bg-yellow-100 text-yellow-800 border-yellow-200" };
     } else {
-      return { status: "normal", label: "In Stock", color: "bg-green-100 text-green-800 border-green-200" };
+      return { status: "normal", label: "В наличии", color: "bg-green-100 text-green-800 border-green-200" };
     }
   };
 
   const getOrderStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return { label: "Pending", color: "bg-yellow-100 text-yellow-800 border-yellow-200", icon: Clock };
+        return { label: "Ожидает", color: "bg-yellow-100 text-yellow-800 border-yellow-200", icon: Clock };
       case "ordered":
-        return { label: "Ordered", color: "bg-blue-100 text-blue-800 border-blue-200", icon: Package };
+        return { label: "Заказано", color: "bg-blue-100 text-blue-800 border-blue-200", icon: Package };
       case "delivered":
-        return { label: "Delivered", color: "bg-green-100 text-green-800 border-green-200", icon: Package };
+        return { label: "Доставлено", color: "bg-green-100 text-green-800 border-green-200", icon: Package };
       case "cancelled":
-        return { label: "Cancelled", color: "bg-red-100 text-red-800 border-red-200", icon: AlertTriangle };
+        return { label: "Отменено", color: "bg-red-100 text-red-800 border-red-200", icon: AlertTriangle };
       default:
         return { label: status, color: "bg-gray-100 text-gray-800 border-gray-200", icon: Package };
     }
@@ -260,13 +260,13 @@ export default function InventoryManagementPage() {
   const getAllocationStatusBadge = (status: string) => {
     switch (status) {
       case "allocated":
-        return { label: "Allocated", color: "bg-blue-100 text-blue-800 border-blue-200", icon: Package };
+        return { label: "Выделено", color: "bg-blue-100 text-blue-800 border-blue-200", icon: Package };
       case "partially_used":
-        return { label: "Partially Used", color: "bg-yellow-100 text-yellow-800 border-yellow-200", icon: TrendingDown };
+        return { label: "Частично использовано", color: "bg-yellow-100 text-yellow-800 border-yellow-200", icon: TrendingDown };
       case "fully_used":
-        return { label: "Fully Used", color: "bg-green-100 text-green-800 border-green-200", icon: TrendingUp };
+        return { label: "Полностью использовано", color: "bg-green-100 text-green-800 border-green-200", icon: TrendingUp };
       case "returned":
-        return { label: "Returned", color: "bg-gray-100 text-gray-800 border-gray-200", icon: RefreshCw };
+        return { label: "Возвращено", color: "bg-gray-100 text-gray-800 border-gray-200", icon: RefreshCw };
       default:
         return { label: status, color: "bg-gray-100 text-gray-800 border-gray-200", icon: Package };
     }
@@ -309,27 +309,27 @@ export default function InventoryManagementPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Inventory Management</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Управление складом</h1>
           <p className="text-muted-foreground">
-            Monitor stock levels, manage inventory, and track material movements
+            Мониторинг запасов, управление складом и отслеживание движения материалов
           </p>
         </div>
         <div className="flex space-x-2">
           <Button variant="outline" onClick={() => router.push('/dashboard/materials/suppliers')}>
             <Warehouse className="mr-2 h-4 w-4" />
-            Suppliers
+            Поставщики
           </Button>
           <Button variant="outline" onClick={() => router.push('/dashboard/materials/new')}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Material
+            Добавить материал
           </Button>
           <Button variant="outline" onClick={() => router.push('/dashboard/materials/allocate')}>
             <Package className="mr-2 h-4 w-4" />
-            Allocate
+            Выделить
           </Button>
           <Button onClick={() => router.push('/dashboard/materials/order')}>
             <Plus className="mr-2 h-4 w-4" />
-            Order Materials
+            Заказать материалы
           </Button>
         </div>
       </div>
@@ -340,10 +340,10 @@ export default function InventoryManagementPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Inventory Value</p>
+                <p className="text-sm font-medium text-muted-foreground">Общая стоимость склада</p>
                 <p className="text-2xl font-bold">€{stats.totalValue.toLocaleString()}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {stats.totalItems} materials
+                  {stats.totalItems} материалов
                 </p>
               </div>
               <BarChart3 className="h-8 w-8 text-blue-600" />
@@ -355,10 +355,10 @@ export default function InventoryManagementPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">In Stock</p>
+                <p className="text-sm font-medium text-muted-foreground">В наличии</p>
                 <p className="text-2xl font-bold text-green-600">{stats.inStock}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Normal levels
+                  Нормальный уровень
                 </p>
               </div>
               <Package className="h-8 w-8 text-green-600" />
@@ -370,10 +370,10 @@ export default function InventoryManagementPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Low Stock</p>
+                <p className="text-sm font-medium text-muted-foreground">Мало на складе</p>
                 <p className="text-2xl font-bold text-yellow-600">{stats.lowStock}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Needs attention
+                  Требуется внимание
                 </p>
               </div>
               <TrendingDown className="h-8 w-8 text-yellow-600" />
@@ -385,10 +385,10 @@ export default function InventoryManagementPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Out of Stock</p>
+                <p className="text-sm font-medium text-muted-foreground">Нет в наличии</p>
                 <p className="text-2xl font-bold text-red-600">{stats.outOfStock}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Immediate action needed
+                  Требуется срочное действие
                 </p>
               </div>
               <AlertTriangle className="h-8 w-8 text-red-600" />
@@ -402,49 +402,49 @@ export default function InventoryManagementPage() {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Filter className="h-5 w-5" />
-            <span>Filters</span>
+            <span>Фильтры</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <label className="text-sm font-medium mb-2 block">Search</label>
+              <label className="text-sm font-medium mb-2 block">Поиск</label>
               <Input
-                placeholder="Search materials..."
+                placeholder="Поиск материалов..."
                 value={filters.search}
                 onChange={(e) => setFilters({ ...filters, search: e.target.value })}
               />
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-2 block">Category</label>
+              <label className="text-sm font-medium mb-2 block">Категория</label>
               <Select value={filters.category} onValueChange={(value) => setFilters({ ...filters, category: value === "all" ? "" : value })}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All categories" />
+                  <SelectValue placeholder="Все категории" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All categories</SelectItem>
-                  <SelectItem value="Cables">Cables</SelectItem>
-                  <SelectItem value="Connectors">Connectors</SelectItem>
-                  <SelectItem value="Tools">Tools</SelectItem>
-                  <SelectItem value="Conduits">Conduits</SelectItem>
-                  <SelectItem value="Equipment">Equipment</SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
+                  <SelectItem value="all">Все категории</SelectItem>
+                  <SelectItem value="Cables">Кабели</SelectItem>
+                  <SelectItem value="Connectors">Коннекторы</SelectItem>
+                  <SelectItem value="Tools">Инструменты</SelectItem>
+                  <SelectItem value="Conduits">Кабелепроводы</SelectItem>
+                  <SelectItem value="Equipment">Оборудование</SelectItem>
+                  <SelectItem value="Other">Прочее</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-2 block">Stock Status</label>
+              <label className="text-sm font-medium mb-2 block">Статус запасов</label>
               <Select value={filters.status} onValueChange={(value) => setFilters({ ...filters, status: value === "all" ? "" : value })}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All status" />
+                  <SelectValue placeholder="Все статусы" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All status</SelectItem>
-                  <SelectItem value="normal">In Stock</SelectItem>
-                  <SelectItem value="low">Low Stock</SelectItem>
-                  <SelectItem value="out">Out of Stock</SelectItem>
+                  <SelectItem value="all">Все статусы</SelectItem>
+                  <SelectItem value="normal">В наличии</SelectItem>
+                  <SelectItem value="low">Мало на складе</SelectItem>
+                  <SelectItem value="out">Нет в наличии</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -455,7 +455,7 @@ export default function InventoryManagementPage() {
                 onClick={() => setFilters({ category: "", status: "", search: "" })}
                 className="w-full"
               >
-                Clear Filters
+                Сбросить фильтры
               </Button>
             </div>
           </div>
@@ -465,22 +465,22 @@ export default function InventoryManagementPage() {
       {/* Tabs for different views */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="inventory">Inventory ({materials.length})</TabsTrigger>
-          <TabsTrigger value="low-stock">Low Stock ({stats.lowStock})</TabsTrigger>
+          <TabsTrigger value="inventory">Склад ({materials.length})</TabsTrigger>
+          <TabsTrigger value="low-stock">Мало на складе ({stats.lowStock})</TabsTrigger>
           <TabsTrigger value="allocations">
-            Allocations ({allocationsData?.total || 0})
+            Выделения ({allocationsData?.total || 0})
             {allocationsData && <span className="text-xs text-green-600">✓v2</span>}
           </TabsTrigger>
-          <TabsTrigger value="orders">Orders ({ordersData?.total || 0})</TabsTrigger>
+          <TabsTrigger value="orders">Заказы ({ordersData?.total || 0})</TabsTrigger>
         </TabsList>
 
         {/* Inventory Tab */}
         <TabsContent value="inventory" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Inventory Overview</CardTitle>
+              <CardTitle>Обзор склада</CardTitle>
               <CardDescription>
-                {filteredMaterials.length} material{filteredMaterials.length !== 1 ? 's' : ''} found
+                Найдено материалов: {filteredMaterials.length}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -489,17 +489,17 @@ export default function InventoryManagementPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Material</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Current Stock</TableHead>
-                    <TableHead>Available</TableHead>
-                    <TableHead>Min Level</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Supplier</TableHead>
-                    <TableHead>Unit Value</TableHead>
-                    <TableHead>Total Value</TableHead>
-                    <TableHead>Last Updated</TableHead>
-                    <TableHead className="w-[100px]">Actions</TableHead>
+                    <TableHead>Материал</TableHead>
+                    <TableHead>Категория</TableHead>
+                    <TableHead>На складе</TableHead>
+                    <TableHead>Доступно</TableHead>
+                    <TableHead>Мин. уровень</TableHead>
+                    <TableHead>Статус</TableHead>
+                    <TableHead>Поставщик</TableHead>
+                    <TableHead>Цена за ед.</TableHead>
+                    <TableHead>Общая стоимость</TableHead>
+                    <TableHead>Обновлено</TableHead>
+                    <TableHead className="w-[100px]">Действия</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -517,7 +517,7 @@ export default function InventoryManagementPage() {
                           >
                             <div>
                               <p className="font-medium hover:underline">{material.name}</p>
-                              <p className="text-sm text-muted-foreground">{material.sku || 'No SKU'}</p>
+                              <p className="text-sm text-muted-foreground">{material.sku || 'Без артикула'}</p>
                             </div>
                           </Link>
                         </TableCell>
@@ -538,7 +538,7 @@ export default function InventoryManagementPage() {
                           {material.min_stock_level > 0 ? (
                             <span>{material.min_stock_level.toLocaleString()} {material.unit}</span>
                           ) : (
-                            <span className="text-muted-foreground">Not set</span>
+                            <span className="text-muted-foreground">Не задан</span>
                           )}
                         </TableCell>
                         <TableCell>
@@ -550,7 +550,7 @@ export default function InventoryManagementPage() {
                           {material.supplier ? (
                             <span className="text-sm">{material.supplier.name}</span>
                           ) : (
-                            <span className="text-muted-foreground text-sm">No supplier</span>
+                            <span className="text-muted-foreground text-sm">Нет поставщика</span>
                           )}
                         </TableCell>
                         <TableCell>
@@ -563,7 +563,7 @@ export default function InventoryManagementPage() {
                           <div className="flex items-center space-x-2">
                             <Clock className="h-4 w-4 text-muted-foreground" />
                             <span className="text-sm text-muted-foreground">
-                              {material.last_updated ? format(new Date(material.last_updated), 'MMM dd') : 'Never'}
+                              {material.last_updated ? new Date(material.last_updated).toLocaleDateString('ru-RU') : 'Никогда'}
                             </span>
                           </div>
                         </TableCell>
@@ -576,32 +576,32 @@ export default function InventoryManagementPage() {
                                   size="sm"
                                   onClick={() => setSelectedMaterial(material)}
                                 >
-                                  Adjust
+                                  Корректировка
                                 </Button>
                               </DialogTrigger>
                             <DialogContent>
                               <DialogHeader>
-                                <DialogTitle>Adjust Stock Level</DialogTitle>
+                                <DialogTitle>Корректировка запасов</DialogTitle>
                                 <DialogDescription>
-                                  Adjust the stock level for {material.name}
+                                  Корректировка уровня запасов для {material.name}
                                 </DialogDescription>
                               </DialogHeader>
 
                               <Form {...form}>
                                 <form onSubmit={form.handleSubmit(handleStockAdjustment)} className="space-y-4">
                                   <div className="rounded-lg border p-4 bg-muted/50">
-                                    <h4 className="font-medium mb-2">Current Stock Information</h4>
+                                    <h4 className="font-medium mb-2">Текущая информация о запасах</h4>
                                     <div className="grid grid-cols-2 gap-4 text-sm">
                                       <div>
-                                        <span className="text-muted-foreground">Total Stock:</span>
+                                        <span className="text-muted-foreground">Всего на складе:</span>
                                         <span className="ml-2 font-medium">{material.current_stock_qty} {material.unit}</span>
                                       </div>
                                       <div>
-                                        <span className="text-muted-foreground">Reserved:</span>
+                                        <span className="text-muted-foreground">Зарезервировано:</span>
                                         <span className="ml-2 font-medium">{material.reserved_qty} {material.unit}</span>
                                       </div>
                                       <div>
-                                        <span className="text-muted-foreground">Available:</span>
+                                        <span className="text-muted-foreground">Доступно:</span>
                                         <span className="ml-2 font-medium">{available} {material.unit}</span>
                                       </div>
                                     </div>
@@ -612,12 +612,12 @@ export default function InventoryManagementPage() {
                                     name="quantity"
                                     render={({ field }) => (
                                       <FormItem>
-                                        <FormLabel>Adjustment Quantity</FormLabel>
+                                        <FormLabel>Количество для корректировки</FormLabel>
                                         <FormControl>
                                           <Input
                                             type="number"
                                             step="0.001"
-                                            placeholder="Enter positive or negative value"
+                                            placeholder="Введите положительное или отрицательное значение"
                                             {...field}
                                           />
                                         </FormControl>
@@ -631,10 +631,10 @@ export default function InventoryManagementPage() {
                                     name="reason"
                                     render={({ field }) => (
                                       <FormItem>
-                                        <FormLabel>Reason</FormLabel>
+                                        <FormLabel>Причина</FormLabel>
                                         <FormControl>
                                           <Textarea
-                                            placeholder="Reason for stock adjustment..."
+                                            placeholder="Причина корректировки запасов..."
                                             rows={3}
                                             {...field}
                                           />
@@ -654,7 +654,7 @@ export default function InventoryManagementPage() {
                                         form.reset();
                                       }}
                                     >
-                                      Cancel
+                                      Отмена
                                     </Button>
                                     <Button
                                       type="submit"
@@ -663,7 +663,7 @@ export default function InventoryManagementPage() {
                                       {adjustStock.isPending ? (
                                         <div className="h-4 w-4 animate-spin rounded-full border-2 border-background border-t-transparent mr-2" />
                                       ) : null}
-                                      Adjust Stock
+                                      Скорректировать
                                     </Button>
                                   </div>
                                 </form>
@@ -692,15 +692,15 @@ export default function InventoryManagementPage() {
           ) : (
             <div className="text-center py-12">
               <Warehouse className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-4 text-lg font-semibold">No materials found</h3>
+              <h3 className="mt-4 text-lg font-semibold">Материалы не найдены</h3>
               <p className="text-muted-foreground">
-                No materials match your current filters.
+                Нет материалов, соответствующих текущим фильтрам.
               </p>
               <Button
                 className="mt-4"
                 onClick={() => setFilters({ category: "", status: "", search: "" })}
               >
-                Clear Filters
+                Сбросить фильтры
               </Button>
             </div>
           )}
@@ -712,9 +712,9 @@ export default function InventoryManagementPage() {
         <TabsContent value="low-stock" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Low Stock Alert</CardTitle>
+              <CardTitle>Предупреждение о низких запасах</CardTitle>
               <CardDescription>
-                Materials that need reordering
+                Материалы, требующие повторного заказа
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -726,14 +726,14 @@ export default function InventoryManagementPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Material</TableHead>
-                        <TableHead>Category</TableHead>
-                        <TableHead>Available</TableHead>
-                        <TableHead>Min Level</TableHead>
-                        <TableHead>Needed</TableHead>
-                        <TableHead>Unit Cost</TableHead>
-                        <TableHead>Est. Cost</TableHead>
-                        <TableHead>Actions</TableHead>
+                        <TableHead>Материал</TableHead>
+                        <TableHead>Категория</TableHead>
+                        <TableHead>Доступно</TableHead>
+                        <TableHead>Мин. уровень</TableHead>
+                        <TableHead>Требуется</TableHead>
+                        <TableHead>Цена за ед.</TableHead>
+                        <TableHead>Оцен. стоимость</TableHead>
+                        <TableHead>Действия</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -752,7 +752,7 @@ export default function InventoryManagementPage() {
                               <TableCell>
                                 <div>
                                   <p className="font-medium">{material.name}</p>
-                                  <p className="text-sm text-muted-foreground">{material.sku || 'No SKU'}</p>
+                                  <p className="text-sm text-muted-foreground">{material.sku || 'Без артикула'}</p>
                                 </div>
                               </TableCell>
                               <TableCell>
@@ -780,7 +780,7 @@ export default function InventoryManagementPage() {
                                   size="sm"
                                   onClick={() => router.push(`/dashboard/materials/${material.id}`)}
                                 >
-                                  View Details
+                                  Подробнее
                                 </Button>
                               </TableCell>
                             </TableRow>
@@ -792,9 +792,9 @@ export default function InventoryManagementPage() {
               ) : (
                 <div className="text-center py-12">
                   <Package className="mx-auto h-12 w-12 text-green-600" />
-                  <h3 className="mt-4 text-lg font-semibold">All Stock Levels Normal</h3>
+                  <h3 className="mt-4 text-lg font-semibold">Все запасы в норме</h3>
                   <p className="text-muted-foreground">
-                    No materials are below their minimum stock levels.
+                    Нет материалов ниже минимального уровня запасов.
                   </p>
                 </div>
               )}
@@ -806,9 +806,9 @@ export default function InventoryManagementPage() {
         <TabsContent value="allocations" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Material Allocations</CardTitle>
+              <CardTitle>Выделения материалов</CardTitle>
               <CardDescription>
-                History of material assignments to projects
+                История назначения материалов на проекты
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -816,16 +816,16 @@ export default function InventoryManagementPage() {
                 {/* Allocation Filters */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Filter by Material</label>
+                    <label className="text-sm font-medium mb-2 block">Фильтр по материалу</label>
                     <Select
                       value={allocationFilters.material_id || "all"}
                       onValueChange={(value) => setAllocationFilters({ ...allocationFilters, material_id: value === "all" ? "" : value })}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="All materials" />
+                        <SelectValue placeholder="Все материалы" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="all">All materials</SelectItem>
+                        <SelectItem value="all">Все материалы</SelectItem>
                         {materials.map((m) => (
                           <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
                         ))}
@@ -833,9 +833,9 @@ export default function InventoryManagementPage() {
                     </Select>
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Filter by Project</label>
+                    <label className="text-sm font-medium mb-2 block">Фильтр по проекту</label>
                     <Input
-                      placeholder="Project ID or name..."
+                      placeholder="ID или название проекта..."
                       value={allocationFilters.project_id}
                       onChange={(e) => setAllocationFilters({ ...allocationFilters, project_id: e.target.value })}
                     />
@@ -854,14 +854,14 @@ export default function InventoryManagementPage() {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Date</TableHead>
-                          <TableHead>Material</TableHead>
-                          <TableHead>Quantity</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead>Target</TableHead>
-                          <TableHead>Value</TableHead>
-                          <TableHead>Allocated By</TableHead>
-                          <TableHead>Notes</TableHead>
+                          <TableHead>Дата</TableHead>
+                          <TableHead>Материал</TableHead>
+                          <TableHead>Количество</TableHead>
+                          <TableHead>Статус</TableHead>
+                          <TableHead>Проект</TableHead>
+                          <TableHead>Стоимость</TableHead>
+                          <TableHead>Выделил</TableHead>
+                          <TableHead>Заметки</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -924,9 +924,9 @@ export default function InventoryManagementPage() {
                 ) : (
                   <div className="text-center py-12">
                     <Package className="mx-auto h-12 w-12 text-muted-foreground" />
-                    <h3 className="mt-4 text-lg font-semibold">No Allocations Found</h3>
+                    <h3 className="mt-4 text-lg font-semibold">Выделения не найдены</h3>
                     <p className="text-muted-foreground">
-                      No material allocations match your filters.
+                      Нет выделений материалов, соответствующих фильтрам.
                     </p>
                   </div>
                 )}
@@ -939,9 +939,9 @@ export default function InventoryManagementPage() {
         <TabsContent value="orders" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Material Orders</CardTitle>
+              <CardTitle>Заказы материалов</CardTitle>
               <CardDescription>
-                Purchase orders and delivery tracking
+                Заказы на закупку и отслеживание доставки
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -956,15 +956,15 @@ export default function InventoryManagementPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Order ID</TableHead>
-                        <TableHead>Material</TableHead>
-                        <TableHead>Supplier</TableHead>
-                        <TableHead>Quantity</TableHead>
-                        <TableHead>Total Cost</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Order Date</TableHead>
-                        <TableHead>Expected</TableHead>
-                        <TableHead>Actions</TableHead>
+                        <TableHead>№ заказа</TableHead>
+                        <TableHead>Материал</TableHead>
+                        <TableHead>Поставщик</TableHead>
+                        <TableHead>Количество</TableHead>
+                        <TableHead>Сумма</TableHead>
+                        <TableHead>Статус</TableHead>
+                        <TableHead>Дата заказа</TableHead>
+                        <TableHead>Ожидаемая доставка</TableHead>
+                        <TableHead>Действия</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -1013,7 +1013,7 @@ export default function InventoryManagementPage() {
                                   className="flex items-center gap-1"
                                 >
                                   <Truck className="h-3 w-3" />
-                                  Mark Delivered
+                                  Отметить доставленным
                                 </Button>
                               )}
                               <Button
@@ -1021,7 +1021,7 @@ export default function InventoryManagementPage() {
                                 variant="ghost"
                                 onClick={() => router.push(`/dashboard/materials/${order.material_id}`)}
                               >
-                                View
+                                Просмотр
                               </Button>
                             </div>
                           </TableCell>
@@ -1033,9 +1033,9 @@ export default function InventoryManagementPage() {
               ) : (
                 <div className="text-center py-12">
                   <Package className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-semibold">No Orders Found</h3>
+                  <h3 className="mt-4 text-lg font-semibold">Заказы не найдены</h3>
                   <p className="text-muted-foreground">
-                    No material orders have been created yet.
+                    Пока не создано ни одного заказа на материалы.
                   </p>
                 </div>
               )}
@@ -1048,23 +1048,23 @@ export default function InventoryManagementPage() {
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Material</AlertDialogTitle>
+            <AlertDialogTitle>Удаление материала</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete <strong>{materialToDelete?.name}</strong>?
-              This will mark the material as inactive and it will no longer appear in the inventory list.
-              This action can be undone by an administrator.
+              Вы уверены, что хотите удалить <strong>{materialToDelete?.name}</strong>?
+              Материал будет помечен как неактивный и больше не будет отображаться в списке склада.
+              Это действие может быть отменено администратором.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={() => setMaterialToDelete(null)}>
-              Cancel
+              Отмена
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDeleteMaterial}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               disabled={deleteMaterial.isPending}
             >
-              {deleteMaterial.isPending ? "Deleting..." : "Delete"}
+              {deleteMaterial.isPending ? "Удаление..." : "Удалить"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
