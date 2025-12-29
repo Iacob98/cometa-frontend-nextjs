@@ -36,34 +36,34 @@ import { Skeleton } from "@/components/ui/skeleton"
 // Using the same validation schema as the new equipment page
 const equipmentFormSchema = z.object({
   name: z.string().min(2, {
-    message: "Equipment name must be at least 2 characters.",
+    message: "Название оборудования должно содержать минимум 2 символа.",
   }).max(100, {
-    message: "Equipment name must not exceed 100 characters.",
+    message: "Название оборудования не должно превышать 100 символов.",
   }),
   type: z.enum(['machine', 'tool', 'measuring_device']),
   inventory_no: z.string().optional(),
   owned: z.boolean().default(true),
   status: z.enum(['available', 'in_use', 'maintenance', 'broken']).default('available'),
-  current_location: z.string().max(200, "Location must be less than 200 characters").optional(),
+  current_location: z.string().max(200, "Местоположение не должно превышать 200 символов").optional(),
   rental_cost_per_day: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
-  description: z.string().max(1000, "Description must be less than 1000 characters").optional(),
-  notes: z.string().max(1000, "Notes must be less than 1000 characters").optional(),
+  description: z.string().max(1000, "Описание не должно превышать 1000 символов").optional(),
+  notes: z.string().max(1000, "Примечания не должны превышать 1000 символов").optional(),
 })
 
 type EquipmentFormValues = z.infer<typeof equipmentFormSchema>
 
 // Equipment type options (matching existing API)
 const equipmentTypeOptions = [
-  { value: 'machine', label: 'Machine', icon: <Wrench className="h-4 w-4" /> },
-  { value: 'tool', label: 'Tool', icon: <Wrench className="h-4 w-4" /> },
-  { value: 'measuring_device', label: 'Measuring Device', icon: <Wrench className="h-4 w-4" /> },
+  { value: 'machine', label: 'Машина', icon: <Wrench className="h-4 w-4" /> },
+  { value: 'tool', label: 'Инструмент', icon: <Wrench className="h-4 w-4" /> },
+  { value: 'measuring_device', label: 'Измерительный прибор', icon: <Wrench className="h-4 w-4" /> },
 ]
 
 const equipmentStatusOptions = [
-  { value: 'available', label: 'Available' },
-  { value: 'in_use', label: 'In Use' },
-  { value: 'maintenance', label: 'Under Maintenance' },
-  { value: 'broken', label: 'Broken/Out of Service' },
+  { value: 'available', label: 'Доступно' },
+  { value: 'in_use', label: 'В использовании' },
+  { value: 'maintenance', label: 'На обслуживании' },
+  { value: 'broken', label: 'Сломано/Не работает' },
 ]
 
 export default function EditEquipmentPage() {
@@ -95,7 +95,7 @@ export default function EditEquipmentPage() {
     async function loadEquipment() {
       if (!equipmentId) {
         console.error('No equipmentId provided to edit page')
-        toast.error("No equipment ID provided")
+        toast.error("ID оборудования не указан")
         router.push('/dashboard/equipment')
         return
       }
@@ -112,11 +112,11 @@ export default function EditEquipmentPage() {
           console.error('🔧 API error response:', errorText)
 
           if (response.status === 404) {
-            throw new Error('Equipment not found')
+            throw new Error('Оборудование не найдено')
           } else if (response.status === 500) {
-            throw new Error('Server error while loading equipment')
+            throw new Error('Ошибка сервера при загрузке оборудования')
           } else {
-            throw new Error(`Failed to load equipment (${response.status})`)
+            throw new Error(`Не удалось загрузить оборудование (${response.status})`)
           }
         }
 
@@ -141,7 +141,7 @@ export default function EditEquipmentPage() {
 
       } catch (error) {
         console.error('🔧 Failed to load equipment:', error)
-        const errorMessage = error instanceof Error ? error.message : "Failed to load equipment data"
+        const errorMessage = error instanceof Error ? error.message : "Не удалось загрузить данные оборудования"
         toast.error(errorMessage)
         router.push('/dashboard/equipment')
       } finally {
@@ -188,12 +188,12 @@ export default function EditEquipmentPage() {
         const errorText = await response.text()
         console.error('🔧 Update API error response:', errorText)
 
-        let errorMessage = 'Failed to update equipment'
+        let errorMessage = 'Не удалось обновить оборудование'
         try {
           const errorData = JSON.parse(errorText)
           errorMessage = errorData.error || errorMessage
         } catch (e) {
-          errorMessage = `Server error (${response.status}): ${errorText}`
+          errorMessage = `Ошибка сервера (${response.status}): ${errorText}`
         }
 
         throw new Error(errorMessage)
@@ -202,14 +202,14 @@ export default function EditEquipmentPage() {
       const result = await response.json()
       console.log('🔧 Equipment updated successfully:', result)
 
-      toast.success("Equipment updated successfully!")
+      toast.success("Оборудование успешно обновлено!")
 
       // Navigate back to equipment list
       router.push('/dashboard/equipment')
 
     } catch (error) {
       console.error('🔧 Equipment update error:', error)
-      toast.error(error instanceof Error ? error.message : "Failed to update equipment")
+      toast.error(error instanceof Error ? error.message : "Не удалось обновить оборудование")
     } finally {
       setIsSubmitting(false)
     }
@@ -228,7 +228,7 @@ export default function EditEquipmentPage() {
               className="flex items-center"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
+              Назад
             </Button>
             <div>
               <Skeleton className="h-8 w-64 mb-2" />
@@ -267,12 +267,12 @@ export default function EditEquipmentPage() {
             className="flex items-center"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            Назад
           </Button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Edit Equipment</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Редактировать оборудование</h1>
             <p className="text-muted-foreground">
-              Update information for {equipment?.name || 'this equipment'}
+              Обновить информацию для {equipment?.name || 'этого оборудования'}
             </p>
           </div>
         </div>
@@ -286,8 +286,8 @@ export default function EditEquipmentPage() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <Tabs defaultValue="basic" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="basic">Basic Information</TabsTrigger>
-                <TabsTrigger value="financial">Financial Details</TabsTrigger>
+                <TabsTrigger value="basic">Основная информация</TabsTrigger>
+                <TabsTrigger value="financial">Финансовая информация</TabsTrigger>
               </TabsList>
 
               {/* Basic Information Tab */}
@@ -296,10 +296,10 @@ export default function EditEquipmentPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Wrench className="h-5 w-5 mr-2" />
-                      Equipment Details
+                      Детали оборудования
                     </CardTitle>
                     <CardDescription>
-                      Update the basic information about the equipment
+                      Обновите основную информацию об оборудовании
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -310,12 +310,12 @@ export default function EditEquipmentPage() {
                         name="name"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Equipment Name *</FormLabel>
+                            <FormLabel>Название оборудования *</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g. Hydraulic Excavator CAT 320" {...field} />
+                              <Input placeholder="напр. Гидравлический экскаватор CAT 320" {...field} />
                             </FormControl>
                             <FormDescription>
-                              A descriptive name for the equipment
+                              Описательное название оборудования
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -328,11 +328,11 @@ export default function EditEquipmentPage() {
                         name="type"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Equipment Type *</FormLabel>
+                            <FormLabel>Тип оборудования *</FormLabel>
                             <Select onValueChange={field.onChange} value={field.value}>
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select equipment type" />
+                                  <SelectValue placeholder="Выберите тип оборудования" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -347,7 +347,7 @@ export default function EditEquipmentPage() {
                               </SelectContent>
                             </Select>
                             <FormDescription>
-                              Select the type of equipment
+                              Выберите тип оборудования
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -360,12 +360,12 @@ export default function EditEquipmentPage() {
                         name="inventory_no"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Inventory Number</FormLabel>
+                            <FormLabel>Инвентарный номер</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g. EQ-001, TOOL-123" {...field} />
+                              <Input placeholder="напр. EQ-001, TOOL-123" {...field} />
                             </FormControl>
                             <FormDescription>
-                              Unique identifier for tracking
+                              Уникальный идентификатор для отслеживания
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -378,11 +378,11 @@ export default function EditEquipmentPage() {
                         name="status"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Status</FormLabel>
+                            <FormLabel>Статус</FormLabel>
                             <Select onValueChange={field.onChange} value={field.value}>
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select status" />
+                                  <SelectValue placeholder="Выберите статус" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
@@ -394,7 +394,7 @@ export default function EditEquipmentPage() {
                               </SelectContent>
                             </Select>
                             <FormDescription>
-                              Current operational status
+                              Текущий рабочий статус
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -407,12 +407,12 @@ export default function EditEquipmentPage() {
                         name="current_location"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Current Location</FormLabel>
+                            <FormLabel>Текущее местоположение</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g. Main Depot, Project Site A" {...field} />
+                              <Input placeholder="напр. Главный склад, Объект А" {...field} />
                             </FormControl>
                             <FormDescription>
-                              Where the equipment is currently located
+                              Где сейчас находится оборудование
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -433,10 +433,10 @@ export default function EditEquipmentPage() {
                             </FormControl>
                             <div className="space-y-1 leading-none">
                               <FormLabel>
-                                Company Owned Equipment
+                                Собственное оборудование компании
                               </FormLabel>
                               <FormDescription>
-                                Check if this equipment is owned by the company (vs. rented)
+                                Отметьте, если оборудование принадлежит компании (не арендованное)
                               </FormDescription>
                             </div>
                             <FormMessage />
@@ -451,16 +451,16 @@ export default function EditEquipmentPage() {
                       name="description"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Description</FormLabel>
+                          <FormLabel>Описание</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Equipment specifications, technical details, capabilities..."
+                              placeholder="Спецификации оборудования, технические детали, возможности..."
                               className="min-h-[100px]"
                               {...field}
                             />
                           </FormControl>
                           <FormDescription>
-                            Technical specifications and static details about the equipment
+                            Технические характеристики и постоянные данные об оборудовании
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -473,16 +473,16 @@ export default function EditEquipmentPage() {
                       name="notes"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Notes</FormLabel>
+                          <FormLabel>Примечания</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Operational notes, maintenance reminders, usage notes..."
+                              placeholder="Операционные заметки, напоминания об обслуживании, заметки об использовании..."
                               className="min-h-[100px]"
                               {...field}
                             />
                           </FormControl>
                           <FormDescription>
-                            Operational notes, maintenance schedules, or usage reminders
+                            Операционные заметки, графики обслуживания или напоминания
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -499,10 +499,10 @@ export default function EditEquipmentPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <DollarSign className="h-5 w-5 mr-2" />
-                      Financial Information
+                      Финансовая информация
                     </CardTitle>
                     <CardDescription>
-                      Update daily rental rate for the equipment
+                      Обновите дневную ставку аренды оборудования
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
@@ -513,7 +513,7 @@ export default function EditEquipmentPage() {
                         name="rental_cost_per_day"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Daily Rental Cost (€)</FormLabel>
+                            <FormLabel>Дневная стоимость аренды (€)</FormLabel>
                             <FormControl>
                               <Input
                                 type="number"
@@ -523,7 +523,7 @@ export default function EditEquipmentPage() {
                               />
                             </FormControl>
                             <FormDescription>
-                              Cost per day when equipment is rented out
+                              Стоимость в день при сдаче оборудования в аренду
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
@@ -543,18 +543,18 @@ export default function EditEquipmentPage() {
                 onClick={() => router.back()}
                 disabled={isSubmitting}
               >
-                Cancel
+                Отмена
               </Button>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Updating...
+                    Обновление...
                   </>
                 ) : (
                   <>
                     <Save className="h-4 w-4 mr-2" />
-                    Update Equipment
+                    Обновить оборудование
                   </>
                 )}
               </Button>

@@ -81,7 +81,7 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
 
   const formatDate = (dateString: string | null | undefined) => {
     if (!dateString) return "—";
-    return new Date(dateString).toLocaleDateString("de-DE");
+    return new Date(dateString).toLocaleDateString("ru-RU");
   };
 
   const getStatusBadge = (status: MaterialOrderStatus) => {
@@ -175,16 +175,16 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
         <div className="flex items-center gap-4">
           <Button variant="ghost" onClick={() => router.back()}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
+            Назад
           </Button>
         </div>
         <Card>
           <CardContent className="py-8">
             <div className="text-center">
               <AlertTriangle className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-2 text-lg font-semibold">Order not found</h3>
+              <h3 className="mt-2 text-lg font-semibold">Заказ не найден</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                The material order you&apos;re looking for doesn&apos;t exist or you don&apos;t have permission to view it.
+                Заказ на материалы не существует или у вас нет прав на его просмотр.
               </p>
             </div>
           </CardContent>
@@ -200,14 +200,14 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
         <div className="flex items-center gap-4">
           <Button variant="ghost" onClick={() => router.back()}>
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
+            Назад
           </Button>
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
-              Order #{order.id.slice(0, 8)}
+              Заказ #{order.id.slice(0, 8)}
             </h1>
             <p className="text-muted-foreground">
-              Material order details and management
+              Детали и управление заказом материалов
             </p>
           </div>
         </div>
@@ -217,31 +217,31 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
             <div className="flex gap-2">
               <Button variant="outline" onClick={handleEdit}>
                 <Edit className="mr-2 h-4 w-4" />
-                Edit
+                Редактировать
               </Button>
               {(order.status === "draft" || order.status === "pending") && (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="destructive">
                       <XCircle className="mr-2 h-4 w-4" />
-                      Delete
+                      Удалить
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Delete Material Order</AlertDialogTitle>
+                      <AlertDialogTitle>Удаление заказа материалов</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Are you sure you want to delete this material order? This action cannot be undone.
-                        Only draft and pending orders can be deleted.
+                        Вы уверены, что хотите удалить этот заказ материалов? Это действие нельзя отменить.
+                        Удалить можно только черновики и ожидающие заказы.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel>Отмена</AlertDialogCancel>
                       <AlertDialogAction
                         onClick={handleDelete}
                         className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                       >
-                        Delete Order
+                        Удалить заказ
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -260,24 +260,24 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Package className="h-5 w-5" />
-                Order Information
+                Информация о заказе
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               {/* Material Details */}
               <div>
-                <h4 className="font-medium mb-3">Material</h4>
+                <h4 className="font-medium mb-3">Материал</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Material Type:</span>
+                    <span className="text-sm text-muted-foreground">Тип материала:</span>
                     <span className="font-medium">{order.material_type || "—"}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">SKU:</span>
+                    <span className="text-sm text-muted-foreground">Артикул:</span>
                     <span className="font-mono text-sm">{order.material_sku || "—"}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-muted-foreground">Unit:</span>
+                    <span className="text-sm text-muted-foreground">Единица измерения:</span>
                     <span>{order.material_unit || "—"}</span>
                   </div>
                 </div>
@@ -288,21 +288,21 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
               {/* Order Details */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm text-muted-foreground">Quantity</Label>
+                  <Label className="text-sm text-muted-foreground">Количество</Label>
                   <p className="font-medium">
-                    {order.quantity} {order.material_unit || "units"}
+                    {order.quantity} {order.material_unit || "ед."}
                   </p>
                 </div>
                 <div>
-                  <Label className="text-sm text-muted-foreground">Unit Price</Label>
+                  <Label className="text-sm text-muted-foreground">Цена за единицу</Label>
                   <p className="font-medium">{formatCurrency(order.unit_price_eur)}</p>
                 </div>
                 <div>
-                  <Label className="text-sm text-muted-foreground">Delivery Cost</Label>
+                  <Label className="text-sm text-muted-foreground">Стоимость доставки</Label>
                   <p className="font-medium">{formatCurrency(order.delivery_cost_eur || 0)}</p>
                 </div>
                 <div>
-                  <Label className="text-sm text-muted-foreground">Total Cost</Label>
+                  <Label className="text-sm text-muted-foreground">Общая стоимость</Label>
                   <p className="text-lg font-bold">{formatCurrency(order.total_cost_eur)}</p>
                 </div>
               </div>
@@ -312,14 +312,14 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
               {/* Dates */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label className="text-sm text-muted-foreground">Order Date</Label>
+                  <Label className="text-sm text-muted-foreground">Дата заказа</Label>
                   <p className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
                     {formatDate(order.order_date)}
                   </p>
                 </div>
                 <div>
-                  <Label className="text-sm text-muted-foreground">Expected Delivery</Label>
+                  <Label className="text-sm text-muted-foreground">Ожидаемая доставка</Label>
                   <p className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
                     {formatDate(order.expected_delivery_date)}
@@ -327,7 +327,7 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
                 </div>
                 {order.actual_delivery_date && (
                   <div className="col-span-2">
-                    <Label className="text-sm text-muted-foreground">Actual Delivery</Label>
+                    <Label className="text-sm text-muted-foreground">Фактическая доставка</Label>
                     <p className="flex items-center gap-2">
                       <CheckCircle className="h-4 w-4 text-green-600" />
                       {formatDate(order.actual_delivery_date)}
@@ -341,7 +341,7 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
                 <>
                   <Separator />
                   <div>
-                    <Label className="text-sm text-muted-foreground">Notes</Label>
+                    <Label className="text-sm text-muted-foreground">Примечания</Label>
                     <p className="mt-1 p-3 bg-muted rounded-md text-sm">{order.notes}</p>
                   </div>
                 </>
@@ -353,15 +353,15 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
           {isEditing && (
             <Card>
               <CardHeader>
-                <CardTitle>Edit Order</CardTitle>
+                <CardTitle>Редактировать заказ</CardTitle>
                 <CardDescription>
-                  Update order status, delivery date, and notes
+                  Обновите статус заказа, дату доставки и примечания
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="status">Status</Label>
+                    <Label htmlFor="status">Статус</Label>
                     <Select
                       value={editFormData.status}
                       onValueChange={(value: MaterialOrderStatus) =>
@@ -369,19 +369,19 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
                       }
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select status" />
+                        <SelectValue placeholder="Выберите статус" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="draft">Draft</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="ordered">Ordered</SelectItem>
-                        <SelectItem value="delivered">Delivered</SelectItem>
-                        <SelectItem value="cancelled">Cancelled</SelectItem>
+                        <SelectItem value="draft">Черновик</SelectItem>
+                        <SelectItem value="pending">Ожидает</SelectItem>
+                        <SelectItem value="ordered">Заказано</SelectItem>
+                        <SelectItem value="delivered">Доставлено</SelectItem>
+                        <SelectItem value="cancelled">Отменено</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="actual_delivery_date">Actual Delivery Date</Label>
+                    <Label htmlFor="actual_delivery_date">Фактическая дата доставки</Label>
                     <Input
                       id="actual_delivery_date"
                       type="date"
@@ -396,26 +396,26 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="notes">Notes</Label>
+                  <Label htmlFor="notes">Примечания</Label>
                   <Textarea
                     id="notes"
                     value={editFormData.notes}
                     onChange={(e) =>
                       setEditFormData({ ...editFormData, notes: e.target.value })
                     }
-                    placeholder="Add any additional notes about this order..."
+                    placeholder="Добавьте дополнительные примечания к этому заказу..."
                     rows={3}
                   />
                 </div>
                 <div className="flex justify-end gap-2">
                   <Button variant="outline" onClick={() => setIsEditing(false)}>
-                    Cancel
+                    Отмена
                   </Button>
                   <Button
                     onClick={handleSave}
                     disabled={updateMutation.isPending}
                   >
-                    {updateMutation.isPending ? "Saving..." : "Save Changes"}
+                    {updateMutation.isPending ? "Сохранение..." : "Сохранить изменения"}
                   </Button>
                 </div>
               </CardContent>
@@ -430,7 +430,7 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Building2 className="h-5 w-5" />
-                Supplier
+                Поставщик
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -442,7 +442,7 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
               </div>
               {order.supplier_phone && (
                 <div className="flex items-center gap-2 text-sm">
-                  <span className="text-muted-foreground">Phone:</span>
+                  <span className="text-muted-foreground">Телефон:</span>
                   <span>{order.supplier_phone}</span>
                 </div>
               )}
@@ -461,7 +461,7 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MapPin className="h-5 w-5" />
-                  Project
+                  Проект
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -486,21 +486,21 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <User className="h-5 w-5" />
-                Order Details
+                Детали заказа
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <p className="text-sm text-muted-foreground">Created by</p>
+                <p className="text-sm text-muted-foreground">Создал</p>
                 <p className="font-medium">{order.created_by_name || "—"}</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Order ID</p>
+                <p className="text-sm text-muted-foreground">ID заказа</p>
                 <p className="font-mono text-sm">{order.id}</p>
               </div>
               {order.created_at && (
                 <div>
-                  <p className="text-sm text-muted-foreground">Created</p>
+                  <p className="text-sm text-muted-foreground">Создан</p>
                   <p className="text-sm">{formatDate(order.created_at)}</p>
                 </div>
               )}
@@ -511,7 +511,7 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
           {canManageInventory && !isEditing && (
             <Card>
               <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
+                <CardTitle>Быстрые действия</CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 {order.status === "pending" && (
@@ -522,7 +522,7 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
                     disabled={updateMutation.isPending}
                   >
                     <Truck className="mr-2 h-4 w-4" />
-                    {updateMutation.isPending ? "Updating..." : "Mark as Ordered"}
+                    {updateMutation.isPending ? "Обновление..." : "Отметить как заказано"}
                   </Button>
                 )}
                 {(order.status === "pending" || order.status === "ordered") && (
@@ -535,7 +535,7 @@ export default function MaterialOrderDetailsPage({ params }: Props) {
                     disabled={updateMutation.isPending}
                   >
                     <CheckCircle className="mr-2 h-4 w-4" />
-                    {updateMutation.isPending ? "Updating..." : "Mark as Delivered"}
+                    {updateMutation.isPending ? "Обновление..." : "Отметить как доставлено"}
                   </Button>
                 )}
               </CardContent>

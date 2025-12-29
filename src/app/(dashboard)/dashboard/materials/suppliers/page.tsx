@@ -21,10 +21,10 @@ import { useSuppliers, useCreateSupplier, useUpdateSupplier, useDeleteSupplier }
 import { usePermissions } from "@/hooks/use-auth";
 
 const supplierSchema = z.object({
-  org_name: z.string().min(1, "Organization name is required"),
-  contact_person: z.string().min(1, "Contact person is required"),
+  org_name: z.string().min(1, "Название организации обязательно"),
+  contact_person: z.string().min(1, "Контактное лицо обязательно"),
   phone: z.string().optional(),
-  email: z.string().email("Invalid email").optional().or(z.literal("")),
+  email: z.string().email("Некорректный email").optional().or(z.literal("")),
   address: z.string().optional(),
   notes: z.string().optional(),
 });
@@ -68,9 +68,9 @@ export default function SuppliersPage() {
       await createSupplier.mutateAsync(data);
       setIsCreateDialogOpen(false);
       form.reset();
-      toast.success("Supplier created successfully");
+      toast.success("Поставщик успешно создан");
     } catch (error) {
-      toast.error("Failed to create supplier");
+      toast.error("Не удалось создать поставщика");
     }
   };
 
@@ -84,20 +84,20 @@ export default function SuppliersPage() {
       });
       setEditingSupplier(null);
       form.reset();
-      toast.success("Supplier updated successfully");
+      toast.success("Поставщик успешно обновлён");
     } catch (error) {
-      toast.error("Failed to update supplier");
+      toast.error("Не удалось обновить поставщика");
     }
   };
 
   const handleDeleteSupplier = async (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this supplier?")) return;
+    if (!window.confirm("Вы уверены, что хотите удалить этого поставщика?")) return;
 
     try {
       await deleteSupplier.mutateAsync(id);
-      toast.success("Supplier deleted successfully");
+      toast.success("Поставщик успешно удалён");
     } catch (error) {
-      toast.error("Failed to delete supplier");
+      toast.error("Не удалось удалить поставщика");
     }
   };
 
@@ -128,8 +128,8 @@ export default function SuppliersPage() {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Suppliers</h1>
-            <p className="text-muted-foreground">Manage your material suppliers and vendors</p>
+            <h1 className="text-3xl font-bold tracking-tight">Поставщики</h1>
+            <p className="text-muted-foreground">Управление поставщиками материалов</p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -157,9 +157,9 @@ export default function SuppliersPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Suppliers</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Поставщики</h1>
           <p className="text-muted-foreground">
-            Manage your material suppliers and vendors
+            Управление поставщиками материалов
           </p>
         </div>
         {canManageInventory && (
@@ -167,14 +167,14 @@ export default function SuppliersPage() {
             <DialogTrigger asChild>
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
-                Add Supplier
+                Добавить поставщика
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Add New Supplier</DialogTitle>
+                <DialogTitle>Добавить нового поставщика</DialogTitle>
                 <DialogDescription>
-                  Create a new supplier to manage material procurement
+                  Создайте нового поставщика для управления закупками материалов
                 </DialogDescription>
               </DialogHeader>
               <Form {...form}>
@@ -184,9 +184,9 @@ export default function SuppliersPage() {
                     name="org_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Organization Name *</FormLabel>
+                        <FormLabel>Название организации *</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., ABC Materials Ltd" {...field} />
+                          <Input placeholder="напр., ООО Стройматериалы" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -197,9 +197,9 @@ export default function SuppliersPage() {
                     name="contact_person"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Contact Person *</FormLabel>
+                        <FormLabel>Контактное лицо *</FormLabel>
                         <FormControl>
-                          <Input placeholder="e.g., John Smith" {...field} />
+                          <Input placeholder="напр., Иван Петров" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -211,9 +211,9 @@ export default function SuppliersPage() {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Phone</FormLabel>
+                          <FormLabel>Телефон</FormLabel>
                           <FormControl>
-                            <Input placeholder="+1234567890" {...field} />
+                            <Input placeholder="+7 999 123 45 67" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -226,7 +226,7 @@ export default function SuppliersPage() {
                         <FormItem>
                           <FormLabel>Email</FormLabel>
                           <FormControl>
-                            <Input placeholder="contact@company.com" {...field} />
+                            <Input placeholder="contact@company.ru" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -238,9 +238,9 @@ export default function SuppliersPage() {
                     name="address"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Address</FormLabel>
+                        <FormLabel>Адрес</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Company address..." rows={2} {...field} />
+                          <Textarea placeholder="Адрес компании..." rows={2} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -251,9 +251,9 @@ export default function SuppliersPage() {
                     name="notes"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Notes</FormLabel>
+                        <FormLabel>Примечания</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Additional notes..." rows={2} {...field} />
+                          <Textarea placeholder="Дополнительные примечания..." rows={2} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -261,10 +261,10 @@ export default function SuppliersPage() {
                   />
                   <DialogFooter>
                     <Button type="button" variant="outline" onClick={closeDialog}>
-                      Cancel
+                      Отмена
                     </Button>
                     <Button type="submit" disabled={createSupplier.isPending}>
-                      {createSupplier.isPending ? "Creating..." : "Create Supplier"}
+                      {createSupplier.isPending ? "Создание..." : "Создать поставщика"}
                     </Button>
                   </DialogFooter>
                 </form>
@@ -279,14 +279,14 @@ export default function SuppliersPage() {
         <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
-            placeholder="Search suppliers..."
+            placeholder="Поиск поставщиков..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
           />
         </div>
         <Badge variant="secondary">
-          {filteredSuppliers.length} supplier{filteredSuppliers.length !== 1 ? 's' : ''}
+          {filteredSuppliers.length} {filteredSuppliers.length === 1 ? 'поставщик' : filteredSuppliers.length >= 2 && filteredSuppliers.length <= 4 ? 'поставщика' : 'поставщиков'}
         </Badge>
       </div>
 
@@ -377,14 +377,14 @@ export default function SuppliersPage() {
       {filteredSuppliers.length === 0 && (
         <div className="text-center py-12">
           <Building2 className="mx-auto h-12 w-12 text-muted-foreground" />
-          <h3 className="mt-4 text-lg font-semibold">No suppliers found</h3>
+          <h3 className="mt-4 text-lg font-semibold">Поставщики не найдены</h3>
           <p className="text-muted-foreground">
-            {searchTerm ? "Try adjusting your search criteria" : "Get started by adding your first supplier"}
+            {searchTerm ? "Попробуйте изменить критерии поиска" : "Начните с добавления первого поставщика"}
           </p>
           {canManageInventory && !searchTerm && (
             <Button className="mt-4" onClick={() => setIsCreateDialogOpen(true)}>
               <Plus className="mr-2 h-4 w-4" />
-              Add Supplier
+              Добавить поставщика
             </Button>
           )}
         </div>
@@ -394,9 +394,9 @@ export default function SuppliersPage() {
       <Dialog open={!!editingSupplier} onOpenChange={(open) => !open && closeDialog()}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Edit Supplier</DialogTitle>
+            <DialogTitle>Редактировать поставщика</DialogTitle>
             <DialogDescription>
-              Update supplier information
+              Обновите информацию о поставщике
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
@@ -406,9 +406,9 @@ export default function SuppliersPage() {
                 name="org_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Organization Name *</FormLabel>
+                    <FormLabel>Название организации *</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., ABC Materials Ltd" {...field} />
+                      <Input placeholder="напр., ООО Стройматериалы" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -419,9 +419,9 @@ export default function SuppliersPage() {
                 name="contact_person"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Contact Person *</FormLabel>
+                    <FormLabel>Контактное лицо *</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., John Smith" {...field} />
+                      <Input placeholder="напр., Иван Петров" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -433,9 +433,9 @@ export default function SuppliersPage() {
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone</FormLabel>
+                      <FormLabel>Телефон</FormLabel>
                       <FormControl>
-                        <Input placeholder="+1234567890" {...field} />
+                        <Input placeholder="+7 999 123 45 67" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -448,7 +448,7 @@ export default function SuppliersPage() {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="contact@company.com" {...field} />
+                        <Input placeholder="contact@company.ru" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -460,9 +460,9 @@ export default function SuppliersPage() {
                 name="address"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>Адрес</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Company address..." rows={2} {...field} />
+                      <Textarea placeholder="Адрес компании..." rows={2} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -473,9 +473,9 @@ export default function SuppliersPage() {
                 name="notes"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Notes</FormLabel>
+                    <FormLabel>Примечания</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Additional notes..." rows={2} {...field} />
+                      <Textarea placeholder="Дополнительные примечания..." rows={2} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -483,10 +483,10 @@ export default function SuppliersPage() {
               />
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={closeDialog}>
-                  Cancel
+                  Отмена
                 </Button>
                 <Button type="submit" disabled={updateSupplier.isPending}>
-                  {updateSupplier.isPending ? "Updating..." : "Update Supplier"}
+                  {updateSupplier.isPending ? "Обновление..." : "Обновить поставщика"}
                 </Button>
               </DialogFooter>
             </form>

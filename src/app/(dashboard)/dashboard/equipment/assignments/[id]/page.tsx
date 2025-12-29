@@ -133,7 +133,7 @@ export default function EditAssignmentPage() {
         }
 
         if (!assignmentData) {
-          throw new Error('Assignment not found')
+          throw new Error('Назначение не найдено')
         }
 
         setAssignment(assignmentData)
@@ -145,7 +145,7 @@ export default function EditAssignmentPage() {
 
       } catch (error) {
         console.error('Failed to load assignment:', error)
-        toast.error('Failed to load assignment details')
+        toast.error('Не удалось загрузить детали назначения')
         router.push('/dashboard/equipment')
       } finally {
         setIsLoading(false)
@@ -176,12 +176,12 @@ export default function EditAssignmentPage() {
         data: updateData
       })
 
-      toast.success("Assignment updated successfully!")
+      toast.success("Назначение успешно обновлено!")
       router.push('/dashboard/equipment')
 
     } catch (error) {
       console.error('Assignment update error:', error)
-      toast.error(error instanceof Error ? error.message : "Failed to update assignment")
+      toast.error(error instanceof Error ? error.message : "Не удалось обновить назначение")
     } finally {
       setIsSubmitting(false)
     }
@@ -198,10 +198,10 @@ export default function EditAssignmentPage() {
   if (!assignment) {
     return (
       <div className="text-center py-12">
-        <h3 className="text-lg font-semibold">Assignment not found</h3>
-        <p className="text-muted-foreground">The assignment could not be loaded.</p>
+        <h3 className="text-lg font-semibold">Назначение не найдено</h3>
+        <p className="text-muted-foreground">Не удалось загрузить назначение.</p>
         <Button onClick={() => router.push('/dashboard/equipment')} className="mt-4">
-          Back to Equipment
+          Назад к оборудованию
         </Button>
       </div>
     )
@@ -219,12 +219,12 @@ export default function EditAssignmentPage() {
             className="flex items-center"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            Назад
           </Button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Edit Equipment Assignment</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Редактировать назначение оборудования</h1>
             <p className="text-muted-foreground">
-              Modify assignment details for {assignment.equipment?.name || assignment.equipment_name || 'Unknown Resource'}
+              Изменить детали назначения для {assignment.equipment?.name || assignment.equipment_name || 'Неизвестный ресурс'}
             </p>
           </div>
         </div>
@@ -237,23 +237,23 @@ export default function EditAssignmentPage() {
         <CardHeader>
           <CardTitle className="flex items-center">
             <Wrench className="h-5 w-5 mr-2" />
-            Assignment Information
+            Информация о назначении
           </CardTitle>
           <CardDescription>
-            Current assignment details (read-only)
+            Текущие детали назначения (только для чтения)
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Equipment</label>
+              <label className="text-sm font-medium">Оборудование</label>
               <div className="flex items-center p-3 bg-muted rounded-md">
                 <Wrench className="h-4 w-4 mr-2" />
                 <div>
-                  <div className="font-medium">{assignment.equipment?.name || assignment.equipment_name || 'Unknown Resource'}</div>
+                  <div className="font-medium">{assignment.equipment?.name || assignment.equipment_name || 'Неизвестный ресурс'}</div>
                   {assignment.equipment?.inventory_no && (
                     <div className="text-sm text-muted-foreground">
-                      Inventory: {assignment.equipment.inventory_no}
+                      Инвентарный №: {assignment.equipment.inventory_no}
                     </div>
                   )}
                 </div>
@@ -261,7 +261,7 @@ export default function EditAssignmentPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">Project</label>
+              <label className="text-sm font-medium">Проект</label>
               <div className="flex items-center p-3 bg-muted rounded-md">
                 <Building2 className="h-4 w-4 mr-2" />
                 <div className="font-medium">{assignment.project_name || assignment.project_id}</div>
@@ -269,28 +269,28 @@ export default function EditAssignmentPage() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">Assigned Crew</label>
+              <label className="text-sm font-medium">Назначенная бригада</label>
               <div className="flex items-center p-3 bg-muted rounded-md">
                 <Users className="h-4 w-4 mr-2" />
-                <div className="font-medium">{assignment.crew_name || 'Unassigned'}</div>
+                <div className="font-medium">{assignment.crew_name || 'Не назначена'}</div>
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">Start Date</label>
+              <label className="text-sm font-medium">Дата начала</label>
               <div className="flex items-center p-3 bg-muted rounded-md">
                 <Calendar className="h-4 w-4 mr-2" />
                 <div className="font-medium">
-                  {new Date(assignment.from_ts).toLocaleString()}
+                  {new Date(assignment.from_ts).toLocaleString('ru-RU')}
                 </div>
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium">Status</label>
+              <label className="text-sm font-medium">Статус</label>
               <div>
                 <Badge className={assignment.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>
-                  {assignment.is_active ? 'Active' : 'Inactive'}
+                  {assignment.is_active ? 'Активно' : 'Неактивно'}
                 </Badge>
               </div>
             </div>
@@ -306,10 +306,10 @@ export default function EditAssignmentPage() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Calendar className="h-5 w-5 mr-2" />
-                  Edit Assignment Details
+                  Редактирование назначения
                 </CardTitle>
                 <CardDescription>
-                  Modify the assignment end date and rental cost
+                  Изменить дату окончания и стоимость аренды
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -320,7 +320,7 @@ export default function EditAssignmentPage() {
                     name="to_ts"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>End Date & Time</FormLabel>
+                        <FormLabel>Дата и время окончания</FormLabel>
                         <FormControl>
                           <Input
                             type="datetime-local"
@@ -329,7 +329,7 @@ export default function EditAssignmentPage() {
                           />
                         </FormControl>
                         <FormDescription>
-                          When the assignment should end (leave empty for ongoing)
+                          Когда назначение должно завершиться (оставьте пустым для бессрочного)
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -342,7 +342,7 @@ export default function EditAssignmentPage() {
                     name="rental_cost_per_day"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Daily Rental Cost (€)</FormLabel>
+                        <FormLabel>Стоимость аренды в день (€)</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
@@ -352,7 +352,7 @@ export default function EditAssignmentPage() {
                           />
                         </FormControl>
                         <FormDescription>
-                          Daily cost for this assignment
+                          Дневная стоимость этого назначения
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -379,10 +379,10 @@ export default function EditAssignmentPage() {
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel>
-                          Permanent Assignment
+                          Постоянное назначение
                         </FormLabel>
                         <FormDescription>
-                          Check if this is a permanent assignment (no end date)
+                          Отметьте, если это постоянное назначение (без даты окончания)
                         </FormDescription>
                       </div>
                       <FormMessage />
@@ -400,18 +400,18 @@ export default function EditAssignmentPage() {
                 onClick={() => router.back()}
                 disabled={isSubmitting}
               >
-                Cancel
+                Отмена
               </Button>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Updating...
+                    Сохранение...
                   </>
                 ) : (
                   <>
                     <Save className="h-4 w-4 mr-2" />
-                    Update Assignment
+                    Сохранить изменения
                   </>
                 )}
               </Button>

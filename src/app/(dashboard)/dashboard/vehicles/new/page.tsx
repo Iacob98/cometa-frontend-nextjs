@@ -18,31 +18,29 @@ import { Separator } from "@/components/ui/separator";
 import { useCreateVehicle } from "@/hooks/use-vehicles";
 
 const vehicleFormSchema = z.object({
-  brand: z.string().min(1, "Brand is required").max(100, "Brand must be less than 100 characters"),
-  model: z.string().min(1, "Model is required").max(100, "Model must be less than 100 characters"),
+  brand: z.string().min(1, "Марка обязательна").max(100, "Марка должна быть менее 100 символов"),
+  model: z.string().min(1, "Модель обязательна").max(100, "Модель должна быть менее 100 символов"),
   plate_number: z.string()
-    .min(1, "Plate number is required")
-    .max(20, "Plate number must be less than 20 characters"),
+    .min(1, "Гос. номер обязателен")
+    .max(20, "Гос. номер должен быть менее 20 символов"),
   type: z.enum(["pkw", "lkw", "transporter", "pritsche", "anhänger", "excavator", "other"], {
-    required_error: "Vehicle type is required",
+    required_error: "Тип транспорта обязателен",
   }),
   status: z.enum(["available", "in_use", "maintenance", "broken"], {
-    required_error: "Status is required",
+    required_error: "Статус обязателен",
   }),
   owned: z.boolean().default(true),
-  rental_price_per_day_eur: z.number().min(0, "Rental price per day must be 0 or greater").default(0),
-  rental_price_per_hour_eur: z.number().min(0, "Rental price per hour must be 0 or greater").default(0),
-  // CHANGED: Make fuel consumption OPTIONAL
-  fuel_consumption_per_100km: z.number().min(0, "Fuel consumption must be 0 or greater").optional().nullable(),
-  current_location: z.string().max(200, "Location must be less than 200 characters").default("Main Depot"),
-  purchase_price_eur: z.number().min(0, "Purchase price must be 0 or greater").default(0),
+  rental_price_per_day_eur: z.number().min(0, "Стоимость аренды в день должна быть 0 или больше").default(0),
+  rental_price_per_hour_eur: z.number().min(0, "Стоимость аренды в час должна быть 0 или больше").default(0),
+  fuel_consumption_per_100km: z.number().min(0, "Расход топлива должен быть 0 или больше").optional().nullable(),
+  current_location: z.string().max(200, "Местоположение должно быть менее 200 символов").default("Главное депо"),
+  purchase_price_eur: z.number().min(0, "Цена покупки должна быть 0 или больше").default(0),
   tipper_type: z.enum(["Kipper", "kein Kipper"], {
-    required_error: "Tipper type is required",
+    required_error: "Тип самосвала обязателен",
   }).default("kein Kipper"),
-  max_weight_kg: z.number().min(0, "Max weight must be 0 or greater").max(100000, "Max weight must be less than 100,000 kg").optional().nullable(),
-  comment: z.string().max(500, "Comment must be less than 500 characters").optional().nullable(),
-  // NEW FIELDS
-  number_of_seats: z.number().int("Number of seats must be a whole number").min(0, "Number of seats must be 0 or greater").max(100, "Number of seats must be less than 100").optional().nullable(),
+  max_weight_kg: z.number().min(0, "Макс. вес должен быть 0 или больше").max(100000, "Макс. вес должен быть менее 100 000 кг").optional().nullable(),
+  comment: z.string().max(500, "Комментарий должен быть менее 500 символов").optional().nullable(),
+  number_of_seats: z.number().int("Количество мест должно быть целым числом").min(0, "Количество мест должно быть 0 или больше").max(100, "Количество мест должно быть менее 100").optional().nullable(),
   has_first_aid_kit: z.boolean().default(false),
   first_aid_kit_expiry_date: z.string().optional().nullable(),
 });
@@ -50,20 +48,20 @@ const vehicleFormSchema = z.object({
 type VehicleFormValues = z.infer<typeof vehicleFormSchema>;
 
 const vehicleTypes = [
-  { value: "pkw", label: "PKW (Passenger car)" },
-  { value: "lkw", label: "LKW (Truck)" },
-  { value: "transporter", label: "Transporter (Van)" },
-  { value: "pritsche", label: "Pritsche (Flatbed)" },
-  { value: "anhänger", label: "Anhänger (Trailer)" },
-  { value: "excavator", label: "Excavator" },
-  { value: "other", label: "Other" },
+  { value: "pkw", label: "Легковой автомобиль" },
+  { value: "lkw", label: "Грузовик" },
+  { value: "transporter", label: "Фургон" },
+  { value: "pritsche", label: "Бортовой" },
+  { value: "anhänger", label: "Прицеп" },
+  { value: "excavator", label: "Экскаватор" },
+  { value: "other", label: "Другое" },
 ];
 
 const vehicleStatuses = [
-  { value: "available", label: "Available" },
-  { value: "in_use", label: "In Use" },
-  { value: "maintenance", label: "Maintenance" },
-  { value: "broken", label: "Broken" },
+  { value: "available", label: "Доступен" },
+  { value: "in_use", label: "В использовании" },
+  { value: "maintenance", label: "На обслуживании" },
+  { value: "broken", label: "Неисправен" },
 ];
 
 export default function NewVehiclePage() {
@@ -83,7 +81,7 @@ export default function NewVehiclePage() {
       rental_price_per_day_eur: 0,
       rental_price_per_hour_eur: 0,
       fuel_consumption_per_100km: null,
-      current_location: "Main Depot",
+      current_location: "Главное депо",
       purchase_price_eur: 0,
       tipper_type: "kein Kipper",
       max_weight_kg: null,
@@ -133,12 +131,12 @@ export default function NewVehiclePage() {
             className="flex items-center space-x-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>Назад</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Add New Vehicle</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Добавить транспорт</h1>
             <p className="text-muted-foreground">
-              Add a new vehicle to your fleet with all necessary details
+              Добавьте новый транспорт в автопарк со всеми необходимыми данными
             </p>
           </div>
         </div>
@@ -151,10 +149,10 @@ export default function NewVehiclePage() {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Car className="h-5 w-5" />
-                <span>Basic Information</span>
+                <span>Основная информация</span>
               </CardTitle>
               <CardDescription>
-                Enter the basic details about the vehicle
+                Введите основные данные о транспорте
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -164,9 +162,9 @@ export default function NewVehiclePage() {
                   name="brand"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Brand *</FormLabel>
+                      <FormLabel>Марка *</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Mercedes, Ford, Toyota" {...field} />
+                        <Input placeholder="напр., Mercedes, Ford, Toyota" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -178,9 +176,9 @@ export default function NewVehiclePage() {
                   name="model"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Model *</FormLabel>
+                      <FormLabel>Модель *</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Sprinter, Transit, Hilux" {...field} />
+                        <Input placeholder="напр., Sprinter, Transit, Hilux" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -192,16 +190,16 @@ export default function NewVehiclePage() {
                   name="plate_number"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Plate Number *</FormLabel>
+                      <FormLabel>Гос. номер *</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="e.g., ABC-123, XYZ 456"
+                          placeholder="напр., ABC-123, XYZ 456"
                           {...field}
                           onChange={(e) => field.onChange(e.target.value.toUpperCase())}
                         />
                       </FormControl>
                       <FormDescription>
-                        License plate number (will be converted to uppercase)
+                        Регистрационный номер (будет преобразован в верхний регистр)
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -213,11 +211,11 @@ export default function NewVehiclePage() {
                   name="type"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Vehicle Type *</FormLabel>
+                      <FormLabel>Тип транспорта *</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select vehicle type" />
+                            <SelectValue placeholder="Выберите тип транспорта" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -240,11 +238,11 @@ export default function NewVehiclePage() {
                   name="status"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Status *</FormLabel>
+                      <FormLabel>Статус *</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select status" />
+                            <SelectValue placeholder="Выберите статус" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -265,9 +263,9 @@ export default function NewVehiclePage() {
                   name="current_location"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Current Location</FormLabel>
+                      <FormLabel>Текущее местоположение</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Main Depot, Project Site A" {...field} />
+                        <Input placeholder="напр., Главное депо, Объект А" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -281,11 +279,11 @@ export default function NewVehiclePage() {
                   name="year_of_manufacture"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Year of Manufacture</FormLabel>
+                      <FormLabel>Год выпуска</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder="e.g., 2020"
+                          placeholder="напр., 2020"
                           value={field.value || ''}
                           onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
                         />
@@ -300,11 +298,11 @@ export default function NewVehiclePage() {
                   name="mileage_km"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Mileage (km)</FormLabel>
+                      <FormLabel>Пробег (км)</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder="e.g., 50000"
+                          placeholder="напр., 50000"
                           value={field.value || ''}
                           onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)}
                         />
@@ -320,18 +318,18 @@ export default function NewVehiclePage() {
                 name="fuel_consumption_per_100km"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Fuel Consumption (L/100km)</FormLabel>
+                    <FormLabel>Расход топлива (л/100км)</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         step="0.1"
-                        placeholder="e.g., 8.5 (optional)"
+                        placeholder="напр., 8.5 (необязательно)"
                         value={field.value || ''}
                         onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : null)}
                       />
                     </FormControl>
                     <FormDescription>
-                      Fuel consumption in liters per 100 kilometers (optional)
+                      Расход топлива в литрах на 100 километров (необязательно)
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -344,16 +342,16 @@ export default function NewVehiclePage() {
                   name="tipper_type"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Tipper Type *</FormLabel>
+                      <FormLabel>Тип кузова *</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select tipper type" />
+                            <SelectValue placeholder="Выберите тип кузова" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="Kipper">Kipper</SelectItem>
-                          <SelectItem value="kein Kipper">kein Kipper</SelectItem>
+                          <SelectItem value="Kipper">Самосвал</SelectItem>
+                          <SelectItem value="kein Kipper">Не самосвал</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -366,17 +364,17 @@ export default function NewVehiclePage() {
                   name="max_weight_kg"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Max Weight (kg)</FormLabel>
+                      <FormLabel>Макс. вес (кг)</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder="e.g., 3500"
+                          placeholder="напр., 3500"
                           value={field.value || ''}
                           onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : null)}
                         />
                       </FormControl>
                       <FormDescription>
-                        Maximum weight capacity in kilograms
+                        Максимальная грузоподъёмность в килограммах
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -389,10 +387,10 @@ export default function NewVehiclePage() {
                 name="comment"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Comment</FormLabel>
+                    <FormLabel>Комментарий</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Additional notes or comments"
+                        placeholder="Дополнительные заметки или комментарии"
                         value={field.value || ''}
                         onChange={(e) => field.onChange(e.target.value || null)}
                       />
@@ -410,17 +408,17 @@ export default function NewVehiclePage() {
                   name="number_of_seats"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Number of Seats</FormLabel>
+                      <FormLabel>Количество мест</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder="e.g., 5"
+                          placeholder="напр., 5"
                           value={field.value || ''}
                           onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : null)}
                         />
                       </FormControl>
                       <FormDescription>
-                        Passenger capacity of the vehicle (optional)
+                        Пассажировместимость транспорта (необязательно)
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -440,10 +438,10 @@ export default function NewVehiclePage() {
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel>
-                          Has First Aid Kit
+                          Есть аптечка
                         </FormLabel>
                         <FormDescription>
-                          Check if this vehicle has a first aid kit
+                          Отметьте, если в транспорте есть аптечка
                         </FormDescription>
                       </div>
                     </FormItem>
@@ -457,7 +455,7 @@ export default function NewVehiclePage() {
                   name="first_aid_kit_expiry_date"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>First Aid Kit Expiry Date</FormLabel>
+                      <FormLabel>Срок годности аптечки</FormLabel>
                       <FormControl>
                         <Input
                           type="date"
@@ -466,7 +464,7 @@ export default function NewVehiclePage() {
                         />
                       </FormControl>
                       <FormDescription>
-                        Expiration date of the first aid kit
+                        Дата окончания срока годности аптечки
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -479,9 +477,9 @@ export default function NewVehiclePage() {
           {/* Financial Information */}
           <Card>
             <CardHeader>
-              <CardTitle>Financial Information</CardTitle>
+              <CardTitle>Финансовая информация</CardTitle>
               <CardDescription>
-                Ownership and pricing details for the vehicle
+                Информация о владении и стоимости транспорта
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -498,10 +496,10 @@ export default function NewVehiclePage() {
                     </FormControl>
                     <div className="space-y-1 leading-none">
                       <FormLabel>
-                        Company Owned Vehicle
+                        Собственный транспорт
                       </FormLabel>
                       <FormDescription>
-                        Check if this vehicle is owned by the company (uncheck for rental vehicles)
+                        Отметьте, если транспорт принадлежит компании (снимите для арендованного)
                       </FormDescription>
                     </div>
                   </FormItem>
@@ -516,7 +514,7 @@ export default function NewVehiclePage() {
                   name="purchase_price_eur"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Purchase Price (EUR)</FormLabel>
+                      <FormLabel>Цена покупки (EUR)</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -527,7 +525,7 @@ export default function NewVehiclePage() {
                         />
                       </FormControl>
                       <FormDescription>
-                        {owned ? "Purchase price for owned vehicle" : "Not applicable for rental vehicles"}
+                        {owned ? "Цена покупки собственного транспорта" : "Не применимо для арендованного транспорта"}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -539,7 +537,7 @@ export default function NewVehiclePage() {
                   name="rental_price_per_day_eur"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Rental Price per Day (EUR)</FormLabel>
+                      <FormLabel>Стоимость аренды в день (EUR)</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -550,7 +548,7 @@ export default function NewVehiclePage() {
                         />
                       </FormControl>
                       <FormDescription>
-                        {owned ? "Internal cost per day for project allocation" : "External rental cost per day"}
+                        {owned ? "Внутренняя стоимость в день для проектов" : "Внешняя стоимость аренды в день"}
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -563,7 +561,7 @@ export default function NewVehiclePage() {
                 name="rental_price_per_hour_eur"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Rental Price per Hour (EUR)</FormLabel>
+                    <FormLabel>Стоимость аренды в час (EUR)</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -574,7 +572,7 @@ export default function NewVehiclePage() {
                       />
                     </FormControl>
                     <FormDescription>
-                      {owned ? "Internal hourly cost for project allocation" : "External rental cost per hour"}
+                      {owned ? "Внутренняя почасовая стоимость для проектов" : "Внешняя почасовая стоимость аренды"}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -591,18 +589,18 @@ export default function NewVehiclePage() {
               onClick={() => router.back()}
               disabled={isSubmitting}
             >
-              Cancel
+              Отмена
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating Vehicle...
+                  Создание...
                 </>
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />
-                  Create Vehicle
+                  Создать транспорт
                 </>
               )}
             </Button>

@@ -54,16 +54,16 @@ export function ReservationsTab() {
       {/* Header with Create Button */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Equipment Reservations</h2>
+          <h2 className="text-2xl font-bold">Бронирование оборудования</h2>
           <p className="text-muted-foreground">
-            Time-based equipment reservations with conflict prevention
+            Временное бронирование оборудования с предотвращением конфликтов
           </p>
         </div>
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              Create Reservation
+              Создать бронирование
             </Button>
           </DialogTrigger>
           <CreateReservationDialog
@@ -77,18 +77,18 @@ export function ReservationsTab() {
       {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle>Filters</CardTitle>
+          <CardTitle>Фильтры</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label>Equipment</Label>
+              <Label>Оборудование</Label>
               <Select value={equipmentFilter || "all"} onValueChange={(v) => setEquipmentFilter(v === "all" ? "" : v)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All equipment" />
+                  <SelectValue placeholder="Всё оборудование" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All equipment</SelectItem>
+                  <SelectItem value="all">Всё оборудование</SelectItem>
                   {equipment.map((eq) => (
                     <SelectItem key={eq.id} value={eq.id}>
                       {eq.name}
@@ -99,13 +99,13 @@ export function ReservationsTab() {
             </div>
 
             <div>
-              <Label>Project</Label>
+              <Label>Проект</Label>
               <Select value={projectFilter || "all"} onValueChange={(v) => setProjectFilter(v === "all" ? "" : v)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All projects" />
+                  <SelectValue placeholder="Все проекты" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All projects</SelectItem>
+                  <SelectItem value="all">Все проекты</SelectItem>
                   {projects.map((project) => (
                     <SelectItem key={project.id} value={project.id}>
                       {project.name}
@@ -117,7 +117,7 @@ export function ReservationsTab() {
 
             <div className="flex items-end">
               <Button variant="outline" onClick={handleClearFilters} className="w-full">
-                Clear Filters
+                Сбросить фильтры
               </Button>
             </div>
           </div>
@@ -127,9 +127,9 @@ export function ReservationsTab() {
       {/* Reservations Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Active Reservations</CardTitle>
+          <CardTitle>Активные бронирования</CardTitle>
           <CardDescription>
-            {reservations.length} reservation{reservations.length !== 1 ? 's' : ''} found
+            Найдено бронирований: {reservations.length}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -144,13 +144,13 @@ export function ReservationsTab() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Equipment</TableHead>
-                    <TableHead>Project</TableHead>
-                    <TableHead>Reserved By</TableHead>
-                    <TableHead>Period</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Notes</TableHead>
-                    <TableHead className="w-[100px]">Actions</TableHead>
+                    <TableHead>Оборудование</TableHead>
+                    <TableHead>Проект</TableHead>
+                    <TableHead>Забронировал</TableHead>
+                    <TableHead>Период</TableHead>
+                    <TableHead>Статус</TableHead>
+                    <TableHead>Примечания</TableHead>
+                    <TableHead className="w-[100px]">Действия</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -163,13 +163,13 @@ export function ReservationsTab() {
           ) : (
             <div className="text-center py-12">
               <Calendar className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-4 text-lg font-semibold">No reservations found</h3>
+              <h3 className="mt-4 text-lg font-semibold">Бронирования не найдены</h3>
               <p className="text-muted-foreground">
-                Create a reservation to reserve equipment for a project.
+                Создайте бронирование для резервирования оборудования на проект.
               </p>
               <Button className="mt-4" onClick={() => setIsCreateDialogOpen(true)}>
                 <Plus className="mr-2 h-4 w-4" />
-                Create First Reservation
+                Создать первое бронирование
               </Button>
             </div>
           )}
@@ -187,15 +187,15 @@ function ReservationRow({ reservation }: ReservationRowProps) {
   const cancelMutation = useCancelReservation();
 
   const handleCancel = async () => {
-    if (!confirm(`Are you sure you want to cancel this reservation for "${reservation.equipment_name}"?`)) {
+    if (!confirm(`Вы уверены, что хотите отменить бронирование для "${reservation.equipment_name}"?`)) {
       return;
     }
 
     try {
       await cancelMutation.mutateAsync(reservation.id);
-      toast.success("Reservation cancelled successfully");
+      toast.success("Бронирование успешно отменено");
     } catch (error) {
-      toast.error("Failed to cancel reservation");
+      toast.error("Не удалось отменить бронирование");
     }
   };
 
@@ -209,46 +209,46 @@ function ReservationRow({ reservation }: ReservationRowProps) {
   return (
     <TableRow>
       <TableCell>
-        <div className="font-medium">{reservation.equipment_name || "Unknown Equipment"}</div>
+        <div className="font-medium">{reservation.equipment_name || "Неизвестное оборудование"}</div>
         <div className="text-sm text-muted-foreground">
-          {reservation.equipment?.inventory_no || "No inventory #"}
+          {reservation.equipment?.inventory_no || "Без инв. №"}
         </div>
       </TableCell>
       <TableCell>
-        <div className="font-medium">{reservation.project_name || "Unknown Project"}</div>
+        <div className="font-medium">{reservation.project_name || "Неизвестный проект"}</div>
       </TableCell>
       <TableCell>
         <div className="flex items-center space-x-2">
           <User className="h-4 w-4 text-muted-foreground" />
           <span className="text-sm">
-            {reservation.reserved_by_user_name || "Unknown User"}
+            {reservation.reserved_by_user_name || "Неизвестный пользователь"}
           </span>
         </div>
       </TableCell>
       <TableCell>
         <div className="space-y-1">
           <div className="text-sm">
-            <span className="font-medium">From:</span> {format(from, "MMM dd, yyyy HH:mm")}
+            <span className="font-medium">С:</span> {format(from, "dd.MM.yyyy HH:mm")}
           </div>
           <div className="text-sm">
-            <span className="font-medium">Until:</span> {format(until, "MMM dd, yyyy HH:mm")}
+            <span className="font-medium">До:</span> {format(until, "dd.MM.yyyy HH:mm")}
           </div>
         </div>
       </TableCell>
       <TableCell>
         {isActive && (
           <Badge className="bg-green-100 text-green-800 border-green-200">
-            Active
+            Активно
           </Badge>
         )}
         {isFuture && (
           <Badge className="bg-blue-100 text-blue-800 border-blue-200">
-            Upcoming
+            Предстоящее
           </Badge>
         )}
         {isPast && (
           <Badge className="bg-gray-100 text-gray-800 border-gray-200">
-            Past
+            Прошедшее
           </Badge>
         )}
       </TableCell>
@@ -297,7 +297,7 @@ function CreateReservationDialog({ equipment, projects, onClose }: CreateReserva
 
     // Validation
     if (!formData.equipment_id || !formData.reserved_from || !formData.reserved_until) {
-      toast.error("Please fill in all required fields");
+      toast.error("Пожалуйста, заполните все обязательные поля");
       return;
     }
 
@@ -311,13 +311,13 @@ function CreateReservationDialog({ equipment, projects, onClose }: CreateReserva
 
       if (!result.is_available) {
         setConflicts(result.conflicts || []);
-        toast.error(`Equipment is not available for this period. Found ${result.conflicts?.length || 0} conflict(s).`);
+        toast.error(`Оборудование недоступно на этот период. Найдено конфликтов: ${result.conflicts?.length || 0}`);
         return;
       }
 
       // Create reservation
       await createMutation.mutateAsync(formData);
-      toast.success("Reservation created successfully");
+      toast.success("Бронирование успешно создано");
       onClose();
 
       // Reset form
@@ -330,34 +330,34 @@ function CreateReservationDialog({ equipment, projects, onClose }: CreateReserva
       });
       setConflicts([]);
     } catch (error: any) {
-      toast.error(error.message || "Failed to create reservation");
+      toast.error(error.message || "Не удалось создать бронирование");
     }
   };
 
   return (
     <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
       <DialogHeader>
-        <DialogTitle>Create Equipment Reservation</DialogTitle>
+        <DialogTitle>Создание бронирования оборудования</DialogTitle>
         <DialogDescription>
-          Reserve equipment for a specific time period and project
+          Забронируйте оборудование на определённый период и проект
         </DialogDescription>
       </DialogHeader>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Equipment Selection */}
         <div>
-          <Label htmlFor="equipment">Equipment *</Label>
+          <Label htmlFor="equipment">Оборудование *</Label>
           <Select
             value={formData.equipment_id}
             onValueChange={(value) => setFormData({ ...formData, equipment_id: value })}
           >
             <SelectTrigger id="equipment">
-              <SelectValue placeholder="Select equipment" />
+              <SelectValue placeholder="Выберите оборудование" />
             </SelectTrigger>
             <SelectContent>
               {equipment.map((eq) => (
                 <SelectItem key={eq.id} value={eq.id}>
-                  {eq.name} ({eq.inventory_no || "No inventory #"})
+                  {eq.name} ({eq.inventory_no || "Без инв. №"})
                 </SelectItem>
               ))}
             </SelectContent>
@@ -366,16 +366,16 @@ function CreateReservationDialog({ equipment, projects, onClose }: CreateReserva
 
         {/* Project Selection */}
         <div>
-          <Label htmlFor="project">Project</Label>
+          <Label htmlFor="project">Проект</Label>
           <Select
             value={formData.project_id || "none"}
             onValueChange={(value) => setFormData({ ...formData, project_id: value === "none" ? undefined : value })}
           >
             <SelectTrigger id="project">
-              <SelectValue placeholder="Select project (optional)" />
+              <SelectValue placeholder="Выберите проект (необязательно)" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="none">No project</SelectItem>
+              <SelectItem value="none">Без проекта</SelectItem>
               {projects.map((project) => (
                 <SelectItem key={project.id} value={project.id}>
                   {project.name}
@@ -388,7 +388,7 @@ function CreateReservationDialog({ equipment, projects, onClose }: CreateReserva
         {/* Date Range */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="from">Reserved From *</Label>
+            <Label htmlFor="from">Бронирование с *</Label>
             <Input
               id="from"
               type="datetime-local"
@@ -397,7 +397,7 @@ function CreateReservationDialog({ equipment, projects, onClose }: CreateReserva
             />
           </div>
           <div>
-            <Label htmlFor="until">Reserved Until *</Label>
+            <Label htmlFor="until">Бронирование до *</Label>
             <Input
               id="until"
               type="datetime-local"
@@ -409,10 +409,10 @@ function CreateReservationDialog({ equipment, projects, onClose }: CreateReserva
 
         {/* Notes */}
         <div>
-          <Label htmlFor="notes">Notes</Label>
+          <Label htmlFor="notes">Примечания</Label>
           <Textarea
             id="notes"
-            placeholder="Additional notes..."
+            placeholder="Дополнительные примечания..."
             value={formData.notes || ""}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             rows={3}
@@ -424,13 +424,13 @@ function CreateReservationDialog({ equipment, projects, onClose }: CreateReserva
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              <div className="font-semibold mb-2">Scheduling Conflicts Found:</div>
+              <div className="font-semibold mb-2">Обнаружены конфликты расписания:</div>
               <ul className="list-disc list-inside space-y-1">
                 {conflicts.map((conflict, idx) => (
                   <li key={idx} className="text-sm">
-                    Reserved from {format(new Date(conflict.reserved_from), "MMM dd, yyyy HH:mm")} to{" "}
-                    {format(new Date(conflict.reserved_until), "MMM dd, yyyy HH:mm")}
-                    {conflict.project_name && ` for ${conflict.project_name}`}
+                    Забронировано с {format(new Date(conflict.reserved_from), "dd.MM.yyyy HH:mm")} по{" "}
+                    {format(new Date(conflict.reserved_until), "dd.MM.yyyy HH:mm")}
+                    {conflict.project_name && ` для ${conflict.project_name}`}
                   </li>
                 ))}
               </ul>
@@ -440,10 +440,10 @@ function CreateReservationDialog({ equipment, projects, onClose }: CreateReserva
 
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
+            Отмена
           </Button>
           <Button type="submit" disabled={createMutation.isPending || checkAvailability.isPending}>
-            {createMutation.isPending ? "Creating..." : "Create Reservation"}
+            {createMutation.isPending ? "Создание..." : "Создать бронирование"}
           </Button>
         </DialogFooter>
       </form>

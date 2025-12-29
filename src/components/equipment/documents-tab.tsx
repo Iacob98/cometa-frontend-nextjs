@@ -21,13 +21,13 @@ import { useEquipmentDocuments, useUploadEquipmentDocument, useUpdateEquipmentDo
 import { useEquipment } from "@/hooks/use-equipment";
 
 const DOCUMENT_TYPES = [
-  { value: "warranty", label: "Warranty" },
-  { value: "manual", label: "Manual" },
-  { value: "calibration", label: "Calibration Certificate" },
-  { value: "inspection", label: "Inspection Report" },
-  { value: "safety", label: "Safety Certificate" },
-  { value: "purchase", label: "Purchase Invoice" },
-  { value: "other", label: "Other" },
+  { value: "warranty", label: "Гарантия" },
+  { value: "manual", label: "Руководство" },
+  { value: "calibration", label: "Сертификат калибровки" },
+  { value: "inspection", label: "Акт осмотра" },
+  { value: "safety", label: "Сертификат безопасности" },
+  { value: "purchase", label: "Счёт-фактура" },
+  { value: "other", label: "Другое" },
 ];
 
 export function DocumentsTab() {
@@ -62,16 +62,16 @@ export function DocumentsTab() {
       {/* Header with Upload Button */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Equipment Documents</h2>
+          <h2 className="text-2xl font-bold">Документы оборудования</h2>
           <p className="text-muted-foreground">
-            Manage warranties, manuals, calibration certificates, and other documents
+            Управление гарантиями, руководствами, сертификатами калибровки и другими документами
           </p>
         </div>
         <Dialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen}>
           <DialogTrigger asChild>
             <Button>
               <Upload className="mr-2 h-4 w-4" />
-              Upload Document
+              Загрузить документ
             </Button>
           </DialogTrigger>
           <UploadDocumentDialog
@@ -86,13 +86,13 @@ export function DocumentsTab() {
         <Alert>
           <AlertTriangle className="h-4 w-4" />
           <AlertDescription>
-            <span className="font-semibold">{expiringCount} document{expiringCount !== 1 ? 's' : ''}</span> expiring within 30 days.{" "}
+            <span className="font-semibold">{expiringCount} документ(ов)</span> истекает в течение 30 дней.{" "}
             <Button
               variant="link"
               className="h-auto p-0 text-sm"
               onClick={() => setExpiringFilter("expiring")}
             >
-              View expiring documents
+              Показать истекающие документы
             </Button>
           </AlertDescription>
         </Alert>
@@ -101,18 +101,18 @@ export function DocumentsTab() {
       {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle>Filters</CardTitle>
+          <CardTitle>Фильтры</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <Label>Equipment</Label>
+              <Label>Оборудование</Label>
               <Select value={equipmentFilter || "all"} onValueChange={(v) => setEquipmentFilter(v === "all" ? "" : v)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All equipment" />
+                  <SelectValue placeholder="Всё оборудование" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All equipment</SelectItem>
+                  <SelectItem value="all">Всё оборудование</SelectItem>
                   {equipment.map((eq) => (
                     <SelectItem key={eq.id} value={eq.id}>
                       {eq.name}
@@ -123,13 +123,13 @@ export function DocumentsTab() {
             </div>
 
             <div>
-              <Label>Document Type</Label>
+              <Label>Тип документа</Label>
               <Select value={typeFilter || "all"} onValueChange={(v) => setTypeFilter(v === "all" ? "" : v)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All types" />
+                  <SelectValue placeholder="Все типы" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All types</SelectItem>
+                  <SelectItem value="all">Все типы</SelectItem>
                   {DOCUMENT_TYPES.map((type) => (
                     <SelectItem key={type.value} value={type.value}>
                       {type.label}
@@ -140,22 +140,22 @@ export function DocumentsTab() {
             </div>
 
             <div>
-              <Label>Expiry Status</Label>
+              <Label>Статус срока действия</Label>
               <Select value={expiringFilter} onValueChange={(v: any) => setExpiringFilter(v)}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All documents</SelectItem>
-                  <SelectItem value="expiring">Expiring soon (60 days)</SelectItem>
-                  <SelectItem value="expired">Expired</SelectItem>
+                  <SelectItem value="all">Все документы</SelectItem>
+                  <SelectItem value="expiring">Скоро истекают (60 дней)</SelectItem>
+                  <SelectItem value="expired">Просрочены</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="flex items-end">
               <Button variant="outline" onClick={handleClearFilters} className="w-full">
-                Clear Filters
+                Сбросить фильтры
               </Button>
             </div>
           </div>
@@ -165,9 +165,9 @@ export function DocumentsTab() {
       {/* Documents Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Documents</CardTitle>
+          <CardTitle>Документы</CardTitle>
           <CardDescription>
-            {documents.length} document{documents.length !== 1 ? 's' : ''} found
+            Найдено документов: {documents.length}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -182,13 +182,13 @@ export function DocumentsTab() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Document Name</TableHead>
-                    <TableHead>Equipment</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Issue Date</TableHead>
-                    <TableHead>Expiry Date</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="w-[120px]">Actions</TableHead>
+                    <TableHead>Название документа</TableHead>
+                    <TableHead>Оборудование</TableHead>
+                    <TableHead>Тип</TableHead>
+                    <TableHead>Дата выдачи</TableHead>
+                    <TableHead>Дата истечения</TableHead>
+                    <TableHead>Статус</TableHead>
+                    <TableHead className="w-[120px]">Действия</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -201,13 +201,13 @@ export function DocumentsTab() {
           ) : (
             <div className="text-center py-12">
               <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-4 text-lg font-semibold">No documents found</h3>
+              <h3 className="mt-4 text-lg font-semibold">Документы не найдены</h3>
               <p className="text-muted-foreground">
-                Upload documents to track warranties, calibrations, and certificates.
+                Загрузите документы для отслеживания гарантий, калибровок и сертификатов.
               </p>
               <Button className="mt-4" onClick={() => setIsUploadDialogOpen(true)}>
                 <Upload className="mr-2 h-4 w-4" />
-                Upload First Document
+                Загрузить первый документ
               </Button>
             </div>
           )}
@@ -226,15 +226,15 @@ function DocumentRow({ document }: DocumentRowProps) {
   const deleteMutation = useDeleteEquipmentDocument();
 
   const handleDelete = async () => {
-    if (!confirm(`Are you sure you want to delete "${document.document_name}"?`)) {
+    if (!confirm(`Вы уверены, что хотите удалить "${document.document_name}"?`)) {
       return;
     }
 
     try {
       await deleteMutation.mutateAsync(document.id);
-      toast.success("Document deleted successfully");
+      toast.success("Документ успешно удалён");
     } catch (error) {
-      toast.error("Failed to delete document");
+      toast.error("Не удалось удалить документ");
     }
   };
 
@@ -243,7 +243,7 @@ function DocumentRow({ document }: DocumentRowProps) {
     if (document.file_url) {
       window.open(document.file_url, "_blank");
     } else {
-      toast.error("Document URL not available");
+      toast.error("URL документа недоступен");
     }
   };
 
@@ -256,7 +256,7 @@ function DocumentRow({ document }: DocumentRowProps) {
       return (
         <Badge className="bg-red-100 text-red-800 border-red-200">
           <AlertTriangle className="h-3 w-3 mr-1" />
-          Expired
+          Просрочен
         </Badge>
       );
     }
@@ -265,7 +265,7 @@ function DocumentRow({ document }: DocumentRowProps) {
       return (
         <Badge className="bg-orange-100 text-orange-800 border-orange-200">
           <Clock className="h-3 w-3 mr-1" />
-          Expires in {daysUntilExpiry} days
+          Истекает через {daysUntilExpiry} дн.
         </Badge>
       );
     }
@@ -274,7 +274,7 @@ function DocumentRow({ document }: DocumentRowProps) {
       return (
         <Badge className="bg-yellow-100 text-yellow-800 border-yellow-200">
           <Clock className="h-3 w-3 mr-1" />
-          Expires in {daysUntilExpiry} days
+          Истекает через {daysUntilExpiry} дн.
         </Badge>
       );
     }
@@ -282,7 +282,7 @@ function DocumentRow({ document }: DocumentRowProps) {
     return (
       <Badge className="bg-green-100 text-green-800 border-green-200">
         <CheckCircle className="h-3 w-3 mr-1" />
-        Valid
+        Действителен
       </Badge>
     );
   };
@@ -304,7 +304,7 @@ function DocumentRow({ document }: DocumentRowProps) {
       </TableCell>
       <TableCell>
         <div className="font-medium">
-          {document.equipment_name || "Unknown Equipment"}
+          {document.equipment_name || "Неизвестное оборудование"}
         </div>
       </TableCell>
       <TableCell>
@@ -313,10 +313,10 @@ function DocumentRow({ document }: DocumentRowProps) {
         </Badge>
       </TableCell>
       <TableCell>
-        {document.issue_date ? format(new Date(document.issue_date), "MMM dd, yyyy") : "-"}
+        {document.issue_date ? format(new Date(document.issue_date), "dd.MM.yyyy") : "-"}
       </TableCell>
       <TableCell>
-        {document.expiry_date ? format(new Date(document.expiry_date), "MMM dd, yyyy") : "-"}
+        {document.expiry_date ? format(new Date(document.expiry_date), "dd.MM.yyyy") : "-"}
       </TableCell>
       <TableCell>{getExpiryBadge()}</TableCell>
       <TableCell>
@@ -374,31 +374,31 @@ function EditDocumentDialog({ document, onClose }: EditDocumentDialogProps) {
         id: document.id,
         ...formData,
       });
-      toast.success("Document updated successfully");
+      toast.success("Документ успешно обновлён");
       onClose();
     } catch (error) {
-      toast.error("Failed to update document");
+      toast.error("Не удалось обновить документ");
     }
   };
 
   return (
     <DialogContent className="sm:max-w-[500px]">
       <DialogHeader>
-        <DialogTitle>Edit Document</DialogTitle>
+        <DialogTitle>Редактирование документа</DialogTitle>
         <DialogDescription>
-          Update document metadata. Note: File cannot be changed.
+          Обновите метаданные документа. Примечание: файл изменить нельзя.
         </DialogDescription>
       </DialogHeader>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Label htmlFor="edit-document-type">Document Type *</Label>
+          <Label htmlFor="edit-document-type">Тип документа *</Label>
           <Select
             value={formData.document_type}
             onValueChange={(value) => setFormData({ ...formData, document_type: value })}
           >
             <SelectTrigger id="edit-document-type">
-              <SelectValue placeholder="Select document type" />
+              <SelectValue placeholder="Выберите тип документа" />
             </SelectTrigger>
             <SelectContent>
               {DOCUMENT_TYPES.map((type) => (
@@ -411,7 +411,7 @@ function EditDocumentDialog({ document, onClose }: EditDocumentDialogProps) {
         </div>
 
         <div>
-          <Label htmlFor="edit-document-name">Document Name *</Label>
+          <Label htmlFor="edit-document-name">Название документа *</Label>
           <Input
             id="edit-document-name"
             value={formData.document_name}
@@ -422,7 +422,7 @@ function EditDocumentDialog({ document, onClose }: EditDocumentDialogProps) {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="edit-issue-date">Issue Date</Label>
+            <Label htmlFor="edit-issue-date">Дата выдачи</Label>
             <Input
               id="edit-issue-date"
               type="date"
@@ -432,7 +432,7 @@ function EditDocumentDialog({ document, onClose }: EditDocumentDialogProps) {
           </div>
 
           <div>
-            <Label htmlFor="edit-expiry-date">Expiry Date</Label>
+            <Label htmlFor="edit-expiry-date">Дата истечения</Label>
             <Input
               id="edit-expiry-date"
               type="date"
@@ -443,7 +443,7 @@ function EditDocumentDialog({ document, onClose }: EditDocumentDialogProps) {
         </div>
 
         <div>
-          <Label htmlFor="edit-notes">Notes</Label>
+          <Label htmlFor="edit-notes">Примечания</Label>
           <Textarea
             id="edit-notes"
             value={formData.notes}
@@ -454,10 +454,10 @@ function EditDocumentDialog({ document, onClose }: EditDocumentDialogProps) {
 
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
+            Отмена
           </Button>
           <Button type="submit" disabled={updateMutation.isPending}>
-            {updateMutation.isPending ? "Updating..." : "Update Document"}
+            {updateMutation.isPending ? "Сохранение..." : "Сохранить изменения"}
           </Button>
         </DialogFooter>
       </form>
@@ -487,7 +487,7 @@ function UploadDocumentDialog({ equipment, onClose }: UploadDocumentDialogProps)
     e.preventDefault();
 
     if (!formData.equipment_id || !formData.document_type || !formData.document_name || !file) {
-      toast.error("Please fill in all required fields and select a file");
+      toast.error("Пожалуйста, заполните все обязательные поля и выберите файл");
       return;
     }
 
@@ -502,7 +502,7 @@ function UploadDocumentDialog({ equipment, onClose }: UploadDocumentDialogProps)
         notes: formData.notes || undefined,
       });
 
-      toast.success("Document uploaded successfully");
+      toast.success("Документ успешно загружен");
       onClose();
 
       // Reset form
@@ -516,34 +516,34 @@ function UploadDocumentDialog({ equipment, onClose }: UploadDocumentDialogProps)
       });
       setFile(null);
     } catch (error: any) {
-      toast.error(error.message || "Failed to upload document");
+      toast.error(error.message || "Не удалось загрузить документ");
     }
   };
 
   return (
     <DialogContent className="max-w-2xl">
       <DialogHeader>
-        <DialogTitle>Upload Equipment Document</DialogTitle>
+        <DialogTitle>Загрузка документа оборудования</DialogTitle>
         <DialogDescription>
-          Upload warranties, manuals, calibration certificates, and other documents
+          Загрузите гарантии, руководства, сертификаты калибровки и другие документы
         </DialogDescription>
       </DialogHeader>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Equipment Selection */}
         <div>
-          <Label htmlFor="equipment">Equipment *</Label>
+          <Label htmlFor="equipment">Оборудование *</Label>
           <Select
             value={formData.equipment_id}
             onValueChange={(value) => setFormData({ ...formData, equipment_id: value })}
           >
             <SelectTrigger id="equipment">
-              <SelectValue placeholder="Select equipment" />
+              <SelectValue placeholder="Выберите оборудование" />
             </SelectTrigger>
             <SelectContent>
               {equipment.map((eq) => (
                 <SelectItem key={eq.id} value={eq.id}>
-                  {eq.name} ({eq.inventory_no || "No inventory #"})
+                  {eq.name} ({eq.inventory_no || "Без инв. №"})
                 </SelectItem>
               ))}
             </SelectContent>
@@ -552,13 +552,13 @@ function UploadDocumentDialog({ equipment, onClose }: UploadDocumentDialogProps)
 
         {/* Document Type */}
         <div>
-          <Label htmlFor="type">Document Type *</Label>
+          <Label htmlFor="type">Тип документа *</Label>
           <Select
             value={formData.document_type}
             onValueChange={(value) => setFormData({ ...formData, document_type: value })}
           >
             <SelectTrigger id="type">
-              <SelectValue placeholder="Select type" />
+              <SelectValue placeholder="Выберите тип" />
             </SelectTrigger>
             <SelectContent>
               {DOCUMENT_TYPES.map((type) => (
@@ -572,10 +572,10 @@ function UploadDocumentDialog({ equipment, onClose }: UploadDocumentDialogProps)
 
         {/* Document Name */}
         <div>
-          <Label htmlFor="name">Document Name *</Label>
+          <Label htmlFor="name">Название документа *</Label>
           <Input
             id="name"
-            placeholder="e.g., Annual Calibration Certificate 2024"
+            placeholder="напр. Сертификат калибровки 2024"
             value={formData.document_name}
             onChange={(e) => setFormData({ ...formData, document_name: e.target.value })}
           />
@@ -583,7 +583,7 @@ function UploadDocumentDialog({ equipment, onClose }: UploadDocumentDialogProps)
 
         {/* File Upload */}
         <div>
-          <Label htmlFor="file">File *</Label>
+          <Label htmlFor="file">Файл *</Label>
           <Input
             id="file"
             type="file"
@@ -591,14 +591,14 @@ function UploadDocumentDialog({ equipment, onClose }: UploadDocumentDialogProps)
             accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
           />
           <p className="text-sm text-muted-foreground mt-1">
-            Supported formats: PDF, DOC, DOCX, JPG, PNG (max 10MB)
+            Поддерживаемые форматы: PDF, DOC, DOCX, JPG, PNG (макс. 10МБ)
           </p>
         </div>
 
         {/* Date Range */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="issue">Issue Date</Label>
+            <Label htmlFor="issue">Дата выдачи</Label>
             <Input
               id="issue"
               type="date"
@@ -607,7 +607,7 @@ function UploadDocumentDialog({ equipment, onClose }: UploadDocumentDialogProps)
             />
           </div>
           <div>
-            <Label htmlFor="expiry">Expiry Date</Label>
+            <Label htmlFor="expiry">Дата истечения</Label>
             <Input
               id="expiry"
               type="date"
@@ -619,10 +619,10 @@ function UploadDocumentDialog({ equipment, onClose }: UploadDocumentDialogProps)
 
         {/* Notes */}
         <div>
-          <Label htmlFor="notes">Notes</Label>
+          <Label htmlFor="notes">Примечания</Label>
           <Textarea
             id="notes"
-            placeholder="Additional notes..."
+            placeholder="Дополнительные примечания..."
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             rows={3}
@@ -631,10 +631,10 @@ function UploadDocumentDialog({ equipment, onClose }: UploadDocumentDialogProps)
 
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
+            Отмена
           </Button>
           <Button type="submit" disabled={uploadMutation.isPending}>
-            {uploadMutation.isPending ? "Uploading..." : "Upload Document"}
+            {uploadMutation.isPending ? "Загрузка..." : "Загрузить документ"}
           </Button>
         </DialogFooter>
       </form>

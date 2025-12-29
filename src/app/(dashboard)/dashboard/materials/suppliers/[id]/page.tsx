@@ -54,29 +54,29 @@ import { usePermissions } from "@/hooks/use-auth";
 import { useProjects } from "@/hooks/use-projects";
 
 const contactSchema = z.object({
-  contact_name: z.string().min(1, "Contact name is required"),
+  contact_name: z.string().min(1, "Имя контакта обязательно"),
   position: z.string().optional(),
   department: z.string().optional(),
   phone: z.string().optional(),
-  email: z.string().email("Invalid email").optional().or(z.literal("")),
+  email: z.string().email("Некорректный email").optional().or(z.literal("")),
   is_primary: z.boolean().default(false),
   notes: z.string().optional(),
 });
 
 const materialSchema = z.object({
-  material_name: z.string().min(1, "Material name is required"),
+  material_name: z.string().min(1, "Название материала обязательно"),
   category: z.string().optional(),
-  unit: z.string().min(1, "Unit is required"),
+  unit: z.string().min(1, "Единица измерения обязательна"),
   supplier_part_number: z.string().optional(),
-  unit_price: z.number().positive("Price must be positive"),
-  minimum_order_qty: z.number().positive("Minimum order quantity must be positive").default(1),
+  unit_price: z.number().positive("Цена должна быть положительной"),
+  minimum_order_qty: z.number().positive("Минимальный заказ должен быть положительным").default(1),
   lead_time_days: z.string().optional().transform(val => val === "" ? undefined : parseInt(val) || undefined),
   is_preferred: z.boolean().default(false),
   notes: z.string().optional(),
 });
 
 const projectAssignmentSchema = z.object({
-  project_id: z.string().min(1, "Project is required"),
+  project_id: z.string().min(1, "Проект обязателен"),
   notes: z.string().optional(),
   assigned_by: z.string().optional(),
 });
@@ -177,7 +177,7 @@ export default function SupplierDetailPage() {
   };
 
   const handleDeleteContact = async (contactId: string) => {
-    if (!window.confirm("Are you sure you want to delete this contact?")) return;
+    if (!window.confirm("Вы уверены, что хотите удалить этот контакт?")) return;
 
     try {
       await deleteContact.mutateAsync(contactId);
@@ -192,7 +192,7 @@ export default function SupplierDetailPage() {
         <div className="flex items-center space-x-4">
           <Button variant="ghost" size="sm" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            Назад
           </Button>
           <div className="h-8 bg-muted rounded w-64 animate-pulse"></div>
         </div>
@@ -219,14 +219,14 @@ export default function SupplierDetailPage() {
         <div className="flex items-center space-x-4">
           <Button variant="ghost" size="sm" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            Назад
           </Button>
         </div>
         <Card>
           <CardContent className="text-center py-12">
             <Building2 className="mx-auto h-12 w-12 text-muted-foreground" />
-            <h3 className="mt-4 text-lg font-semibold">Supplier not found</h3>
-            <p className="text-muted-foreground">The supplier you're looking for doesn't exist.</p>
+            <h3 className="mt-4 text-lg font-semibold">Поставщик не найден</h3>
+            <p className="text-muted-foreground">Поставщик, которого вы ищете, не существует.</p>
           </CardContent>
         </Card>
       </div>
@@ -240,22 +240,22 @@ export default function SupplierDetailPage() {
         <div className="flex items-center space-x-4">
           <Button variant="ghost" size="sm" onClick={() => router.back()}>
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            Назад
           </Button>
           <div>
             <h1 className="text-3xl font-bold tracking-tight">{supplier.org_name}</h1>
-            <p className="text-muted-foreground">Supplier Details & Management</p>
+            <p className="text-muted-foreground">Детали и управление поставщиком</p>
           </div>
         </div>
         {canManageInventory && (
           <div className="flex space-x-2">
             <Button variant="outline">
               <Settings className="mr-2 h-4 w-4" />
-              Settings
+              Настройки
             </Button>
             <Button>
               <Edit className="mr-2 h-4 w-4" />
-              Edit Supplier
+              Редактировать
             </Button>
           </div>
         )}
@@ -266,50 +266,50 @@ export default function SupplierDetailPage() {
         <div className="lg:col-span-2">
           <Tabs defaultValue="overview" className="space-y-6">
             <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="contacts">Contacts</TabsTrigger>
-              <TabsTrigger value="materials">Materials</TabsTrigger>
-              <TabsTrigger value="projects">Projects</TabsTrigger>
+              <TabsTrigger value="overview">Обзор</TabsTrigger>
+              <TabsTrigger value="contacts">Контакты</TabsTrigger>
+              <TabsTrigger value="materials">Материалы</TabsTrigger>
+              <TabsTrigger value="projects">Проекты</TabsTrigger>
             </TabsList>
 
             {/* Overview Tab */}
             <TabsContent value="overview" className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Supplier Information</CardTitle>
+                  <CardTitle>Информация о поставщике</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="text-sm font-medium text-muted-foreground">Organization</label>
+                      <label className="text-sm font-medium text-muted-foreground">Организация</label>
                       <p className="text-sm">{supplier.org_name}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-muted-foreground">Status</label>
+                      <label className="text-sm font-medium text-muted-foreground">Статус</label>
                       <Badge variant={supplier.is_active ? "default" : "secondary"}>
-                        {supplier.is_active ? "Active" : "Inactive"}
+                        {supplier.is_active ? "Активен" : "Неактивен"}
                       </Badge>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-muted-foreground">Primary Contact</label>
+                      <label className="text-sm font-medium text-muted-foreground">Основной контакт</label>
                       <p className="text-sm">{supplier.contact_person}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-muted-foreground">Phone</label>
-                      <p className="text-sm">{supplier.phone || "Not provided"}</p>
+                      <label className="text-sm font-medium text-muted-foreground">Телефон</label>
+                      <p className="text-sm">{supplier.phone || "Не указан"}</p>
                     </div>
                     <div>
                       <label className="text-sm font-medium text-muted-foreground">Email</label>
-                      <p className="text-sm">{supplier.email || "Not provided"}</p>
+                      <p className="text-sm">{supplier.email || "Не указан"}</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-muted-foreground">Address</label>
-                      <p className="text-sm">{supplier.address || "Not provided"}</p>
+                      <label className="text-sm font-medium text-muted-foreground">Адрес</label>
+                      <p className="text-sm">{supplier.address || "Не указан"}</p>
                     </div>
                   </div>
                   {supplier.notes && (
                     <div>
-                      <label className="text-sm font-medium text-muted-foreground">Notes</label>
+                      <label className="text-sm font-medium text-muted-foreground">Примечания</label>
                       <p className="text-sm">{supplier.notes}</p>
                     </div>
                   )}
@@ -322,22 +322,22 @@ export default function SupplierDetailPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <div>
-                    <CardTitle>Contact Persons</CardTitle>
-                    <CardDescription>Manage contacts for this supplier</CardDescription>
+                    <CardTitle>Контактные лица</CardTitle>
+                    <CardDescription>Управление контактами этого поставщика</CardDescription>
                   </div>
                   {canManageInventory && (
                     <Dialog open={isAddContactOpen} onOpenChange={setIsAddContactOpen}>
                       <DialogTrigger asChild>
                         <Button size="sm">
                           <Plus className="mr-2 h-4 w-4" />
-                          Add Contact
+                          Добавить контакт
                         </Button>
                       </DialogTrigger>
                       <DialogContent>
                         <DialogHeader>
-                          <DialogTitle>Add New Contact</DialogTitle>
+                          <DialogTitle>Добавить новый контакт</DialogTitle>
                           <DialogDescription>
-                            Add a new contact person for {supplier.org_name}
+                            Добавить контактное лицо для {supplier.org_name}
                           </DialogDescription>
                         </DialogHeader>
                         <Form {...contactForm}>
@@ -347,9 +347,9 @@ export default function SupplierDetailPage() {
                               name="contact_name"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Contact Name *</FormLabel>
+                                  <FormLabel>Имя контакта *</FormLabel>
                                   <FormControl>
-                                    <Input placeholder="e.g., John Smith" {...field} />
+                                    <Input placeholder="напр., Иван Петров" {...field} />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -361,9 +361,9 @@ export default function SupplierDetailPage() {
                                 name="position"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel>Position</FormLabel>
+                                    <FormLabel>Должность</FormLabel>
                                     <FormControl>
-                                      <Input placeholder="e.g., Sales Manager" {...field} />
+                                      <Input placeholder="напр., Менеджер по продажам" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                   </FormItem>
@@ -374,9 +374,9 @@ export default function SupplierDetailPage() {
                                 name="department"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel>Department</FormLabel>
+                                    <FormLabel>Отдел</FormLabel>
                                     <FormControl>
-                                      <Input placeholder="e.g., Sales" {...field} />
+                                      <Input placeholder="напр., Отдел продаж" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                   </FormItem>
@@ -389,9 +389,9 @@ export default function SupplierDetailPage() {
                                 name="phone"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel>Phone</FormLabel>
+                                    <FormLabel>Телефон</FormLabel>
                                     <FormControl>
-                                      <Input placeholder="+1234567890" {...field} />
+                                      <Input placeholder="+7 999 123 45 67" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                   </FormItem>
@@ -404,7 +404,7 @@ export default function SupplierDetailPage() {
                                   <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                      <Input placeholder="contact@company.com" {...field} />
+                                      <Input placeholder="contact@company.ru" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                   </FormItem>
@@ -417,9 +417,9 @@ export default function SupplierDetailPage() {
                               render={({ field }) => (
                                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                                   <div className="space-y-0.5">
-                                    <FormLabel>Primary Contact</FormLabel>
+                                    <FormLabel>Основной контакт</FormLabel>
                                     <div className="text-sm text-muted-foreground">
-                                      Set as the main contact for this supplier
+                                      Установить как основной контакт поставщика
                                     </div>
                                   </div>
                                   <FormControl>
@@ -436,9 +436,9 @@ export default function SupplierDetailPage() {
                               name="notes"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Notes</FormLabel>
+                                  <FormLabel>Примечания</FormLabel>
                                   <FormControl>
-                                    <Textarea placeholder="Additional notes..." rows={2} {...field} />
+                                    <Textarea placeholder="Дополнительные примечания..." rows={2} {...field} />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -446,9 +446,9 @@ export default function SupplierDetailPage() {
                             />
                             <DialogFooter>
                               <Button type="button" variant="outline" onClick={() => setIsAddContactOpen(false)}>
-                                Cancel
+                                Отмена
                               </Button>
-                              <Button type="submit">Add Contact</Button>
+                              <Button type="submit">Добавить контакт</Button>
                             </DialogFooter>
                           </form>
                         </Form>
@@ -474,14 +474,14 @@ export default function SupplierDetailPage() {
                   ) : contacts.length === 0 ? (
                     <div className="text-center py-8">
                       <User className="mx-auto h-8 w-8 text-muted-foreground" />
-                      <h3 className="mt-2 text-sm font-semibold">No contacts</h3>
+                      <h3 className="mt-2 text-sm font-semibold">Нет контактов</h3>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        Get started by adding a contact person.
+                        Начните с добавления контактного лица.
                       </p>
                       {canManageInventory && (
                         <Button className="mt-4" onClick={() => setIsAddContactOpen(true)}>
                           <Plus className="mr-2 h-4 w-4" />
-                          Add Contact
+                          Добавить контакт
                         </Button>
                       )}
                     </div>
@@ -501,7 +501,7 @@ export default function SupplierDetailPage() {
                               {contact.is_primary && (
                                 <Badge variant="default" className="text-xs">
                                   <Star className="h-3 w-3 mr-1" />
-                                  Primary
+                                  Основной
                                 </Badge>
                               )}
                             </div>
@@ -551,13 +551,13 @@ export default function SupplierDetailPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <div>
-                    <CardTitle>Supplier Materials</CardTitle>
-                    <CardDescription>Materials and equipment available from this supplier</CardDescription>
+                    <CardTitle>Материалы поставщика</CardTitle>
+                    <CardDescription>Материалы и оборудование, доступные от этого поставщика</CardDescription>
                   </div>
                   {canManageInventory && (
                     <Button size="sm" onClick={() => setIsAddMaterialOpen(true)}>
                       <Plus className="mr-2 h-4 w-4" />
-                      Add Material
+                      Добавить материал
                     </Button>
                   )}
                 </CardHeader>
@@ -579,14 +579,14 @@ export default function SupplierDetailPage() {
                   ) : supplierMaterials.length === 0 ? (
                     <div className="text-center py-8">
                       <Package className="mx-auto h-8 w-8 text-muted-foreground" />
-                      <h3 className="mt-2 text-sm font-semibold">No materials</h3>
+                      <h3 className="mt-2 text-sm font-semibold">Нет материалов</h3>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        Get started by adding materials or equipment to this supplier.
+                        Начните с добавления материалов или оборудования для этого поставщика.
                       </p>
                       {canManageInventory && (
                         <Button className="mt-4" onClick={() => setIsAddMaterialOpen(true)}>
                           <Plus className="mr-2 h-4 w-4" />
-                          Add Material
+                          Добавить материал
                         </Button>
                       )}
                     </div>
@@ -601,15 +601,15 @@ export default function SupplierDetailPage() {
                           <div>
                             <h4 className="font-medium">{material.material?.name || material.material_name}</h4>
                             <p className="text-sm text-muted-foreground">
-                              €{material.unit_price} per {material.material?.unit || material.material_unit} • Min order: {material.minimum_order_qty} {material.material?.unit || material.material_unit}
+                              €{material.unit_price} за {material.material?.unit || material.material_unit} • Мин. заказ: {material.minimum_order_qty} {material.material?.unit || material.material_unit}
                             </p>
                             {material.supplier_part_number && (
                               <p className="text-xs text-muted-foreground">
-                                Part #: {material.supplier_part_number}
+                                Артикул: {material.supplier_part_number}
                               </p>
                             )}
                             {material.is_preferred && (
-                              <Badge variant="secondary" className="text-xs">Preferred</Badge>
+                              <Badge variant="secondary" className="text-xs">Предпочтительный</Badge>
                             )}
                           </div>
                         </div>
@@ -636,13 +636,13 @@ export default function SupplierDetailPage() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <div>
-                    <CardTitle>Assigned Projects</CardTitle>
-                    <CardDescription>Projects where this supplier is assigned</CardDescription>
+                    <CardTitle>Назначенные проекты</CardTitle>
+                    <CardDescription>Проекты, на которые назначен этот поставщик</CardDescription>
                   </div>
                   {canManageInventory && (
                     <Button size="sm" onClick={() => setIsAssignProjectOpen(true)}>
                       <Plus className="mr-2 h-4 w-4" />
-                      Assign to Project
+                      Назначить на проект
                     </Button>
                   )}
                 </CardHeader>
@@ -662,14 +662,14 @@ export default function SupplierDetailPage() {
                   ) : assignedProjects.length === 0 ? (
                     <div className="text-center py-8">
                       <Building2 className="mx-auto h-8 w-8 text-muted-foreground" />
-                      <h3 className="mt-2 text-sm font-semibold">No project assignments</h3>
+                      <h3 className="mt-2 text-sm font-semibold">Нет назначенных проектов</h3>
                       <p className="mt-1 text-sm text-muted-foreground">
-                        Assign this supplier to projects to track material orders.
+                        Назначьте этого поставщика на проекты для отслеживания заказов материалов.
                       </p>
                       {canManageInventory && (
                         <Button className="mt-4" onClick={() => setIsAssignProjectOpen(true)}>
                           <Plus className="mr-2 h-4 w-4" />
-                          Assign to Project
+                          Назначить на проект
                         </Button>
                       )}
                     </div>
@@ -680,7 +680,7 @@ export default function SupplierDetailPage() {
                         <div>
                           <h4 className="font-medium">{project.project_name}</h4>
                           <p className="text-sm text-muted-foreground">
-                            Assigned on {project.assigned_at ? new Date(project.assigned_at).toLocaleDateString() : 'Unknown'}
+                            Назначен {project.assigned_at ? new Date(project.assigned_at).toLocaleDateString('ru-RU') : 'Дата неизвестна'}
                           </p>
                           {project.notes && (
                             <p className="text-xs text-muted-foreground mt-1">{project.notes}</p>
@@ -688,7 +688,7 @@ export default function SupplierDetailPage() {
                         </div>
                         <div className="flex items-center space-x-2">
                           <Badge variant={project.status === 'active' ? 'default' : 'secondary'}>
-                            {project.status}
+                            {project.status === 'active' ? 'Активен' : project.status}
                           </Badge>
                           {canManageInventory && (
                             <Button variant="ghost" size="sm">
@@ -710,27 +710,27 @@ export default function SupplierDetailPage() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Quick Stats</CardTitle>
+              <CardTitle>Краткая статистика</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Users className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">Contacts</span>
+                  <span className="text-sm">Контакты</span>
                 </div>
                 <span className="text-sm font-medium">{contacts.length}</span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Package className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">Materials</span>
+                  <span className="text-sm">Материалы</span>
                 </div>
                 <span className="text-sm font-medium">{supplierMaterials.length}</span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Building2 className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">Projects</span>
+                  <span className="text-sm">Проекты</span>
                 </div>
                 <span className="text-sm font-medium">{assignedProjects.length}</span>
               </div>
@@ -739,21 +739,21 @@ export default function SupplierDetailPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
+              <CardTitle>Последняя активность</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3 text-sm">
                 <div>
-                  <p className="font-medium">Material order placed</p>
-                  <p className="text-muted-foreground">2 days ago</p>
+                  <p className="font-medium">Размещён заказ материалов</p>
+                  <p className="text-muted-foreground">2 дня назад</p>
                 </div>
                 <div>
-                  <p className="font-medium">Contact updated</p>
-                  <p className="text-muted-foreground">1 week ago</p>
+                  <p className="font-medium">Обновлён контакт</p>
+                  <p className="text-muted-foreground">1 неделю назад</p>
                 </div>
                 <div>
-                  <p className="font-medium">Assigned to new project</p>
-                  <p className="text-muted-foreground">2 weeks ago</p>
+                  <p className="font-medium">Назначен на новый проект</p>
+                  <p className="text-muted-foreground">2 недели назад</p>
                 </div>
               </div>
             </CardContent>
@@ -765,9 +765,9 @@ export default function SupplierDetailPage() {
       <Dialog open={isAddMaterialOpen} onOpenChange={setIsAddMaterialOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Add New Material</DialogTitle>
+            <DialogTitle>Добавить новый материал</DialogTitle>
             <DialogDescription>
-              Add a new material or equipment item for {supplier.org_name}
+              Добавить материал или оборудование для {supplier.org_name}
             </DialogDescription>
           </DialogHeader>
           <Form {...materialForm}>
@@ -778,9 +778,9 @@ export default function SupplierDetailPage() {
                   name="material_name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Material Name *</FormLabel>
+                      <FormLabel>Название материала *</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Fiber optic cable, Cable duct" {...field} />
+                        <Input placeholder="напр., Оптоволоконный кабель, Кабельный канал" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -791,9 +791,9 @@ export default function SupplierDetailPage() {
                   name="category"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Category</FormLabel>
+                      <FormLabel>Категория</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Cables, Equipment" {...field} />
+                        <Input placeholder="напр., Кабели, Оборудование" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -807,23 +807,23 @@ export default function SupplierDetailPage() {
                   name="unit"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Unit *</FormLabel>
+                      <FormLabel>Единица измерения *</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select unit" />
+                            <SelectValue placeholder="Выберите единицу" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="meter">Meter</SelectItem>
-                          <SelectItem value="piece">Piece</SelectItem>
-                          <SelectItem value="box">Box</SelectItem>
-                          <SelectItem value="roll">Roll</SelectItem>
-                          <SelectItem value="kg">Kilogram</SelectItem>
-                          <SelectItem value="ton">Ton</SelectItem>
-                          <SelectItem value="m3">Cubic Meter</SelectItem>
-                          <SelectItem value="liter">Liter</SelectItem>
-                          <SelectItem value="pallet">Pallet</SelectItem>
+                          <SelectItem value="meter">Метр</SelectItem>
+                          <SelectItem value="piece">Штука</SelectItem>
+                          <SelectItem value="box">Коробка</SelectItem>
+                          <SelectItem value="roll">Рулон</SelectItem>
+                          <SelectItem value="kg">Килограмм</SelectItem>
+                          <SelectItem value="ton">Тонна</SelectItem>
+                          <SelectItem value="m3">Кубический метр</SelectItem>
+                          <SelectItem value="liter">Литр</SelectItem>
+                          <SelectItem value="pallet">Паллет</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -835,9 +835,9 @@ export default function SupplierDetailPage() {
                   name="supplier_part_number"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Supplier Part Number</FormLabel>
+                      <FormLabel>Артикул поставщика</FormLabel>
                       <FormControl>
-                        <Input placeholder="Optional part number" {...field} />
+                        <Input placeholder="Артикул (необязательно)" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -851,7 +851,7 @@ export default function SupplierDetailPage() {
                   name="unit_price"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Unit Price (EUR) *</FormLabel>
+                      <FormLabel>Цена за единицу (EUR) *</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -870,7 +870,7 @@ export default function SupplierDetailPage() {
                   name="minimum_order_qty"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Minimum Order Quantity *</FormLabel>
+                      <FormLabel>Минимальный заказ *</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
@@ -891,11 +891,11 @@ export default function SupplierDetailPage() {
                   name="lead_time_days"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Lead Time (Days)</FormLabel>
+                      <FormLabel>Срок поставки (дней)</FormLabel>
                       <FormControl>
                         <Input
                           type="number"
-                          placeholder="Optional lead time"
+                          placeholder="Срок (необязательно)"
                           {...field}
                         />
                       </FormControl>
@@ -909,9 +909,9 @@ export default function SupplierDetailPage() {
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
                       <div className="space-y-0.5">
-                        <FormLabel>Preferred Supplier</FormLabel>
+                        <FormLabel>Предпочтительный поставщик</FormLabel>
                         <div className="text-sm text-muted-foreground">
-                          Mark this as preferred supplier for this material
+                          Отметить как предпочтительного поставщика для этого материала
                         </div>
                       </div>
                       <FormControl>
@@ -930,10 +930,10 @@ export default function SupplierDetailPage() {
                 name="notes"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Notes</FormLabel>
+                    <FormLabel>Примечания</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Additional notes about this material..."
+                        placeholder="Дополнительные примечания о материале..."
                         rows={3}
                         {...field}
                       />
@@ -945,10 +945,10 @@ export default function SupplierDetailPage() {
 
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => setIsAddMaterialOpen(false)}>
-                  Cancel
+                  Отмена
                 </Button>
                 <Button type="submit" disabled={createMaterial.isPending}>
-                  {createMaterial.isPending ? "Adding..." : "Add Material"}
+                  {createMaterial.isPending ? "Добавление..." : "Добавить материал"}
                 </Button>
               </DialogFooter>
             </form>
@@ -960,9 +960,9 @@ export default function SupplierDetailPage() {
       <Dialog open={isAssignProjectOpen} onOpenChange={setIsAssignProjectOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Assign to Project</DialogTitle>
+            <DialogTitle>Назначить на проект</DialogTitle>
             <DialogDescription>
-              Assign {supplier.org_name} to a project for material tracking
+              Назначить {supplier.org_name} на проект для отслеживания материалов
             </DialogDescription>
           </DialogHeader>
           <Form {...projectAssignmentForm}>
@@ -972,23 +972,23 @@ export default function SupplierDetailPage() {
                 name="project_id"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Project *</FormLabel>
+                    <FormLabel>Проект *</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a project" />
+                          <SelectValue placeholder="Выберите проект" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {allProjectsLoading ? (
-                          <SelectItem value="loading" disabled>Loading projects...</SelectItem>
+                          <SelectItem value="loading" disabled>Загрузка проектов...</SelectItem>
                         ) : projects.length === 0 ? (
-                          <SelectItem value="no-projects" disabled>No projects available</SelectItem>
+                          <SelectItem value="no-projects" disabled>Нет доступных проектов</SelectItem>
                         ) : projects
                           .filter(project => !assignedProjects.some(assigned => assigned.project_id === project.id))
                           .map((project) => (
                             <SelectItem key={project.id} value={project.id}>
-                              {project.name} - {project.customer || 'No customer'}
+                              {project.name} - {project.customer || 'Заказчик не указан'}
                             </SelectItem>
                           ))}
                       </SelectContent>
@@ -1003,10 +1003,10 @@ export default function SupplierDetailPage() {
                 name="notes"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Notes</FormLabel>
+                    <FormLabel>Примечания</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Assignment notes..."
+                        placeholder="Примечания к назначению..."
                         rows={3}
                         {...field}
                       />
@@ -1018,10 +1018,10 @@ export default function SupplierDetailPage() {
 
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => setIsAssignProjectOpen(false)}>
-                  Cancel
+                  Отмена
                 </Button>
                 <Button type="submit" disabled={createProjectAssignment.isPending}>
-                  {createProjectAssignment.isPending ? "Assigning..." : "Assign Project"}
+                  {createProjectAssignment.isPending ? "Назначение..." : "Назначить проект"}
                 </Button>
               </DialogFooter>
             </form>

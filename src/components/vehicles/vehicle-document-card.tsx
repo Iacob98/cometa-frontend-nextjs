@@ -132,11 +132,11 @@ export function VehicleDocumentCard({ document, onEdit, onDelete }: VehicleDocum
               <div className="text-sm text-orange-800">
                 {isExpired ? (
                   <p>
-                    <strong>Abgelaufen am:</strong> {formatDate(document.expiry_date)}
+                    <strong>Истёк:</strong> {formatDate(document.expiry_date)}
                   </p>
                 ) : (
                   <p>
-                    <strong>Läuft ab am:</strong> {formatDate(document.expiry_date)}
+                    <strong>Истекает:</strong> {formatDate(document.expiry_date)}
                   </p>
                 )}
               </div>
@@ -149,7 +149,7 @@ export function VehicleDocumentCard({ document, onEdit, onDelete }: VehicleDocum
               <div className="flex items-center space-x-2 text-gray-600">
                 <Hash className="h-4 w-4" />
                 <div>
-                  <p className="text-xs text-gray-500">Nummer</p>
+                  <p className="text-xs text-gray-500">Номер</p>
                   <p className="font-medium text-gray-900">{document.document_number}</p>
                 </div>
               </div>
@@ -159,7 +159,7 @@ export function VehicleDocumentCard({ document, onEdit, onDelete }: VehicleDocum
               <div className="flex items-center space-x-2 text-gray-600">
                 <Building className="h-4 w-4" />
                 <div>
-                  <p className="text-xs text-gray-500">Behörde</p>
+                  <p className="text-xs text-gray-500">Орган выдачи</p>
                   <p className="font-medium text-gray-900">{document.issuing_authority}</p>
                 </div>
               </div>
@@ -169,7 +169,7 @@ export function VehicleDocumentCard({ document, onEdit, onDelete }: VehicleDocum
               <div className="flex items-center space-x-2 text-gray-600">
                 <Calendar className="h-4 w-4" />
                 <div>
-                  <p className="text-xs text-gray-500">Ausgestellt</p>
+                  <p className="text-xs text-gray-500">Выдан</p>
                   <p className="font-medium text-gray-900">{formatDate(document.issue_date)}</p>
                 </div>
               </div>
@@ -179,7 +179,7 @@ export function VehicleDocumentCard({ document, onEdit, onDelete }: VehicleDocum
               <div className="flex items-center space-x-2 text-gray-600">
                 <Calendar className="h-4 w-4" />
                 <div>
-                  <p className="text-xs text-gray-500">Gültig bis</p>
+                  <p className="text-xs text-gray-500">Действителен до</p>
                   <p className={`font-medium ${showWarning ? 'text-orange-600' : 'text-gray-900'}`}>
                     {formatDate(document.expiry_date)}
                   </p>
@@ -191,7 +191,7 @@ export function VehicleDocumentCard({ document, onEdit, onDelete }: VehicleDocum
           {/* Notes */}
           {document.notes && (
             <div className="pt-2 border-t">
-              <p className="text-xs text-gray-500 mb-1">Notizen</p>
+              <p className="text-xs text-gray-500 mb-1">Примечания</p>
               <p className="text-sm text-gray-700">{document.notes}</p>
             </div>
           )}
@@ -199,11 +199,11 @@ export function VehicleDocumentCard({ document, onEdit, onDelete }: VehicleDocum
           {/* File Info */}
           <div className="flex items-center justify-between pt-2 border-t text-xs text-gray-500">
             <span>{formatFileSize(document.file_size)}</span>
-            <span>Hochgeladen: {formatDate(document.created_at)}</span>
+            <span>Загружен: {formatDate(document.created_at)}</span>
             {document.is_verified && (
               <Badge variant="outline" className="text-green-600 bg-green-50">
                 <CheckCircle className="h-3 w-3 mr-1" />
-                Verifiziert
+                Проверен
               </Badge>
             )}
           </div>
@@ -213,11 +213,11 @@ export function VehicleDocumentCard({ document, onEdit, onDelete }: VehicleDocum
           <div className="flex space-x-2">
             <Button variant="outline" size="sm" onClick={handleView}>
               <Eye className="h-4 w-4 mr-2" />
-              Ansehen
+              Просмотр
             </Button>
             <Button variant="outline" size="sm" onClick={handleDownload}>
               <Download className="h-4 w-4 mr-2" />
-              Download
+              Скачать
             </Button>
           </div>
 
@@ -243,20 +243,20 @@ export function VehicleDocumentCard({ document, onEdit, onDelete }: VehicleDocum
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Dokument löschen?</AlertDialogTitle>
+            <AlertDialogTitle>Удалить документ?</AlertDialogTitle>
             <AlertDialogDescription>
-              Sind Sie sicher, dass Sie &quot;{document.file_name}&quot; löschen möchten? Diese
-              Aktion kann nicht rückgängig gemacht werden.
+              Вы уверены, что хотите удалить &quot;{document.file_name}&quot;? Это действие
+              нельзя отменить.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Abbrechen</AlertDialogCancel>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
               className="bg-red-600 hover:bg-red-700"
               disabled={deleteMutation.isPending}
             >
-              {deleteMutation.isPending ? 'Wird gelöscht...' : 'Löschen'}
+              {deleteMutation.isPending ? 'Удаление...' : 'Удалить'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

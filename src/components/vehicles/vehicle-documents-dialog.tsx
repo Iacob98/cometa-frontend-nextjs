@@ -106,7 +106,7 @@ export function VehicleDocumentsDialog({
         {trigger || (
           <Button variant="outline" size="sm">
             <FileText className="h-4 w-4 mr-2" />
-            Dokumente ({documents.length})
+            Документы ({documents.length})
           </Button>
         )}
       </DialogTrigger>
@@ -115,10 +115,10 @@ export function VehicleDocumentsDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <FileText className="h-5 w-5" />
-            <span>Fahrzeugdokumente - {vehicleName}</span>
+            <span>Документы транспорта - {vehicleName}</span>
           </DialogTitle>
           <DialogDescription>
-            Verwalten Sie alle Dokumente für dieses Fahrzeug
+            Управление всеми документами для этого транспорта
           </DialogDescription>
         </DialogHeader>
 
@@ -128,11 +128,11 @@ export function VehicleDocumentsDialog({
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
               {expiredCount > 0 && (
-                <span className="font-medium">{expiredCount} abgelaufene Dokumente. </span>
+                <span className="font-medium">{expiredCount} просроченных документов. </span>
               )}
               {expiringSoonCount > 0 && (
                 <span className="font-medium">
-                  {expiringSoonCount} Dokumente laufen bald ab.
+                  {expiringSoonCount} документов скоро истекут.
                 </span>
               )}
             </AlertDescription>
@@ -142,11 +142,11 @@ export function VehicleDocumentsDialog({
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'view' | 'upload')}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="view">
-              Dokumente anzeigen ({documents.length})
+              Просмотр документов ({documents.length})
             </TabsTrigger>
             <TabsTrigger value="upload">
               <Plus className="h-4 w-4 mr-2" />
-              Hochladen
+              Загрузить
             </TabsTrigger>
           </TabsList>
 
@@ -160,16 +160,16 @@ export function VehicleDocumentsDialog({
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />
                 <AlertDescription>
-                  Fehler beim Laden der Dokumente: {(error as Error).message}
+                  Ошибка загрузки документов: {(error as Error).message}
                 </AlertDescription>
               </Alert>
             ) : documents.length === 0 ? (
               <div className="text-center py-12">
                 <FileText className="h-12 w-12 mx-auto text-gray-300 mb-4" />
-                <p className="text-gray-600 mb-4">Noch keine Dokumente hochgeladen</p>
+                <p className="text-gray-600 mb-4">Документы ещё не загружены</p>
                 <Button onClick={() => setActiveTab('upload')}>
                   <Plus className="h-4 w-4 mr-2" />
-                  Erstes Dokument hochladen
+                  Загрузить первый документ
                 </Button>
               </div>
             ) : (
@@ -181,22 +181,22 @@ export function VehicleDocumentsDialog({
                     onValueChange={(value) => setFilterType(value as VehicleDocumentType | 'all')}
                   >
                     <SelectTrigger className="w-[250px]">
-                      <SelectValue placeholder="Alle Dokumenttypen" />
+                      <SelectValue placeholder="Все типы документов" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">Alle Dokumenttypen</SelectItem>
-                      <SelectItem value="fahrzeugschein">Fahrzeugschein</SelectItem>
-                      <SelectItem value="fahrzeugbrief">Fahrzeugbrief</SelectItem>
-                      <SelectItem value="tuv">TÜV/HU</SelectItem>
-                      <SelectItem value="versicherung">Versicherung</SelectItem>
-                      <SelectItem value="au">AU</SelectItem>
-                      <SelectItem value="wartung">Wartungsnachweis</SelectItem>
-                      <SelectItem value="sonstiges">Sonstiges</SelectItem>
+                      <SelectItem value="all">Все типы документов</SelectItem>
+                      <SelectItem value="fahrzeugschein">Свид-во о регистрации (СТС)</SelectItem>
+                      <SelectItem value="fahrzeugbrief">ПТС</SelectItem>
+                      <SelectItem value="tuv">Техосмотр</SelectItem>
+                      <SelectItem value="versicherung">Страховка</SelectItem>
+                      <SelectItem value="au">Экол. проверка</SelectItem>
+                      <SelectItem value="wartung">Сервисная книжка</SelectItem>
+                      <SelectItem value="sonstiges">Прочее</SelectItem>
                     </SelectContent>
                   </Select>
 
                   <p className="text-sm text-gray-600">
-                    {filteredDocuments.length} von {documents.length} Dokumenten
+                    {filteredDocuments.length} из {documents.length} документов
                   </p>
                 </div>
 
@@ -214,7 +214,7 @@ export function VehicleDocumentsDialog({
                 {filteredDocuments.length === 0 && (
                   <div className="text-center py-8">
                     <p className="text-gray-600">
-                      Keine Dokumente für den ausgewählten Typ gefunden
+                      Документы выбранного типа не найдены
                     </p>
                   </div>
                 )}

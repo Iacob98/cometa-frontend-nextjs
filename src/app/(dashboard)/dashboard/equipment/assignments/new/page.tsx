@@ -34,10 +34,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 const assignmentFormSchema = z.object({
   equipment_id: z.string().optional(),
   vehicle_id: z.string().optional(),
-  crew_id: z.string().min(1, "Crew selection is required"), // Now required - crew-based logic
+  crew_id: z.string().min(1, "Выбор бригады обязателен"), // Now required - crew-based logic
   project_id: z.string().optional(), // Optional - will be auto-assigned when crew joins project
   assignment_type: z.enum(['equipment', 'vehicle']),
-  from_ts: z.string().min(1, "Start date is required"),
+  from_ts: z.string().min(1, "Дата начала обязательна"),
   to_ts: z.string().optional(),
   is_permanent: z.boolean().default(false),
   rental_cost_per_day: z.string().optional().transform((val) => val ? parseFloat(val) : undefined),
@@ -51,7 +51,7 @@ const assignmentFormSchema = z.object({
   }
   return true;
 }, {
-  message: "Resource selection is required",
+  message: "Выбор ресурса обязателен",
   path: ['equipment_id']
 })
 
@@ -159,7 +159,7 @@ export default function NewEquipmentAssignmentPage() {
 
       } catch (error) {
         console.error('Failed to load data:', error)
-        toast.error('Failed to load form data')
+        toast.error('Не удалось загрузить данные формы')
       } finally {
         setIsLoading(false)
       }
@@ -210,19 +210,19 @@ export default function NewEquipmentAssignmentPage() {
 
       if (!response.ok) {
         const error = await response.json()
-        throw new Error(error.error || `Failed to create ${values.assignment_type} assignment`)
+        throw new Error(error.error || `Не удалось создать назначение ${values.assignment_type === 'vehicle' ? 'транспорта' : 'оборудования'}`)
       }
 
       const result = await response.json()
 
-      toast.success(`${values.assignment_type === 'vehicle' ? 'Vehicle' : 'Equipment'} assignment created successfully!`)
+      toast.success(`Назначение ${values.assignment_type === 'vehicle' ? 'транспорта' : 'оборудования'} успешно создано!`)
 
       // Navigate back to equipment page with assignments tab
       router.push('/dashboard/equipment?tab=assignments')
 
     } catch (error) {
       console.error('Assignment creation error:', error)
-      toast.error(error instanceof Error ? error.message : "Failed to create assignment")
+      toast.error(error instanceof Error ? error.message : "Не удалось создать назначение")
     } finally {
       setIsSubmitting(false)
     }
@@ -248,12 +248,12 @@ export default function NewEquipmentAssignmentPage() {
             className="flex items-center"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            Назад
           </Button>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Create Resource Assignment</h1>
+            <h1 className="text-2xl font-bold tracking-tight">Создать назначение ресурса</h1>
             <p className="text-muted-foreground">
-              Assign equipment or vehicles to crews for project work
+              Назначьте оборудование или транспорт бригадам для работы на проекте
             </p>
           </div>
         </div>
@@ -269,10 +269,10 @@ export default function NewEquipmentAssignmentPage() {
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Wrench className="h-5 w-5 mr-2" />
-                  Assignment Details
+                  Детали назначения
                 </CardTitle>
                 <CardDescription>
-                  Assign equipment or vehicles to crews. Projects will be auto-assigned when crews join them.
+                  Назначайте оборудование или транспорт бригадам. Проекты будут автоматически назначены при присоединении бригады.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -283,7 +283,7 @@ export default function NewEquipmentAssignmentPage() {
                     name="assignment_type"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Resource Type *</FormLabel>
+                        <FormLabel>Тип ресурса *</FormLabel>
                         <Select onValueChange={(value) => {
                           field.onChange(value)
                           // Clear resource selection when type changes
@@ -292,26 +292,26 @@ export default function NewEquipmentAssignmentPage() {
                         }} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select resource type" />
+                              <SelectValue placeholder="Выберите тип ресурса" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
                             <SelectItem value="equipment">
                               <div className="flex items-center">
                                 <Wrench className="h-4 w-4 mr-2" />
-                                <span>Equipment</span>
+                                <span>Оборудование</span>
                               </div>
                             </SelectItem>
                             <SelectItem value="vehicle">
                               <div className="flex items-center">
                                 <Truck className="h-4 w-4 mr-2" />
-                                <span>Vehicle</span>
+                                <span>Транспорт</span>
                               </div>
                             </SelectItem>
                           </SelectContent>
                         </Select>
                         <FormDescription>
-                          Choose whether to assign equipment or vehicles
+                          Выберите, назначить оборудование или транспорт
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -325,11 +325,11 @@ export default function NewEquipmentAssignmentPage() {
                       name="equipment_id"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Equipment *</FormLabel>
+                          <FormLabel>Оборудование *</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select equipment" />
+                                <SelectValue placeholder="Выберите оборудование" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -349,7 +349,7 @@ export default function NewEquipmentAssignmentPage() {
                             </SelectContent>
                           </Select>
                           <FormDescription>
-                            Only available equipment is shown
+                            Показано только доступное оборудование
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -364,11 +364,11 @@ export default function NewEquipmentAssignmentPage() {
                       name="vehicle_id"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Vehicle *</FormLabel>
+                          <FormLabel>Транспорт *</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select vehicle" />
+                                <SelectValue placeholder="Выберите транспорт" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -386,7 +386,7 @@ export default function NewEquipmentAssignmentPage() {
                             </SelectContent>
                           </Select>
                           <FormDescription>
-                            Only available vehicles are shown
+                            Показан только доступный транспорт
                           </FormDescription>
                           <FormMessage />
                         </FormItem>
@@ -400,11 +400,11 @@ export default function NewEquipmentAssignmentPage() {
                     name="crew_id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Crew *</FormLabel>
+                        <FormLabel>Бригада *</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select crew" />
+                              <SelectValue placeholder="Выберите бригаду" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -415,7 +415,7 @@ export default function NewEquipmentAssignmentPage() {
                                   <span>{crew.name}</span>
                                   {crew.project_name && (
                                     <span className="text-muted-foreground ml-2">
-                                      (Project: {crew.project_name})
+                                      (Проект: {crew.project_name})
                                     </span>
                                   )}
                                 </div>
@@ -424,7 +424,7 @@ export default function NewEquipmentAssignmentPage() {
                           </SelectContent>
                         </Select>
                         <FormDescription>
-                          Resources are assigned to crews first, then auto-assigned to projects when crews join them
+                          Ресурсы сначала назначаются бригадам, затем автоматически проектам при присоединении бригад
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -437,11 +437,11 @@ export default function NewEquipmentAssignmentPage() {
                     name="project_id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Project (Optional)</FormLabel>
+                        <FormLabel>Проект (необязательно)</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select project (optional)" />
+                              <SelectValue placeholder="Выберите проект (необязательно)" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -459,7 +459,7 @@ export default function NewEquipmentAssignmentPage() {
                           </SelectContent>
                         </Select>
                         <FormDescription>
-                          Optional direct project assignment (will be auto-assigned when crew joins project)
+                          Прямое назначение на проект (будет автоматически назначено при присоединении бригады к проекту)
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -472,7 +472,7 @@ export default function NewEquipmentAssignmentPage() {
                     name="rental_cost_per_day"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Daily Rental Cost (€)</FormLabel>
+                        <FormLabel>Дневная стоимость аренды (€)</FormLabel>
                         <FormControl>
                           <Input
                             type="number"
@@ -482,7 +482,7 @@ export default function NewEquipmentAssignmentPage() {
                           />
                         </FormControl>
                         <FormDescription>
-                          Daily cost for this assignment (optional)
+                          Дневная стоимость для этого назначения (необязательно)
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -495,7 +495,7 @@ export default function NewEquipmentAssignmentPage() {
                     name="from_ts"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Start Date & Time *</FormLabel>
+                        <FormLabel>Дата и время начала *</FormLabel>
                         <FormControl>
                           <Input
                             type="datetime-local"
@@ -503,7 +503,7 @@ export default function NewEquipmentAssignmentPage() {
                           />
                         </FormControl>
                         <FormDescription>
-                          When the assignment begins
+                          Когда начинается назначение
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -516,7 +516,7 @@ export default function NewEquipmentAssignmentPage() {
                     name="to_ts"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>End Date & Time</FormLabel>
+                        <FormLabel>Дата и время окончания</FormLabel>
                         <FormControl>
                           <Input
                             type="datetime-local"
@@ -525,7 +525,7 @@ export default function NewEquipmentAssignmentPage() {
                           />
                         </FormControl>
                         <FormDescription>
-                          When the assignment ends (leave empty for ongoing)
+                          Когда заканчивается назначение (оставьте пустым для бессрочного)
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -552,10 +552,10 @@ export default function NewEquipmentAssignmentPage() {
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel>
-                          Permanent Assignment
+                          Постоянное назначение
                         </FormLabel>
                         <FormDescription>
-                          Check if this is a permanent assignment (no end date)
+                          Отметьте, если это постоянное назначение (без даты окончания)
                         </FormDescription>
                       </div>
                       <FormMessage />
@@ -573,18 +573,18 @@ export default function NewEquipmentAssignmentPage() {
                 onClick={() => router.back()}
                 disabled={isSubmitting}
               >
-                Cancel
+                Отмена
               </Button>
               <Button type="submit" disabled={isSubmitting}>
                 {isSubmitting ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Creating Assignment...
+                    Создание назначения...
                   </>
                 ) : (
                   <>
                     <Save className="h-4 w-4 mr-2" />
-                    Create {form.watch('assignment_type') === 'vehicle' ? 'Vehicle' : 'Equipment'} Assignment
+                    Создать назначение {form.watch('assignment_type') === 'vehicle' ? 'транспорта' : 'оборудования'}
                   </>
                 )}
               </Button>

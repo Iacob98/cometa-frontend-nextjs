@@ -89,7 +89,7 @@ export default function ActivitiesPage() {
   };
 
   const formatTimestamp = (timestamp: string) => {
-    return new Date(timestamp).toLocaleString('en-GB', {
+    return new Date(timestamp).toLocaleString('ru-RU', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -102,19 +102,19 @@ export default function ActivitiesPage() {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">Activity Log</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Журнал действий</h1>
         </div>
         <Card>
           <CardContent className="py-8">
             <div className="text-center">
               <Activity className="mx-auto h-12 w-12 text-red-500" />
-              <h3 className="mt-2 text-sm font-semibold">Error Loading Activities</h3>
+              <h3 className="mt-2 text-sm font-semibold">Ошибка загрузки действий</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                Failed to load activity log. Please try again.
+                Не удалось загрузить журнал действий. Попробуйте снова.
               </p>
               <Button onClick={() => refetch()} className="mt-4">
                 <RefreshCw className="mr-2 h-4 w-4" />
-                Retry
+                Повторить
               </Button>
             </div>
           </CardContent>
@@ -128,9 +128,9 @@ export default function ActivitiesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Activity Log</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Журнал действий</h1>
           <p className="text-muted-foreground">
-            Complete audit trail of system activities and user actions
+            Полный журнал аудита системных действий и действий пользователей
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -140,11 +140,11 @@ export default function ActivitiesPage() {
             disabled={isLoading}
           >
             <RefreshCw className={`mr-2 h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-            Refresh
+            Обновить
           </Button>
           <Button variant="outline">
             <Download className="mr-2 h-4 w-4" />
-            Export
+            Экспорт
           </Button>
         </div>
       </div>
@@ -152,11 +152,11 @@ export default function ActivitiesPage() {
       <Tabs defaultValue="activities" className="space-y-4">
         <TabsList>
           <TabsTrigger value="activities">
-            Activity Log ({activities?.total || 0})
+            Журнал действий ({activities?.total || 0})
           </TabsTrigger>
           <TabsTrigger value="analytics">
             <BarChart3 className="mr-2 h-4 w-4" />
-            Analytics
+            Аналитика
           </TabsTrigger>
         </TabsList>
 
@@ -166,52 +166,52 @@ export default function ActivitiesPage() {
             <div className="grid gap-6 md:grid-cols-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Activities</CardTitle>
+                  <CardTitle className="text-sm font-medium">Всего действий</CardTitle>
                   <Activity className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.overview.total_activities}</div>
                   <p className="text-xs text-muted-foreground">
-                    All logged activities
+                    Все записанные действия
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+                  <CardTitle className="text-sm font-medium">Активные пользователи</CardTitle>
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.overview.unique_users}</div>
                   <p className="text-xs text-muted-foreground">
-                    Users with activity
+                    Пользователи с активностью
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Activity Types</CardTitle>
+                  <CardTitle className="text-sm font-medium">Типы действий</CardTitle>
                   <BarChart3 className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.overview.activity_types_count}</div>
                   <p className="text-xs text-muted-foreground">
-                    Different action types
+                    Различные типы действий
                   </p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Active Projects</CardTitle>
+                  <CardTitle className="text-sm font-medium">Активные проекты</CardTitle>
                   <TrendingUp className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{stats.overview.active_projects}</div>
                   <p className="text-xs text-muted-foreground">
-                    Projects with activity
+                    Проекты с активностью
                   </p>
                 </CardContent>
               </Card>
@@ -223,7 +223,7 @@ export default function ActivitiesPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Filter className="w-5 h-5" />
-                Filter Activities
+                Фильтр действий
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -231,7 +231,7 @@ export default function ActivitiesPage() {
                 <div className="relative">
                   <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder="Search activities..."
+                    placeholder="Поиск действий..."
                     className="pl-9"
                     value={filters.search || ''}
                     onChange={(e) => handleFilterChange('search', e.target.value)}
@@ -240,10 +240,10 @@ export default function ActivitiesPage() {
 
                 <Select onValueChange={(value) => handleFilterChange('activity_type', value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Activity type" />
+                    <SelectValue placeholder="Тип действия" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Types</SelectItem>
+                    <SelectItem value="all">Все типы</SelectItem>
                     {ACTIVITY_TYPES.map((type) => (
                       <SelectItem key={type} value={type}>
                         {getActivityTypeLabel(type)}
@@ -254,39 +254,39 @@ export default function ActivitiesPage() {
 
                 <Select onValueChange={handleDateRangeFilter}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Time range" />
+                    <SelectValue placeholder="Период" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Time</SelectItem>
-                    <SelectItem value="today">Today</SelectItem>
-                    <SelectItem value="week">Last 7 Days</SelectItem>
-                    <SelectItem value="month">Last 30 Days</SelectItem>
+                    <SelectItem value="all">Всё время</SelectItem>
+                    <SelectItem value="today">Сегодня</SelectItem>
+                    <SelectItem value="week">Последние 7 дней</SelectItem>
+                    <SelectItem value="month">Последние 30 дней</SelectItem>
                   </SelectContent>
                 </Select>
 
                 <Input
                   type="datetime-local"
-                  placeholder="From date"
+                  placeholder="С даты"
                   value={filters.date_from ? new Date(filters.date_from).toISOString().slice(0, 16) : ''}
                   onChange={(e) => handleFilterChange('date_from', e.target.value ? new Date(e.target.value).toISOString() : '')}
                 />
 
                 <Input
                   type="datetime-local"
-                  placeholder="To date"
+                  placeholder="По дату"
                   value={filters.date_to ? new Date(filters.date_to).toISOString().slice(0, 16) : ''}
                   onChange={(e) => handleFilterChange('date_to', e.target.value ? new Date(e.target.value).toISOString() : '')}
                 />
 
                 <Select onValueChange={(value) => handleFilterChange('per_page', parseInt(value))}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Page size" />
+                    <SelectValue placeholder="Размер страницы" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="25">25 per page</SelectItem>
-                    <SelectItem value="50">50 per page</SelectItem>
-                    <SelectItem value="100">100 per page</SelectItem>
-                    <SelectItem value="200">200 per page</SelectItem>
+                    <SelectItem value="25">25 на странице</SelectItem>
+                    <SelectItem value="50">50 на странице</SelectItem>
+                    <SelectItem value="100">100 на странице</SelectItem>
+                    <SelectItem value="200">200 на странице</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -296,9 +296,9 @@ export default function ActivitiesPage() {
           {/* Activities Table */}
           <Card>
             <CardHeader>
-              <CardTitle>Activity Log</CardTitle>
+              <CardTitle>Журнал действий</CardTitle>
               <CardDescription>
-                {activities?.total || 0} activities found
+                Найдено {activities?.total || 0} действий
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -317,15 +317,15 @@ export default function ActivitiesPage() {
               ) : !activities?.activities || activities.activities.length === 0 ? (
                 <div className="text-center py-8">
                   <Activity className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-                  <h3 className="text-lg font-medium mb-2">No Activities Found</h3>
+                  <h3 className="text-lg font-medium mb-2">Действия не найдены</h3>
                   <p className="text-gray-600 mb-4">
-                    No activities match the current filters.
+                    Нет действий, соответствующих текущим фильтрам.
                   </p>
                   <Button
                     variant="outline"
                     onClick={() => setFilters({ page: 1, per_page: 50 })}
                   >
-                    Clear Filters
+                    Сбросить фильтры
                   </Button>
                 </div>
               ) : (
@@ -333,12 +333,12 @@ export default function ActivitiesPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Timestamp</TableHead>
-                        <TableHead>User</TableHead>
-                        <TableHead>Activity</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead>Project</TableHead>
-                        <TableHead>Actions</TableHead>
+                        <TableHead>Время</TableHead>
+                        <TableHead>Пользователь</TableHead>
+                        <TableHead>Действие</TableHead>
+                        <TableHead>Описание</TableHead>
+                        <TableHead>Проект</TableHead>
+                        <TableHead>Действия</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -411,9 +411,9 @@ export default function ActivitiesPage() {
           {activities && activities.total_pages > 1 && (
             <div className="flex items-center justify-between">
               <p className="text-sm text-muted-foreground">
-                Showing {((activities.page - 1) * activities.per_page) + 1} to{' '}
-                {Math.min(activities.page * activities.per_page, activities.total)} of{' '}
-                {activities.total} activities
+                Показано {((activities.page - 1) * activities.per_page) + 1} -{' '}
+                {Math.min(activities.page * activities.per_page, activities.total)} из{' '}
+                {activities.total} действий
               </p>
               <div className="flex items-center space-x-2">
                 <Button
@@ -422,7 +422,7 @@ export default function ActivitiesPage() {
                   onClick={() => handleFilterChange('page', Math.max(1, (filters.page || 1) - 1))}
                   disabled={activities.page <= 1}
                 >
-                  Previous
+                  Назад
                 </Button>
                 <Button
                   variant="outline"
@@ -430,7 +430,7 @@ export default function ActivitiesPage() {
                   onClick={() => handleFilterChange('page', (filters.page || 1) + 1)}
                   disabled={activities.page >= activities.total_pages}
                 >
-                  Next
+                  Вперёд
                 </Button>
               </div>
             </div>
@@ -453,9 +453,9 @@ export default function ActivitiesPage() {
               {/* Activity Types Breakdown */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Activity Types</CardTitle>
+                  <CardTitle>Типы действий</CardTitle>
                   <CardDescription>
-                    Distribution of activity types
+                    Распределение типов действий
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -482,9 +482,9 @@ export default function ActivitiesPage() {
               {/* Most Active Users */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Most Active Users</CardTitle>
+                  <CardTitle>Самые активные пользователи</CardTitle>
                   <CardDescription>
-                    Users with the highest activity
+                    Пользователи с наибольшей активностью
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -501,7 +501,7 @@ export default function ActivitiesPage() {
                           </div>
                         </div>
                         <div className="text-sm font-medium">
-                          {user.activity_count} activities
+                          {user.activity_count} действий
                         </div>
                       </div>
                     ))}
@@ -513,9 +513,9 @@ export default function ActivitiesPage() {
               {stats.project_activity.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Project Activity</CardTitle>
+                    <CardTitle>Активность по проектам</CardTitle>
                     <CardDescription>
-                      Most active projects
+                      Наиболее активные проекты
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -529,7 +529,7 @@ export default function ActivitiesPage() {
                             <div className="font-medium">{project.project_name}</div>
                           </div>
                           <div className="text-sm font-medium">
-                            {project.activity_count} activities
+                            {project.activity_count} действий
                           </div>
                         </div>
                       ))}
@@ -542,7 +542,7 @@ export default function ActivitiesPage() {
             <Card>
               <CardContent className="py-8">
                 <div className="text-center text-muted-foreground">
-                  No analytics data available
+                  Нет данных аналитики
                 </div>
               </CardContent>
             </Card>

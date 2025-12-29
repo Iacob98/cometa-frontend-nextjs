@@ -60,12 +60,12 @@ const statusColors = {
 };
 
 const statusLabels = {
-  available: "Available",
-  issued_to_brigade: "Issued to Brigade",
-  assigned_to_project: "Assigned to Project",
-  maintenance: "Maintenance",
-  retired: "Retired",
-  lost: "Lost",
+  available: "Доступен",
+  issued_to_brigade: "Выдано бригаде",
+  assigned_to_project: "Назначено на проект",
+  maintenance: "На обслуживании",
+  retired: "Списан",
+  lost: "Потеряно",
 };
 
 const statusIcons = {
@@ -87,14 +87,14 @@ const categoryColors = {
   uncategorized: "bg-slate-100 text-slate-800 border-slate-200",
 } as const;
 
-const categoryLabelsEN = {
-  power_tool: "Power Tool",
-  fusion_splicer: "Fusion Splicer",
+const categoryLabelsRU = {
+  power_tool: "Электроинструмент",
+  fusion_splicer: "Сварочный аппарат",
   otdr: "OTDR",
-  safety_gear: "Safety Gear",
-  measuring_device: "Measuring Device",
-  accessory: "Accessory",
-  uncategorized: "Uncategorized",
+  safety_gear: "Защитное снаряжение",
+  measuring_device: "Измерительный прибор",
+  accessory: "Аксессуары",
+  uncategorized: "Без категории",
 } as const;
 
 export default function EquipmentPage() {
@@ -175,7 +175,7 @@ export default function EquipmentPage() {
   };
 
   const handleDeleteEquipment = async (equipmentId: string, equipmentName: string) => {
-    if (!confirm(`Are you sure you want to delete "${equipmentName}"? This action cannot be undone.`)) {
+    if (!confirm(`Вы уверены, что хотите удалить "${equipmentName}"? Это действие нельзя отменить.`)) {
       return;
     }
 
@@ -186,32 +186,32 @@ export default function EquipmentPage() {
 
       if (!response.ok) {
         const error = await response.json();
-        const errorMessage = error.error || 'Failed to delete equipment';
+        const errorMessage = error.error || 'Не удалось удалить оборудование';
 
         // Provide more user-friendly error messages
         if (errorMessage.includes('currently assigned')) {
-          toast.error(`Cannot delete "${equipmentName}": Equipment is currently assigned to a project. Please remove all assignments first.`);
+          toast.error(`Невозможно удалить "${equipmentName}": Оборудование назначено на проект. Сначала удалите все назначения.`);
         } else if (errorMessage.includes('in use')) {
-          toast.error(`Cannot delete "${equipmentName}": Equipment is currently in use. Please change status first.`);
+          toast.error(`Невозможно удалить "${equipmentName}": Оборудование используется. Сначала измените статус.`);
         } else {
-          toast.error(`Failed to delete "${equipmentName}": ${errorMessage}`);
+          toast.error(`Не удалось удалить "${equipmentName}": ${errorMessage}`);
         }
         return;
       }
 
-      toast.success(`Equipment "${equipmentName}" deleted successfully`);
+      toast.success(`Оборудование "${equipmentName}" успешно удалено`);
 
       // Refresh the page to update the equipment list
       window.location.reload();
     } catch (error) {
       console.error('Delete equipment error:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to delete equipment';
+      const errorMessage = error instanceof Error ? error.message : 'Не удалось удалить оборудование';
 
       // Provide contextual error messages
       if (errorMessage.includes('currently assigned')) {
-        toast.error(`Cannot delete "${equipmentName}": Equipment is currently assigned to a project. Please remove all assignments first.`);
+        toast.error(`Невозможно удалить "${equipmentName}": Оборудование назначено на проект. Сначала удалите все назначения.`);
       } else {
-        toast.error(`Failed to delete "${equipmentName}": ${errorMessage}`);
+        toast.error(`Не удалось удалить "${equipmentName}": ${errorMessage}`);
       }
     }
   };
@@ -234,7 +234,7 @@ export default function EquipmentPage() {
   };
 
   const handleDeleteAssignment = async (assignmentId: string, equipmentName: string) => {
-    if (!confirm(`Are you sure you want to delete the assignment for "${equipmentName}"? This action cannot be undone.`)) {
+    if (!confirm(`Вы уверены, что хотите удалить назначение для "${equipmentName}"? Это действие нельзя отменить.`)) {
       return;
     }
 
@@ -318,23 +318,23 @@ export default function EquipmentPage() {
             className="flex items-center space-x-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>Назад</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Equipment Management</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Управление оборудованием</h1>
             <p className="text-muted-foreground">
-              Manage your equipment tools, assignments, and maintenance
+              Управление инструментами, назначениями и обслуживанием
             </p>
           </div>
         </div>
         <div className="flex space-x-2">
           <Button variant="outline">
             <BarChart3 className="mr-2 h-4 w-4" />
-            Reports
+            Отчёты
           </Button>
           <Button onClick={() => router.push("/dashboard/equipment/new")}>
             <Plus className="mr-2 h-4 w-4" />
-            Add Equipment
+            Добавить оборудование
           </Button>
         </div>
       </div>
@@ -345,10 +345,10 @@ export default function EquipmentPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Equipment</p>
+                <p className="text-sm font-medium text-muted-foreground">Всего оборудования</p>
                 <p className="text-2xl font-bold">{stats.total}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {stats.owned} owned, {stats.rented} rented
+                  {stats.owned} собств., {stats.rented} в аренде
                 </p>
               </div>
               <Package className="h-8 w-8 text-blue-600" />
@@ -360,10 +360,10 @@ export default function EquipmentPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Utilization Rate</p>
+                <p className="text-sm font-medium text-muted-foreground">Загруженность</p>
                 <p className="text-2xl font-bold">{utilizationRate}%</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  {stats.inUse} in use
+                  {stats.inUse} в использовании
                 </p>
               </div>
               <TrendingUp className="h-8 w-8 text-green-600" />
@@ -375,10 +375,10 @@ export default function EquipmentPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Available</p>
+                <p className="text-sm font-medium text-muted-foreground">Доступно</p>
                 <p className="text-2xl font-bold text-green-600">{stats.available}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Ready for assignment
+                  Готово к назначению
                 </p>
               </div>
               <CheckCircle className="h-8 w-8 text-green-600" />
@@ -390,10 +390,10 @@ export default function EquipmentPage() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Attention Needed</p>
+                <p className="text-sm font-medium text-muted-foreground">Требует внимания</p>
                 <p className="text-2xl font-bold text-yellow-600">{stats.maintenance + stats.unavailable}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Maintenance, retired & lost
+                  Обслуживание, списано и потеряно
                 </p>
               </div>
               <AlertTriangle className="h-8 w-8 text-yellow-600" />
@@ -407,23 +407,23 @@ export default function EquipmentPage() {
         <TabsList className="grid grid-cols-6 w-full">
           <TabsTrigger value="fleet" className="flex items-center space-x-2">
             <Wrench className="h-4 w-4" />
-            <span>Fleet</span>
+            <span>Парк</span>
           </TabsTrigger>
           <TabsTrigger value="assignments" className="flex items-center space-x-2">
             <Truck className="h-4 w-4" />
-            <span>Assignments</span>
+            <span>Назначения</span>
           </TabsTrigger>
           <TabsTrigger value="usage" className="flex items-center space-x-2">
             <Activity className="h-4 w-4" />
-            <span>Analytics</span>
+            <span>Аналитика</span>
           </TabsTrigger>
           <TabsTrigger value="reservations" className="flex items-center space-x-2">
             <Calendar className="h-4 w-4" />
-            <span>Reservations</span>
+            <span>Резервации</span>
           </TabsTrigger>
           <TabsTrigger value="documents" className="flex items-center space-x-2 relative">
             <FileText className="h-4 w-4" />
-            <span>Documents</span>
+            <span>Документы</span>
             {expiringDocsCount > 0 && (
               <Badge className="ml-1 bg-orange-500 text-white px-1.5 py-0.5 text-xs">
                 {expiringDocsCount}
@@ -432,7 +432,7 @@ export default function EquipmentPage() {
           </TabsTrigger>
           <TabsTrigger value="usage-logs" className="flex items-center space-x-2">
             <Clock className="h-4 w-4" />
-            <span>Usage Logs</span>
+            <span>Журнал</span>
           </TabsTrigger>
         </TabsList>
 
@@ -442,17 +442,17 @@ export default function EquipmentPage() {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Filter className="h-5 w-5" />
-                <span>Filters</span>
+                <span>Фильтры</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Search</label>
+                  <label className="text-sm font-medium mb-2 block">Поиск</label>
                   <div className="relative">
                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                      placeholder="Search equipment..."
+                      placeholder="Поиск оборудования..."
                       value={filters.search}
                       onChange={(e) => handleFilterChange("search", e.target.value)}
                       className="pl-8"
@@ -461,48 +461,48 @@ export default function EquipmentPage() {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Type</label>
+                  <label className="text-sm font-medium mb-2 block">Тип</label>
                   <Select value={filters.type || "all"} onValueChange={(value) => handleFilterChange("type", value)}>
                     <SelectTrigger>
-                      <SelectValue placeholder="All types" />
+                      <SelectValue placeholder="Все типы" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All types</SelectItem>
-                      <SelectItem value="machine">Machines</SelectItem>
-                      <SelectItem value="tool">Tools</SelectItem>
-                      <SelectItem value="measuring_device">Measuring Devices</SelectItem>
+                      <SelectItem value="all">Все типы</SelectItem>
+                      <SelectItem value="machine">Машины</SelectItem>
+                      <SelectItem value="tool">Инструменты</SelectItem>
+                      <SelectItem value="measuring_device">Измерительные приборы</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Status</label>
+                  <label className="text-sm font-medium mb-2 block">Статус</label>
                   <Select value={filters.status || "all"} onValueChange={(value) => handleFilterChange("status", value)}>
                     <SelectTrigger>
-                      <SelectValue placeholder="All status" />
+                      <SelectValue placeholder="Все статусы" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All status</SelectItem>
-                      <SelectItem value="available">Available</SelectItem>
-                      <SelectItem value="issued_to_brigade">Issued to Brigade</SelectItem>
-                      <SelectItem value="assigned_to_project">Assigned to Project</SelectItem>
-                      <SelectItem value="maintenance">Maintenance</SelectItem>
-                      <SelectItem value="retired">Retired</SelectItem>
-                      <SelectItem value="lost">Lost</SelectItem>
+                      <SelectItem value="all">Все статусы</SelectItem>
+                      <SelectItem value="available">Доступен</SelectItem>
+                      <SelectItem value="issued_to_brigade">Выдано бригаде</SelectItem>
+                      <SelectItem value="assigned_to_project">Назначено на проект</SelectItem>
+                      <SelectItem value="maintenance">На обслуживании</SelectItem>
+                      <SelectItem value="retired">Списан</SelectItem>
+                      <SelectItem value="lost">Потеряно</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Ownership</label>
+                  <label className="text-sm font-medium mb-2 block">Владение</label>
                   <Select value={filters.owned || "all"} onValueChange={(value) => handleFilterChange("owned", value)}>
                     <SelectTrigger>
-                      <SelectValue placeholder="All" />
+                      <SelectValue placeholder="Все" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All</SelectItem>
-                      <SelectItem value="true">Owned</SelectItem>
-                      <SelectItem value="false">Rented</SelectItem>
+                      <SelectItem value="all">Все</SelectItem>
+                      <SelectItem value="true">Собственное</SelectItem>
+                      <SelectItem value="false">Арендованное</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -513,7 +513,7 @@ export default function EquipmentPage() {
                     onClick={() => setFilters({ type: "", status: "", owned: "", search: "" })}
                     className="w-full"
                   >
-                    Clear Filters
+                    Сбросить фильтры
                   </Button>
                 </div>
               </div>
@@ -523,9 +523,9 @@ export default function EquipmentPage() {
           {/* Category Tabs */}
           <Card>
             <CardHeader>
-              <CardTitle>Kategorien</CardTitle>
+              <CardTitle>Категории</CardTitle>
               <CardDescription>
-                Filtern Sie Ausrüstung nach Kategorie mit spezifischen technischen Spalten
+                Фильтрация оборудования по категории со специфическими техническими параметрами
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -533,17 +533,17 @@ export default function EquipmentPage() {
                 <TabsList className="grid grid-cols-4 md:grid-cols-8 w-full gap-1">
                   <TabsTrigger value="all" className="flex items-center gap-1 text-xs md:text-sm px-2">
                     <Package className="h-3 w-3 md:h-4 md:w-4" />
-                    <span>Alle</span>
+                    <span>Все</span>
                   </TabsTrigger>
                   <TabsTrigger value="power_tool" className="flex items-center gap-1 text-xs md:text-sm px-2">
                     <Wrench className="h-3 w-3 md:h-4 md:w-4" />
-                    <span className="hidden lg:inline">Elektrowerkzeug</span>
-                    <span className="lg:hidden">Elektro</span>
+                    <span className="hidden lg:inline">Электроинструмент</span>
+                    <span className="lg:hidden">Электро</span>
                   </TabsTrigger>
                   <TabsTrigger value="fusion_splicer" className="flex items-center gap-1 text-xs md:text-sm px-2">
                     <Activity className="h-3 w-3 md:h-4 md:w-4" />
-                    <span className="hidden lg:inline">Spleißgerät</span>
-                    <span className="lg:hidden">Spleiß</span>
+                    <span className="hidden lg:inline">Сварочный аппарат</span>
+                    <span className="lg:hidden">Сварка</span>
                   </TabsTrigger>
                   <TabsTrigger value="otdr" className="flex items-center gap-1 text-xs md:text-sm px-2">
                     <Activity className="h-3 w-3 md:h-4 md:w-4" />
@@ -551,23 +551,23 @@ export default function EquipmentPage() {
                   </TabsTrigger>
                   <TabsTrigger value="safety_gear" className="flex items-center gap-1 text-xs md:text-sm px-2">
                     <Settings className="h-3 w-3 md:h-4 md:w-4" />
-                    <span className="hidden lg:inline">Sicherheit</span>
-                    <span className="lg:hidden">Safety</span>
+                    <span className="hidden lg:inline">Защитное снаряжение</span>
+                    <span className="lg:hidden">Защита</span>
                   </TabsTrigger>
                   <TabsTrigger value="measuring_device" className="flex items-center gap-1 text-xs md:text-sm px-2">
                     <BarChart3 className="h-3 w-3 md:h-4 md:w-4" />
-                    <span className="hidden lg:inline">Messgerät</span>
-                    <span className="lg:hidden">Mess</span>
+                    <span className="hidden lg:inline">Измерительный прибор</span>
+                    <span className="lg:hidden">Измер</span>
                   </TabsTrigger>
                   <TabsTrigger value="accessory" className="flex items-center gap-1 text-xs md:text-sm px-2">
                     <Package className="h-3 w-3 md:h-4 md:w-4" />
-                    <span className="hidden lg:inline">Zubehör</span>
-                    <span className="lg:hidden">Zub</span>
+                    <span className="hidden lg:inline">Аксессуары</span>
+                    <span className="lg:hidden">Аксес</span>
                   </TabsTrigger>
                   <TabsTrigger value="uncategorized" className="flex items-center gap-1 text-xs md:text-sm px-2">
                     <AlertTriangle className="h-3 w-3 md:h-4 md:w-4" />
-                    <span className="hidden lg:inline">Nicht kategorisiert</span>
-                    <span className="lg:hidden">Unkategorisiert</span>
+                    <span className="hidden lg:inline">Без категории</span>
+                    <span className="lg:hidden">Без кат</span>
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
@@ -579,10 +579,10 @@ export default function EquipmentPage() {
             <Card>
               <CardHeader>
                 <CardTitle>
-                  {categoryConfig[selectedCategory as keyof typeof categoryConfig]?.label || 'Ausrüstung'}
+                  {categoryLabelsRU[selectedCategory as keyof typeof categoryLabelsRU] || 'Оборудование'}
                 </CardTitle>
                 <CardDescription>
-                  {equipment.length} Ausrüstungsgegenstand{equipment.length !== 1 ? 'e' : ''} gefunden
+                  Найдено {equipment.length} единиц{equipment.length === 1 ? 'а' : equipment.length >= 2 && equipment.length <= 4 ? 'ы' : ''} оборудования
                   {selectedCategory !== 'all' && categoryConfig[selectedCategory as keyof typeof categoryConfig] && (
                     <span className="ml-2 text-sm text-muted-foreground">
                       ({categoryConfig[selectedCategory as keyof typeof categoryConfig].description})
@@ -601,9 +601,9 @@ export default function EquipmentPage() {
           ) : (
           <Card>
             <CardHeader>
-              <CardTitle>Equipment Fleet</CardTitle>
+              <CardTitle>Парк оборудования</CardTitle>
               <CardDescription>
-                {equipment.length} equipment item{equipment.length !== 1 ? 's' : ''} found
+                Найдено {equipment.length} единиц{equipment.length === 1 ? 'а' : equipment.length >= 2 && equipment.length <= 4 ? 'ы' : ''} оборудования
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -612,13 +612,13 @@ export default function EquipmentPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Equipment</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Ownership</TableHead>
-                        <TableHead>Location</TableHead>
-                        <TableHead>Daily Rate</TableHead>
-                        <TableHead className="w-[100px]">Actions</TableHead>
+                        <TableHead>Оборудование</TableHead>
+                        <TableHead>Тип</TableHead>
+                        <TableHead>Статус</TableHead>
+                        <TableHead>Владение</TableHead>
+                        <TableHead>Местоположение</TableHead>
+                        <TableHead>Дневная ставка</TableHead>
+                        <TableHead className="w-[100px]">Действия</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -633,14 +633,14 @@ export default function EquipmentPage() {
                                 <div>
                                   <p className="font-medium">{item.name}</p>
                                   <p className="text-sm text-muted-foreground">
-                                    {item.inventory_no || 'No inventory number'}
+                                    {item.inventory_no || 'Без инв. номера'}
                                   </p>
                                 </div>
                               </div>
                             </TableCell>
                             <TableCell>
                               <Badge className={categoryColors[item.category as keyof typeof categoryColors] || categoryColors.uncategorized}>
-                                {categoryLabelsEN[item.category as keyof typeof categoryLabelsEN] || item.category || "—"}
+                                {categoryLabelsRU[item.category as keyof typeof categoryLabelsRU] || item.category || "—"}
                               </Badge>
                             </TableCell>
                             <TableCell>
@@ -653,17 +653,17 @@ export default function EquipmentPage() {
                             </TableCell>
                             <TableCell>
                               <span className={item.owned ? "text-green-600 font-medium" : "text-orange-600 font-medium"}>
-                                {item.owned ? "Owned" : "Rented"}
+                                {item.owned ? "Собственное" : "Арендованное"}
                               </span>
                             </TableCell>
                             <TableCell>
                               <span className="text-sm">
-                                {item.current_location || "Not specified"}
+                                {item.current_location || "Не указано"}
                               </span>
                             </TableCell>
                             <TableCell>
                               <span className="font-medium">
-                                {item.rental_cost_per_day ? `€${item.rental_cost_per_day}/day` : '-'}
+                                {item.rental_cost_per_day ? `€${item.rental_cost_per_day}/день` : '-'}
                               </span>
                             </TableCell>
                             <TableCell>
@@ -694,16 +694,16 @@ export default function EquipmentPage() {
               ) : (
                 <div className="text-center py-12">
                   <Wrench className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-semibold">No equipment found</h3>
+                  <h3 className="mt-4 text-lg font-semibold">Оборудование не найдено</h3>
                   <p className="text-muted-foreground">
-                    No equipment matches your current filters.
+                    Нет оборудования, соответствующего текущим фильтрам.
                   </p>
                   <Button
                     className="mt-4"
                     onClick={() => router.push("/dashboard/equipment/new")}
                   >
                     <Plus className="mr-2 h-4 w-4" />
-                    Add First Equipment
+                    Добавить первое оборудование
                   </Button>
                 </div>
               )}
@@ -718,10 +718,10 @@ export default function EquipmentPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Active Assignments</p>
+                    <p className="text-sm font-medium text-muted-foreground">Активных назначений</p>
                     <p className="text-2xl font-bold">{assignments?.length || 0}</p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Resources currently deployed ({assignments?.filter(a => a.assignment_type === 'equipment').length || 0} equipment, {assignments?.filter(a => a.assignment_type === 'vehicle').length || 0} vehicles)
+                      Ресурсы в работе ({assignments?.filter(a => a.assignment_type === 'equipment').length || 0} оборуд., {assignments?.filter(a => a.assignment_type === 'vehicle').length || 0} трансп.)
                     </p>
                   </div>
                   <Truck className="h-8 w-8 text-blue-600" />
@@ -733,10 +733,10 @@ export default function EquipmentPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Projects Covered</p>
+                    <p className="text-sm font-medium text-muted-foreground">Проектов охвачено</p>
                     <p className="text-2xl font-bold">{new Set(assignments?.map(a => a.project_id) || []).size}</p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Active project sites
+                      Активные проектные площадки
                     </p>
                   </div>
                   <Activity className="h-8 w-8 text-green-600" />
@@ -748,12 +748,12 @@ export default function EquipmentPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Avg. Assignment Duration</p>
+                    <p className="text-sm font-medium text-muted-foreground">Сред. продолжительность</p>
                     <p className="text-2xl font-bold">
-                      {analytics?.assignments?.averageDuration ? `${analytics?.assignments?.averageDuration}d` : '0d'}
+                      {analytics?.assignments?.averageDuration ? `${analytics?.assignments?.averageDuration} дн.` : '0 дн.'}
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Current assignments
+                      Текущие назначения
                     </p>
                   </div>
                   <Clock className="h-8 w-8 text-orange-600" />
@@ -766,9 +766,9 @@ export default function EquipmentPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Current Assignments</CardTitle>
+                  <CardTitle>Текущие назначения</CardTitle>
                   <CardDescription>
-                    Active equipment and vehicle assignments across projects
+                    Активные назначения оборудования и транспорта на проекты
                   </CardDescription>
                 </div>
                 <Button
@@ -776,7 +776,7 @@ export default function EquipmentPage() {
                   className="flex items-center gap-2"
                 >
                   <Plus className="h-4 w-4" />
-                  Create Assignment
+                  Создать назначение
                 </Button>
               </div>
             </CardHeader>
@@ -786,14 +786,14 @@ export default function EquipmentPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Resource</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Project</TableHead>
-                        <TableHead>Assigned To</TableHead>
-                        <TableHead>Start Date</TableHead>
-                        <TableHead>Expected Return</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Actions</TableHead>
+                        <TableHead>Ресурс</TableHead>
+                        <TableHead>Тип</TableHead>
+                        <TableHead>Проект</TableHead>
+                        <TableHead>Назначен</TableHead>
+                        <TableHead>Дата начала</TableHead>
+                        <TableHead>Ожид. возврат</TableHead>
+                        <TableHead>Статус</TableHead>
+                        <TableHead>Действия</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -811,9 +811,9 @@ export default function EquipmentPage() {
                                   <ResourceIcon className="h-4 w-4" />
                                 </div>
                                 <div>
-                                  <div className="font-medium">{assignment.equipment?.name || 'Unknown Resource'}</div>
+                                  <div className="font-medium">{assignment.equipment?.name || 'Неизвестный ресурс'}</div>
                                   <div className="text-sm text-muted-foreground">
-                                    {assignment.equipment?.inventory_no || 'No inventory #'}
+                                    {assignment.equipment?.inventory_no || 'Без инв. №'}
                                   </div>
                                 </div>
                               </div>
@@ -822,7 +822,7 @@ export default function EquipmentPage() {
                               <Badge className={`${isVehicle ? 'bg-blue-100 text-blue-800 border-blue-200' : 'bg-orange-100 text-orange-800 border-orange-200'}`}>
                                 <div className="flex items-center space-x-1">
                                   <ResourceIcon className="h-3 w-3" />
-                                  <span>{isVehicle ? 'Vehicle' : 'Equipment'}</span>
+                                  <span>{isVehicle ? 'Транспорт' : 'Оборудование'}</span>
                                 </div>
                               </Badge>
                             </TableCell>
@@ -830,17 +830,17 @@ export default function EquipmentPage() {
                               <div className="font-medium">{assignment.project_name || assignment.project_id}</div>
                             </TableCell>
                             <TableCell>
-                              <div className="font-medium">{assignment.crew_name || 'Unassigned'}</div>
+                              <div className="font-medium">{assignment.crew_name || 'Не назначен'}</div>
                             </TableCell>
                             <TableCell>
-                              {assignment.from_ts ? format(new Date(assignment.from_ts), 'MMM dd, yyyy') : 'N/A'}
+                              {assignment.from_ts ? new Date(assignment.from_ts).toLocaleDateString('ru-RU') : 'Н/Д'}
                             </TableCell>
                             <TableCell>
-                              {assignment.to_ts ? format(new Date(assignment.to_ts), 'MMM dd, yyyy') : 'Open-ended'}
+                              {assignment.to_ts ? new Date(assignment.to_ts).toLocaleDateString('ru-RU') : 'Бессрочно'}
                             </TableCell>
                             <TableCell>
                               <Badge className={`${assignment.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                                {assignment.is_active ? 'Active' : 'Inactive'}
+                                {assignment.is_active ? 'Активен' : 'Неактивен'}
                               </Badge>
                             </TableCell>
                             <TableCell>
@@ -856,7 +856,7 @@ export default function EquipmentPage() {
                                   variant="ghost"
                                   size="sm"
                                   className="text-red-600"
-                                  onClick={() => handleDeleteAssignment(assignment.id, assignment.equipment?.name || 'Unknown Resource')}
+                                  onClick={() => handleDeleteAssignment(assignment.id, assignment.equipment?.name || 'Неизвестный ресурс')}
                                   disabled={deleteAssignmentMutation.isPending}
                                 >
                                   <XCircle className="h-4 w-4" />
@@ -872,16 +872,16 @@ export default function EquipmentPage() {
               ) : (
                 <div className="text-center py-12">
                   <Truck className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-semibold">No active assignments</h3>
+                  <h3 className="mt-4 text-lg font-semibold">Нет активных назначений</h3>
                   <p className="text-muted-foreground">
-                    No equipment is currently assigned to projects.
+                    Оборудование в данный момент не назначено на проекты.
                   </p>
                   <Button
                     className="mt-4"
                     onClick={() => router.push("/dashboard/equipment/assignments/new")}
                   >
                     <Plus className="mr-2 h-4 w-4" />
-                    Create Assignment
+                    Создать назначение
                   </Button>
                 </div>
               )}
@@ -895,12 +895,12 @@ export default function EquipmentPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Total Hours</p>
+                    <p className="text-sm font-medium text-muted-foreground">Всего часов</p>
                     <p className="text-2xl font-bold">
-                      {analyticsLoading ? '...' : `${analytics?.overview?.totalHours || 0}h`}
+                      {analyticsLoading ? '...' : `${analytics?.overview?.totalHours || 0}ч`}
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Equipment usage hours
+                      Часы использования оборудования
                     </p>
                   </div>
                   <Clock className="h-8 w-8 text-blue-600" />
@@ -912,12 +912,12 @@ export default function EquipmentPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Efficiency Score</p>
+                    <p className="text-sm font-medium text-muted-foreground">Эффективность</p>
                     <p className="text-2xl font-bold">
                       {analyticsLoading ? '...' : `${analytics?.overview?.efficiencyScore || 0}%`}
                     </p>
                     <p className="text-xs text-green-600 mt-1">
-                      Based on availability
+                      На основе доступности
                     </p>
                   </div>
                   <TrendingUp className="h-8 w-8 text-green-600" />
@@ -929,12 +929,12 @@ export default function EquipmentPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Downtime</p>
+                    <p className="text-sm font-medium text-muted-foreground">Простой</p>
                     <p className="text-2xl font-bold">
                       {analyticsLoading ? '...' : `${analytics?.overview?.downtimeRate || 0}%`}
                     </p>
                     <p className="text-xs text-red-600 mt-1">
-                      Maintenance + Broken
+                      Обслуживание + Поломки
                     </p>
                   </div>
                   <AlertTriangle className="h-8 w-8 text-yellow-600" />
@@ -946,12 +946,12 @@ export default function EquipmentPage() {
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Revenue Generated</p>
+                    <p className="text-sm font-medium text-muted-foreground">Полученный доход</p>
                     <p className="text-2xl font-bold">
-                      {analyticsLoading ? '...' : `€${(analytics?.overview?.revenueGenerated || 0).toLocaleString()}`}
+                      {analyticsLoading ? '...' : `€${(analytics?.overview?.revenueGenerated || 0).toLocaleString('ru-RU')}`}
                     </p>
                     <p className="text-xs text-green-600 mt-1">
-                      Monthly estimate
+                      Месячная оценка
                     </p>
                   </div>
                   <BarChart3 className="h-8 w-8 text-purple-600" />
@@ -963,8 +963,8 @@ export default function EquipmentPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Equipment Utilization</CardTitle>
-                <CardDescription>Usage hours by equipment type</CardDescription>
+                <CardTitle>Использование оборудования</CardTitle>
+                <CardDescription>Часы использования по типу оборудования</CardDescription>
               </CardHeader>
               <CardContent>
                 <UsageChart data={analytics?.utilization} loading={analyticsLoading} />
@@ -973,8 +973,8 @@ export default function EquipmentPage() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Status Distribution</CardTitle>
-                <CardDescription>Current equipment status breakdown</CardDescription>
+                <CardTitle>Распределение по статусам</CardTitle>
+                <CardDescription>Текущее распределение статусов оборудования</CardDescription>
               </CardHeader>
               <CardContent>
                 <StatusPieChart data={analytics?.statusDistribution} loading={analyticsLoading} />
@@ -984,8 +984,8 @@ export default function EquipmentPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Performance Trends</CardTitle>
-              <CardDescription>Monthly equipment performance metrics</CardDescription>
+              <CardTitle>Тренды производительности</CardTitle>
+              <CardDescription>Месячные показатели производительности оборудования</CardDescription>
             </CardHeader>
             <CardContent>
               <PerformanceChart />
@@ -1029,7 +1029,7 @@ const UsageChart = ({ data = [], loading = false }: UsageChartProps) => {
       <div className="flex items-center justify-center h-[300px] text-muted-foreground">
         <div className="text-center">
           <Activity className="h-8 w-8 mx-auto mb-2" />
-          <p>No utilization data available</p>
+          <p>Нет данных об использовании</p>
         </div>
       </div>
     );
@@ -1044,12 +1044,12 @@ const UsageChart = ({ data = [], loading = false }: UsageChartProps) => {
         <Tooltip
           formatter={(value, name) => [
             name === 'revenue' ? `€${value}` : value,
-            name === 'hours' ? 'Hours' : name === 'revenue' ? 'Revenue' : 'Assignments'
+            name === 'hours' ? 'Часы' : name === 'revenue' ? 'Доход' : 'Назначения'
           ]}
         />
         <Legend />
-        <Bar dataKey="hours" fill="#3b82f6" name="Hours" />
-        <Bar dataKey="revenue" fill="#10b981" name="Revenue (€)" />
+        <Bar dataKey="hours" fill="#3b82f6" name="Часы" />
+        <Bar dataKey="revenue" fill="#10b981" name="Доход (€)" />
       </BarChart>
     </ResponsiveContainer>
   );
@@ -1074,7 +1074,7 @@ const StatusPieChart = ({ data = [], loading = false }: StatusPieChartProps) => 
       <div className="flex items-center justify-center h-[300px] text-muted-foreground">
         <div className="text-center">
           <PieChartIcon className="h-8 w-8 mx-auto mb-2" />
-          <p>No status data available</p>
+          <p>Нет данных о статусах</p>
         </div>
       </div>
     );
@@ -1125,8 +1125,8 @@ const PerformanceChart = ({ data, loading = false }: PerformanceChartProps) => {
       <div className="flex items-center justify-center h-[400px] border-2 border-dashed border-gray-300 rounded-lg">
         <div className="text-center">
           <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <p className="text-lg font-medium text-gray-500 mb-2">No Performance Data Available</p>
-          <p className="text-sm text-gray-400">Historical performance tracking will be available once equipment assignments are active.</p>
+          <p className="text-lg font-medium text-gray-500 mb-2">Нет данных о производительности</p>
+          <p className="text-sm text-gray-400">Историческое отслеживание производительности будет доступно после активации назначений оборудования.</p>
         </div>
       </div>
     );
@@ -1141,9 +1141,9 @@ const PerformanceChart = ({ data, loading = false }: PerformanceChartProps) => {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="utilization" stroke="#3b82f6" name="Utilization %" strokeWidth={2} />
-          <Line type="monotone" dataKey="efficiency" stroke="#10b981" name="Efficiency %" strokeWidth={2} />
-          <Line type="monotone" dataKey="downtime" stroke="#ef4444" name="Downtime %" strokeWidth={2} />
+          <Line type="monotone" dataKey="utilization" stroke="#3b82f6" name="Использование %" strokeWidth={2} />
+          <Line type="monotone" dataKey="efficiency" stroke="#10b981" name="Эффективность %" strokeWidth={2} />
+          <Line type="monotone" dataKey="downtime" stroke="#ef4444" name="Простой %" strokeWidth={2} />
         </LineChart>
       </ResponsiveContainer>
     </div>

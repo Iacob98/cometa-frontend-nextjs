@@ -54,16 +54,16 @@ export function UsageTab() {
       {/* Header with Log Button */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Equipment Usage Tracking</h2>
+          <h2 className="text-2xl font-bold">Учёт использования оборудования</h2>
           <p className="text-muted-foreground">
-            Track daily usage hours and monitor equipment utilization
+            Отслеживание ежедневных часов работы и мониторинг использования оборудования
           </p>
         </div>
         <Dialog open={isLogDialogOpen} onOpenChange={setIsLogDialogOpen}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              Log Usage
+              Записать использование
             </Button>
           </DialogTrigger>
           <LogUsageDialog
@@ -79,10 +79,10 @@ export function UsageTab() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Hours</p>
-                <p className="text-2xl font-bold">{totalHours.toFixed(1)}h</p>
+                <p className="text-sm font-medium text-muted-foreground">Всего часов</p>
+                <p className="text-2xl font-bold">{totalHours.toFixed(1)}ч</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Across all equipment
+                  По всему оборудованию
                 </p>
               </div>
               <Clock className="h-8 w-8 text-blue-600" />
@@ -94,10 +94,10 @@ export function UsageTab() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Avg. Hours/Day</p>
-                <p className="text-2xl font-bold">{avgHoursPerDay.toFixed(1)}h</p>
+                <p className="text-sm font-medium text-muted-foreground">Сред. часов/день</p>
+                <p className="text-2xl font-bold">{avgHoursPerDay.toFixed(1)}ч</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Per usage entry
+                  На запись
                 </p>
               </div>
               <TrendingUp className="h-8 w-8 text-green-600" />
@@ -109,10 +109,10 @@ export function UsageTab() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Usage Entries</p>
+                <p className="text-sm font-medium text-muted-foreground">Записей использования</p>
                 <p className="text-2xl font-bold">{usageLogs.length}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Logged records
+                  Записанных данных
                 </p>
               </div>
               <Activity className="h-8 w-8 text-purple-600" />
@@ -124,10 +124,10 @@ export function UsageTab() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Equipment Used</p>
+                <p className="text-sm font-medium text-muted-foreground">Использовано оборуд.</p>
                 <p className="text-2xl font-bold">{uniqueEquipment}</p>
                 <p className="text-xs text-muted-foreground mt-1">
-                  Unique items
+                  Уникальных единиц
                 </p>
               </div>
               <Activity className="h-8 w-8 text-orange-600" />
@@ -139,18 +139,18 @@ export function UsageTab() {
       {/* Filters */}
       <Card>
         <CardHeader>
-          <CardTitle>Filters</CardTitle>
+          <CardTitle>Фильтры</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <Label>Equipment</Label>
+              <Label>Оборудование</Label>
               <Select value={equipmentFilter || "all"} onValueChange={(v) => setEquipmentFilter(v === "all" ? "" : v)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="All equipment" />
+                  <SelectValue placeholder="Всё оборудование" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All equipment</SelectItem>
+                  <SelectItem value="all">Всё оборудование</SelectItem>
                   {equipment.map((eq) => (
                     <SelectItem key={eq.id} value={eq.id}>
                       {eq.name}
@@ -161,7 +161,7 @@ export function UsageTab() {
             </div>
 
             <div>
-              <Label>From Date</Label>
+              <Label>Дата с</Label>
               <Input
                 type="date"
                 value={dateFilter.from_date}
@@ -170,7 +170,7 @@ export function UsageTab() {
             </div>
 
             <div>
-              <Label>To Date</Label>
+              <Label>Дата по</Label>
               <Input
                 type="date"
                 value={dateFilter.to_date}
@@ -180,7 +180,7 @@ export function UsageTab() {
 
             <div className="flex items-end">
               <Button variant="outline" onClick={handleClearFilters} className="w-full">
-                Clear Filters
+                Сбросить фильтры
               </Button>
             </div>
           </div>
@@ -190,9 +190,9 @@ export function UsageTab() {
       {/* Usage Logs Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Usage Logs</CardTitle>
+          <CardTitle>Журнал использования</CardTitle>
           <CardDescription>
-            {usageLogs.length} usage log{usageLogs.length !== 1 ? 's' : ''} found
+            Найдено записей: {usageLogs.length}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -207,13 +207,13 @@ export function UsageTab() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Equipment</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Hours Used</TableHead>
-                    <TableHead>Operator</TableHead>
-                    <TableHead>Notes</TableHead>
-                    <TableHead>Logged At</TableHead>
-                    <TableHead className="w-[100px]">Actions</TableHead>
+                    <TableHead>Оборудование</TableHead>
+                    <TableHead>Дата</TableHead>
+                    <TableHead>Часы работы</TableHead>
+                    <TableHead>Оператор</TableHead>
+                    <TableHead>Примечания</TableHead>
+                    <TableHead>Записано</TableHead>
+                    <TableHead className="w-[100px]">Действия</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -226,13 +226,13 @@ export function UsageTab() {
           ) : (
             <div className="text-center py-12">
               <Clock className="mx-auto h-12 w-12 text-muted-foreground" />
-              <h3 className="mt-4 text-lg font-semibold">No usage logs found</h3>
+              <h3 className="mt-4 text-lg font-semibold">Записи использования не найдены</h3>
               <p className="text-muted-foreground">
-                Log equipment usage hours to track utilization and performance.
+                Записывайте часы работы оборудования для отслеживания использования и производительности.
               </p>
               <Button className="mt-4" onClick={() => setIsLogDialogOpen(true)}>
                 <Plus className="mr-2 h-4 w-4" />
-                Log First Usage
+                Создать первую запись
               </Button>
             </div>
           )}
@@ -263,13 +263,13 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
 
   const handleValidate = async () => {
     if (!formData.equipment_id || !formData.usage_date || !formData.hours_used) {
-      toast.error("Please fill in equipment, date, and hours");
+      toast.error("Пожалуйста, заполните оборудование, дату и часы");
       return;
     }
 
     const hours = parseFloat(formData.hours_used);
     if (hours <= 0 || hours > 24) {
-      toast.error("Hours must be between 0 and 24");
+      toast.error("Часы должны быть от 0 до 24");
       return;
     }
 
@@ -284,15 +284,15 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
 
       if (!result.is_valid) {
         toast.error(
-          `Cannot add ${hours}h. Daily limit exceeded (${result.total_hours.toFixed(1)}h / 24h)`
+          `Нельзя добавить ${hours}ч. Дневной лимит превышен (${result.total_hours.toFixed(1)}ч / 24ч)`
         );
       } else {
         toast.success(
-          `Validation passed. ${result.remaining_hours.toFixed(1)}h remaining for this day.`
+          `Проверка пройдена. Осталось ${result.remaining_hours.toFixed(1)}ч на этот день.`
         );
       }
     } catch (error: any) {
-      toast.error(error.message || "Failed to validate usage");
+      toast.error(error.message || "Не удалось проверить использование");
     }
   };
 
@@ -300,13 +300,13 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
     e.preventDefault();
 
     if (!formData.equipment_id || !formData.usage_date || !formData.hours_used) {
-      toast.error("Please fill in all required fields");
+      toast.error("Пожалуйста, заполните все обязательные поля");
       return;
     }
 
     const hours = parseFloat(formData.hours_used);
     if (hours <= 0 || hours > 24) {
-      toast.error("Hours must be between 0 and 24");
+      toast.error("Часы должны быть от 0 до 24");
       return;
     }
 
@@ -319,7 +319,7 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
         notes: formData.notes || undefined,
       });
 
-      toast.success("Usage logged successfully");
+      toast.success("Использование записано");
       onClose();
 
       // Reset form
@@ -332,23 +332,23 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
       });
       setValidationResult(null);
     } catch (error: any) {
-      toast.error(error.message || "Failed to log usage");
+      toast.error(error.message || "Не удалось записать использование");
     }
   };
 
   return (
     <DialogContent className="max-w-2xl">
       <DialogHeader>
-        <DialogTitle>Log Equipment Usage</DialogTitle>
+        <DialogTitle>Запись использования оборудования</DialogTitle>
         <DialogDescription>
-          Record daily equipment usage hours (max 24 hours per day per equipment)
+          Запись ежедневных часов работы оборудования (макс. 24 часа в день на единицу)
         </DialogDescription>
       </DialogHeader>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Equipment Selection */}
         <div>
-          <Label htmlFor="equipment">Equipment *</Label>
+          <Label htmlFor="equipment">Оборудование *</Label>
           <Select
             value={formData.equipment_id}
             onValueChange={(value) => {
@@ -357,15 +357,15 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
             }}
           >
             <SelectTrigger id="equipment">
-              <SelectValue placeholder="Select equipment" />
+              <SelectValue placeholder="Выберите оборудование" />
             </SelectTrigger>
             <SelectContent>
               {equipment.map((eq) => (
                 <SelectItem key={eq.id} value={eq.id}>
-                  {eq.name} ({eq.inventory_no || "No inventory #"})
+                  {eq.name} ({eq.inventory_no || "Без инв. №"})
                   {eq.total_usage_hours !== undefined && (
                     <span className="text-muted-foreground ml-2">
-                      ({eq.total_usage_hours.toFixed(1)}h total)
+                      ({eq.total_usage_hours.toFixed(1)}ч всего)
                     </span>
                   )}
                 </SelectItem>
@@ -377,7 +377,7 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
         {/* Date and Hours */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="date">Usage Date *</Label>
+            <Label htmlFor="date">Дата использования *</Label>
             <Input
               id="date"
               type="date"
@@ -389,7 +389,7 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
             />
           </div>
           <div>
-            <Label htmlFor="hours">Hours Used * (0-24)</Label>
+            <Label htmlFor="hours">Часы работы * (0-24)</Label>
             <div className="flex gap-2">
               <Input
                 id="hours"
@@ -410,7 +410,7 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
                 onClick={handleValidate}
                 disabled={validateMutation.isPending}
               >
-                Validate
+                Проверить
               </Button>
             </div>
           </div>
@@ -423,15 +423,15 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
             <AlertDescription>
               {validationResult.is_valid ? (
                 <div>
-                  <span className="font-semibold">Validation passed!</span> <br />
-                  Existing usage: {validationResult.existing_hours.toFixed(1)}h <br />
-                  Remaining capacity: {validationResult.remaining_hours.toFixed(1)}h
+                  <span className="font-semibold">Проверка пройдена!</span> <br />
+                  Существующее использование: {validationResult.existing_hours.toFixed(1)}ч <br />
+                  Оставшаяся ёмкость: {validationResult.remaining_hours.toFixed(1)}ч
                 </div>
               ) : (
                 <div>
-                  <span className="font-semibold">Daily limit exceeded!</span> <br />
-                  Adding {parseFloat(formData.hours_used).toFixed(1)}h would exceed 24h limit
-                  (total: {validationResult.total_hours.toFixed(1)}h)
+                  <span className="font-semibold">Дневной лимит превышен!</span> <br />
+                  Добавление {parseFloat(formData.hours_used).toFixed(1)}ч превысит 24ч лимит
+                  (всего: {validationResult.total_hours.toFixed(1)}ч)
                 </div>
               )}
             </AlertDescription>
@@ -440,10 +440,10 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
 
         {/* Operator */}
         <div>
-          <Label htmlFor="operator">Operator Name</Label>
+          <Label htmlFor="operator">Имя оператора</Label>
           <Input
             id="operator"
-            placeholder="e.g., John Doe"
+            placeholder="напр. Иванов И.И."
             value={formData.operator_name}
             onChange={(e) => setFormData({ ...formData, operator_name: e.target.value })}
           />
@@ -451,10 +451,10 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
 
         {/* Notes */}
         <div>
-          <Label htmlFor="notes">Notes</Label>
+          <Label htmlFor="notes">Примечания</Label>
           <Textarea
             id="notes"
-            placeholder="Additional notes about usage..."
+            placeholder="Дополнительные примечания об использовании..."
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             rows={3}
@@ -463,10 +463,10 @@ function LogUsageDialog({ equipment, onClose }: LogUsageDialogProps) {
 
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
+            Отмена
           </Button>
           <Button type="submit" disabled={logMutation.isPending}>
-            {logMutation.isPending ? "Logging..." : "Log Usage"}
+            {logMutation.isPending ? "Сохранение..." : "Записать"}
           </Button>
         </DialogFooter>
       </form>
@@ -483,15 +483,15 @@ function UsageLogRow({ log }: UsageLogRowProps) {
   const deleteMutation = useDeleteEquipmentUsage();
 
   const handleDelete = async () => {
-    if (!confirm(`Are you sure you want to delete this usage log?`)) {
+    if (!confirm(`Вы уверены, что хотите удалить эту запись использования?`)) {
       return;
     }
 
     try {
       await deleteMutation.mutateAsync(log.id);
-      toast.success("Usage log deleted successfully");
+      toast.success("Запись использования удалена");
     } catch (error) {
-      toast.error("Failed to delete usage log");
+      toast.error("Не удалось удалить запись использования");
     }
   };
 
@@ -500,25 +500,25 @@ function UsageLogRow({ log }: UsageLogRowProps) {
       <TableCell>
         <div>
           <div className="font-medium">
-            {log.equipment_name || "Unknown Equipment"}
+            {log.equipment_name || "Неизвестное оборудование"}
           </div>
           <div className="text-sm text-muted-foreground">
-            {log.equipment?.inventory_no || "No inventory #"}
+            {log.equipment?.inventory_no || "Без инв. №"}
           </div>
         </div>
       </TableCell>
       <TableCell>
-        {format(new Date(log.usage_date), "MMM dd, yyyy")}
+        {format(new Date(log.usage_date), "dd.MM.yyyy")}
       </TableCell>
       <TableCell>
         <Badge className="bg-blue-100 text-blue-800 border-blue-200">
           <Clock className="h-3 w-3 mr-1" />
-          {log.hours_used.toFixed(1)}h
+          {log.hours_used.toFixed(1)}ч
         </Badge>
       </TableCell>
       <TableCell>
         <span className="text-sm">
-          {log.operator_name || "Not specified"}
+          {log.operator_name || "Не указан"}
         </span>
       </TableCell>
       <TableCell>
@@ -528,7 +528,7 @@ function UsageLogRow({ log }: UsageLogRowProps) {
       </TableCell>
       <TableCell>
         <span className="text-sm text-muted-foreground">
-          {format(new Date(log.created_at), "MMM dd, HH:mm")}
+          {format(new Date(log.created_at), "dd.MM, HH:mm")}
         </span>
       </TableCell>
       <TableCell>
@@ -578,7 +578,7 @@ function EditUsageDialog({ log, onClose }: EditUsageDialogProps) {
 
     // Validate hours
     if (formData.hours_used <= 0 || formData.hours_used > 24) {
-      toast.error("Hours must be between 0 and 24");
+      toast.error("Часы должны быть от 0 до 24");
       return;
     }
 
@@ -589,25 +589,25 @@ function EditUsageDialog({ log, onClose }: EditUsageDialogProps) {
         hours_used: formData.hours_used,
         notes: formData.notes,
       });
-      toast.success("Usage log updated successfully");
+      toast.success("Запись использования обновлена");
       onClose();
     } catch (error) {
-      toast.error("Failed to update usage log");
+      toast.error("Не удалось обновить запись использования");
     }
   };
 
   return (
     <DialogContent className="sm:max-w-[500px]">
       <DialogHeader>
-        <DialogTitle>Edit Usage Log</DialogTitle>
+        <DialogTitle>Редактирование записи использования</DialogTitle>
         <DialogDescription>
-          Update equipment usage information
+          Обновление информации об использовании оборудования
         </DialogDescription>
       </DialogHeader>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <Label htmlFor="edit-usage-date">Usage Date *</Label>
+          <Label htmlFor="edit-usage-date">Дата использования *</Label>
           <Input
             id="edit-usage-date"
             type="date"
@@ -618,7 +618,7 @@ function EditUsageDialog({ log, onClose }: EditUsageDialogProps) {
         </div>
 
         <div>
-          <Label htmlFor="edit-hours-used">Hours Used *</Label>
+          <Label htmlFor="edit-hours-used">Часы работы *</Label>
           <Input
             id="edit-hours-used"
             type="number"
@@ -630,15 +630,15 @@ function EditUsageDialog({ log, onClose }: EditUsageDialogProps) {
             required
           />
           <p className="text-sm text-muted-foreground mt-1">
-            Enter hours between 0 and 24
+            Введите часы от 0 до 24
           </p>
         </div>
 
         <div>
-          <Label htmlFor="edit-notes">Notes</Label>
+          <Label htmlFor="edit-notes">Примечания</Label>
           <Textarea
             id="edit-notes"
-            placeholder="Additional notes..."
+            placeholder="Дополнительные примечания..."
             value={formData.notes}
             onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
             rows={3}
@@ -647,10 +647,10 @@ function EditUsageDialog({ log, onClose }: EditUsageDialogProps) {
 
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
+            Отмена
           </Button>
           <Button type="submit" disabled={updateMutation.isPending}>
-            {updateMutation.isPending ? "Updating..." : "Update Log"}
+            {updateMutation.isPending ? "Сохранение..." : "Сохранить изменения"}
           </Button>
         </DialogFooter>
       </form>

@@ -334,7 +334,7 @@ export function useCreateVehicle() {
     mutationFn: api.createVehicle,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['vehicles'] });
-      toast.success('Vehicle created successfully');
+      toast.success('Транспорт успешно создан');
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -351,7 +351,7 @@ export function useUpdateVehicle() {
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({ queryKey: ['vehicles'] });
       queryClient.invalidateQueries({ queryKey: ['vehicles', id] });
-      toast.success('Vehicle updated successfully');
+      toast.success('Транспорт успешно обновлён');
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -366,7 +366,7 @@ export function useDeleteVehicle() {
     mutationFn: api.deleteVehicle,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['vehicles'] });
-      toast.success('Vehicle deleted successfully');
+      toast.success('Транспорт успешно удалён');
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -391,14 +391,14 @@ export function useCreateVehicleAssignment() {
       queryClient.invalidateQueries({ queryKey: ['vehicle-assignments'] });
       queryClient.invalidateQueries({ queryKey: ['vehicles'] });
       queryClient.invalidateQueries({ queryKey: ['crews'] }); // Also invalidate crew queries
-      toast.success(data.message || 'Vehicle assignment created successfully');
+      toast.success(data.message || 'Назначение транспорта успешно создано');
     },
     onError: (error: Error) => {
       // Enhanced error handling for crew validation
       if (error.message.includes('Crew not found') || error.message.includes('CREW_NOT_FOUND')) {
-        toast.error('Selected crew is not found or inactive. Please select a valid crew.');
+        toast.error('Выбранная бригада не найдена или неактивна. Выберите другую бригаду.');
       } else if (error.message.includes('crew_id') || error.message.includes('Crew ID')) {
-        toast.error('Crew selection is required. Please select a crew for this assignment.');
+        toast.error('Необходимо выбрать бригаду для назначения транспорта.');
       } else {
         toast.error(error.message);
       }
@@ -415,7 +415,7 @@ export function useUpdateVehicleAssignment() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['vehicle-assignments'] });
       queryClient.invalidateQueries({ queryKey: ['vehicles'] });
-      toast.success(data.message || 'Vehicle assignment updated successfully');
+      toast.success(data.message || 'Назначение транспорта успешно обновлено');
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -431,7 +431,7 @@ export function useDeleteVehicleAssignment() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['vehicle-assignments'] });
       queryClient.invalidateQueries({ queryKey: ['vehicles'] });
-      toast.success(data.message || 'Vehicle assignment deleted successfully');
+      toast.success(data.message || 'Назначение транспорта успешно удалено');
     },
     onError: (error: Error) => {
       toast.error(error.message);

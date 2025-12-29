@@ -108,9 +108,9 @@ export default function DocumentsPage() {
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Documents</h2>
+          <h2 className="text-3xl font-bold tracking-tight">Документы</h2>
           <p className="text-muted-foreground">
-            Manage your project files and documents
+            Управление файлами и документами проектов
           </p>
         </div>
         <div className="flex items-center space-x-2">
@@ -118,14 +118,14 @@ export default function DocumentsPage() {
             <DialogTrigger asChild>
               <Button>
                 <Upload className="mr-2 h-4 w-4" />
-                Upload Documents
+                Загрузить документы
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Upload Documents</DialogTitle>
+                <DialogTitle>Загрузка документов</DialogTitle>
                 <DialogDescription>
-                  Upload and organize your project documents
+                  Загрузите и организуйте документы проекта
                 </DialogDescription>
               </DialogHeader>
               <DocumentUpload
@@ -140,52 +140,52 @@ export default function DocumentsPage() {
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Documents</CardTitle>
+            <CardTitle className="text-sm font-medium">Всего документов</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{allDocuments?.total || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Across all projects
+              По всем проектам
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">My Documents</CardTitle>
+            <CardTitle className="text-sm font-medium">Мои документы</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{myDocuments?.total || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Uploaded by you
+              Загружены вами
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Recent Documents</CardTitle>
+            <CardTitle className="text-sm font-medium">Недавние документы</CardTitle>
             <Archive className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{recentDocuments?.total || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Last 7 days
+              За последние 7 дней
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Categories</CardTitle>
+            <CardTitle className="text-sm font-medium">Категории</CardTitle>
             <Tags className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{categories?.length || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Document types
+              Типы документов
             </p>
           </CardContent>
         </Card>
@@ -194,16 +194,16 @@ export default function DocumentsPage() {
       {/* Global Search */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Document Search</CardTitle>
+          <CardTitle className="text-lg">Поиск документов</CardTitle>
           <CardDescription>
-            Search across all documents including their content
+            Поиск по всем документам, включая их содержимое
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex gap-2">
             <div className="flex-1">
               <Input
-                placeholder="Search documents and content..."
+                placeholder="Поиск документов и содержимого..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => {
@@ -218,13 +218,13 @@ export default function DocumentsPage() {
               disabled={!searchQuery.trim() || searchDocuments.isPending}
             >
               <Search className="h-4 w-4 mr-2" />
-              {searchDocuments.isPending ? "Searching..." : "Search"}
+              {searchDocuments.isPending ? "Поиск..." : "Найти"}
             </Button>
           </div>
           {searchDocuments.data && (
             <div className="mt-4">
               <p className="text-sm text-muted-foreground mb-2">
-                Found {searchDocuments.data.total} results
+                Найдено {searchDocuments.data.total} результатов
               </p>
               {/* TODO: Display search results */}
             </div>
@@ -238,7 +238,7 @@ export default function DocumentsPage() {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="all">
-                All Documents
+                Все документы
                 {allDocuments?.total && (
                   <Badge variant="secondary" className="ml-1 h-4 text-xs">
                     {allDocuments.total}
@@ -246,7 +246,7 @@ export default function DocumentsPage() {
                 )}
               </TabsTrigger>
               <TabsTrigger value="my">
-                My Documents
+                Мои документы
                 {myDocuments?.total && (
                   <Badge variant="secondary" className="ml-1 h-4 text-xs">
                     {myDocuments.total}
@@ -254,14 +254,14 @@ export default function DocumentsPage() {
                 )}
               </TabsTrigger>
               <TabsTrigger value="recent">
-                Recent
+                Недавние
                 {recentDocuments?.total && (
                   <Badge variant="secondary" className="ml-1 h-4 text-xs">
                     {recentDocuments.total}
                   </Badge>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="shared">Shared</TabsTrigger>
+              <TabsTrigger value="shared">Общие</TabsTrigger>
             </TabsList>
           </Tabs>
         </CardHeader>
@@ -282,10 +282,10 @@ export default function DocumentsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Folder className="h-5 w-5" />
-              Browse by Category
+              Обзор по категориям
             </CardTitle>
             <CardDescription>
-              Explore documents organized by type and category
+              Просмотр документов по типам и категориям
             </CardDescription>
           </CardHeader>
         </Card>
@@ -294,10 +294,10 @@ export default function DocumentsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5" />
-              Document Analytics
+              Аналитика документов
             </CardTitle>
             <CardDescription>
-              View storage usage and document statistics
+              Статистика использования хранилища
             </CardDescription>
           </CardHeader>
         </Card>
@@ -306,10 +306,10 @@ export default function DocumentsPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Settings className="h-5 w-5" />
-              Document Settings
+              Настройки документов
             </CardTitle>
             <CardDescription>
-              Manage categories, access controls, and preferences
+              Управление категориями, доступом и настройками
             </CardDescription>
           </CardHeader>
         </Card>

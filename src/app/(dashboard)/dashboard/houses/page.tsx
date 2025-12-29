@@ -91,7 +91,7 @@ export default function HousesPage() {
   const projects = projectsResponse?.items || [];
 
   const handleDeleteHouse = async (houseId: string, houseNumber: string) => {
-    if (confirm(`Are you sure you want to delete house "${houseNumber}"? This action cannot be undone.`)) {
+    if (confirm(`Вы уверены, что хотите удалить дом "${houseNumber}"? Это действие нельзя отменить.`)) {
       await deleteHouse.mutateAsync(houseId);
     }
   };
@@ -114,36 +114,36 @@ export default function HousesPage() {
   const getStatusLabel = (status: HouseConnectionStatus) => {
     switch (status) {
       case "created":
-        return "Erstellt";
+        return "Создан";
       case "planned":
-        return "Geplant";
+        return "Запланирован";
       case "started":
-        return "Begonnen";
+        return "Начат";
       case "finished":
-        return "Fertiggestellt";
+        return "Завершён";
       default:
         return status;
     }
   };
 
   const getConnectionTypeLabel = (type: ConnectionType) => {
-    return type === "full" ? "Full Connection" : "Partial Connection";
+    return type === "full" ? "Полное подключение" : "Частичное подключение";
   };
 
   const getConnectionMethodLabel = (method: string) => {
-    return method === "trench" ? "Trenching" : "Mole";
+    return method === "trench" ? "Траншея" : "Прокол";
   };
 
   if (housesError) {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">House Connections</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Подключения домов</h1>
         </div>
         <Card>
           <CardContent className="py-8">
             <div className="text-center text-muted-foreground">
-              Failed to load house connections. Please try again later.
+              Не удалось загрузить подключения домов. Попробуйте позже.
             </div>
           </CardContent>
         </Card>
@@ -156,15 +156,15 @@ export default function HousesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">House Connections</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Подключения домов</h1>
           <p className="text-muted-foreground">
-            Manage house connection appointments and track progress
+            Управление записями на подключение и отслеживание прогресса
           </p>
         </div>
         {canManageConnections && (
           <Button onClick={() => router.push("/dashboard/houses/new")}>
             <Plus className="mr-2 h-4 w-4" />
-            New House
+            Новый дом
           </Button>
         )}
       </div>
@@ -173,65 +173,65 @@ export default function HousesPage() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending</CardTitle>
+            <CardTitle className="text-sm font-medium">Ожидают</CardTitle>
             <AlertCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{pendingConnections?.length || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Awaiting assignment
+              Ожидают назначения
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Scheduled</CardTitle>
+            <CardTitle className="text-sm font-medium">Запланировано</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{scheduledAppointments?.total || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Appointments set
+              Записи назначены
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">In Progress</CardTitle>
+            <CardTitle className="text-sm font-medium">В работе</CardTitle>
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{inProgressConnections?.length || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Active work
+              Активные работы
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Completed</CardTitle>
+            <CardTitle className="text-sm font-medium">Завершено</CardTitle>
             <CheckCircle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{completedConnections?.length || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Connections done
+              Подключений выполнено
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Today</CardTitle>
+            <CardTitle className="text-sm font-medium">Сегодня</CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{todaysAppointments?.total || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Appointments today
+              Записей на сегодня
             </p>
           </CardContent>
         </Card>
@@ -239,18 +239,18 @@ export default function HousesPage() {
 
       <Tabs defaultValue="all" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="all">All Houses ({houses.length})</TabsTrigger>
+          <TabsTrigger value="all">Все дома ({houses.length})</TabsTrigger>
           <TabsTrigger value="pending">
-            Pending ({pendingConnections?.length || 0})
+            Ожидают ({pendingConnections?.length || 0})
           </TabsTrigger>
           <TabsTrigger value="scheduled">
-            Scheduled ({scheduledAppointments?.total || 0})
+            Запланировано ({scheduledAppointments?.total || 0})
           </TabsTrigger>
           <TabsTrigger value="today">
-            Today ({todaysAppointments?.total || 0})
+            Сегодня ({todaysAppointments?.total || 0})
           </TabsTrigger>
           <TabsTrigger value="completed">
-            Completed ({completedConnections?.length || 0})
+            Завершено ({completedConnections?.length || 0})
           </TabsTrigger>
         </TabsList>
 
@@ -258,9 +258,9 @@ export default function HousesPage() {
           {/* Filters */}
           <Card>
             <CardHeader>
-              <CardTitle>Filter Houses</CardTitle>
+              <CardTitle>Фильтр домов</CardTitle>
               <CardDescription>
-                Search and filter house connections by various criteria
+                Поиск и фильтрация подключений домов по различным критериям
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -269,7 +269,7 @@ export default function HousesPage() {
                   <div className="relative">
                     <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                      placeholder="Search by house number, address, or customer..."
+                      placeholder="Поиск по номеру дома, адресу или клиенту..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="pl-8"
@@ -278,10 +278,10 @@ export default function HousesPage() {
                 </div>
                 <Select value={projectFilter} onValueChange={setProjectFilter}>
                   <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Filter by project" />
+                    <SelectValue placeholder="Фильтр по проекту" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Projects</SelectItem>
+                    <SelectItem value="all">Все проекты</SelectItem>
                     {projects.map((project) => (
                       <SelectItem key={project.id} value={project.id}>
                         {project.name}
@@ -291,14 +291,14 @@ export default function HousesPage() {
                 </Select>
                 <Select value={statusFilter} onValueChange={(value: HouseConnectionStatus | "all") => setStatusFilter(value)}>
                   <SelectTrigger className="w-48">
-                    <SelectValue placeholder="Filter by status" />
+                    <SelectValue placeholder="Фильтр по статусу" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="created">Erstellt</SelectItem>
-                    <SelectItem value="planned">Geplant</SelectItem>
-                    <SelectItem value="started">Begonnen</SelectItem>
-                    <SelectItem value="finished">Fertiggestellt</SelectItem>
+                    <SelectItem value="all">Все статусы</SelectItem>
+                    <SelectItem value="created">Создан</SelectItem>
+                    <SelectItem value="planned">Запланирован</SelectItem>
+                    <SelectItem value="started">Начат</SelectItem>
+                    <SelectItem value="finished">Завершён</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -310,7 +310,7 @@ export default function HousesPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Home className="h-5 w-5" />
-                House Connections
+                Подключения домов
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -327,11 +327,11 @@ export default function HousesPage() {
               ) : houses.length === 0 ? (
                 <div className="text-center py-8">
                   <Home className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-2 text-sm font-semibold">No houses found</h3>
+                  <h3 className="mt-2 text-sm font-semibold">Дома не найдены</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
                     {searchQuery || statusFilter !== "all" || projectFilter !== "all"
-                      ? "No houses match your current filters."
-                      : "Get started by adding houses for connection."}
+                      ? "Нет домов, соответствующих фильтрам."
+                      : "Начните с добавления домов для подключения."}
                   </p>
                   {canManageConnections && (
                     <Button
@@ -339,7 +339,7 @@ export default function HousesPage() {
                       onClick={() => router.push("/dashboard/houses/new")}
                     >
                       <Plus className="mr-2 h-4 w-4" />
-                      Add House
+                      Добавить дом
                     </Button>
                   )}
                 </div>
@@ -347,14 +347,14 @@ export default function HousesPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>House & Address</TableHead>
-                      <TableHead>Customer</TableHead>
-                      <TableHead>Project</TableHead>
-                      <TableHead>Connection Info</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Assigned Team</TableHead>
-                      <TableHead>Scheduled Date</TableHead>
-                      <TableHead className="w-[100px]">Actions</TableHead>
+                      <TableHead>Дом и адрес</TableHead>
+                      <TableHead>Клиент</TableHead>
+                      <TableHead>Проект</TableHead>
+                      <TableHead>Информация о подключении</TableHead>
+                      <TableHead>Статус</TableHead>
+                      <TableHead>Назначенная команда</TableHead>
+                      <TableHead>Дата записи</TableHead>
+                      <TableHead className="w-[100px]">Действия</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -431,12 +431,12 @@ export default function HousesPage() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuLabel>Действия</DropdownMenuLabel>
                               <DropdownMenuItem
                                 onClick={() => router.push(`/dashboard/houses/${house.id}`)}
                               >
                                 <Eye className="mr-2 h-4 w-4" />
-                                View Details
+                                Подробнее
                               </DropdownMenuItem>
                               {canManageConnections && (
                                 <>
@@ -444,14 +444,14 @@ export default function HousesPage() {
                                     onClick={() => router.push(`/dashboard/houses/${house.id}/edit`)}
                                   >
                                     <Edit className="mr-2 h-4 w-4" />
-                                    Edit House
+                                    Редактировать
                                   </DropdownMenuItem>
                                   {house.status === "created" && (
                                     <DropdownMenuItem
                                       onClick={() => router.push(`/dashboard/houses/${house.id}/schedule`)}
                                     >
                                       <CalendarPlus className="mr-2 h-4 w-4" />
-                                      Schedule Appointment
+                                      Назначить запись
                                     </DropdownMenuItem>
                                   )}
                                   {house.status === "planned" && (
@@ -459,7 +459,7 @@ export default function HousesPage() {
                                       onClick={() => router.push(`/dashboard/houses/${house.id}/start`)}
                                     >
                                       <Play className="mr-2 h-4 w-4" />
-                                      Start Connection
+                                      Начать подключение
                                     </DropdownMenuItem>
                                   )}
                                   {house.status === "started" && (
@@ -467,7 +467,7 @@ export default function HousesPage() {
                                       onClick={() => router.push(`/dashboard/houses/${house.id}/complete`)}
                                     >
                                       <CheckSquare className="mr-2 h-4 w-4" />
-                                      Complete Connection
+                                      Завершить подключение
                                     </DropdownMenuItem>
                                   )}
                                   <DropdownMenuSeparator />
@@ -476,7 +476,7 @@ export default function HousesPage() {
                                     onClick={() => handleDeleteHouse(house.id, house.house_number)}
                                   >
                                     <Trash2 className="mr-2 h-4 w-4" />
-                                    Delete House
+                                    Удалить дом
                                   </DropdownMenuItem>
                                 </>
                               )}
@@ -497,15 +497,15 @@ export default function HousesPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <AlertCircle className="h-5 w-5" />
-                Pending Connections
+                Ожидающие подключения
               </CardTitle>
               <CardDescription>
-                Houses awaiting team assignment and appointment scheduling
+                Дома, ожидающие назначения команды и записи
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8 text-muted-foreground">
-                Pending connections management will be implemented with team assignment interface.
+                Управление ожидающими подключениями будет реализовано с интерфейсом назначения команд.
               </div>
             </CardContent>
           </Card>
@@ -516,15 +516,15 @@ export default function HousesPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="h-5 w-5" />
-                Scheduled Appointments
+                Запланированные записи
               </CardTitle>
               <CardDescription>
-                Houses with confirmed appointment dates
+                Дома с подтверждёнными датами записи
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8 text-muted-foreground">
-                Scheduled appointments calendar view will be implemented.
+                Календарь запланированных записей будет реализован.
               </div>
             </CardContent>
           </Card>
@@ -535,15 +535,15 @@ export default function HousesPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Clock className="h-5 w-5" />
-                Today&apos;s Appointments
+                Записи на сегодня
               </CardTitle>
               <CardDescription>
-                Appointments scheduled for today
+                Записи, запланированные на сегодня
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8 text-muted-foreground">
-                Today&apos;s appointments dashboard will be implemented with real-time status updates.
+                Панель сегодняшних записей будет реализована с обновлениями статуса в реальном времени.
               </div>
             </CardContent>
           </Card>
@@ -554,15 +554,15 @@ export default function HousesPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CheckCircle className="h-5 w-5" />
-                Completed Connections
+                Завершённые подключения
               </CardTitle>
               <CardDescription>
-                Successfully completed house connections
+                Успешно завершённые подключения домов
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8 text-muted-foreground">
-                Completed connections history and statistics will be implemented.
+                История и статистика завершённых подключений будет реализована.
               </div>
             </CardContent>
           </Card>

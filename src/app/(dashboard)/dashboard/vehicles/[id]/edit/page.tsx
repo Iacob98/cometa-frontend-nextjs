@@ -18,52 +18,52 @@ import { Separator } from "@/components/ui/separator";
 import { useVehicle, useUpdateVehicle } from "@/hooks/use-vehicles";
 
 const vehicleFormSchema = z.object({
-  brand: z.string().min(1, "Brand is required").max(100, "Brand must be less than 100 characters"),
-  model: z.string().min(1, "Model is required").max(100, "Model must be less than 100 characters"),
+  brand: z.string().min(1, "Марка обязательна").max(100, "Марка должна быть менее 100 символов"),
+  model: z.string().min(1, "Модель обязательна").max(100, "Модель должна быть менее 100 символов"),
   plate_number: z.string()
-    .min(1, "Plate number is required")
-    .max(20, "Plate number must be less than 20 characters"),
+    .min(1, "Гос. номер обязателен")
+    .max(20, "Гос. номер должен быть менее 20 символов"),
   type: z.enum(["pkw", "lkw", "transporter", "pritsche", "anhänger", "excavator", "other"], {
-    required_error: "Vehicle type is required",
+    required_error: "Тип транспорта обязателен",
   }),
   status: z.enum(["available", "in_use", "maintenance", "broken"], {
-    required_error: "Status is required",
+    required_error: "Статус обязателен",
   }),
   owned: z.boolean().default(true),
-  rental_price_per_day_eur: z.number().min(0, "Rental price per day must be 0 or greater").default(0),
-  rental_price_per_hour_eur: z.number().min(0, "Rental price per hour must be 0 or greater").default(0),
-  fuel_consumption_per_100km: z.number().min(0, "Fuel consumption must be 0 or greater").optional().nullable(),
-  current_location: z.string().max(200, "Location must be less than 200 characters").default("Main Depot"),
-  purchase_price_eur: z.number().min(0, "Purchase price must be 0 or greater").default(0),
+  rental_price_per_day_eur: z.number().min(0, "Стоимость аренды в день должна быть 0 или больше").default(0),
+  rental_price_per_hour_eur: z.number().min(0, "Стоимость аренды в час должна быть 0 или больше").default(0),
+  fuel_consumption_per_100km: z.number().min(0, "Расход топлива должен быть 0 или больше").optional().nullable(),
+  current_location: z.string().max(200, "Местоположение должно быть менее 200 символов").default("Главное депо"),
+  purchase_price_eur: z.number().min(0, "Цена покупки должна быть 0 или больше").default(0),
   tipper_type: z.enum(["Kipper", "kein Kipper"], {
-    required_error: "Tipper type is required",
+    required_error: "Тип кузова обязателен",
   }).default("kein Kipper"),
-  max_weight_kg: z.number().min(0, "Max weight must be 0 or greater").max(100000, "Max weight must be less than 100,000 kg").optional().nullable(),
-  comment: z.string().max(500, "Comment must be less than 500 characters").optional().nullable(),
-  number_of_seats: z.number().int("Number of seats must be a whole number").min(0, "Number of seats must be 0 or greater").max(100, "Number of seats must be less than 100").optional().nullable(),
+  max_weight_kg: z.number().min(0, "Макс. вес должен быть 0 или больше").max(100000, "Макс. вес должен быть менее 100 000 кг").optional().nullable(),
+  comment: z.string().max(500, "Комментарий должен быть менее 500 символов").optional().nullable(),
+  number_of_seats: z.number().int("Количество мест должно быть целым числом").min(0, "Количество мест должно быть 0 или больше").max(100, "Количество мест должно быть менее 100").optional().nullable(),
   has_first_aid_kit: z.boolean().default(false),
   first_aid_kit_expiry_date: z.string().optional().nullable(),
-  year_of_manufacture: z.number().int("Year must be a whole number").min(1900).max(2100).optional().nullable(),
+  year_of_manufacture: z.number().int("Год должен быть целым числом").min(1900).max(2100).optional().nullable(),
   mileage_km: z.number().min(0).optional().nullable(),
 });
 
 type VehicleFormValues = z.infer<typeof vehicleFormSchema>;
 
 const vehicleTypes = [
-  { value: "pkw", label: "PKW (Passenger car)" },
-  { value: "lkw", label: "LKW (Truck)" },
-  { value: "transporter", label: "Transporter (Van)" },
-  { value: "pritsche", label: "Pritsche (Flatbed)" },
-  { value: "anhänger", label: "Anhänger (Trailer)" },
-  { value: "excavator", label: "Excavator" },
-  { value: "other", label: "Other" },
+  { value: "pkw", label: "Легковой автомобиль" },
+  { value: "lkw", label: "Грузовик" },
+  { value: "transporter", label: "Фургон" },
+  { value: "pritsche", label: "Бортовой" },
+  { value: "anhänger", label: "Прицеп" },
+  { value: "excavator", label: "Экскаватор" },
+  { value: "other", label: "Другое" },
 ];
 
 const vehicleStatuses = [
-  { value: "available", label: "Available" },
-  { value: "in_use", label: "In Use" },
-  { value: "maintenance", label: "Maintenance" },
-  { value: "broken", label: "Broken" },
+  { value: "available", label: "Доступен" },
+  { value: "in_use", label: "В использовании" },
+  { value: "maintenance", label: "На обслуживании" },
+  { value: "broken", label: "Неисправен" },
 ];
 
 export default function EditVehiclePage() {
@@ -175,12 +175,12 @@ export default function EditVehiclePage() {
             className="flex items-center space-x-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>Назад</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Vehicle Not Found</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Транспорт не найден</h1>
             <p className="text-muted-foreground">
-              The requested vehicle could not be found
+              Запрошенный транспорт не найден
             </p>
           </div>
         </div>
@@ -202,12 +202,12 @@ export default function EditVehiclePage() {
             className="flex items-center space-x-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>Back</span>
+            <span>Назад</span>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Edit Vehicle</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Редактировать транспорт</h1>
             <p className="text-muted-foreground">
-              Update vehicle details: {vehicle.brand} {vehicle.model} ({vehicle.plate_number})
+              Обновить данные транспорта: {vehicle.brand} {vehicle.model} ({vehicle.plate_number})
             </p>
           </div>
         </div>
@@ -220,7 +220,7 @@ export default function EditVehiclePage() {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Car className="h-5 w-5" />
-                <span>Basic Information</span>
+                <span>Основная информация</span>
               </CardTitle>
             </CardHeader>
           </Card>
@@ -232,18 +232,18 @@ export default function EditVehiclePage() {
               onClick={() => router.back()}
               disabled={isSubmitting}
             >
-              Cancel
+              Отмена
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Updating Vehicle...
+                  Сохранение...
                 </>
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />
-                  Update Vehicle
+                  Сохранить
                 </>
               )}
             </Button>

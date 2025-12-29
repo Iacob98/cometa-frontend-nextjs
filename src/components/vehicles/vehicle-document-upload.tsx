@@ -76,11 +76,11 @@ export function VehicleDocumentUpload({
     ];
 
     if (file.size > maxSize) {
-      return `Datei ${file.name} überschreitet die maximale Größe von 50MB`;
+      return `Файл ${file.name} превышает максимальный размер 50МБ`;
     }
 
     if (!allowedTypes.includes(file.type)) {
-      return `Datei ${file.name} hat einen ungültigen Typ. Nur PDF und Bilder sind erlaubt.`;
+      return `Файл ${file.name} имеет недопустимый тип. Разрешены только PDF и изображения.`;
     }
 
     return null;
@@ -147,13 +147,13 @@ export function VehicleDocumentUpload({
     e.preventDefault();
 
     if (selectedFiles.length === 0) {
-      setError('Bitte wählen Sie mindestens eine Datei aus');
+      setError('Пожалуйста, выберите хотя бы один файл');
       return;
     }
 
     // Validate expiry date for required document types
     if (requiresExpiryDate(documentType) && !expiryDate) {
-      setError(`Ablaufdatum ist erforderlich für ${getDocumentTypeLabel(documentType)}`);
+      setError(`Срок действия обязателен для ${getDocumentTypeLabel(documentType)}`);
       return;
     }
 
@@ -191,7 +191,7 @@ export function VehicleDocumentUpload({
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Document Type Selection */}
       <div className="space-y-2">
-        <Label htmlFor="documentType">Dokumenttyp *</Label>
+        <Label htmlFor="documentType">Тип документа *</Label>
         <Select
           value={documentType}
           onValueChange={(value) => setDocumentType(value as VehicleDocumentType)}
@@ -239,19 +239,19 @@ export function VehicleDocumentUpload({
         <Upload className="mx-auto h-12 w-12 text-gray-400 mb-4" />
         <Label htmlFor="file-upload" className="cursor-pointer">
           <span className="text-blue-600 hover:text-blue-700 font-medium">
-            Dateien auswählen
+            Выберите файлы
           </span>
-          <span className="text-gray-600"> oder hierher ziehen</span>
+          <span className="text-gray-600"> или перетащите сюда</span>
         </Label>
         <p className="text-xs text-gray-500 mt-2">
-          PDF oder Bilder (max. 50MB pro Datei)
+          PDF или изображения (макс. 50МБ на файл)
         </p>
       </div>
 
       {/* Selected Files List */}
       {selectedFiles.length > 0 && (
         <div className="space-y-2">
-          <Label>Ausgewählte Dateien ({selectedFiles.length})</Label>
+          <Label>Выбранные файлы ({selectedFiles.length})</Label>
           <div className="space-y-2">
             {selectedFiles.map((file) => (
               <div
@@ -283,27 +283,27 @@ export function VehicleDocumentUpload({
       {/* Document Metadata */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="documentNumber">Dokumentnummer</Label>
+          <Label htmlFor="documentNumber">Номер документа</Label>
           <Input
             id="documentNumber"
             value={documentNumber}
             onChange={(e) => setDocumentNumber(e.target.value)}
-            placeholder="z.B. Versicherungsnummer"
+            placeholder="напр. номер страховки"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="issuingAuthority">Ausstellende Behörde</Label>
+          <Label htmlFor="issuingAuthority">Орган выдачи</Label>
           <Input
             id="issuingAuthority"
             value={issuingAuthority}
             onChange={(e) => setIssuingAuthority(e.target.value)}
-            placeholder="z.B. TÜV Süd"
+            placeholder="напр. ГИБДД"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="issueDate">Ausstellungsdatum</Label>
+          <Label htmlFor="issueDate">Дата выдачи</Label>
           <Input
             id="issueDate"
             type="date"
@@ -314,7 +314,7 @@ export function VehicleDocumentUpload({
 
         <div className="space-y-2">
           <Label htmlFor="expiryDate">
-            Ablaufdatum {requiresExpiry && <span className="text-red-500">*</span>}
+            Срок действия {requiresExpiry && <span className="text-red-500">*</span>}
           </Label>
           <Input
             id="expiryDate"
@@ -328,12 +328,12 @@ export function VehicleDocumentUpload({
 
       {/* Notes */}
       <div className="space-y-2">
-        <Label htmlFor="notes">Notizen</Label>
+        <Label htmlFor="notes">Примечания</Label>
         <Textarea
           id="notes"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="Zusätzliche Informationen..."
+          placeholder="Дополнительная информация..."
           rows={3}
         />
       </div>
@@ -350,11 +350,11 @@ export function VehicleDocumentUpload({
       <div className="flex justify-end space-x-3">
         {onCancel && (
           <Button type="button" variant="outline" onClick={onCancel}>
-            Abbrechen
+            Отмена
           </Button>
         )}
         <Button type="submit" disabled={uploadMutation.isPending || selectedFiles.length === 0}>
-          {uploadMutation.isPending ? 'Wird hochgeladen...' : 'Hochladen'}
+          {uploadMutation.isPending ? 'Загрузка...' : 'Загрузить'}
         </Button>
       </div>
     </form>

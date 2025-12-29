@@ -177,10 +177,10 @@ export function useUploadVehicleDocuments() {
         queryKey: vehicleDocumentsKeys.list(variables.vehicleId),
       });
 
-      toast.success('Dokumente erfolgreich hochgeladen');
+      toast.success('Документы успешно загружены');
     },
     onError: (error: Error) => {
-      toast.error(`Fehler beim Hochladen: ${error.message}`);
+      toast.error(`Ошибка загрузки: ${error.message}`);
     },
   });
 }
@@ -227,10 +227,10 @@ export function useUpdateVehicleDocument() {
         queryKey: vehicleDocumentsKeys.detail(variables.vehicleId, variables.documentId),
       });
 
-      toast.success('Dokument erfolgreich aktualisiert');
+      toast.success('Документ успешно обновлён');
     },
     onError: (error: Error) => {
-      toast.error(`Fehler beim Aktualisieren: ${error.message}`);
+      toast.error(`Ошибка обновления: ${error.message}`);
     },
   });
 }
@@ -260,10 +260,10 @@ export function useDeleteVehicleDocument() {
         queryKey: vehicleDocumentsKeys.list(variables.vehicleId),
       });
 
-      toast.success('Dokument erfolgreich gelöscht');
+      toast.success('Документ успешно удалён');
     },
     onError: (error: Error) => {
-      toast.error(`Fehler beim Löschen: ${error.message}`);
+      toast.error(`Ошибка удаления: ${error.message}`);
     },
   });
 }
@@ -273,17 +273,17 @@ export function useDeleteVehicleDocument() {
 // ==============================================================================
 
 /**
- * Get document type label in German
+ * Get document type label in Russian
  */
 export function getDocumentTypeLabel(type: VehicleDocumentType): string {
   const labels: Record<VehicleDocumentType, string> = {
-    fahrzeugschein: 'Fahrzeugschein (Teil I)',
-    fahrzeugbrief: 'Fahrzeugbrief (Teil II)',
-    tuv: 'TÜV/HU',
-    versicherung: 'Versicherung',
-    au: 'AU (Abgasuntersuchung)',
-    wartung: 'Wartungsnachweis',
-    sonstiges: 'Sonstiges',
+    fahrzeugschein: 'СТС (Свидетельство о регистрации)',
+    fahrzeugbrief: 'ПТС (Паспорт ТС)',
+    tuv: 'Техосмотр',
+    versicherung: 'Страховка',
+    au: 'Экологическая проверка',
+    wartung: 'Сервисная книжка',
+    sonstiges: 'Прочее',
   };
   return labels[type] || type;
 }
@@ -306,12 +306,12 @@ export function getExpiryStatusColor(status: DocumentExpiryStatus): string {
  */
 export function getExpiryStatusLabel(status: DocumentExpiryStatus): string {
   const labels: Record<Exclude<DocumentExpiryStatus, null>, string> = {
-    active: 'Gültig',
-    expiring_warning: 'Läuft bald ab',
-    expiring_soon: 'Läuft bald ab',
-    expired: 'Abgelaufen',
+    active: 'Действителен',
+    expiring_warning: 'Скоро истекает',
+    expiring_soon: 'Скоро истекает',
+    expired: 'Истёк',
   };
-  return status ? labels[status] : 'Kein Ablaufdatum';
+  return status ? labels[status] : 'Без срока действия';
 }
 
 /**
@@ -352,7 +352,7 @@ export function formatDate(dateString: string | undefined): string {
   if (!dateString) return '-';
 
   const date = new Date(dateString);
-  return date.toLocaleDateString('de-DE', {
+  return date.toLocaleDateString('ru-RU', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',

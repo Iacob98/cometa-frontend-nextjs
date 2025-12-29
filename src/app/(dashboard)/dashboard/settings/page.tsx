@@ -30,10 +30,10 @@ export default function SettingsPage() {
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
             <SettingsIcon className="h-8 w-8" />
-            Settings
+            Настройки
           </h1>
           <p className="text-muted-foreground mt-2">
-            Manage system settings and user accounts
+            Управление системными настройками и учётными записями
           </p>
         </div>
       </div>
@@ -42,30 +42,30 @@ export default function SettingsPage() {
         <TabsList>
           <TabsTrigger value="users" className="flex items-center gap-2">
             <Users className="h-4 w-4" />
-            User Management
+            Управление пользователями
           </TabsTrigger>
-          <TabsTrigger value="system">System Settings</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+          <TabsTrigger value="system">Системные настройки</TabsTrigger>
+          <TabsTrigger value="notifications">Уведомления</TabsTrigger>
         </TabsList>
 
         <TabsContent value="users" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>User Management</CardTitle>
+              <CardTitle>Управление пользователями</CardTitle>
               <CardDescription>
-                User management has been moved to the Teams page for better workflow integration.
+                Управление пользователями перенесено на страницу Команды для удобства работы.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="text-center py-8">
                 <Users className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold mb-2">User Management</h3>
+                <h3 className="text-lg font-semibold mb-2">Управление пользователями</h3>
                 <p className="text-muted-foreground mb-4">
-                  Create and manage user accounts from the Teams page where you can assign roles and manage team members.
+                  Создавайте и управляйте учётными записями на странице Команды, где вы можете назначать роли и управлять участниками.
                 </p>
                 <Button onClick={() => window.location.href = '/dashboard/teams'}>
                   <Users className="mr-2 h-4 w-4" />
-                  Go to Teams Page
+                  Перейти к Командам
                 </Button>
               </div>
             </CardContent>
@@ -75,13 +75,13 @@ export default function SettingsPage() {
         <TabsContent value="system">
           <Card>
             <CardHeader>
-              <CardTitle>System Settings</CardTitle>
+              <CardTitle>Системные настройки</CardTitle>
               <CardDescription>
-                Configure global system preferences
+                Настройка глобальных параметров системы
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">System settings will be available here.</p>
+              <p className="text-muted-foreground">Системные настройки будут доступны здесь.</p>
             </CardContent>
           </Card>
         </TabsContent>
@@ -89,13 +89,13 @@ export default function SettingsPage() {
         <TabsContent value="notifications">
           <Card>
             <CardHeader>
-              <CardTitle>Notification Settings</CardTitle>
+              <CardTitle>Настройки уведомлений</CardTitle>
               <CardDescription>
-                Manage notification preferences and alerts
+                Управление настройками уведомлений и оповещений
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">Notification settings will be available here.</p>
+              <p className="text-muted-foreground">Настройки уведомлений будут доступны здесь.</p>
             </CardContent>
           </Card>
         </TabsContent>

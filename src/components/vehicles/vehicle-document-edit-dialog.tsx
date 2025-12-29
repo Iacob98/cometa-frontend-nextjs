@@ -116,17 +116,17 @@ export function VehicleDocumentEditDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <FileText className="h-5 w-5" />
-            <span>Dokument bearbeiten</span>
+            <span>Редактировать документ</span>
           </DialogTitle>
           <DialogDescription>
-            Aktualisieren Sie die Metadaten für {document.file_name}
+            Обновите метаданные для {document.file_name}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto space-y-6 pr-2">
           {/* Document Type (read-only display) */}
           <div className="space-y-2">
-            <Label>Dokumenttyp</Label>
+            <Label>Тип документа</Label>
             <Input
               value={getDocumentTypeLabel(documentType)}
               disabled
@@ -138,13 +138,13 @@ export function VehicleDocumentEditDialog({
           <div className="space-y-2">
             <Label htmlFor="documentNumber" className="flex items-center space-x-2">
               <Hash className="h-4 w-4" />
-              <span>Dokumentnummer</span>
+              <span>Номер документа</span>
             </Label>
             <Input
               id="documentNumber"
               value={documentNumber}
               onChange={(e) => setDocumentNumber(e.target.value)}
-              placeholder="z.B. TUV-2025-001"
+              placeholder="напр. ТО-2025-001"
             />
           </div>
 
@@ -152,13 +152,13 @@ export function VehicleDocumentEditDialog({
           <div className="space-y-2">
             <Label htmlFor="issuingAuthority" className="flex items-center space-x-2">
               <Building className="h-4 w-4" />
-              <span>Ausstellende Behörde</span>
+              <span>Орган выдачи</span>
             </Label>
             <Input
               id="issuingAuthority"
               value={issuingAuthority}
               onChange={(e) => setIssuingAuthority(e.target.value)}
-              placeholder="z.B. TÜV Berlin, Allianz Versicherung"
+              placeholder="напр. ГИБДД, Страховая компания"
             />
           </div>
 
@@ -167,7 +167,7 @@ export function VehicleDocumentEditDialog({
             <div className="space-y-2">
               <Label htmlFor="issueDate" className="flex items-center space-x-2">
                 <Calendar className="h-4 w-4" />
-                <span>Ausstellungsdatum</span>
+                <span>Дата выдачи</span>
               </Label>
               <Input
                 id="issueDate"
@@ -180,7 +180,7 @@ export function VehicleDocumentEditDialog({
             <div className="space-y-2">
               <Label htmlFor="expiryDate" className="flex items-center space-x-2">
                 <Calendar className="h-4 w-4" />
-                <span>Ablaufdatum</span>
+                <span>Срок действия</span>
               </Label>
               <Input
                 id="expiryDate"
@@ -193,12 +193,12 @@ export function VehicleDocumentEditDialog({
 
           {/* Notes */}
           <div className="space-y-2">
-            <Label htmlFor="notes">Notizen</Label>
+            <Label htmlFor="notes">Примечания</Label>
             <Textarea
               id="notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Zusätzliche Informationen oder Anmerkungen..."
+              placeholder="Дополнительная информация или заметки..."
               rows={3}
             />
           </div>
@@ -214,7 +214,7 @@ export function VehicleDocumentEditDialog({
               htmlFor="isVerified"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              Dokument als verifiziert markieren
+              Отметить документ как проверенный
             </Label>
           </div>
         </form>
@@ -226,14 +226,14 @@ export function VehicleDocumentEditDialog({
             onClick={handleCancel}
             disabled={updateMutation.isPending}
           >
-            Abbrechen
+            Отмена
           </Button>
           <Button
             type="submit"
             disabled={updateMutation.isPending}
             onClick={handleSubmit}
           >
-            {updateMutation.isPending ? 'Wird gespeichert...' : 'Speichern'}
+            {updateMutation.isPending ? 'Сохранение...' : 'Сохранить'}
           </Button>
         </DialogFooter>
       </DialogContent>

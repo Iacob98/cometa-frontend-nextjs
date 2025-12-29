@@ -40,10 +40,10 @@ const statusColors = {
 };
 
 const statusLabels = {
-  available: "Available",
-  in_use: "In Use",
-  maintenance: "Maintenance",
-  broken: "Broken",
+  available: "Доступен",
+  in_use: "В использовании",
+  maintenance: "На обслуживании",
+  broken: "Неисправен",
 };
 
 const statusIcons = {
@@ -64,13 +64,13 @@ const typeColors = {
 } as const;
 
 const typeLabels = {
-  pkw: "PKW",
-  lkw: "LKW",
-  transporter: "Transporter",
-  pritsche: "Pritsche",
-  anhänger: "Anhänger",
-  excavator: "Excavator",
-  other: "Other",
+  pkw: "Легковой",
+  lkw: "Грузовик",
+  transporter: "Фургон",
+  pritsche: "Бортовой",
+  anhänger: "Прицеп",
+  excavator: "Экскаватор",
+  other: "Другое",
 } as const;
 
 export default function VehiclesPage() {
@@ -142,7 +142,7 @@ export default function VehiclesPage() {
   };
 
   const handleDeleteVehicle = async (vehicleId: string, vehicleName: string) => {
-    if (!confirm(`Are you sure you want to delete "${vehicleName}"? This action cannot be undone.`)) {
+    if (!confirm(`Вы уверены, что хотите удалить "${vehicleName}"? Это действие нельзя отменить.`)) {
       return;
     }
 
@@ -153,21 +153,21 @@ export default function VehiclesPage() {
 
       if (!response.ok) {
         const error = await response.json();
-        const errorMessage = error.error || 'Failed to delete vehicle';
+        const errorMessage = error.error || 'Не удалось удалить транспорт';
 
         if (errorMessage.includes('currently assigned')) {
-          toast.error(`Cannot delete "${vehicleName}": Vehicle is currently assigned. Please remove all assignments first.`);
+          toast.error(`Невозможно удалить "${vehicleName}": Транспорт назначен. Сначала удалите все назначения.`);
         } else {
-          toast.error(`Failed to delete "${vehicleName}": ${errorMessage}`);
+          toast.error(`Не удалось удалить "${vehicleName}": ${errorMessage}`);
         }
         return;
       }
 
-      toast.success(`Vehicle "${vehicleName}" deleted successfully`);
+      toast.success(`Транспорт "${vehicleName}" успешно удалён`);
       // Refresh will be handled by TanStack Query
     } catch (error) {
       console.error('Delete error:', error);
-      toast.error(`Error deleting vehicle: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      toast.error(`Ошибка при удалении транспорта: ${error instanceof Error ? error.message : 'Неизвестная ошибка'}`);
     }
   };
 
@@ -176,7 +176,7 @@ export default function VehiclesPage() {
   };
 
   const handleDeleteAssignment = async (assignmentId: string, vehicleName: string) => {
-    if (!confirm(`Are you sure you want to delete the assignment for "${vehicleName}"? This action cannot be undone.`)) {
+    if (!confirm(`Вы уверены, что хотите удалить назначение для "${vehicleName}"? Это действие нельзя отменить.`)) {
       return;
     }
 
@@ -230,15 +230,15 @@ export default function VehiclesPage() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
             <Truck className="h-8 w-8" />
-            Vehicle Management
+            Управление транспортом
           </h1>
           <p className="text-muted-foreground mt-2">
-            Manage your fleet of vehicles, track assignments, and monitor usage
+            Управляйте автопарком, отслеживайте назначения и контролируйте использование
           </p>
         </div>
         <Button onClick={() => router.push('/dashboard/vehicles/new')}>
           <Plus className="h-4 w-4 mr-2" />
-          Add Vehicle
+          Добавить транспорт
         </Button>
       </div>
 
@@ -247,7 +247,7 @@ export default function VehiclesPage() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Vehicles
+              Всего единиц
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -259,7 +259,7 @@ export default function VehiclesPage() {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
               <CheckCircle className="h-4 w-4 text-green-600" />
-              Available
+              Доступен
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -271,7 +271,7 @@ export default function VehiclesPage() {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
               <Activity className="h-4 w-4 text-blue-600" />
-              In Use
+              В использовании
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -283,7 +283,7 @@ export default function VehiclesPage() {
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
               <Clock className="h-4 w-4 text-yellow-600" />
-              Maintenance
+              На обслуживании
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -297,20 +297,20 @@ export default function VehiclesPage() {
         <TabsList>
           <TabsTrigger value="fleet" className="flex items-center space-x-2">
             <Truck className="h-4 w-4" />
-            <span>Vehicle Fleet</span>
+            <span>Автопарк</span>
           </TabsTrigger>
           <TabsTrigger value="assignments" className="flex items-center space-x-2">
             <Activity className="h-4 w-4" />
-            <span>Assignments</span>
+            <span>Назначения</span>
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="fleet" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Vehicles Fleet</CardTitle>
+              <CardTitle>Автопарк</CardTitle>
               <CardDescription>
-                Browse and manage all vehicles in your fleet
+                Просмотр и управление всеми транспортными средствами
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -320,7 +320,7 @@ export default function VehiclesPage() {
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search by brand, model, or plate number..."
+                  placeholder="Поиск по марке, модели или гос. номеру..."
                   value={filters.search}
                   onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
                   className="pl-9"
@@ -329,29 +329,29 @@ export default function VehiclesPage() {
             </div>
             <Select value={filters.type || "all"} onValueChange={(value) => handleFilterChange("type", value)}>
               <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="All Types" />
+                <SelectValue placeholder="Все типы" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="pkw">PKW</SelectItem>
-                <SelectItem value="lkw">LKW</SelectItem>
-                <SelectItem value="transporter">Transporter</SelectItem>
-                <SelectItem value="pritsche">Pritsche</SelectItem>
-                <SelectItem value="anhänger">Anhänger</SelectItem>
-                <SelectItem value="excavator">Excavator</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                <SelectItem value="all">Все типы</SelectItem>
+                <SelectItem value="pkw">Легковой</SelectItem>
+                <SelectItem value="lkw">Грузовик</SelectItem>
+                <SelectItem value="transporter">Фургон</SelectItem>
+                <SelectItem value="pritsche">Бортовой</SelectItem>
+                <SelectItem value="anhänger">Прицеп</SelectItem>
+                <SelectItem value="excavator">Экскаватор</SelectItem>
+                <SelectItem value="other">Другое</SelectItem>
               </SelectContent>
             </Select>
             <Select value={filters.status || "all"} onValueChange={(value) => handleFilterChange("status", value)}>
               <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="All Statuses" />
+                <SelectValue placeholder="Все статусы" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Statuses</SelectItem>
-                <SelectItem value="available">Available</SelectItem>
-                <SelectItem value="in_use">In Use</SelectItem>
-                <SelectItem value="maintenance">Maintenance</SelectItem>
-                <SelectItem value="broken">Broken</SelectItem>
+                <SelectItem value="all">Все статусы</SelectItem>
+                <SelectItem value="available">Доступен</SelectItem>
+                <SelectItem value="in_use">В использовании</SelectItem>
+                <SelectItem value="maintenance">На обслуживании</SelectItem>
+                <SelectItem value="broken">Неисправен</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -361,16 +361,16 @@ export default function VehiclesPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Vehicle</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Plate Number</TableHead>
-                  <TableHead>Tipper</TableHead>
-                  <TableHead>Max Weight</TableHead>
-                  <TableHead>Seats</TableHead>
-                  <TableHead>First Aid Kit</TableHead>
-                  <TableHead>Assigned to</TableHead>
-                  <TableHead>Daily Rate</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>Транспорт</TableHead>
+                  <TableHead>Тип</TableHead>
+                  <TableHead>Гос. номер</TableHead>
+                  <TableHead>Самосвал</TableHead>
+                  <TableHead>Макс. вес</TableHead>
+                  <TableHead>Мест</TableHead>
+                  <TableHead>Аптечка</TableHead>
+                  <TableHead>Назначен</TableHead>
+                  <TableHead>Ставка/день</TableHead>
+                  <TableHead className="text-right">Действия</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -378,8 +378,8 @@ export default function VehiclesPage() {
                   <TableRow>
                     <TableCell colSpan={10} className="text-center py-8 text-muted-foreground">
                       {filters.search || filters.type || filters.status
-                        ? "No vehicles found matching your filters"
-                        : "No vehicles added yet. Click 'Add Vehicle' to get started."}
+                        ? "Транспорт не найден по заданным фильтрам"
+                        : "Транспорт ещё не добавлен. Нажмите 'Добавить транспорт' для начала."}
                     </TableCell>
                   </TableRow>
                 ) : (
@@ -431,12 +431,12 @@ export default function VehiclesPage() {
                           {(vehicle as any).has_first_aid_kit ? (
                             <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
                               <CheckCircle className="h-3 w-3 mr-1" />
-                              Yes
+                              Да
                             </Badge>
                           ) : (
                             <Badge variant="outline" className="bg-gray-100 text-gray-800 border-gray-200">
                               <XCircle className="h-3 w-3 mr-1" />
-                              No
+                              Нет
                             </Badge>
                           )}
                         </TableCell>
@@ -446,11 +446,11 @@ export default function VehiclesPage() {
                               {vehicle.current_assignment.crew.name}
                             </Badge>
                           ) : (
-                            <span className="text-sm text-muted-foreground">Not assigned</span>
+                            <span className="text-sm text-muted-foreground">Не назначен</span>
                           )}
                         </TableCell>
                         <TableCell>
-                          {vehicle.rental_cost_per_day ? `€${vehicle.rental_cost_per_day}/day` : '-'}
+                          {vehicle.rental_cost_per_day ? `€${vehicle.rental_cost_per_day}/день` : '-'}
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2 items-center">
@@ -528,9 +528,9 @@ export default function VehiclesPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Current Assignments</CardTitle>
+                  <CardTitle>Текущие назначения</CardTitle>
                   <CardDescription>
-                    Active vehicle assignments across projects
+                    Активные назначения транспорта на проекты
                   </CardDescription>
                 </div>
                 <Button
@@ -538,7 +538,7 @@ export default function VehiclesPage() {
                   className="flex items-center gap-2"
                 >
                   <Plus className="h-4 w-4" />
-                  Create Assignment
+                  Создать назначение
                 </Button>
               </div>
             </CardHeader>
@@ -548,14 +548,14 @@ export default function VehiclesPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Vehicle</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Project</TableHead>
-                        <TableHead>Assigned To</TableHead>
-                        <TableHead>Start Date</TableHead>
-                        <TableHead>Expected Return</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Actions</TableHead>
+                        <TableHead>Транспорт</TableHead>
+                        <TableHead>Тип</TableHead>
+                        <TableHead>Проект</TableHead>
+                        <TableHead>Назначен</TableHead>
+                        <TableHead>Дата начала</TableHead>
+                        <TableHead>Ожид. возврат</TableHead>
+                        <TableHead>Статус</TableHead>
+                        <TableHead>Действия</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -568,9 +568,9 @@ export default function VehiclesPage() {
                                   <Truck className="h-4 w-4" />
                                 </div>
                                 <div>
-                                  <div className="font-medium">{assignment.equipment?.name || 'Unknown Vehicle'}</div>
+                                  <div className="font-medium">{assignment.equipment?.name || 'Неизвестный транспорт'}</div>
                                   <div className="text-sm text-muted-foreground">
-                                    {assignment.equipment?.inventory_no || 'No plate number'}
+                                    {assignment.equipment?.inventory_no || 'Нет гос. номера'}
                                   </div>
                                 </div>
                               </div>
@@ -579,7 +579,7 @@ export default function VehiclesPage() {
                               <Badge className="bg-blue-100 text-blue-800 border-blue-200">
                                 <div className="flex items-center space-x-1">
                                   <Truck className="h-3 w-3" />
-                                  <span>Vehicle</span>
+                                  <span>Транспорт</span>
                                 </div>
                               </Badge>
                             </TableCell>
@@ -587,17 +587,17 @@ export default function VehiclesPage() {
                               <div className="font-medium">{assignment.project_name || assignment.project_id}</div>
                             </TableCell>
                             <TableCell>
-                              <div className="font-medium">{assignment.crew_name || 'Unassigned'}</div>
+                              <div className="font-medium">{assignment.crew_name || 'Не назначен'}</div>
                             </TableCell>
                             <TableCell>
-                              {assignment.from_ts ? format(new Date(assignment.from_ts), 'MMM dd, yyyy') : 'N/A'}
+                              {assignment.from_ts ? format(new Date(assignment.from_ts), 'dd.MM.yyyy') : 'Н/Д'}
                             </TableCell>
                             <TableCell>
-                              {assignment.to_ts ? format(new Date(assignment.to_ts), 'MMM dd, yyyy') : 'Open-ended'}
+                              {assignment.to_ts ? format(new Date(assignment.to_ts), 'dd.MM.yyyy') : 'Бессрочно'}
                             </TableCell>
                             <TableCell>
                               <Badge className={`${assignment.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                                {assignment.is_active ? 'Active' : 'Inactive'}
+                                {assignment.is_active ? 'Активно' : 'Неактивно'}
                               </Badge>
                             </TableCell>
                             <TableCell>
@@ -613,7 +613,7 @@ export default function VehiclesPage() {
                                   variant="ghost"
                                   size="sm"
                                   className="text-red-600"
-                                  onClick={() => handleDeleteAssignment(assignment.id, assignment.equipment?.name || 'Unknown Vehicle')}
+                                  onClick={() => handleDeleteAssignment(assignment.id, assignment.equipment?.name || 'Неизвестный транспорт')}
                                   disabled={deleteAssignmentMutation.isPending}
                                 >
                                   <XCircle className="h-4 w-4" />
@@ -629,16 +629,16 @@ export default function VehiclesPage() {
               ) : (
                 <div className="text-center py-12">
                   <Truck className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-4 text-lg font-semibold">No active assignments</h3>
+                  <h3 className="mt-4 text-lg font-semibold">Нет активных назначений</h3>
                   <p className="text-muted-foreground">
-                    No vehicles are currently assigned to projects.
+                    Транспорт пока не назначен на проекты.
                   </p>
                   <Button
                     className="mt-4"
                     onClick={() => router.push("/dashboard/equipment/assignments/new")}
                   >
                     <Plus className="mr-2 h-4 w-4" />
-                    Create Assignment
+                    Создать назначение
                   </Button>
                 </div>
               )}

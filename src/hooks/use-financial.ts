@@ -94,11 +94,11 @@ export function useCreateTransaction() {
     onSuccess: () => {
       // Invalidate all financial queries to refresh data
       queryClient.invalidateQueries({ queryKey: financialKeys.all });
-      toast.success('Transaction created successfully');
+      toast.success('Транзакция успешно создана');
     },
     onError: (error: Error) => {
       console.error('Failed to create transaction:', error);
-      toast.error(error.message || 'Failed to create transaction');
+      toast.error(error.message || 'Не удалось создать транзакцию');
     },
   });
 }
@@ -186,28 +186,28 @@ export type PaymentMethod = typeof PAYMENT_METHODS[number];
 // Helper function to get category label
 export function getCategoryLabel(category: string): string {
   const labels: Record<string, string> = {
-    material_cost: 'Material Cost',
-    equipment_rental: 'Equipment Rental',
-    labor_cost: 'Labor Cost',
-    vehicle_expense: 'Vehicle Expense',
-    fuel: 'Fuel',
-    maintenance: 'Maintenance',
-    insurance: 'Insurance',
-    permit_fee: 'Permit Fee',
-    subcontractor: 'Subcontractor',
-    overtime: 'Overtime',
-    bonus: 'Bonus',
-    fine: 'Fine',
-    utility: 'Utility',
-    office_expense: 'Office Expense',
-    travel: 'Travel',
-    accommodation: 'Accommodation',
-    meal: 'Meal',
-    communication: 'Communication',
-    software_license: 'Software License',
-    training: 'Training',
-    safety_equipment: 'Safety Equipment',
-    other: 'Other',
+    material_cost: 'Стоимость материалов',
+    equipment_rental: 'Аренда оборудования',
+    labor_cost: 'Затраты на труд',
+    vehicle_expense: 'Расходы на транспорт',
+    fuel: 'Топливо',
+    maintenance: 'Обслуживание',
+    insurance: 'Страхование',
+    permit_fee: 'Разрешительные сборы',
+    subcontractor: 'Субподрядчик',
+    overtime: 'Сверхурочные',
+    bonus: 'Премия',
+    fine: 'Штраф',
+    utility: 'Коммунальные услуги',
+    office_expense: 'Офисные расходы',
+    travel: 'Командировка',
+    accommodation: 'Проживание',
+    meal: 'Питание',
+    communication: 'Связь',
+    software_license: 'Лицензия ПО',
+    training: 'Обучение',
+    safety_equipment: 'Средства защиты',
+    other: 'Прочее',
   };
 
   return labels[category] || category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -246,11 +246,11 @@ export function getCategoryColor(category: string): string {
 // Helper function to get payment method label
 export function getPaymentMethodLabel(method: string): string {
   const labels: Record<string, string> = {
-    cash: 'Cash',
-    bank_transfer: 'Bank Transfer',
-    credit_card: 'Credit Card',
-    check: 'Check',
-    invoice: 'Invoice',
+    cash: 'Наличные',
+    bank_transfer: 'Банковский перевод',
+    credit_card: 'Кредитная карта',
+    check: 'Чек',
+    invoice: 'Счёт-фактура',
   };
 
   return labels[method] || method.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -258,7 +258,7 @@ export function getPaymentMethodLabel(method: string): string {
 
 // Helper function to format currency
 export function formatCurrency(amount: number, currency = 'EUR'): string {
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('ru-RU', {
     style: 'currency',
     currency,
     minimumFractionDigits: 2,

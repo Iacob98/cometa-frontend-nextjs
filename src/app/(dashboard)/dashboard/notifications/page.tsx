@@ -121,16 +121,16 @@ export default function NotificationsPage() {
     <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">Notifications</h2>
+          <h2 className="text-3xl font-bold tracking-tight">Уведомления</h2>
           <p className="text-muted-foreground">
-            Manage your notifications and preferences
+            Управление уведомлениями и настройками
           </p>
         </div>
         <div className="flex items-center space-x-2">
           <div className="flex items-center space-x-2">
             <div className={`h-2 w-2 rounded-full ${isConnected ? "bg-green-500" : "bg-red-500"}`} />
             <span className="text-sm text-muted-foreground">
-              {isConnected ? "Real-time connected" : "Offline"}
+              {isConnected ? "Подключено в реальном времени" : "Офлайн"}
             </span>
           </div>
 
@@ -138,14 +138,14 @@ export default function NotificationsPage() {
             <DialogTrigger asChild>
               <Button variant="outline" size="sm">
                 <Settings className="mr-2 h-4 w-4" />
-                Preferences
+                Настройки
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Notification Preferences</DialogTitle>
+                <DialogTitle>Настройки уведомлений</DialogTitle>
                 <DialogDescription>
-                  Manage how and when you receive notifications.
+                  Управляйте способами и временем получения уведомлений.
                 </DialogDescription>
               </DialogHeader>
               <NotificationPreferences userId={user?.id || ""} />
@@ -159,7 +159,7 @@ export default function NotificationsPage() {
             disabled={isGenerating}
           >
             <RefreshCw className={`mr-2 h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
-            Generate Alerts
+            Создать оповещения
           </Button>
 
           {unreadCount && unreadCount.count > 0 && (
@@ -170,7 +170,7 @@ export default function NotificationsPage() {
               disabled={actionLoading}
             >
               <CheckCircle className="mr-2 h-4 w-4" />
-              Mark All Read ({unreadCount.count})
+              Отметить все прочитанными ({unreadCount.count})
             </Button>
           )}
         </div>
@@ -180,7 +180,7 @@ export default function NotificationsPage() {
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Notifications</CardTitle>
+            <CardTitle className="text-sm font-medium">Всего уведомлений</CardTitle>
             <Bell className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -190,7 +190,7 @@ export default function NotificationsPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Unread</CardTitle>
+            <CardTitle className="text-sm font-medium">Непрочитанные</CardTitle>
             <Badge variant="destructive" className="h-5 w-5 rounded-full p-0 text-xs">
               {unreadCount?.count || 0}
             </Badge>
@@ -202,7 +202,7 @@ export default function NotificationsPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Urgent</CardTitle>
+            <CardTitle className="text-sm font-medium">Срочные</CardTitle>
             <Badge variant="destructive" className="h-4 w-4 rounded-full p-0" />
           </CardHeader>
           <CardContent>
@@ -212,7 +212,7 @@ export default function NotificationsPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Recent (24h)</CardTitle>
+            <CardTitle className="text-sm font-medium">Недавние (24ч)</CardTitle>
             <Bell className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -224,13 +224,13 @@ export default function NotificationsPage() {
       {/* Filters and Search */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Filters</CardTitle>
+          <CardTitle className="text-lg">Фильтры</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
             <div className="flex-1">
               <Input
-                placeholder="Search notifications..."
+                placeholder="Поиск уведомлений..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="max-w-sm"
@@ -239,29 +239,29 @@ export default function NotificationsPage() {
 
             <Select value={filterPriority} onValueChange={(value) => setFilterPriority(value as NotificationPriority | "all")}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Priority" />
+                <SelectValue placeholder="Приоритет" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Priorities</SelectItem>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="normal">Normal</SelectItem>
-                <SelectItem value="high">High</SelectItem>
-                <SelectItem value="urgent">Urgent</SelectItem>
+                <SelectItem value="all">Все приоритеты</SelectItem>
+                <SelectItem value="low">Низкий</SelectItem>
+                <SelectItem value="normal">Обычный</SelectItem>
+                <SelectItem value="high">Высокий</SelectItem>
+                <SelectItem value="urgent">Срочный</SelectItem>
               </SelectContent>
             </Select>
 
             <Select value={filterType} onValueChange={(value) => setFilterType(value as NotificationType | "all")}>
               <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Type" />
+                <SelectValue placeholder="Тип" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Types</SelectItem>
-                <SelectItem value="work_entry_created">Work Entry Created</SelectItem>
-                <SelectItem value="work_entry_approved">Work Entry Approved</SelectItem>
-                <SelectItem value="project_status_changed">Project Status</SelectItem>
-                <SelectItem value="material_low_stock">Low Stock</SelectItem>
-                <SelectItem value="deadline_reminder">Deadline</SelectItem>
-                <SelectItem value="approval_required">Approval Required</SelectItem>
+                <SelectItem value="all">Все типы</SelectItem>
+                <SelectItem value="work_entry_created">Создана запись о работе</SelectItem>
+                <SelectItem value="work_entry_approved">Запись о работе одобрена</SelectItem>
+                <SelectItem value="project_status_changed">Статус проекта</SelectItem>
+                <SelectItem value="material_low_stock">Низкий запас</SelectItem>
+                <SelectItem value="deadline_reminder">Напоминание о сроке</SelectItem>
+                <SelectItem value="approval_required">Требуется одобрение</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -274,7 +274,7 @@ export default function NotificationsPage() {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="all">
-                All
+                Все
                 {allNotifications?.total && (
                   <Badge variant="secondary" className="ml-1 h-4 text-xs">
                     {allNotifications.total}
@@ -282,7 +282,7 @@ export default function NotificationsPage() {
                 )}
               </TabsTrigger>
               <TabsTrigger value="unread">
-                Unread
+                Непрочитанные
                 {unreadCount && unreadCount.count > 0 && (
                   <Badge variant="destructive" className="ml-1 h-4 text-xs">
                     {unreadCount.count}
@@ -290,14 +290,14 @@ export default function NotificationsPage() {
                 )}
               </TabsTrigger>
               <TabsTrigger value="urgent">
-                Urgent
+                Срочные
                 {urgentNotifications?.total && urgentNotifications.total > 0 && (
                   <Badge variant="destructive" className="ml-1 h-4 text-xs">
                     {urgentNotifications.total}
                   </Badge>
                 )}
               </TabsTrigger>
-              <TabsTrigger value="recent">Recent</TabsTrigger>
+              <TabsTrigger value="recent">Недавние</TabsTrigger>
             </TabsList>
           </Tabs>
         </CardHeader>
@@ -309,11 +309,11 @@ export default function NotificationsPage() {
           ) : notifications.length === 0 ? (
             <div className="text-center py-12">
               <Bell className="h-12 w-12 mx-auto mb-4 text-muted-foreground/50" />
-              <h3 className="text-lg font-medium mb-2">No notifications found</h3>
+              <h3 className="text-lg font-medium mb-2">Уведомления не найдены</h3>
               <p className="text-muted-foreground">
                 {searchQuery || filterPriority !== "all" || filterType !== "all"
-                  ? "Try adjusting your filters"
-                  : "You&apos;re all caught up!"}
+                  ? "Попробуйте изменить фильтры"
+                  : "Все уведомления просмотрены!"}
               </p>
             </div>
           ) : (

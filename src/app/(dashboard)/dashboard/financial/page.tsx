@@ -72,12 +72,12 @@ export default function FinancialPage() {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">Financial Tracking</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Финансовый учёт</h1>
         </div>
         <Card>
           <CardContent className="py-8">
             <div className="text-center text-muted-foreground">
-              You don't have permission to view financial information.
+              У вас нет прав для просмотра финансовой информации.
             </div>
           </CardContent>
         </Card>
@@ -89,12 +89,12 @@ export default function FinancialPage() {
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-tight">Financial Tracking</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Финансовый учёт</h1>
         </div>
         <Card>
           <CardContent className="py-8">
             <div className="text-center text-muted-foreground">
-              Failed to load financial data. Please try again later.
+              Не удалось загрузить финансовые данные. Попробуйте позже.
             </div>
           </CardContent>
         </Card>
@@ -107,15 +107,15 @@ export default function FinancialPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Financial Tracking</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Финансовый учёт</h1>
           <p className="text-muted-foreground">
-            Monitor expenses, income, and financial performance across projects
+            Мониторинг расходов, доходов и финансовых показателей по проектам
           </p>
         </div>
         {canManageFinances && (
           <Button onClick={() => router.push("/dashboard/financial/new")}>
             <Plus className="mr-2 h-4 w-4" />
-            New Transaction
+            Новая транзакция
           </Button>
         )}
       </div>
@@ -124,7 +124,7 @@ export default function FinancialPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Income</CardTitle>
+            <CardTitle className="text-sm font-medium">Общий доход</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -136,14 +136,14 @@ export default function FinancialPage() {
               </div>
             )}
             <p className="text-xs text-muted-foreground">
-              {financialSummary?.period ? `From ${financialSummary.period.from} to ${financialSummary.period.to}` : 'This period'}
+              {financialSummary?.period ? `С ${financialSummary.period.from} по ${financialSummary.period.to}` : 'За период'}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
+            <CardTitle className="text-sm font-medium">Общие расходы</CardTitle>
             <TrendingDown className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -155,14 +155,14 @@ export default function FinancialPage() {
               </div>
             )}
             <p className="text-xs text-muted-foreground">
-              {financialSummary?.period ? `From ${financialSummary.period.from} to ${financialSummary.period.to}` : 'This period'}
+              {financialSummary?.period ? `С ${financialSummary.period.from} по ${financialSummary.period.to}` : 'За период'}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Net Profit</CardTitle>
+            <CardTitle className="text-sm font-medium">Чистая прибыль</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -174,14 +174,14 @@ export default function FinancialPage() {
               </div>
             )}
             <p className="text-xs text-muted-foreground">
-              Income minus expenses
+              Доход минус расходы
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Pending Invoices</CardTitle>
+            <CardTitle className="text-sm font-medium">Ожидающие счета</CardTitle>
             <Receipt className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -193,7 +193,7 @@ export default function FinancialPage() {
               </div>
             )}
             <p className="text-xs text-red-600">
-              {financialSummary?.overdue_invoices || 0} overdue
+              {financialSummary?.overdue_invoices || 0} просрочено
             </p>
           </CardContent>
         </Card>
@@ -201,18 +201,18 @@ export default function FinancialPage() {
 
       <Tabs defaultValue="transactions" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="transactions">All Transactions</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
-          <TabsTrigger value="reports">Reports</TabsTrigger>
+          <TabsTrigger value="transactions">Все транзакции</TabsTrigger>
+          <TabsTrigger value="analytics">Аналитика</TabsTrigger>
+          <TabsTrigger value="reports">Отчёты</TabsTrigger>
         </TabsList>
 
         <TabsContent value="transactions" className="space-y-6">
           {/* Filters */}
           <Card>
             <CardHeader>
-              <CardTitle>Filter Transactions</CardTitle>
+              <CardTitle>Фильтр транзакций</CardTitle>
               <CardDescription>
-                Search and filter transactions by various criteria
+                Поиск и фильтрация транзакций по различным критериям
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -222,7 +222,7 @@ export default function FinancialPage() {
                     <div className="relative">
                       <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                       <Input
-                        placeholder="Search by description, reference, or notes..."
+                        placeholder="Поиск по описанию, номеру или примечаниям..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="pl-8"
@@ -232,22 +232,22 @@ export default function FinancialPage() {
 
                   <Select value={typeFilter} onValueChange={(value: "all" | "income" | "expense" | "transfer") => setTypeFilter(value)}>
                     <SelectTrigger className="w-48">
-                      <SelectValue placeholder="Filter by type" />
+                      <SelectValue placeholder="Фильтр по типу" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Types</SelectItem>
-                      <SelectItem value="income">Income</SelectItem>
-                      <SelectItem value="expense">Expense</SelectItem>
-                      <SelectItem value="transfer">Transfer</SelectItem>
+                      <SelectItem value="all">Все типы</SelectItem>
+                      <SelectItem value="income">Доход</SelectItem>
+                      <SelectItem value="expense">Расход</SelectItem>
+                      <SelectItem value="transfer">Перевод</SelectItem>
                     </SelectContent>
                   </Select>
 
                   <Select value={categoryFilter} onValueChange={(value: TransactionCategory | "all") => setCategoryFilter(value)}>
                     <SelectTrigger className="w-48">
-                      <SelectValue placeholder="Filter by category" />
+                      <SelectValue placeholder="Фильтр по категории" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Categories</SelectItem>
+                      <SelectItem value="all">Все категории</SelectItem>
                       {TRANSACTION_CATEGORIES.map((category) => (
                         <SelectItem key={category} value={category}>
                           {getCategoryLabel(category)}
@@ -260,10 +260,10 @@ export default function FinancialPage() {
                 <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
                   <Select value={paymentMethodFilter} onValueChange={(value: PaymentMethod | "all") => setPaymentMethodFilter(value)}>
                     <SelectTrigger className="w-48">
-                      <SelectValue placeholder="Payment method" />
+                      <SelectValue placeholder="Способ оплаты" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Methods</SelectItem>
+                      <SelectItem value="all">Все способы</SelectItem>
                       {PAYMENT_METHODS.map((method) => (
                         <SelectItem key={method} value={method}>
                           {getPaymentMethodLabel(method)}
@@ -274,10 +274,10 @@ export default function FinancialPage() {
 
                   <Select value={projectFilter} onValueChange={setProjectFilter}>
                     <SelectTrigger className="w-48">
-                      <SelectValue placeholder="Filter by project" />
+                      <SelectValue placeholder="Фильтр по проекту" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Projects</SelectItem>
+                      <SelectItem value="all">Все проекты</SelectItem>
                       {projects.map((project) => (
                         <SelectItem key={project.id} value={project.id}>
                           {project.name}
@@ -289,14 +289,14 @@ export default function FinancialPage() {
                   <div className="flex space-x-2">
                     <Input
                       type="date"
-                      placeholder="From date"
+                      placeholder="С даты"
                       value={dateFrom}
                       onChange={(e) => setDateFrom(e.target.value)}
                       className="w-40"
                     />
                     <Input
                       type="date"
-                      placeholder="To date"
+                      placeholder="По дату"
                       value={dateTo}
                       onChange={(e) => setDateTo(e.target.value)}
                       className="w-40"
@@ -312,7 +312,7 @@ export default function FinancialPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CreditCard className="h-5 w-5" />
-                Transactions ({transactionsResponse?.total || 0})
+                Транзакции ({transactionsResponse?.total || 0})
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -329,11 +329,11 @@ export default function FinancialPage() {
               ) : transactions.length === 0 ? (
                 <div className="text-center py-8">
                   <CreditCard className="mx-auto h-12 w-12 text-muted-foreground" />
-                  <h3 className="mt-2 text-sm font-semibold">No transactions found</h3>
+                  <h3 className="mt-2 text-sm font-semibold">Транзакции не найдены</h3>
                   <p className="mt-1 text-sm text-muted-foreground">
                     {searchQuery || typeFilter !== "all" || categoryFilter !== "all" || projectFilter !== "all"
-                      ? "No transactions match your current filters."
-                      : "Get started by creating your first transaction."}
+                      ? "Нет транзакций, соответствующих текущим фильтрам."
+                      : "Начните с создания первой транзакции."}
                   </p>
                   {canManageFinances && (
                     <Button
@@ -341,7 +341,7 @@ export default function FinancialPage() {
                       onClick={() => router.push("/dashboard/financial/new")}
                     >
                       <Plus className="mr-2 h-4 w-4" />
-                      Create Transaction
+                      Создать транзакцию
                     </Button>
                   )}
                 </div>
@@ -349,13 +349,13 @@ export default function FinancialPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Date & Description</TableHead>
-                      <TableHead>Type & Category</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Payment Method</TableHead>
-                      <TableHead>Project</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="w-[100px]">Actions</TableHead>
+                      <TableHead>Дата и описание</TableHead>
+                      <TableHead>Тип и категория</TableHead>
+                      <TableHead>Сумма</TableHead>
+                      <TableHead>Способ оплаты</TableHead>
+                      <TableHead>Проект</TableHead>
+                      <TableHead>Статус</TableHead>
+                      <TableHead className="w-[100px]">Действия</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -364,14 +364,14 @@ export default function FinancialPage() {
                         <TableCell>
                           <div>
                             <div className="font-medium">
-                              {new Date(transaction.transaction_date).toLocaleDateString()}
+                              {new Date(transaction.transaction_date).toLocaleDateString('ru-RU')}
                             </div>
                             <div className="text-sm text-muted-foreground">
                               {transaction.description}
                             </div>
                             {transaction.reference_number && (
                               <div className="text-xs text-muted-foreground">
-                                Ref: {transaction.reference_number}
+                                Реф.: {transaction.reference_number}
                               </div>
                             )}
                           </div>
@@ -400,23 +400,23 @@ export default function FinancialPage() {
                           </div>
                           {transaction.receipt_url && (
                             <div className="text-xs text-green-600">
-                              Has receipt
+                              Есть чек
                             </div>
                           )}
                         </TableCell>
                         <TableCell>
                           <div className="text-sm">
-                            {transaction.project_name || 'General'}
+                            {transaction.project_name || 'Общее'}
                           </div>
                         </TableCell>
                         <TableCell>
                           {transaction.approved_at ? (
                             <Badge variant="default" className="bg-green-100 text-green-800">
-                              Approved
+                              Одобрено
                             </Badge>
                           ) : (
                             <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
-                              Pending
+                              Ожидает
                             </Badge>
                           )}
                         </TableCell>
@@ -424,17 +424,17 @@ export default function FinancialPage() {
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
+                                <span className="sr-only">Открыть меню</span>
                                 <Filter className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuLabel>Действия</DropdownMenuLabel>
                               <DropdownMenuItem
                                 onClick={() => router.push(`/dashboard/financial/${transaction.id}`)}
                               >
                                 <Eye className="mr-2 h-4 w-4" />
-                                View Details
+                                Подробнее
                               </DropdownMenuItem>
                               {canManageFinances && (
                                 <>
@@ -442,12 +442,12 @@ export default function FinancialPage() {
                                     onClick={() => router.push(`/dashboard/financial/${transaction.id}/edit`)}
                                   >
                                     <Edit className="mr-2 h-4 w-4" />
-                                    Edit
+                                    Редактировать
                                   </DropdownMenuItem>
                                   <DropdownMenuSeparator />
                                   <DropdownMenuItem className="text-red-600">
                                     <Trash2 className="mr-2 h-4 w-4" />
-                                    Delete
+                                    Удалить
                                   </DropdownMenuItem>
                                 </>
                               )}
@@ -469,7 +469,7 @@ export default function FinancialPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <PieChart className="h-5 w-5" />
-                  Expenses by Category
+                  Расходы по категориям
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -503,7 +503,7 @@ export default function FinancialPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BarChart3 className="h-5 w-5" />
-                  Monthly Trend
+                  Месячный тренд
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -522,11 +522,11 @@ export default function FinancialPage() {
                         <div className="space-y-1">
                           <div className="flex items-center space-x-2 text-xs">
                             <div className="w-2 h-2 bg-green-500 rounded"></div>
-                            <span>Income: {formatCurrency(item.income, financialSummary.currency)}</span>
+                            <span>Доход: {formatCurrency(item.income, financialSummary.currency)}</span>
                           </div>
                           <div className="flex items-center space-x-2 text-xs">
                             <div className="w-2 h-2 bg-red-500 rounded"></div>
-                            <span>Expenses: {formatCurrency(item.expenses, financialSummary.currency)}</span>
+                            <span>Расходы: {formatCurrency(item.expenses, financialSummary.currency)}</span>
                           </div>
                         </div>
                       </div>
@@ -541,36 +541,36 @@ export default function FinancialPage() {
         <TabsContent value="reports" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Financial Reports</CardTitle>
+              <CardTitle>Финансовые отчёты</CardTitle>
               <CardDescription>
-                Generate detailed financial reports and export data
+                Создание подробных финансовых отчётов и экспорт данных
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 <Button variant="outline" className="h-20 flex-col">
                   <Receipt className="h-6 w-6 mb-2" />
-                  Expense Report
+                  Отчёт о расходах
                 </Button>
                 <Button variant="outline" className="h-20 flex-col">
                   <TrendingUp className="h-6 w-6 mb-2" />
-                  Profit & Loss
+                  Прибыль и убытки
                 </Button>
                 <Button variant="outline" className="h-20 flex-col">
                   <BarChart3 className="h-6 w-6 mb-2" />
-                  Budget Analysis
+                  Анализ бюджета
                 </Button>
                 <Button variant="outline" className="h-20 flex-col">
                   <Calendar className="h-6 w-6 mb-2" />
-                  Monthly Summary
+                  Месячный итог
                 </Button>
                 <Button variant="outline" className="h-20 flex-col">
                   <DollarSign className="h-6 w-6 mb-2" />
-                  Cash Flow
+                  Денежный поток
                 </Button>
                 <Button variant="outline" className="h-20 flex-col">
                   <PieChart className="h-6 w-6 mb-2" />
-                  Category Breakdown
+                  Разбивка по категориям
                 </Button>
               </div>
             </CardContent>

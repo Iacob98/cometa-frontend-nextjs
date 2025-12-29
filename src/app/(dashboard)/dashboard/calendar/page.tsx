@@ -72,32 +72,32 @@ export default function CalendarPage() {
   // Event type configuration with new types
   const eventTypeConfig = {
     project_start: {
-      label: 'Project Starts',
+      label: 'Начало проектов',
       color: 'bg-green-500',
       icon: Briefcase
     },
     project_deadline: {
-      label: 'Project Deadlines',
+      label: 'Дедлайны проектов',
       color: 'bg-red-500',
       icon: Clock
     },
     material_delivery: {
-      label: 'Material Deliveries',
+      label: 'Поставки материалов',
       color: 'bg-amber-500',
       icon: Package
     },
     house_connection: {
-      label: 'House Connections',
+      label: 'Подключения домов',
       color: 'bg-blue-500',
       icon: Home
     },
     meeting: {
-      label: 'Meetings',
+      label: 'Встречи',
       color: 'bg-purple-500',
       icon: Users
     },
     work_entry: {
-      label: 'Work Entries',
+      label: 'Рабочие записи',
       color: 'bg-indigo-500',
       icon: MapPin
     }
@@ -118,12 +118,12 @@ export default function CalendarPage() {
                 <span className="font-medium text-sm">{event.title}</span>
                 {event.type === 'material_delivery' && event.type === event.type && 'is_delivered' in event && (
                   <Badge variant={event.is_delivered ? "default" : "secondary"}>
-                    {event.is_delivered ? 'Delivered' : 'Scheduled'}
+                    {event.is_delivered ? 'Доставлено' : 'Запланировано'}
                   </Badge>
                 )}
                 {event.type === 'house_connection' && event.type === event.type && 'is_completed' in event && (
                   <Badge variant={event.is_completed ? "default" : "secondary"}>
-                    {event.is_completed ? 'Completed' : 'Planned'}
+                    {event.is_completed ? 'Выполнено' : 'Запланировано'}
                   </Badge>
                 )}
                 {event.type === 'meeting' && event.type === event.type && 'meeting_status' in event && (
@@ -153,19 +153,19 @@ export default function CalendarPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Calendar</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Календарь</h1>
           <p className="text-muted-foreground">
-            Track projects, deliveries, connections, meetings, and work entries
+            Отслеживайте проекты, поставки, подключения, встречи и рабочие записи
           </p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" onClick={() => setShowFilters(!showFilters)}>
             <Filter className="h-4 w-4" />
-            Filters
+            Фильтры
           </Button>
           <Button>
             <Plus className="h-4 w-4" />
-            Add Event
+            Добавить событие
           </Button>
         </div>
       </div>
@@ -174,13 +174,13 @@ export default function CalendarPage() {
       {showFilters && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Filters</CardTitle>
+            <CardTitle className="text-lg">Фильтры</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Event Types */}
               <div>
-                <label className="text-sm font-medium mb-2 block">Event Types</label>
+                <label className="text-sm font-medium mb-2 block">Типы событий</label>
                 <div className="space-y-2">
                   {Object.entries(eventTypeConfig).map(([type, config]) => (
                     <div key={type} className="flex items-center space-x-2">
@@ -212,7 +212,7 @@ export default function CalendarPage() {
 
               {/* Projects */}
               <div>
-                <label className="text-sm font-medium mb-2 block">Filter by Project</label>
+                <label className="text-sm font-medium mb-2 block">Фильтр по проекту</label>
                 <Select
                   value={filters.projectId || "all"}
                   onValueChange={(value) => setFilters(prev => ({
@@ -221,10 +221,10 @@ export default function CalendarPage() {
                   }))}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="All projects" />
+                    <SelectValue placeholder="Все проекты" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Projects</SelectItem>
+                    <SelectItem value="all">Все проекты</SelectItem>
                     {projects.map(project => (
                       <SelectItem key={project.id} value={project.id}>
                         {project.name}
@@ -249,7 +249,7 @@ export default function CalendarPage() {
                 {selectedDate ? format(selectedDate, 'MMMM yyyy') : 'Calendar'}
               </CardTitle>
               <Badge variant="secondary">
-                {events.length} events this month
+                {events.length} событий в этом месяце
               </Badge>
             </div>
           </CardHeader>
@@ -276,7 +276,7 @@ export default function CalendarPage() {
 
             {/* Event indicators legend */}
             <div className="mt-4 pt-4 border-t">
-              <p className="text-sm font-medium mb-2">Legend</p>
+              <p className="text-sm font-medium mb-2">Легенда</p>
               <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3">
                 {Object.entries(eventTypeConfig).map(([type, config]) => (
                   <div key={type} className="flex items-center gap-1 text-xs">
@@ -293,10 +293,10 @@ export default function CalendarPage() {
         <Card className="order-2 lg:order-2">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg sm:text-xl">
-              {selectedDate ? format(selectedDate, 'MMM d, yyyy') : 'Select a date'}
+              {selectedDate ? format(selectedDate, 'd MMMM yyyy') : 'Выберите дату'}
             </CardTitle>
             <CardDescription>
-              {selectedDateEvents.length} event{selectedDateEvents.length !== 1 ? 's' : ''} scheduled
+              {selectedDateEvents.length} {selectedDateEvents.length === 1 ? 'событие' : selectedDateEvents.length < 5 ? 'события' : 'событий'} запланировано
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -315,11 +315,11 @@ export default function CalendarPage() {
             ) : (
               <div className="text-center py-8 text-muted-foreground">
                 <CalendarIcon className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-4 opacity-50" />
-                <p className="text-sm sm:text-base">No events scheduled for this date</p>
+                <p className="text-sm sm:text-base">На эту дату событий не запланировано</p>
                 <Button variant="outline" size="sm" className="mt-2">
                   <Plus className="h-4 w-4" />
-                  <span className="hidden sm:inline">Add Event</span>
-                  <span className="sm:hidden">Add</span>
+                  <span className="hidden sm:inline">Добавить событие</span>
+                  <span className="sm:hidden">Добавить</span>
                 </Button>
               </div>
             )}
@@ -330,21 +330,21 @@ export default function CalendarPage() {
       {/* Recent Events */}
       <Card>
         <CardHeader>
-          <CardTitle>All Events This Month</CardTitle>
+          <CardTitle>Все события в этом месяце</CardTitle>
           <CardDescription>
-            Showing {events.length} events in {format(currentDate, 'MMMM yyyy')}
+            Показано {events.length} событий за {format(currentDate, 'MMMM yyyy')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="all" className="w-full">
             <TabsList className="grid w-full grid-cols-4 lg:grid-cols-7">
-              <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="meeting">Meetings</TabsTrigger>
-              <TabsTrigger value="project_deadline">Deadlines</TabsTrigger>
-              <TabsTrigger value="material_delivery" className="hidden lg:block">Deliveries</TabsTrigger>
-              <TabsTrigger value="house_connection" className="hidden lg:block">Connections</TabsTrigger>
-              <TabsTrigger value="work_entry" className="hidden lg:block">Work</TabsTrigger>
-              <TabsTrigger value="project_start" className="hidden lg:block">Starts</TabsTrigger>
+              <TabsTrigger value="all">Все</TabsTrigger>
+              <TabsTrigger value="meeting">Встречи</TabsTrigger>
+              <TabsTrigger value="project_deadline">Дедлайны</TabsTrigger>
+              <TabsTrigger value="material_delivery" className="hidden lg:block">Поставки</TabsTrigger>
+              <TabsTrigger value="house_connection" className="hidden lg:block">Подключения</TabsTrigger>
+              <TabsTrigger value="work_entry" className="hidden lg:block">Работы</TabsTrigger>
+              <TabsTrigger value="project_start" className="hidden lg:block">Начало</TabsTrigger>
             </TabsList>
 
             {Object.entries(eventTypeConfig).map(([type, config]) => (
@@ -368,7 +368,7 @@ export default function CalendarPage() {
                 {events.slice(0, 12).map(renderEventCard)}
                 {events.length === 0 && (
                   <div className="col-span-full text-center py-8 text-muted-foreground">
-                    <p>No events this month</p>
+                    <p>В этом месяце нет событий</p>
                   </div>
                 )}
               </div>

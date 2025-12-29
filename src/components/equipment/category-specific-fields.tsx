@@ -19,7 +19,7 @@ export function CategorySpecificFields({ category, form }: CategorySpecificField
   if (!category) {
     return (
       <div className="text-center text-muted-foreground py-8">
-        <p>Select a category to see category-specific fields</p>
+        <p>Выберите категорию, чтобы увидеть специфические поля</p>
       </div>
     );
   }
