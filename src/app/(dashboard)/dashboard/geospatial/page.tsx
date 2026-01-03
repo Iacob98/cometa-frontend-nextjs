@@ -171,7 +171,7 @@ export default function GeospatialPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Все проекты</SelectItem>
-                  {projects?.data?.map((project) => (
+                  {projects?.items?.map((project) => (
                     <SelectItem key={project.id} value={project.id}>
                       {project.name}
                     </SelectItem>
@@ -319,11 +319,11 @@ export default function GeospatialPage() {
                     </p>
                     <Button
                       onClick={() => {
-                        if (projects?.data?.[0]) {
-                          setSelectedProjectId(projects.data[0].id);
+                        if (projects?.items?.[0]) {
+                          setSelectedProjectId(projects.items[0].id);
                         }
                       }}
-                      disabled={!projects?.data?.length}
+                      disabled={!projects?.items?.length}
                     >
                       <Map className="w-4 h-4 mr-2" />
                       Открыть первый проект
